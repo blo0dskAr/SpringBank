@@ -24,7 +24,7 @@
             <!-- Add hidden form Field to handle update -->
             <input type="hidden" th:field="*{id}" />
         <input type="hidden" th:field="*{adresse.id}" />
-        <!--<input type="hidden" th:field="*{person.id}" />-->
+        <input type="hidden" th:field="*{person.id}" />
 
 
             <input type="text" th:field="*{vorname}"
@@ -33,7 +33,7 @@
                    class="form-control mb-4 col-4" placeholder ="Last name">
             <input type="text" th:field="*{mitarbeiterNummer}"
                    class="form-control mb-4 col-4" placeholder ="Email">
-            <input type="text" th:field="*{Position}"
+            <input type="text" th:field="*{position}"
                    class="form-control mb-4 col-4" placeholder ="Position">
             <input type="text" th:field="*{adresse.strasse}"
                    class="form-control mb-4 col-4" placeholder ="Adresse">

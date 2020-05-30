@@ -48,16 +48,8 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
   @Transactional
   public void save(Mitarbeiter mitarbeiter) {
       mitarbeiterRepository.save(mitarbeiter);
-      // mitarbeiter.setPerson();
     System.out.println("Mitarbeiter: " + mitarbeiter);
 
-  }
-
-  @Transactional
-  public void update(Mitarbeiter mitarbeiter) {
-    Mitarbeiter mitarbeiterToUpdate = mitarbeiterRepository.getOne(mitarbeiter.getId());
-   // mitarbeiterToUpdate.setPerson(mitarbeiter.getPerson());
-    mitarbeiterRepository.save(mitarbeiterToUpdate);
   }
 
   @Override

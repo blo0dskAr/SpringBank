@@ -20,7 +20,8 @@ public class Mitarbeiter extends Person {
   @Column(name = "position")
   private String position;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+  @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST})
   @JoinColumn(name = "person_id")
   private Person person;
 
@@ -70,7 +71,7 @@ public class Mitarbeiter extends Person {
             "id=" + id +
             ", mitarbeiterNummer=" + mitarbeiterNummer +
             ", position='" + position + '\'' +
-  /*          ", person=" + person +*/
+          //  ", person=" + person +
             '}';
   }
 }

@@ -20,7 +20,7 @@ public class Person {
   @Column(name = "nachname")
   private String nachname;
 
-  @OneToOne(cascade = CascadeType.ALL )
+  @OneToOne(cascade = CascadeType.ALL)
   private Adresse adresse;
 
   public Person() {}

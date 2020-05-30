@@ -21,13 +21,20 @@ public class Mitarbeiter extends Person {
   private String position;
 
   //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-  @OneToOne(cascade = {CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST})
-  @JoinColumn(name = "person_id")
+   @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.PERSIST})
+  //@JoinColumn(name = "person_id")
   private Person person;
 
-  public Mitarbeiter() {}
+  public Mitarbeiter() {
+    super();
+  }
 
-  public Mitarbeiter(String vorname, String nachname, Adresse adresse, int mitarbeiterNummer, String position) {
+/*  public Mitarbeiter(int mitarbeiterNummer, String position) {
+    this.mitarbeiterNummer = mitarbeiterNummer;
+    this.position = position;
+  }*/
+
+  public Mitarbeiter(String vorname, String nachname, Adresse adresse, int mitarbeiterNummer, String position, Person person) {
     super(vorname, nachname, adresse);
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;
@@ -57,13 +64,13 @@ public class Mitarbeiter extends Person {
     this.position = position;
   }
 
-  public Person getPerson() {
+/*  public Person getPerson() {
     return person;
   }
 
   public void setPerson(Person person) {
     this.person = person;
-  }
+  }*/
 
   @Override
   public String toString() {
@@ -71,7 +78,7 @@ public class Mitarbeiter extends Person {
             "id=" + id +
             ", mitarbeiterNummer=" + mitarbeiterNummer +
             ", position='" + position + '\'' +
-          //  ", person=" + person +
+           // ", person=" + person +
             '}';
   }
 }

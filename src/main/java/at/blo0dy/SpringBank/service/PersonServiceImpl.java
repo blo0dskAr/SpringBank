@@ -9,9 +9,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@Service
-public class PersonServiceImpl implements PersonService {
+//@Service
+public abstract class PersonServiceImpl implements PersonService {
 
+/*
   private PersonRepository personRepository;
 
   @Autowired
@@ -38,11 +39,13 @@ public class PersonServiceImpl implements PersonService {
     return person ;
   }
 
-  @Override
+*/
+/*  @Override
   @Transactional
   public void save(Person person) {
       personRepository.save(person);
-  }
+  }*//*
+
 
   @Override
   @Transactional
@@ -50,5 +53,6 @@ public class PersonServiceImpl implements PersonService {
     personRepository.deleteById(theId);
 
   }
+*/
 
 }

@@ -51,7 +51,7 @@ private void loadData() {
   mitarbeiter.setVorname("Hans");
   mitarbeiter.setNachname("Wurst");
   mitarbeiter.setPosition("Dev/Ops Engineer");
-  mitarbeiter.setPerson(mitarbeiter);
+ // mitarbeiter.setPerson(mitarbeiter);
   mitarbeiter.setMitarbeiterNummer(666);
   mitarbeiter.setId(1L);
 
@@ -61,7 +61,7 @@ private void loadData() {
   mitarbeiter2.setVorname("Melinda");
   mitarbeiter2.setNachname("Wurst");
   mitarbeiter2.setPosition("Business Analyst");
-  mitarbeiter2.setPerson(mitarbeiter2);
+ // mitarbeiter2.setPerson(mitarbeiter2);
   mitarbeiter2.setMitarbeiterNummer(667);
   mitarbeiter2.setId(2L);
 

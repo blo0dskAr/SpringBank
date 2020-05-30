@@ -20,7 +20,6 @@ public class MitarbeiterController {
   @Autowired
   public MitarbeiterController(MitarbeiterService mitarbeiterService) {
     this.mitarbeiterService = mitarbeiterService;
-
   }
 
   @GetMapping("/list")
@@ -43,6 +42,7 @@ public class MitarbeiterController {
   @PostMapping("/save")
   public String saveMitarbeiter(@ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter) {
     mitarbeiterService.save(mitarbeiter);
+    System.out.println("MitarbeiterController: " + mitarbeiter);
 
     return "redirect:/mitarbeiter/list";
   }
@@ -50,6 +50,8 @@ public class MitarbeiterController {
   @GetMapping("/showFormForAdd")
   public String showFormForAdd(Model theModel) {
     Mitarbeiter mitarbeiter = new Mitarbeiter();
+
+    mitarbeiter.setId(0L);
 
     theModel.addAttribute("mitarbeiter", mitarbeiter);
 

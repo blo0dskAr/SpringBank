@@ -1,9 +1,6 @@
 package at.blo0dy.SpringBank.service;
 
-import at.blo0dy.SpringBank.dao.AdresseRepository;
 import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
-import at.blo0dy.SpringBank.dao.PersonRepository;
-import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,12 +13,10 @@ import java.util.Optional;
 public class MitarbeiterServiceImpl implements MitarbeiterService {
 
   private MitarbeiterRepository mitarbeiterRepository;
-  private PersonRepository personRepository;
 
   @Autowired
-  public MitarbeiterServiceImpl(MitarbeiterRepository mitarbeiterRepository, PersonRepository personRepository) {
+  public MitarbeiterServiceImpl(MitarbeiterRepository mitarbeiterRepository) {
     this.mitarbeiterRepository = mitarbeiterRepository;
-    this.personRepository = personRepository ;
   }
 
 
@@ -48,8 +43,7 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
   @Transactional
   public void save(Mitarbeiter mitarbeiter) {
       mitarbeiterRepository.save(mitarbeiter);
-    System.out.println("Mitarbeiter: " + mitarbeiter);
-
+    System.out.println("MAServiceImpl:Mitarbeiter: " + mitarbeiter);
   }
 
   @Override

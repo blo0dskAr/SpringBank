@@ -6,6 +6,7 @@ import java.util.List;
 
 public interface PersonService {
 
+/*
   public List<Person> findAll();
 
   public Person findById(Long theId);
@@ -13,5 +14,6 @@ public interface PersonService {
   public void save(Person person);
 
   public void deleteById(Long theId);
+*/
 
 }

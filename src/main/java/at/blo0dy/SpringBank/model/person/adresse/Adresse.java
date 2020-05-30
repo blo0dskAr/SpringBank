@@ -25,9 +25,6 @@ public class Adresse {
   @Column(name = "land")
   private String land;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  Mitarbeiter mitarbeiter;
-
   public Adresse() {
   }
 
@@ -36,6 +33,14 @@ public class Adresse {
     this.plz = plz;
     this.ort = ort;
     this.land = land;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   public String getStrasse() {
@@ -68,5 +73,21 @@ public class Adresse {
 
   public void setLand(String land) {
     this.land = land;
+  }
+
+/*  @Override
+  public String toString() {
+    return "Adresse{" +
+            "id=" + id +
+            ", strasse='" + strasse + '\'' +
+            ", plz='" + plz + '\'' +
+            ", ort='" + ort + '\'' +
+            ", land='" + land + '\'' +
+            '}';
+  }*/
+
+  @Override
+  public String toString() {
+    return strasse + ", " + plz + " " + ort + ", " + land;
   }
 }

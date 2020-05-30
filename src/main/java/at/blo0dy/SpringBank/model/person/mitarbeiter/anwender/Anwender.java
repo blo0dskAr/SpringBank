@@ -2,11 +2,28 @@ package at.blo0dy.SpringBank.model.person.mitarbeiter.anwender;
 
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
+import org.yaml.snakeyaml.DumperOptions;
 
+import javax.persistence.*;
+
+
+@Entity
+@Table(name = "anwender")
 public class Anwender extends Mitarbeiter {
 
-  String loginName;
-  String password;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "id")
+  private Long id;
+
+  @Column
+  private String loginName;
+
+  @Column
+  private String password;
+
+  @OneToOne(cascade = CascadeType.ALL)
+  private Mitarbeiter mitarbeiter;
 
   public Anwender() {}
 

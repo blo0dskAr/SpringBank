@@ -1,12 +1,53 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>My Mitarbeiter Page</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+
 </head>
 <body>
 
-    <h3> My Demo Mitarbeiter Page</h3>
+<div class="container">
+    <table class ="table table-bordered table-striped table-hover">
+        <thead class="thead-dark">
+        <tr>
+            <th>Vorname</th>
+            <th>Nachname</th>
+            <th>MA-Nr.</th>
+            <th>Position</th>
+            <th>Adresse</th>
+        </tr>
+        </thead>
+        <tr th:remove="all">
+            <td th:text="${ma.vorname}">345</td>
+            <td th:text="${ma.nachname}">Tasty Goodness</td>
+            <td th:text="${ma.mitarbeiterNummer}">Tasty Goodness</td>
+            <td th:text="${ma.position}">Tasty Goodness</td>
+            <td th:text="${ma.adresse}">Tasty Goodness</td>
+    <!--        <td><a href="#">View</a></td>-->
+        </tr>
+        <tr th:remove="all">
+            <td th:text="${ma.vorname}">345</td>
+            <td th:text="${ma.nachname}">Tasty Goodness</td>
+            <td th:text="${ma.mitarbeiterNummer}">Tasty Goodness</td>
+            <td th:text="${ma.position}">Tasty Goodness</td>
+            <td th:text="${ma.adresse}">Tasty Goodness</td>
+    <!--        <td><a href="#">View</a></td>-->
+        </tr>
+        <tr th:each="ma : ${mitarbeiter}">
+            <!-- @thymesVar id="recipe" type="guru.springframework.domain.Recipe" -->
+            <td th:text="${ma.vorname}">345</td>
+            <td th:text="${ma.nachname}">Tasty Goodness</td>
+            <td th:text="${ma.mitarbeiterNummer}">Tasty Goodness</td>
+            <td th:text="${ma.position}">Tasty Goodness</td>
+            <td th:text="${ma.adresse}">Tasty Goodness</td>
+           <!-- <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>-->
+        </tr>
+    </table>
+</div>
+
 
 </body>
 </html>

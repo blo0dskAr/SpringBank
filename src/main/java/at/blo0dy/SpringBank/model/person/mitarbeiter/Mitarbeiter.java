@@ -6,7 +6,7 @@ import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "mitarbeiter")
+// @Table(name = "mitarbeiter")
 public class Mitarbeiter extends Person {
 
   @Id
@@ -20,23 +20,21 @@ public class Mitarbeiter extends Person {
   @Column(name = "position")
   private String position;
 
-  // @Column(name = "adresse")
   @OneToOne
-  private Adresse adresse;
+  @JoinColumn(name = "person_id")
+  private Person person;
 
   public Mitarbeiter() {}
 
   public Mitarbeiter(int mitarbeiterNummer, String position, Adresse adresse) {
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;
-    this.adresse = adresse;
   }
 
   public Mitarbeiter(String vorname, String nachname, int mitarbeiterNummer, String position, Adresse adresse) {
-    super(vorname, nachname);
+    super(vorname, nachname, adresse);
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;
-    this.adresse = adresse;
   }
 
   public Long getId() {
@@ -63,12 +61,12 @@ public class Mitarbeiter extends Person {
     this.position = position;
   }
 
-  public Adresse getAdresse() {
-    return adresse;
+  public Person getPerson() {
+    return person;
   }
 
-  public void setAdresse(Adresse adresse) {
-    this.adresse = adresse;
+  public void setPerson(Person person) {
+    this.person = person;
   }
 
   @Override
@@ -77,7 +75,6 @@ public class Mitarbeiter extends Person {
             "id=" + id +
             ", mitarbeiterNummer=" + mitarbeiterNummer +
             ", position='" + position + '\'' +
-            ", adresse=" + adresse +
             '}';
   }
 }

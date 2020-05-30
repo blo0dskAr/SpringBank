@@ -5,10 +5,10 @@ import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 
 public class Anwender extends Mitarbeiter {
 
-    String loginName;
-    String password;
+  String loginName;
+  String password;
 
-    public Anwender() {}
+  public Anwender() {}
 
   public Anwender(String loginName, String password) {
     this.loginName = loginName;

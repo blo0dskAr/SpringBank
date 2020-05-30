@@ -20,8 +20,9 @@ public class Mitarbeiter extends Person {
   @Column(name = "position")
   private String position;
 
-/*  @OneToOne(cascade = CascadeType.ALL)
-  private Person person;*/
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "person_id")
+  private Person person;
 
   public Mitarbeiter() {}
 
@@ -55,13 +56,13 @@ public class Mitarbeiter extends Person {
     this.position = position;
   }
 
-/*  public Person getPerson() {
+  public Person getPerson() {
     return person;
   }
 
   public void setPerson(Person person) {
     this.person = person;
-  }*/
+  }
 
   @Override
   public String toString() {

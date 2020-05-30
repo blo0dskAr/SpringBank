@@ -4,10 +4,9 @@ import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 
 import javax.persistence.*;
 
-/*@Entity
-@Table(name = "person")*/
-
-@MappedSuperclass
+@Entity
+@Table(name = "person")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
 
   @Id

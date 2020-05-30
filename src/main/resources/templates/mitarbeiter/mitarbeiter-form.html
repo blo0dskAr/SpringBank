@@ -21,31 +21,32 @@
     <form action="#" th:action="@{/mitarbeiter/save}"
           th:object="${mitarbeiter}" method="POST">
 
-        <!-- Add hidden form Field to handle update -->
-        <input type="hidden" th:field="*{id}" />
+            <!-- Add hidden form Field to handle update -->
+            <input type="hidden" th:field="*{id}" />
+        <input type="hidden" th:field="*{adresse.id}" />
+        <!--<input type="hidden" th:field="*{person.id}" />-->
 
-        <input type="text" th:field="*{vorname}"
-               class="form-control mb-4 col-4" placeholder ="First name">
-        <input type="text" th:field="*{nachname}"
-               class="form-control mb-4 col-4" placeholder ="Last name">
-        <input type="text" th:field="*{mitarbeiterNummer}"
-               class="form-control mb-4 col-4" placeholder ="Email">
-        <input type="text" th:field="*{Position}"
-               class="form-control mb-4 col-4" placeholder ="Position">
-        <!-- funkt grundsaetzlich, aber will dann adresse als <id> ... da brauchts was anderes -->
-<!--        <input type="text" th:field="*{Adresse}"
-               class="form-control mb-4 col-4" placeholder ="Adresse">-->
-        <input type="text" th:field="*{Adresse.strasse}"
-               class="form-control mb-4 col-4" placeholder ="Adresse">
-        <input type="text" th:field="*{Adresse.ort}"
-               class="form-control mb-4 col-4" placeholder ="ort">
-        <input type="text" th:field="*{Adresse.plz}"
-               class="form-control mb-4 col-4" placeholder ="plz">
-        <input type="text" th:field="*{Adresse.land}"
-               class="form-control mb-4 col-4" placeholder ="land">
 
-        <button type="submit" class="btn btn-info col-2">Save</button>
+            <input type="text" th:field="*{vorname}"
+                   class="form-control mb-4 col-4" placeholder ="First name">
+            <input type="text" th:field="*{nachname}"
+                   class="form-control mb-4 col-4" placeholder ="Last name">
+            <input type="text" th:field="*{mitarbeiterNummer}"
+                   class="form-control mb-4 col-4" placeholder ="Email">
+            <input type="text" th:field="*{Position}"
+                   class="form-control mb-4 col-4" placeholder ="Position">
+            <input type="text" th:field="*{adresse.strasse}"
+                   class="form-control mb-4 col-4" placeholder ="Adresse">
+            <input type="text" th:field="*{adresse.ort}"
+                   class="form-control mb-4 col-4" placeholder ="ort">
+            <input type="text" th:field="*{adresse.plz}"
+                   class="form-control mb-4 col-4" placeholder ="plz">
+            <input type="text" th:field="*{adresse.land}"
+                   class="form-control mb-4 col-4" placeholder ="land">
 
+            <button type="submit" class="btn btn-info col-2">Save</button>
+
+        </form>
     </form>
 
     <hr>

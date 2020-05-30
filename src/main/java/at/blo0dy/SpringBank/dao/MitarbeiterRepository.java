@@ -7,4 +7,5 @@ public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, Long> 
 
   // Standard JpaRepository Implementation
 
+
 }

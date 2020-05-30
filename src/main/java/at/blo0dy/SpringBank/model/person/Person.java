@@ -7,9 +7,7 @@ import javax.persistence.*;
 /*@Entity
 @Table(name = "person")*/
 
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@Table(name = "person")
+@MappedSuperclass
 public class Person {
 
   @Id
@@ -23,7 +21,7 @@ public class Person {
   @Column(name = "nachname")
   private String nachname;
 
-  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL )
   private Adresse adresse;
 
   public Person() {}
@@ -56,6 +54,14 @@ public class Person {
 
   public void setAdresse(Adresse adresse) {
     this.adresse = adresse;
+  }
+
+  public Long getId() {
+    return id;
+  }
+
+  public void setId(Long id) {
+    this.id = id;
   }
 
   @Override

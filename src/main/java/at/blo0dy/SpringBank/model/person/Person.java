@@ -23,7 +23,7 @@ public class Person {
   @OneToOne(cascade = CascadeType.ALL)
   private Adresse adresse;
 
-  public Person() {}
+  public Person() { }
 
   public Person(String vorname, String nachname, Adresse adresse) {
     this.vorname = vorname;

@@ -3,7 +3,6 @@ package at.blo0dy.SpringBank.controller;
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
-import at.blo0dy.SpringBank.service.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -42,8 +41,6 @@ public class MitarbeiterController {
   @PostMapping("/save")
   public String saveMitarbeiter(@ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter) {
     mitarbeiterService.save(mitarbeiter);
-    System.out.println("MitarbeiterController: " + mitarbeiter);
-
     return "redirect:/mitarbeiter/list";
   }
 

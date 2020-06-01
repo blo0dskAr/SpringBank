@@ -2,17 +2,23 @@ package at.blo0dy.SpringBank.model.person.mitarbeiter;
 
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.*;
 
+
 @Entity
+@Getter
+@Setter
 @Table(name = "mitarbeiter")
+@PrimaryKeyJoinColumn(name = "mita_id")
 public class Mitarbeiter extends Person {
 
-  @Id
+/*  @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
-  private Long id;
+  private Long id;*/
 
   @Column(name = "mitarbeiternummer")
   private int mitarbeiterNummer;
@@ -20,19 +26,10 @@ public class Mitarbeiter extends Person {
   @Column(name = "position")
   private String position;
 
-  //@OneToOne(cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-   @OneToOne(cascade = {CascadeType.REMOVE, CascadeType.REFRESH, CascadeType.PERSIST})
-  //@JoinColumn(name = "person_id")
-  private Person person;
+/*  @OneToOne(cascade = CascadeType.ALL)
+  private Person person;*/
 
-  public Mitarbeiter() {
-    super();
-  }
-
-/*  public Mitarbeiter(int mitarbeiterNummer, String position) {
-    this.mitarbeiterNummer = mitarbeiterNummer;
-    this.position = position;
-  }*/
+  public Mitarbeiter() {  }
 
   public Mitarbeiter(String vorname, String nachname, Adresse adresse, int mitarbeiterNummer, String position, Person person) {
     super(vorname, nachname, adresse);
@@ -40,45 +37,12 @@ public class Mitarbeiter extends Person {
     this.position = position;
   }
 
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public int getMitarbeiterNummer() {
-    return mitarbeiterNummer;
-  }
-
-  public void setMitarbeiterNummer(int mitarbeiterNummer) {
-    this.mitarbeiterNummer = mitarbeiterNummer;
-  }
-
-  public String getPosition() {
-    return position;
-  }
-
-  public void setPosition(String position) {
-    this.position = position;
-  }
-
-/*  public Person getPerson() {
-    return person;
-  }
-
-  public void setPerson(Person person) {
-    this.person = person;
-  }*/
-
   @Override
   public String toString() {
-    return "Mitarbeiter{" +
-            "id=" + id +
-            ", mitarbeiterNummer=" + mitarbeiterNummer +
+    return super.toString() + " Mitarbeiter{" +
+            "mitarbeiterNummer=" + mitarbeiterNummer +
             ", position='" + position + '\'' +
-           // ", person=" + person +
             '}';
   }
 }
+

@@ -31,7 +31,7 @@ public class Mitarbeiter extends Person {
 
   public Mitarbeiter() {  }
 
-  public Mitarbeiter(String vorname, String nachname, Adresse adresse, int mitarbeiterNummer, String position, Person person) {
+  public Mitarbeiter(String vorname, String nachname, Adresse adresse, int mitarbeiterNummer, String position) {
     super(vorname, nachname, adresse);
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;

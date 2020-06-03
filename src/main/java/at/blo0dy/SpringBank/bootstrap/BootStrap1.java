@@ -10,8 +10,6 @@ import at.blo0dy.SpringBank.service.MitarbeiterService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import javax.persistence.OneToOne;
-
 @Component
 public class BootStrap1 implements CommandLineRunner {
 

@@ -1,15 +1,13 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mainlayout.html}">>
 <head>
-    <meta charset="UTF-8">
     <title>My Mitarbeiter Page</title>
-
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-
 </head>
 <body>
+<div layout:fragment="content">
 
-<div class="container">
     <table class ="table table-bordered table-striped table-hover">
         <thead class="thead-dark">
         <tr>
@@ -59,13 +57,13 @@
            <!-- <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>-->
         </tr>
     </table>
-</div>
+
+
 <a th:href="@{/mitarbeiter/showFormForAdd}"
     class="btn btn-primary btn-sm mb-3">
     Add Mitarbeiter
 </a>
-
-
+</div>
 
 </body>
 </html>

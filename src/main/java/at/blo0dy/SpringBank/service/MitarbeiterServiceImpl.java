@@ -52,4 +52,18 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
     mitarbeiterRepository.deleteById(theId);
 
   }
+
+  @Override
+  @Transactional
+  public List<Mitarbeiter> findMitarbeiterByVorAndNachName(String theSearchName) {
+    return mitarbeiterRepository.findMitarbeiterByVorname(theSearchName);
+  }
+
+  @Override
+  @Transactional
+  public long count() {
+    return mitarbeiterRepository.count();
+  }
+
+
 }

@@ -2,17 +2,20 @@ package at.blo0dy.SpringBank.model.person.mitarbeiter;
 
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
+import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.List;
 
 
 @Entity
 @Getter
 @Setter
 @Table(name = "mitarbeiter")
-@PrimaryKeyJoinColumn(name = "mita_id")
+@PrimaryKeyJoinColumn(name = "id")
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class Mitarbeiter extends Person {
 
 /*  @Id
@@ -25,6 +28,10 @@ public class Mitarbeiter extends Person {
 
   @Column(name = "position")
   private String position;
+
+  @OneToMany(mappedBy = "mitarbeiter",
+          cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+  private List<LoginCredentials> loginCredentials;
 
 /*  @OneToOne(cascade = CascadeType.ALL)
   private Person person;*/

@@ -64,4 +64,17 @@ public class MitarbeiterController {
     return "mitarbeiter/mitarbeiter-form";
   }
 
+  @GetMapping("/search")
+  public String searchMitarbeiter(@RequestParam("theSearchName") String theSearchName,
+                                Model theModel) {
+
+    // search customers from the service
+    List<Mitarbeiter> mitarbeiterListe = mitarbeiterService.findMitarbeiterByVorAndNachName(theSearchName);
+
+    // add the customers to the model
+    theModel.addAttribute("mitarbeiter", mitarbeiterListe);
+
+    return "redirect:/mitarbeiter/list";
+  }
+
 }

@@ -14,6 +14,8 @@ public interface MitarbeiterService {
 
   public void deleteById(Long theId);
 
+  List<Mitarbeiter> findMitarbeiterByVorAndNachName(String theSearchName);
 
+  long count();
 
 }

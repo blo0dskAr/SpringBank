@@ -43,7 +43,7 @@ public class KundeServiceImpl implements KundeService {
   @Transactional
   public void save(Kunde kunde) {
     KundeRepository.save(kunde);
-    System.out.println("MAServiceImpl:Mitarbeiter: " + kunde);
+    System.out.println("KundeServiceImpl:Kunde: " + kunde);
   }
 
   @Override

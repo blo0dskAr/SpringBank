@@ -1,12 +1,13 @@
 package at.blo0dy.SpringBank.bootstrap;
 
-import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
+import at.blo0dy.SpringBank.Bank;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
-import at.blo0dy.SpringBank.service.AdresseService;
-import at.blo0dy.SpringBank.service.KundeService;
-import at.blo0dy.SpringBank.service.MitarbeiterService;
+import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
+import at.blo0dy.SpringBank.service.*;
+import at.blo0dy.SpringBank.service.adresse.AdresseService;
+import at.blo0dy.SpringBank.service.bank.BankService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -16,11 +17,15 @@ public class BootStrap1 implements CommandLineRunner {
   private final MitarbeiterService mitarbeiterService;
   private final AdresseService adresseService;
   private final KundeService kundeService;
+  private final LoginCredentialsService loginCredentialsService;
+  private final BankService bankService;
 
-  public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService) {
+  public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService, BankService bankService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
+    this.loginCredentialsService = loginCredentialsService;
+    this.bankService = bankService;
   }
 
   @Override
@@ -30,6 +35,11 @@ public class BootStrap1 implements CommandLineRunner {
 
 private void loadData() {
 
+    // Bank erstellen
+  Bank bank = new Bank();
+  bankService.saveBank(bank);
+
+    // Adressen erstellen
   Adresse adresse = new Adresse();
   adresse.setId(1L);
   adresse.setOrt("Wien");
@@ -44,9 +54,11 @@ private void loadData() {
   adresse2.setLand("Österreich");
   adresse2.setStrasse("Quellenstraße 114");
 
+  // Adressen persistieren
   adresseService.save(adresse);
   adresseService.save(adresse2);
 
+  // Mitarbeiter erstellen
   Mitarbeiter mitarbeiter = new Mitarbeiter();
   mitarbeiter.setVorname("Hans");
   mitarbeiter.setNachname("Wurst");
@@ -54,6 +66,7 @@ private void loadData() {
   mitarbeiter.setMitarbeiterNummer(666);
   mitarbeiter.setId(1L);
 
+  // Adresse uebergeben
   mitarbeiter.setAdresse(adresse);
 
   Mitarbeiter mitarbeiter2 = new Mitarbeiter();
@@ -65,9 +78,11 @@ private void loadData() {
 
   mitarbeiter2.setAdresse(adresse2);
 
+  // Mitarbeiter persistieren
   mitarbeiterService.save(mitarbeiter);
   mitarbeiterService.save(mitarbeiter2);
 
+  // ADresse fuer kunde erstellen
   Adresse adresse3 = new Adresse();
   adresse3.setId(3L);
   adresse3.setOrt("Wien");
@@ -75,8 +90,10 @@ private void loadData() {
   adresse3.setLand("Österreich");
   adresse3.setStrasse("Dumdidumstrasse 15");
 
+  // adresse persistieren
   adresseService.save(adresse3);
 
+  // Kunde erstellen
   Kunde kunde1 = new Kunde();
   kunde1.setKundenNummer(123);
   kunde1.setAdresse(adresse3);
@@ -84,6 +101,20 @@ private void loadData() {
   kunde1.setNachname("McKundeFace");
   kunde1.setVorname("Kundy");
 
+  // kunde persistieren
   kundeService.save(kunde1);
+
+  // LoginCredentials erstellen
+  LoginCredentials lc1 = new LoginCredentials();
+  lc1.setLoginName("hwurst");
+  lc1.setPassword("12345");
+  lc1.setId(1L);
+  lc1.setMitarbeiter(mitarbeiter);
+  loginCredentialsService.save(lc1);
+
+  //mitarbeiterService.save(mitarbeiter);
+
+
+
 }
 }

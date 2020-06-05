@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
       layout:decorate="~{mainlayout.html}">
 <head>
     <title>Layout</title>
@@ -8,11 +9,36 @@
 <div layout:fragment="content">
 
 
-    <h1>Title</h1>
-    <h1>Title</h1>
-    <h1>Title</h1>
-    <h1>Title</h1>
+    <h1>Welcome to MyBank - we're currently in Alpha</h1>
 
+    <p th:text="'Hello, ' + ${bank} + '!'" />
+
+    <p th:text="'Hello, ' + ${bank.firmenName} + '!'" />
+
+    <p th:text="'Hello, ' + ${bank.firmenChef} + '!'" />
+
+    <p th:text="'Hello, ' + ${bank.steuerNummer} + '!'" />
+
+    <p th:text="'Hello, ' + ${bank.info()} + '!'" />
+
+    <p th:text="'Hello, ' + ${bank.personalListe()} + '!'" />
+
+    <p th:text="'Hello, ' + ${mitarbeiter} + '!'" />
+
+    <p th:text="'Mitarbeiteranzahl: ' + ${mitarbeitercount}" />
+
+
+
+
+
+
+
+
+
+
+
+
+<!--
     <h2>Section</h2>
 
     <p>Lorem ipsum dolor sit amet, eu in mollis morbi nunc nulla
@@ -27,7 +53,7 @@
         metus, ipsum etiam dictum natoque nec eleifend. Congue nec porttitor,
         ullamcorper neque eu posuere tristique arcu, feugiat magna quam
         tristique nonummy diam torquent, venenatis ut, fugit suspendisse quis
-        nec.</p>
+        nec.</p>-->
 
 </div>
 </body>

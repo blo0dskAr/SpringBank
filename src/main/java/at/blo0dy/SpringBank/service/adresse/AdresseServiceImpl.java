@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.service;
+package at.blo0dy.SpringBank.service.adresse;
 
 import at.blo0dy.SpringBank.dao.AdresseRepository;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;

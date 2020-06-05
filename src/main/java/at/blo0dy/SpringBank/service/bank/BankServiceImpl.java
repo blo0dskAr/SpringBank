@@ -1,14 +1,10 @@
-package at.blo0dy.SpringBank.service;
+package at.blo0dy.SpringBank.service.bank;
 
 import at.blo0dy.SpringBank.Bank;
 import at.blo0dy.SpringBank.dao.BankRepository;
-import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
-import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 public class BankServiceImpl implements BankService {

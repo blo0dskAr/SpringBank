@@ -43,6 +43,7 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
   @Transactional
   public void save(Mitarbeiter mitarbeiter) {
       mitarbeiterRepository.save(mitarbeiter);
+
     System.out.println("MAServiceImpl:Mitarbeiter: " + mitarbeiter);
   }
 

@@ -1,17 +1,15 @@
 package at.blo0dy.SpringBank.bootstrap;
 
 import at.blo0dy.SpringBank.Bank;
-import at.blo0dy.SpringBank.dao.BankRepository;
-import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
 import at.blo0dy.SpringBank.service.*;
+import at.blo0dy.SpringBank.service.adresse.AdresseService;
+import at.blo0dy.SpringBank.service.bank.BankService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.text.SimpleDateFormat;
 
 @Component
 public class BootStrap1 implements CommandLineRunner {

@@ -1,7 +1,6 @@
 package at.blo0dy.SpringBank.controller;
 
-import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
-import at.blo0dy.SpringBank.service.BankService;
+import at.blo0dy.SpringBank.service.bank.BankService;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

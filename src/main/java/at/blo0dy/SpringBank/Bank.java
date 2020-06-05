@@ -15,14 +15,15 @@ public class Bank {
 
   // Parameter für meine Bank
   @Column
-  private String firmenName = "test";
+  private String firmenName = "my Bank";
 
   @Column
-  private String firmenChef = "test";
+  private String firmenChef = "Ich";
 
   @Column
   private long steuerNummer = 12345L;
 
+  // irgendwie brauch ichs noch ned.. ich les es anders im frontend aus...
   private ArrayList<Mitarbeiter> angestellte = new ArrayList<>();
 
   public Bank() {};
@@ -62,11 +63,11 @@ public class Bank {
     this.steuerNummer = steuerNummer;
   }
 
- /*  // Anheuern neuer Mitarbeiter
+   // Anheuern neuer Mitarbeiter
   public void anheuern(Mitarbeiter neuesOpfer) {angestellte.add(neuesOpfer); }
 
   // Feuern verbrauchter Mitarbeiter
-  public void feuern(Mitarbeiter mitarbeiter) { angestellte.remove(mitarbeiter); }*/
+  public void feuern(Mitarbeiter mitarbeiter) { angestellte.remove(mitarbeiter); }
 
 
 /*  public Anwender createLogin(Mitarbeiter mitarbeiter, String loginName) {
@@ -87,6 +88,7 @@ public class Bank {
 
   // Gibt eine Personalliste mit meinen angestellten (Mitarbeiter & Anwender) aus.
   // Prüft vorher obs inhalt gibt
+  // TODO: Hat man hier noch methoden ? oder nur noch alles über service layers? Weil wie bekomm ich hier meine Angestellten befüllt? WO bind ich mir das DataRepository ein?
   public String personalListe() {
     String returnString = "";
     if (angestellte.size() == 0 || angestellte.isEmpty()) {

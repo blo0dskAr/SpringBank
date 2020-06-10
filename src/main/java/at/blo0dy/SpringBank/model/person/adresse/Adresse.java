@@ -10,7 +10,7 @@ import javax.validation.constraints.Pattern;
 public class Adresse {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 

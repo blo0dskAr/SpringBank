@@ -21,15 +21,16 @@ public class Bank {
   private String firmenChef = "Ich";
 
   @Column
-  private long steuerNummer = 12345L;
+  private Long steuerNummer = 12345L;
 
-  // irgendwie brauch ichs noch ned.. ich les es anders im frontend aus...
-  private ArrayList<Mitarbeiter> angestellte = new ArrayList<>();
+  // irgendwie brauch ichs noch ned.. ich les es anders im frontend aus (aus db) ...
+  // und erzeugt mir ne seltsame spalte in der DB, ich comments mal aus
+  // private ArrayList<Mitarbeiter> angestellte = new ArrayList<>();
 
   public Bank() {};
 
   // Konstruktor für meine Bank
-  public Bank(String firmenName, String firmenChef, long steuerNummer) {
+  public Bank(String firmenName, String firmenChef, Long steuerNummer) {
     this.firmenChef = firmenChef;
     this.firmenName = firmenName;
     this.steuerNummer = steuerNummer;
@@ -55,19 +56,19 @@ public class Bank {
     this.firmenChef = firmenChef;
   }
 
-  public long getSteuerNummer() {
+  public Long getSteuerNummer() {
     return steuerNummer;
   }
 
-  public void setSteuerNummer(long steuerNummer) {
+  public void setSteuerNummer(Long steuerNummer) {
     this.steuerNummer = steuerNummer;
   }
 
-   // Anheuern neuer Mitarbeiter
+/*   // Anheuern neuer Mitarbeiter
   public void anheuern(Mitarbeiter neuesOpfer) {angestellte.add(neuesOpfer); }
 
   // Feuern verbrauchter Mitarbeiter
-  public void feuern(Mitarbeiter mitarbeiter) { angestellte.remove(mitarbeiter); }
+  public void feuern(Mitarbeiter mitarbeiter) { angestellte.remove(mitarbeiter); }*/
 
 
 /*  public Anwender createLogin(Mitarbeiter mitarbeiter, String loginName) {
@@ -89,7 +90,7 @@ public class Bank {
   // Gibt eine Personalliste mit meinen angestellten (Mitarbeiter & Anwender) aus.
   // Prüft vorher obs inhalt gibt
   // TODO: Hat man hier noch methoden ? oder nur noch alles über service layers? Weil wie bekomm ich hier meine Angestellten befüllt? WO bind ich mir das DataRepository ein?
-  public String personalListe() {
+/*  public String personalListe() {
     String returnString = "";
     if (angestellte.size() == 0 || angestellte.isEmpty()) {
       returnString += "Hat derzeit keine Mitarbeiter";
@@ -100,7 +101,7 @@ public class Bank {
       }
     }
     return returnString;
-  }
+  }*/
 
   // Gibt StandardInfo über die Bank aus
   public String info() {

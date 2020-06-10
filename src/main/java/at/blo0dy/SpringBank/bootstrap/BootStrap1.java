@@ -9,9 +9,11 @@ import at.blo0dy.SpringBank.service.*;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
+@Profile("dev")
 public class BootStrap1 implements CommandLineRunner {
 
   private final MitarbeiterService mitarbeiterService;

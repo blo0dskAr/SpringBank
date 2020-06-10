@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Table(name = "kunde")
-@PrimaryKeyJoinColumn(name = "person_id")
+@PrimaryKeyJoinColumn(name = "id")
 public class Kunde extends Person {
 
 /*  @Id
@@ -26,7 +26,7 @@ public class Kunde extends Person {
   private String telefonNummer;
   private String emailAdresse;
 
-  private Adresse adresse;
+//  private Adresse adresse;
   // private List<Konto> konten;
 
   private boolean isLegi = false;
@@ -37,12 +37,11 @@ public class Kunde extends Person {
 
   public Kunde() { }
 
-  public Kunde(String vorname, String nachname, Adresse adresse, int kundenNummer, String telefonNummer, String emailAdresse, Adresse adresse1, boolean isLegi, boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone) {
+  public Kunde(String vorname, String nachname, Adresse adresse, int kundenNummer, String telefonNummer, String emailAdresse, boolean isLegi, boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone) {
     super(vorname, nachname, adresse);
     this.kundenNummer = kundenNummer;
     this.telefonNummer = telefonNummer;
     this.emailAdresse = emailAdresse;
-    this.adresse = adresse1;
     this.isLegi = isLegi;
     this.hasAcceptedAGB = hasAcceptedAGB;
     this.isActive = isActive;
@@ -55,14 +54,12 @@ public class Kunde extends Person {
             "kundenNummer=" + kundenNummer +
             ", telefonNummer='" + telefonNummer + '\'' +
             ", emailAdresse='" + emailAdresse + '\'' +
-            ", adresse=" + adresse +
             ", isLegi=" + isLegi +
             ", hasAcceptedAGB=" + hasAcceptedAGB +
             ", isActive=" + isActive +
             ", firstLoginDone=" + firstLoginDone +
             '}';
   }
-
 
   public void checkActive() {
     if (this.isLegi == true && this.hasAcceptedAGB == true) {

@@ -1,7 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `spring_bank_test`;
+CREATE DATABASE IF NOT EXISTS `spring_bank_test`;
 USE `spring_bank_test`;
-
-
 
 DROP TABLE IF EXISTS `bank`;
 CREATE TABLE `bank` (

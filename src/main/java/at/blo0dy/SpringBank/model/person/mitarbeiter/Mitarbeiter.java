@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.util.List;
 
 
@@ -15,7 +16,7 @@ import java.util.List;
 @Setter
 @Table(name = "mitarbeiter")
 @PrimaryKeyJoinColumn(name = "id")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Mitarbeiter extends Person {
 
 /*  @Id
@@ -24,13 +25,18 @@ public class Mitarbeiter extends Person {
   private Long id;*/
 
   @Column(name = "mitarbeiternummer")
-  private int mitarbeiterNummer;
+  @Min(1)
+  @Max(99999999)
+  @NotNull(message = "Mitarbeiternummer must be defined.")
+  private String mitarbeiterNummer;
 
   @Column(name = "position")
+  @NotBlank(message = "Position must be defined.")
   private String position;
 
   @OneToMany(mappedBy = "mitarbeiter",
-          cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+         // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+          cascade = {CascadeType.ALL})
   private List<LoginCredentials> loginCredentials;
 
 /*  @OneToOne(cascade = CascadeType.ALL)
@@ -38,11 +44,12 @@ public class Mitarbeiter extends Person {
 
   public Mitarbeiter() {  }
 
-  public Mitarbeiter(String vorname, String nachname, Adresse adresse, int mitarbeiterNummer, String position) {
+  public Mitarbeiter(String vorname, String nachname, Adresse adresse, String mitarbeiterNummer, String position) {
     super(vorname, nachname, adresse);
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;
   }
+
 
   @Override
   public String toString() {

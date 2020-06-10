@@ -1,13 +1,17 @@
 package at.blo0dy.SpringBank.controller;
 
 
+import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -39,9 +43,17 @@ public class MitarbeiterController {
   }
 
   @PostMapping("/save")
-  public String saveMitarbeiter(@ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter) {
-    mitarbeiterService.save(mitarbeiter);
-    return "redirect:/mitarbeiter/list";
+  public String saveMitarbeiter(@Valid @ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter, Errors errors) {
+    if (errors.hasErrors()) {
+      System.out.println(errors.hasErrors());
+      System.out.println(errors.getAllErrors());
+      return "mitarbeiter/mitarbeiter-form";
+    }  else {
+      System.out.println(errors.hasErrors());
+      System.out.println(errors.getAllErrors());
+      mitarbeiterService.save(mitarbeiter);
+      return "redirect:/mitarbeiter/list";
+    }
   }
 
   @GetMapping("/showFormForAdd")

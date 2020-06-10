@@ -3,6 +3,8 @@ package at.blo0dy.SpringBank.model.person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "person")
@@ -14,12 +16,16 @@ public class Person {
   @Column(name = "id")
   private Long id;
 
+  @NotBlank(message = "Vorname must be defined.")
   @Column(name = "vorname")
   private String vorname;
 
+  @NotBlank(message = "Nachname must be defined.")
   @Column(name = "nachname")
   private String nachname;
 
+
+  @Valid
   @OneToOne(cascade = CascadeType.ALL)
   private Adresse adresse;
 

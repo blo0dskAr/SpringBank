@@ -63,7 +63,7 @@ private void loadData() {
   mitarbeiter.setVorname("Hans");
   mitarbeiter.setNachname("Wurst");
   mitarbeiter.setPosition("Dev/Ops Engineer");
-  mitarbeiter.setMitarbeiterNummer(666);
+  mitarbeiter.setMitarbeiterNummer("666");
   mitarbeiter.setId(1L);
 
   // Adresse uebergeben
@@ -73,7 +73,7 @@ private void loadData() {
   mitarbeiter2.setVorname("Melinda");
   mitarbeiter2.setNachname("Wurst");
   mitarbeiter2.setPosition("Business Analyst");
-  mitarbeiter2.setMitarbeiterNummer(667);
+  mitarbeiter2.setMitarbeiterNummer("667");
   mitarbeiter2.setId(2L);
 
   mitarbeiter2.setAdresse(adresse2);

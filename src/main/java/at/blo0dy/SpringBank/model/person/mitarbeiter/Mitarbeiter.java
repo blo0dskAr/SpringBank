@@ -52,7 +52,7 @@ public class Mitarbeiter extends Person {
 @JoinTable(
         name = "map_mita_role",
         joinColumns = @JoinColumn(
-                name = "user_id", referencedColumnName = "id"),
+                name = "mita_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(
                 name = "role_id", referencedColumnName = "id"))
 private List<Rolle> rollen = new ArrayList<>();

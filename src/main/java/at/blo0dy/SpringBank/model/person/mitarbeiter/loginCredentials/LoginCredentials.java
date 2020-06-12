@@ -3,6 +3,7 @@ package at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials;
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import org.hibernate.annotations.CreationTimestamp;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -23,12 +24,13 @@ public class LoginCredentials {
   @Column
   private String password;
 
-  @CreationTimestamp
-  private Timestamp gueltigAb;
+  @Column
+  private boolean isActive = true;
 
   @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
   @JoinColumn(name="mitarbeiter_id")
   private Mitarbeiter mitarbeiter;
+
 
   public LoginCredentials() {}
 
@@ -61,12 +63,12 @@ public class LoginCredentials {
     this.id = id;
   }
 
-  public Timestamp getGueltigAb() {
-    return gueltigAb;
+  public boolean isActive() {
+    return isActive;
   }
 
-  public void setGueltigAb(Timestamp gueltigAb) {
-    this.gueltigAb = gueltigAb;
+  public void setActive(boolean active) {
+    isActive = active;
   }
 
   public Mitarbeiter getMitarbeiter() {

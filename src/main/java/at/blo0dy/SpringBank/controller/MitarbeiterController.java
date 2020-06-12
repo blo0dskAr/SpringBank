@@ -4,6 +4,7 @@ package at.blo0dy.SpringBank.controller;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
+import at.blo0dy.SpringBank.service.bank.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,10 +20,21 @@ import java.util.List;
 public class MitarbeiterController {
 
   private MitarbeiterService mitarbeiterService;
+  private BankService bankservice;
 
-  @Autowired
-  public MitarbeiterController(MitarbeiterService mitarbeiterService) {
+  public MitarbeiterController(MitarbeiterService mitarbeiterService, BankService bankservice) {
     this.mitarbeiterService = mitarbeiterService;
+    this.bankservice = bankservice;
+  }
+
+  @RequestMapping({"", "/", "/index"})
+  public String getIndexPage(Model model) {
+
+    model.addAttribute("bank", bankservice.getBank());
+    model.addAttribute("mitarbeiter",mitarbeiterService.findAll());
+    model.addAttribute("mitarbeitercount",mitarbeiterService.count());
+
+    return "mitarbeiter/index";
   }
 
   @GetMapping("/list")
@@ -54,6 +66,12 @@ public class MitarbeiterController {
       mitarbeiterService.save(mitarbeiter);
       return "redirect:/mitarbeiter/list";
     }
+  }
+
+  @GetMapping("/loginpage")
+  public String loginpage() {
+
+    return "mitarbeiter/loginpage";
   }
 
   @GetMapping("/showFormForAdd")

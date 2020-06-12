@@ -3,11 +3,13 @@ package at.blo0dy.SpringBank.model.person.mitarbeiter;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
+import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -42,6 +44,20 @@ public class Mitarbeiter extends Person {
 /*  @OneToOne(cascade = CascadeType.ALL)
   private Person person;*/
 
+/*  @OneToMany(mappedBy = "rolle",
+          // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+          cascade = {CascadeType.ALL})
+  private List<Rolle> rollen;*/
+@ManyToMany
+@JoinTable(
+        name = "map_mita_role",
+        joinColumns = @JoinColumn(
+                name = "user_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(
+                name = "role_id", referencedColumnName = "id"))
+private List<Rolle> rollen = new ArrayList<>();
+
+
   public Mitarbeiter() {  }
 
   public Mitarbeiter(String vorname, String nachname, Adresse adresse, String mitarbeiterNummer, String position) {
@@ -57,6 +73,12 @@ public class Mitarbeiter extends Person {
             "mitarbeiterNummer=" + mitarbeiterNummer +
             ", position='" + position + '\'' +
             '}';
+  }
+
+  // Custom Methods
+
+  public void addRolle(Rolle rolle) {
+    rollen.add(rolle);
   }
 }
 

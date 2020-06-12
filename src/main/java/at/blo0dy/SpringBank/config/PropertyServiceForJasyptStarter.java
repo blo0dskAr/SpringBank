@@ -1,10 +1,12 @@
 package at.blo0dy.SpringBank.config;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
+@Profile("test")
 public class PropertyServiceForJasyptStarter {
 
   @Value("${spring.datasource.password}")

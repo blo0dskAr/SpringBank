@@ -1,35 +1,32 @@
 package at.blo0dy.SpringBank.controller;
 
-import at.blo0dy.SpringBank.service.bank.BankService;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
 @Controller
 public class HomeController {
 
-  BankService bankService;
   MitarbeiterService mitarbeiterService;
 
   @Autowired
-  public HomeController(BankService bankService, MitarbeiterService mitarbeiterService) {
-    this.bankService = bankService;
+  public HomeController(MitarbeiterService mitarbeiterService) {
     this.mitarbeiterService = mitarbeiterService;
   }
 
-
   @RequestMapping({"", "/", "/index"})
-  public String getIndexPage(Model model) {
-
-     model.addAttribute("bank", bankService.getBank());
-     model.addAttribute("mitarbeiter",mitarbeiterService.findAll());
-    model.addAttribute("mitarbeitercount",mitarbeiterService.count());
+  public String getPreIndexPage(Model model) {
 
     return "index";
   }
 
+  @GetMapping("/access-denied")
+  public String showAccessDenied() {
 
+    return "access-denied";
+  }
 }

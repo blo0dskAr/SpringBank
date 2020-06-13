@@ -8,7 +8,6 @@ import at.blo0dy.SpringBank.service.bank.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,6 +21,7 @@ public class MitarbeiterController {
   private MitarbeiterService mitarbeiterService;
   private BankService bankservice;
 
+  @Autowired
   public MitarbeiterController(MitarbeiterService mitarbeiterService, BankService bankservice) {
     this.mitarbeiterService = mitarbeiterService;
     this.bankservice = bankservice;
@@ -57,17 +57,18 @@ public class MitarbeiterController {
   @PostMapping("/save")
   public String saveMitarbeiter(@Valid @ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter, Errors errors) {
     if (errors.hasErrors()) {
-      System.out.println(errors.hasErrors());
-      System.out.println(errors.getAllErrors());
+/*      System.out.println(errors.hasErrors());
+      System.out.println(errors.getAllErrors());*/
       return "mitarbeiter/mitarbeiter-form";
     }  else {
-      System.out.println(errors.hasErrors());
-      System.out.println(errors.getAllErrors());
+/*      System.out.println(errors.hasErrors());
+      System.out.println(errors.getAllErrors());*/
       mitarbeiterService.save(mitarbeiter);
       return "redirect:/mitarbeiter/list";
     }
   }
 
+  // wann braucht er das ?  wegen custom form ?
   @GetMapping("/loginpage")
   public String loginpage() {
 
@@ -78,7 +79,7 @@ public class MitarbeiterController {
   public String showFormForAdd(Model theModel) {
     Mitarbeiter mitarbeiter = new Mitarbeiter();
 
-    mitarbeiter.setId(0L);
+    mitarbeiter.setId(0L);                      // kann angebl. zu probs kommen wenn ID != 0, so wirds fix aus der GenerationType geholt
 
     theModel.addAttribute("mitarbeiter", mitarbeiter);
 

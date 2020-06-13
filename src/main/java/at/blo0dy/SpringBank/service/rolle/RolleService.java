@@ -1,19 +1,29 @@
 package at.blo0dy.SpringBank.service.rolle;
 
+import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 
+import java.sql.SQLException;
 import java.util.List;
 
 public interface RolleService {
 
-  public List<Rolle> findAll();
+  List<Rolle> findAll();
 
-  public Rolle findById(Long theId);
+  Rolle findById(Long theId);
 
-  public void save(Rolle rolle);
+  void save(Rolle rolle);
 
-  public void deleteById(Long theId);
+  void deleteById(Long theId);
 
+  long countByMitarbeiterId(Long theId) ;
 
+  List<Mitarbeiter> findMitarbeiterIdsByRoleId(Long theId);
+
+  void removeRoleFromUser(Long theId, Long theMitarbeiterId);
+
+  void addRoleToUser(Long theRoleId, Long theMitarbeiterId);
+
+  List<Mitarbeiter> findMitarbeiterIdsByRoleIdExeptExisting(Long theRoleId);
 
 }

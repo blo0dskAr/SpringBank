@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
@@ -20,6 +22,8 @@ public class Rolle  {
   private Long id;
 
   @Column
+  @NotBlank
+  @Pattern(regexp = "^[a-z_-]{3,20}")
   private String name;
 
 /*  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})

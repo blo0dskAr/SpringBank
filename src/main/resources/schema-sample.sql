@@ -81,11 +81,6 @@ values
 commit ;
 
 
-
-
-
-
-
 DROP TABLE IF EXISTS `map_mita_role`;
 DROP TABLE IF EXISTS `rolle`;
 DROP TABLE IF EXISTS `bank`;
@@ -196,17 +191,4 @@ CREATE TABLE `map_mita_role` (
 	CONSTRAINT `FK_MAP_ROLE_MITA` FOREIGN KEY (`role_id`) REFERENCES `rolle` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
     UNIQUE (`mita_id`, `role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
-
-
-
-
-
-
-
-
-
-
-
-
 

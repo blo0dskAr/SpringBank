@@ -48,11 +48,6 @@ public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
             .passwordEncoder(new BCryptPasswordEncoder() {
             });
 
-/*            .withUser(users.username("norole").password("test123").roles())
-            .withUser(users.username("customer").password("test123").roles("CUSTOMER"))
-            .withUser(users.username("employee").password("test123").roles("EMPLOYEE"))
-            .withUser(users.username("manager").password("test123").roles("EMPLOYEE", "MANAGER"))
-            .withUser(users.username("admin").password("test123").roles("EMPLOYEE", "ADMIN", "TESTER"));*/
   }
 
 /*  @Override

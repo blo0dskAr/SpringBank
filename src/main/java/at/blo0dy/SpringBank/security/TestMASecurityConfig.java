@@ -31,10 +31,10 @@ public class TestMASecurityConfig extends WebSecurityConfigurerAdapter {
                     "select login_name, password, is_active from login_credentials where login_name=?")
             .authoritiesByUsernameQuery(
                     "select lc.login_name, r.name from login_credentials lc, mitarbeiter m, rolle r, map_mita_role ur" +
-                    " where lc.login_name=?" +
-                    " and lc.mitarbeiter_id = m.id" +
-                    " and m.id = ur.mita_id" +
-                    " and r.id = ur.role_id")
+                            " where lc.login_name=?" +
+                            " and lc.mitarbeiter_id = m.id" +
+                            " and m.id = ur.mita_id" +
+                            " and r.id = ur.role_id")
             .passwordEncoder(new BCryptPasswordEncoder() {
             });
   }
@@ -50,57 +50,21 @@ public class TestMASecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/mitarbeiter/**").hasAuthority("admin")
             .and()
             .formLogin()
-              .loginPage("/mitarbeiter/loginpage")
-              .loginProcessingUrl("/mitarbeiter/maauthenticationpage")
-              .successForwardUrl("/mitarbeiter/index")
-              .permitAll()
+            .loginPage("/mitarbeiter/loginpage")
+            .loginProcessingUrl("/mitarbeiter/maauthenticationpage")
+            .successForwardUrl("/mitarbeiter/index")
+            .permitAll()
             .and()
-              .logout()
-              .logoutUrl("/mitarbeiter/logoutpage")
-              .invalidateHttpSession(true)
-              .deleteCookies("JSESSIONID")
-              .logoutSuccessUrl("/mitarbeiter/loginpage?logout").permitAll()
+            .logout()
+            .logoutUrl("/mitarbeiter/logoutpage")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .logoutSuccessUrl("/mitarbeiter/loginpage?logout").permitAll()
             .and()
-              .exceptionHandling()
-              .accessDeniedPage("/access-denied");
+            .exceptionHandling()
+            .accessDeniedPage("/access-denied");
 
     // was das ?
     http.headers().frameOptions().disable();
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-            .antMatchers("/mitarbeiter/**").hasRole("ADMIN")
-*//*            .antMatchers("/leaders/**").hasRole("MANAGER")
-            .antMatchers("/systems/**").hasRole("ADMIN")*//*
-             .antMatchers("/**").authenticated();
-             //.anyRequest().authenticated();
-
-     *//*       http.authorizeRequests()
-            .antMatchers("/preindex**").permitAll();*//*
-*//*            .and()
-            .formLogin()
-            .loginPage("/showMyLoginPage")
-            .loginProcessingUrl("/authenticateTheUser")
-            .permitAll()
-            .and()
-            .logout().permitAll()
-            .and()
-            .exceptionHandling()
-            .accessDeniedPage("/access-denied");*//*
-  }*/
-
 }

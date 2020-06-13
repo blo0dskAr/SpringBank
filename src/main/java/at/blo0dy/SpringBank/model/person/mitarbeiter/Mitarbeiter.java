@@ -48,7 +48,13 @@ public class Mitarbeiter extends Person {
           // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
           cascade = {CascadeType.ALL})
   private List<Rolle> rollen;*/
-@ManyToMany
+
+  @Override
+  public Long getId() {
+    return super.getId();
+  }
+
+  @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
 @JoinTable(
         name = "map_mita_role",
         joinColumns = @JoinColumn(
@@ -76,9 +82,14 @@ private List<Rolle> rollen = new ArrayList<>();
   }
 
   // Custom Methods
-
+  // ööhh .. wo kommt das her ? :) verwend ich das ? =)
   public void addRolle(Rolle rolle) {
     rollen.add(rolle);
   }
+
+  public String  getLoginName() {
+    return loginCredentials.get(1).getLoginName();
+  }
+
 }
 

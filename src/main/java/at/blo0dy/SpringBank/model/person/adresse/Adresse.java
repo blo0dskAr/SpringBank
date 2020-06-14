@@ -2,26 +2,32 @@ package at.blo0dy.SpringBank.model.person.adresse;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "adresse")
 public class Adresse {
 
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
   private Long id;
 
   @Column(name = "strasse")
+  @NotBlank(message = "Straße must be defined.")
   private String strasse;
 
   @Column(name = "plz")
+  @Pattern(regexp = "[0-9]{4,5}" )
   private String plz;
 
   @Column(name = "ort")
+  @NotBlank(message = "Ort must be defined.")
   private String ort;
 
   @Column(name = "land")
+  @NotBlank(message = "Land must be defined.")
   private String land;
 
   public Adresse() {

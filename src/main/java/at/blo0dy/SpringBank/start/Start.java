@@ -10,7 +10,7 @@ public class Start {
     Mitarbeiter mitarbeiter = new Mitarbeiter();
 
     mitarbeiter.setId(1L);
-    mitarbeiter.setMitarbeiterNummer(12345);
+    mitarbeiter.setMitarbeiterNummer("12345");
     mitarbeiter.setPosition("Chef");
     mitarbeiter.setNachname("Wurst");
     mitarbeiter.setVorname("Hans");

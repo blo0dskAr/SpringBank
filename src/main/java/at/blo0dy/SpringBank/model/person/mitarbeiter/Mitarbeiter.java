@@ -3,10 +3,13 @@ package at.blo0dy.SpringBank.model.person.mitarbeiter;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
+import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -15,7 +18,7 @@ import java.util.List;
 @Setter
 @Table(name = "mitarbeiter")
 @PrimaryKeyJoinColumn(name = "id")
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Mitarbeiter extends Person {
 
 /*  @Id
@@ -24,25 +27,51 @@ public class Mitarbeiter extends Person {
   private Long id;*/
 
   @Column(name = "mitarbeiternummer")
-  private int mitarbeiterNummer;
+  @Min(1)
+  @Max(99999999)
+  @NotNull(message = "Mitarbeiternummer must be defined.")
+  private String mitarbeiterNummer;
 
   @Column(name = "position")
+  @NotBlank(message = "Position must be defined.")
   private String position;
 
   @OneToMany(mappedBy = "mitarbeiter",
-          cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+         // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+          cascade = {CascadeType.ALL})
   private List<LoginCredentials> loginCredentials;
 
 /*  @OneToOne(cascade = CascadeType.ALL)
   private Person person;*/
 
+/*  @OneToMany(mappedBy = "rolle",
+          // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+          cascade = {CascadeType.ALL})
+  private List<Rolle> rollen;*/
+
+  @Override
+  public Long getId() {
+    return super.getId();
+  }
+
+  @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+@JoinTable(
+        name = "map_mita_role",
+        joinColumns = @JoinColumn(
+                name = "mita_id", referencedColumnName = "id"),
+        inverseJoinColumns = @JoinColumn(
+                name = "role_id", referencedColumnName = "id"))
+private List<Rolle> rollen = new ArrayList<>();
+
+
   public Mitarbeiter() {  }
 
-  public Mitarbeiter(String vorname, String nachname, Adresse adresse, int mitarbeiterNummer, String position) {
+  public Mitarbeiter(String vorname, String nachname, Adresse adresse, String mitarbeiterNummer, String position) {
     super(vorname, nachname, adresse);
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;
   }
+
 
   @Override
   public String toString() {
@@ -51,5 +80,16 @@ public class Mitarbeiter extends Person {
             ", position='" + position + '\'' +
             '}';
   }
+
+  // Custom Methods
+  // ööhh .. wo kommt das her ? :) verwend ich das ? =)
+  public void addRolle(Rolle rolle) {
+    rollen.add(rolle);
+  }
+
+  public String  getLoginName() {
+    return loginCredentials.get(1).getLoginName();
+  }
+
 }
 

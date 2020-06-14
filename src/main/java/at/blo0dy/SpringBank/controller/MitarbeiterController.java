@@ -1,13 +1,17 @@
 package at.blo0dy.SpringBank.controller;
 
 
+import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
+import at.blo0dy.SpringBank.service.bank.BankService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -15,10 +19,22 @@ import java.util.List;
 public class MitarbeiterController {
 
   private MitarbeiterService mitarbeiterService;
+  private BankService bankservice;
 
   @Autowired
-  public MitarbeiterController(MitarbeiterService mitarbeiterService) {
+  public MitarbeiterController(MitarbeiterService mitarbeiterService, BankService bankservice) {
     this.mitarbeiterService = mitarbeiterService;
+    this.bankservice = bankservice;
+  }
+
+  @RequestMapping({"", "/", "/index"})
+  public String getIndexPage(Model model) {
+
+    model.addAttribute("bank", bankservice.getBank());
+    model.addAttribute("mitarbeiter",mitarbeiterService.findAll());
+    model.addAttribute("mitarbeitercount",mitarbeiterService.count());
+
+    return "mitarbeiter/index";
   }
 
   @GetMapping("/list")
@@ -39,16 +55,31 @@ public class MitarbeiterController {
   }
 
   @PostMapping("/save")
-  public String saveMitarbeiter(@ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter) {
-    mitarbeiterService.save(mitarbeiter);
-    return "redirect:/mitarbeiter/list";
+  public String saveMitarbeiter(@Valid @ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter, Errors errors) {
+    if (errors.hasErrors()) {
+/*      System.out.println(errors.hasErrors());
+      System.out.println(errors.getAllErrors());*/
+      return "mitarbeiter/mitarbeiter-form";
+    }  else {
+/*      System.out.println(errors.hasErrors());
+      System.out.println(errors.getAllErrors());*/
+      mitarbeiterService.save(mitarbeiter);
+      return "redirect:/mitarbeiter/list";
+    }
+  }
+
+  // wann braucht er das ?  wegen custom form ?
+  @GetMapping("/loginpage")
+  public String loginpage() {
+
+    return "mitarbeiter/loginpage";
   }
 
   @GetMapping("/showFormForAdd")
   public String showFormForAdd(Model theModel) {
     Mitarbeiter mitarbeiter = new Mitarbeiter();
 
-    mitarbeiter.setId(0L);
+    mitarbeiter.setId(0L);                      // kann angebl. zu probs kommen wenn ID != 0, so wirds fix aus der GenerationType geholt
 
     theModel.addAttribute("mitarbeiter", mitarbeiter);
 

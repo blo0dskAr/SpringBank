@@ -14,6 +14,8 @@ public interface RolleService {
 
   void save(Rolle rolle);
 
+  void delete(Rolle rolle);
+
   void deleteById(Long theId);
 
   long countByMitarbeiterId(Long theId) ;

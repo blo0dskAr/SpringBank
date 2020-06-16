@@ -14,6 +14,12 @@
 
         <p class="h4 mb-4">Alle Rollen</p>
 
+        <div th:if="${constrainterror}">
+            <div class="alert alert-danger">
+                Error: ConstraintVerletzung - Rolle hat noch verknüpfte User. Bitte vorher löschen.
+            </div>
+        </div>
+
         <table class ="table table-bordered table-striped table-hover">
             <thead class="thead-dark">
             <tr>
@@ -25,7 +31,6 @@
             <tr th:each="rolle : ${rollen}">
                 <td th:text="${rolle.id}">123</td>
                 <td th:text="${rolle.name}">rolemcroleface</td>
-<!--                <td><a th:href="@{/mitarbeiter/rollen/showRolleDetail/${id}">Testi</a></td>-->
                 <td><a th:href="@{/mitarbeiter/rollen/showRolleDetail(rolleId=${rolle.id})}">Testi</a></td>
                 <td>
                     <a th:href="@{/mitarbeiter/rollen/showFormForUpdate(rolleId=${rolle.id})}"

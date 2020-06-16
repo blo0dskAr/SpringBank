@@ -43,7 +43,7 @@ public class RolleController {
     return "rolle/list-rollen";
   }
 
-  @ExceptionHandler(ConstraintViolationException.class)
+/*  @ExceptionHandler(ConstraintViolationException.class)
   public ModelAndView handleError(HttpServletRequest req, Exception ex) {
     log.error("Request: " + req.getRequestURL() + " raised " + ex);
 
@@ -52,18 +52,31 @@ public class RolleController {
     mav.addObject("url", req.getRequestURL());
     mav.setViewName("error");
     return mav;
-  }
+  }*/
 
   // Todo ExceptionHandler checken und basteln.
   @GetMapping("/delete")
-  public String deleteRole(@Validated @RequestParam("rolleId") Long theId) {
+  public String deleteRoleById(@Validated @RequestParam("rolleId") Long theId, Model model) {
     try {
       rolleService.deleteById(theId);
     } catch (DataIntegrityViolationException ex) {
       ex.printStackTrace();
+      log.error("ConstraintVerletzung beim löschen einer Rolle vorgefallen");
+      model.addAttribute("constrainterror", ex.getRootCause());
+      //listRollen(model) ;
+/*      List<Rolle> rollenListe = rolleService.findAll() ;
+      model.addAttribute("rollen", rollenListe) ;*/
+      return "/rolle/list-rollen";
     }
     return "redirect:/mitarbeiter/rollen/index";
   }
+
+/*  @PostMapping("/delete")
+  public String deleteRole(@Valid @ModelAttribute("rolle") Rolle rolle, Model model, Errors errors) {
+    System.out.println("---------------> TEST ");
+      rolleService.delete(rolle);
+    return "redirect:/mitarbeiter/rollen/index";
+  }*/
 
   @PostMapping("/save")
   public String saveRolle(@Valid @ModelAttribute("rolle") Rolle rolle, Errors errors) {

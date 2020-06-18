@@ -49,6 +49,11 @@ public class RolleServiceImpl implements RolleService {
       rolleRepository.save(rolle);
   }
 
+  // Fuer delete im postmapping
+  public void delete(Rolle rolle) {
+    rolleRepository.delete(rolle);
+  }
+
   @Override
   @Transactional
   public void deleteById(Long theId) {

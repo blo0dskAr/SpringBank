@@ -44,7 +44,6 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
   public void save(Mitarbeiter mitarbeiter) {
       mitarbeiterRepository.save(mitarbeiter);
 
-    System.out.println("MAServiceImpl:Mitarbeiter: " + mitarbeiter);
   }
 
   @Override

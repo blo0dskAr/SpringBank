@@ -47,7 +47,7 @@ public class TestMASecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/").permitAll()
             .antMatchers("/mitarbeiter/index").authenticated()
             .antMatchers("/mitarbeiter/").authenticated()
-            .antMatchers("/mitarbeiter/**").hasAuthority("admin")
+            .antMatchers("/mitarbeiter/admin/**").hasAuthority("admin")
             .and()
             .formLogin()
             .loginPage("/mitarbeiter/loginpage")

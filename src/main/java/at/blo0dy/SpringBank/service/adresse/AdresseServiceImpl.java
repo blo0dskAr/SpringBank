@@ -34,7 +34,6 @@ public class AdresseServiceImpl implements AdresseService {
     Adresse adresse;
 
     adresse = result.get();
-    System.out.println(result.get());
 
     return adresse ;
   }

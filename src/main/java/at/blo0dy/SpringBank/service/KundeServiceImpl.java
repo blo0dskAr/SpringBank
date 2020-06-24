@@ -45,7 +45,6 @@ public class KundeServiceImpl implements KundeService {
   @Transactional
   public void save(Kunde kunde) {
     kundeRepository.save(kunde);
-    System.out.println("KundeServiceImpl:Kunde: " + kunde);
   }
 
   @Override

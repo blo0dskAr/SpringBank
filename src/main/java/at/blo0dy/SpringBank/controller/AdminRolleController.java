@@ -38,9 +38,6 @@ public class AdminRolleController {
     model.addAttribute("rollen", rollenListe) ;
     model.addAttribute("activeLink", "AdminRolleList");
 
-    System.out.println(model.getAttribute("rollen"));
-    System.out.println(model.getAttribute("constrainterror"));
-
     return "rolle/list-rollen";
   }
 
@@ -50,8 +47,8 @@ public class AdminRolleController {
     try {
       rolleService.deleteById(theId);
     } catch (DataIntegrityViolationException ex) {
-      ex.printStackTrace();
-      log.error("ConstraintVerletzung beim löschen einer Rolle vorgefallen");
+     // ex.printStackTrace();
+      log.error("ConstraintVerletzung beim löschen einer Rolle(id = " + theId + " vorgefallen");
       model.addAttribute("constrainterror", ex.getRootCause());
 
       List<Rolle> rollenListe = rolleService.findAll() ;

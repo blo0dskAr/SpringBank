@@ -39,6 +39,7 @@ public class RolleController {
     List<Rolle> rollenListe = rolleService.findAll() ;
 
     model.addAttribute("rollen", rollenListe) ;
+    model.addAttribute("activeLink", "RollenIndex");
 
     return "rolle/list-rollen";
   }

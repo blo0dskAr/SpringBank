@@ -33,6 +33,7 @@ public class MitarbeiterController {
     model.addAttribute("bank", bankservice.getBank());
     model.addAttribute("mitarbeiter",mitarbeiterService.findAll());
     model.addAttribute("mitarbeitercount",mitarbeiterService.count());
+    model.addAttribute("activeLink", "MAIndex");
 
     return "mitarbeiter/index";
   }
@@ -43,6 +44,8 @@ public class MitarbeiterController {
     List<Mitarbeiter> mitarbeiterListe = mitarbeiterService.findAll();
 
     theModel.addAttribute("mitarbeiter", mitarbeiterListe);
+    theModel.addAttribute("activeLink", "MAList");
+
 
     return "mitarbeiter/list-mitarbeiter";
   }

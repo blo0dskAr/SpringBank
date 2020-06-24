@@ -47,9 +47,14 @@ body {
   color: #007bff;
 }
 
+.sidebar .nav-link:hover {
+  color: #5F5F5F;
+}
+
 .sidebar .nav-link.active {
   color: #007bff;
 }
+
 
 
 .sidebar-heading {
@@ -57,6 +62,9 @@ body {
   text-transform: uppercase;
 }
 
-#sidebarMenu ul.list-group > li.list-group-item > .nav-link {
-    padding: 0;
+
+/* sidebar List-group blau wenn aktiv */
+#sidebarMenu ul.list-group > a.list-group-item.active {
+    background-color: #008cee;
+    border-color: #008cee;
 }

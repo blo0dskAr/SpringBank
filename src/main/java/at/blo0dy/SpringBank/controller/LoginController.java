@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/mitarbeiter")
 public class LoginController {
 
-
-  // wann braucht er das ?  wegen custom form ?
   @GetMapping({"/loginpage", "", "/"})
   public String loginpage() {
 

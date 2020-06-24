@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
+      xmlns:security="http://www.springframework.org/security/tags"
       layout:decorate="~{mainlayout.html}">
 <head>
     <title>Layout</title>
@@ -11,21 +12,31 @@
 
     <h1>Welcome to MyBank - we're currently in Alpha</h1>
 
-    <p th:text="'Hello, ' + ${bank} + '!'" />
+    <p th:text="'Bank: ' + ${bank} + '!'" />
 
-    <p th:text="'Hello, ' + ${bank.firmenName} + '!'" />
+    <p th:text="'FirmenName: ' + ${bank.firmenName} + '!'" />
 
-    <p th:text="'Hello, ' + ${bank.firmenChef} + '!'" />
+    <p th:text="'FirmenChef: ' + ${bank.firmenChef} + '!'" />
 
-    <p th:text="'Hello, ' + ${bank.steuerNummer} + '!'" />
+    <p th:text="'Steuernummer: ' + ${bank.steuerNummer} + '!'" />
 
-    <p th:text="'Hello, ' + ${bank.info()} + '!'" />
+    <p th:text="'Allgemeine Info: ' + ${bank.info()} + '!'" />
 
-<!--
-    <p th:text="'Hello, ' + ${bank.personalListe()} + '!'" />
--->
+
+<!--    <p th:text="'Hello, ' + ${bank.personalListe()} + '!'" />-->
+
 
     <p th:text="'Hello, ' + ${mitarbeiter} + '!'" />
+
+<!--    <p th:text="'Eingeloggt als: ' + ${mitarbeiter.nachname} + ', ' + ${mitarbeiter.vorname} + ' (Ma-Nr: ' + ${mitarbeiter.mitarbeiterNummer} + ') Angestellt als ' + ${mitarbeiter.position} + '!'" />-->
+
+    <p>
+        User: <security:authentication property="principal.username" />
+        <br><br>
+        Role(s): <security:authentication property="principal.authorities" />
+    </p>
+
+
 
     <p th:text="'Mitarbeiteranzahl: ' + ${mitarbeitercount}" />
 

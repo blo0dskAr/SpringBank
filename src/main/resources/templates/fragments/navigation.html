@@ -1,15 +1,7 @@
 <!DOCTYPE html>
-<!--
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
--->
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
                 xmlns:form="http://www.springframework.org/tags/form">
 <head>
-<!--    &lt;!&ndash; Required meta tags &ndash;&gt;
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    &lt;!&ndash; Bootstrap CSS &ndash;&gt;
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">-->
     <title>Doesnt Matter</title>
 </head>
 <body>
@@ -24,11 +16,12 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" th:href="@{/mitarbeiter/index}">Home <span class="sr-only">(current)</span></a>
+                <li class="nav-item">
+<!--                    musst dir mal anschauen was das span class sronly und current macht... -->
+                    <a th:class="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">Home <span class="sr-only">(current)</span></a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/mitarbeiter/list}">Mitarbeiter</a>
+                    <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'nav-link active' : 'nav-link'" th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Mitarbeiter</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">BlaBla</a>

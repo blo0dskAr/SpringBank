@@ -19,13 +19,13 @@ import java.util.List;
 @Slf4j
 @Controller
 @RequestMapping("/mitarbeiter/admin/rollen")
-public class RolleController {
+public class AdminRolleController {
 
   RolleService rolleService;
   MitarbeiterService mitarbeiterService;
 
   @Autowired
-  public RolleController(RolleService rolleService, MitarbeiterService mitarbeiterService) {
+  public AdminRolleController(RolleService rolleService, MitarbeiterService mitarbeiterService) {
     this.rolleService = rolleService;
     this.mitarbeiterService = mitarbeiterService;
   }
@@ -37,6 +37,9 @@ public class RolleController {
 
     model.addAttribute("rollen", rollenListe) ;
     model.addAttribute("activeLink", "AdminRolleList");
+
+    System.out.println(model.getAttribute("rollen"));
+    System.out.println(model.getAttribute("constrainterror"));
 
     return "rolle/list-rollen";
   }
@@ -50,7 +53,13 @@ public class RolleController {
       ex.printStackTrace();
       log.error("ConstraintVerletzung beim löschen einer Rolle vorgefallen");
       model.addAttribute("constrainterror", ex.getRootCause());
-      listRollen(model) ;
+
+      List<Rolle> rollenListe = rolleService.findAll() ;
+      model.addAttribute("rollen", rollenListe) ;
+      model.addAttribute("activeLink", "AdminRolleList");
+
+      return "rolle/list-rollen";
+
     }
     return "redirect:/mitarbeiter/admin/rollen/index";
   }

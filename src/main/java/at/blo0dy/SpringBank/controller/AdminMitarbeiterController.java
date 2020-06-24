@@ -14,14 +14,14 @@ import javax.validation.Valid;
 import java.util.List;
 
 @Controller
-@RequestMapping("/mitarbeiter/admin")
-public class AdminController {
+@RequestMapping("/mitarbeiter/admin/mitarbeiterAdministration")
+public class AdminMitarbeiterController {
 
   private MitarbeiterService mitarbeiterService;
   private BankService bankservice;
 
   @Autowired
-  public AdminController(MitarbeiterService mitarbeiterService, BankService bankservice) {
+  public AdminMitarbeiterController(MitarbeiterService mitarbeiterService, BankService bankservice) {
     this.mitarbeiterService = mitarbeiterService;
     this.bankservice = bankservice;
   }
@@ -53,7 +53,7 @@ public class AdminController {
   public String deleteMitarbeiter(@RequestParam("mitarbeiterId") Long theId) {
     mitarbeiterService.deleteById(theId);
 
-    return "redirect:/mitarbeiter/admin/list";
+    return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";
   }
 
   @PostMapping("/save")
@@ -62,7 +62,7 @@ public class AdminController {
       return "admin/mitarbeiter-form";
     }  else {
       mitarbeiterService.save(mitarbeiter);
-      return "redirect:/mitarbeiter/admin/list";
+      return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";
     }
   }
 
@@ -96,7 +96,7 @@ public class AdminController {
     // add the customers to the model
     theModel.addAttribute("mitarbeiter", mitarbeiterListe);
 
-    return "redirect:/mitarbeiter/admin/list";
+    return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";
   }
 
 }

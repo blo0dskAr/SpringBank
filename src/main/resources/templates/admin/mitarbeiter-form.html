@@ -13,7 +13,7 @@
 
     <p class="h4 mb-4">Admin - Save Mitarbeiter</p>
 
-    <form action="#" th:action="@{/mitarbeiter/admin/save}"
+    <form action="#" th:action="@{/mitarbeiter/admin/mitarbeiterAdministration/save}"
           th:object="${mitarbeiter}" method="POST">
 
             <!-- Add hidden form Field to handle update -->
@@ -66,9 +66,8 @@
         </form>
     </form>
 
-
     <hr>
-    <a th:href="@{/mitarbeiter/admin/list}">Back to Mitarbeiter List</a>
+    <a th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Back to Mitarbeiter List</a>
 
 </div>
 </body>

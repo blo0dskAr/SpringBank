@@ -13,22 +13,17 @@
             <div class="sidebar-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link" href="#">
+                        <a th:class="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">
                             Home
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:class="${#strings.equals(activeLink, 'MAIndex')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">
-                            Mitarbeiter Index
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a th:class="${#strings.equals(activeLink, 'RollenIndex')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/rollen}" >
+                        <a th:class="${#strings.equals(activeLink, 'RollenIndex')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/admin/rollen}" >
                             Rollen
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a th:class="${#strings.equals(activeLink, 'MAList')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/list}">
+                        <a th:class="${#strings.equals(activeLink, 'MAList')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/admin/list}">
                             MitarbeiterList
                         </a>
                     </li>
@@ -37,16 +32,19 @@
                             Integrations
                         </a>
                     </li>
-                    <a class="nav-link" data-toggle="collapse" href="#collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter')}  ? 'nav-link active' : ''">Mitarbeiter</a>
+                    <a class="nav-link" data-toggle="collapse" href="#collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'nav-link active' : ''">Admin</a>
 <!--                    <a class="nav-link" data-toggle="collapse" href="#collapse" >Mitarbeiter</a>-->
-                    <div id="collapse" class="panel-collapse collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter')} ? 'show' : ''" >
+                    <div id="collapse" class="panel-collapse collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')} ? 'show' : ''" >
                         <ul class="list-group">
                             <li class="list-group-item">
-                                <a th:class="${#strings.equals(activeLink, 'MAList')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/list}">
-                                    Mitarbeiter Liste
+                                <a th:class="${#strings.equals(activeLink, 'AdminMAList')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/admin/list}">
+                                    Mitarbeiter
                                 </a>
                             </li>
-                                <li class="list-group-item">Two</li>
+                                <li class="list-group-item"> <a th:class="${#strings.equals(activeLink, 'AdminRolleList')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/admin/rollen/index}">
+                                    Rollen
+                                </a>
+                                </li>
                                 <li class="list-group-item">Three</li>
                             </ul>
                             <div class="panel-footer">Footer</div>

@@ -5,7 +5,6 @@ import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -13,15 +12,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/mitarbeiter/rollen")
+@RequestMapping("/mitarbeiter/admin/rollen")
 public class RolleController {
 
   RolleService rolleService;
@@ -39,21 +36,10 @@ public class RolleController {
     List<Rolle> rollenListe = rolleService.findAll() ;
 
     model.addAttribute("rollen", rollenListe) ;
-    model.addAttribute("activeLink", "RollenIndex");
+    model.addAttribute("activeLink", "AdminRolleList");
 
     return "rolle/list-rollen";
   }
-
-/*  @ExceptionHandler(ConstraintViolationException.class)
-  public ModelAndView handleError(HttpServletRequest req, Exception ex) {
-    log.error("Request: " + req.getRequestURL() + " raised " + ex);
-
-    ModelAndView mav = new ModelAndView();
-    mav.addObject("exception", ex);
-    mav.addObject("url", req.getRequestURL());
-    mav.setViewName("error");
-    return mav;
-  }*/
 
   // Todo ExceptionHandler checken und basteln.
   @GetMapping("/delete")
@@ -64,20 +50,11 @@ public class RolleController {
       ex.printStackTrace();
       log.error("ConstraintVerletzung beim löschen einer Rolle vorgefallen");
       model.addAttribute("constrainterror", ex.getRootCause());
-      //listRollen(model) ;
-/*      List<Rolle> rollenListe = rolleService.findAll() ;
-      model.addAttribute("rollen", rollenListe) ;*/
-      return "/rolle/list-rollen";
+      listRollen(model) ;
     }
-    return "redirect:/mitarbeiter/rollen/index";
+    return "redirect:/mitarbeiter/admin/rollen/index";
   }
 
-/*  @PostMapping("/delete")
-  public String deleteRole(@Valid @ModelAttribute("rolle") Rolle rolle, Model model, Errors errors) {
-    System.out.println("---------------> TEST ");
-      rolleService.delete(rolle);
-    return "redirect:/mitarbeiter/rollen/index";
-  }*/
 
   @PostMapping("/save")
   public String saveRolle(@Valid @ModelAttribute("rolle") Rolle rolle, Errors errors) {
@@ -85,7 +62,7 @@ public class RolleController {
       return "rolle/rollen-form";
     }  else {
       rolleService.save(rolle);
-      return "redirect:/mitarbeiter/rollen/index";
+      return "redirect:/mitarbeiter/admin/rollen/index";
     }
   }
 
@@ -158,9 +135,4 @@ public class RolleController {
 
     return "rolle/rolledetail";
   }
-
-
-
-
-
 }

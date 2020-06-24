@@ -13,7 +13,7 @@
 
     <p class="h4 mb-4">Update Rolle</p>
 
-    <form action="#" th:action="@{/mitarbeiter/rollen/save}"
+    <form action="#" th:action="@{/mitarbeiter/admin/rollen/save}"
           th:object="${rolle}" method="POST">
 
             <!-- Add hidden form Field to handle update -->
@@ -34,7 +34,7 @@
 
 
     <hr>
-    <a th:href="@{/mitarbeiter/rollen/index}">Back to Rollen List</a>
+    <a th:href="@{/mitarbeiter/admin/rollen/index}">Back to Rollen List</a>
 
 </div>
 </body>

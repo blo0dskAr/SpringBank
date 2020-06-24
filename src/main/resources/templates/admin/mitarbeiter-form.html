@@ -3,17 +3,17 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{mainlayout.html}">
 <head>
-    <title>Save Mitarbeiter</title>
+    <title>Admin - Save Mitarbeiter</title>
 </head>
 
 <body>
 <div layout:fragment="content">
-    <h3>Mitarbeiter Directory</h3>
+    <h3>Admin - Mitarbeiter Directory</h3>
     <hr>
 
-    <p class="h4 mb-4">Save Mitarbeiter</p>
+    <p class="h4 mb-4">Admin - Save Mitarbeiter</p>
 
-    <form action="#" th:action="@{/mitarbeiter/save}"
+    <form action="#" th:action="@{/mitarbeiter/admin/save}"
           th:object="${mitarbeiter}" method="POST">
 
             <!-- Add hidden form Field to handle update -->
@@ -68,7 +68,7 @@
 
 
     <hr>
-    <a th:href="@{/mitarbeiter/list}">Back to Mitarbeiter List</a>
+    <a th:href="@{/mitarbeiter/admin/list}">Back to Mitarbeiter List</a>
 
 </div>
 </body>

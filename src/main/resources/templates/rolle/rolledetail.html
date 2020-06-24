@@ -26,7 +26,7 @@
                 <td th:text="${mitarbeiter.vorname}">123</td>
                 <td th:text="${mitarbeiter.nachname}">rolemcroleface</td>
                 <td>
-                    <a th:href="@{/mitarbeiter/rollen/removeRoleFromUser(rolleId=${rolleId}, mitarbeiterId=${mitarbeiter.Id})}"
+                    <a th:href="@{/mitarbeiter/admin/rollen/removeRoleFromUser(rolleId=${rolleId}, mitarbeiterId=${mitarbeiter.Id})}"
                        class = "btn btn-danger btn-sm"
                        onclick="if (!(confirm('Are you sure you want to remove this Role from User?'))) return false">
                         Remove
@@ -34,7 +34,7 @@
                 </td>
             </tr>
         </table>
-        <a th:href="@{/mitarbeiter/rollen/addRoleToUserPage(rolleId=${rolleId})}"
+        <a th:href="@{/mitarbeiter/admin/rollen/addRoleToUserPage(rolleId=${rolleId})}"
            class="btn btn-primary btn-sm mb-3">
             Add User
         </a>

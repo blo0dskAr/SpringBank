@@ -31,7 +31,7 @@
             <tr th:each="rolle : ${rollen}">
                 <td th:text="${rolle.id}">123</td>
                 <td th:text="${rolle.name}">rolemcroleface</td>
-                <td><a th:href="@{/mitarbeiter/admin/rollen/showRolleDetail(rolleId=${rolle.id})}">Testi</a></td>
+                <td><a th:href="@{/mitarbeiter/admin/rollen/showRolleDetail(rolleId=${rolle.id})}">show Details</a></td>
                 <td>
                     <a th:href="@{/mitarbeiter/admin/rollen/showFormForUpdate(rolleId=${rolle.id})}"
                        class="btn btn-info btn-sm">

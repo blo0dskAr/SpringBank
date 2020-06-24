@@ -9,10 +9,10 @@
 <div class="container">
     <div layout:fragment="content">
 
-        <h3>RollenDetail Page</h3>
+        <h3 th:text="'RollenDetail Page - Rolle: ' + ${rolle.name}">RollenDetail Page</h3>
         <hr>
 
-        <p class="h4 mb-4">RollenDetail Page</p>
+        <p class="h4 mb-4">Existierende Benutzer mit dieser Rolle: </p>
 
         <table class ="table table-bordered table-striped table-hover">
             <thead class="thead-dark">
@@ -38,6 +38,9 @@
            class="btn btn-primary btn-sm mb-3">
             Add User
         </a>
+
+        <hr>
+        <a th:href="@{/mitarbeiter/admin/rollen/index}">Back to Rollen List</a>
 
     </div>
 </div>

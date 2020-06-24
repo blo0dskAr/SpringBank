@@ -98,8 +98,10 @@ public class AdminRolleController {
   public String listRolleDetail(@Validated @RequestParam("rolleId") Long theRoleId, Model model) {
 
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleId(theRoleId) ;
+    Rolle rolle = rolleService.findById(theRoleId);
 
     model.addAttribute("rolleId", theRoleId);
+    model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
 
     return "rolle/rolledetail";
@@ -111,8 +113,10 @@ public class AdminRolleController {
                                    @Validated @RequestParam("mitarbeiterId") Long theMitarbeiterId, Model model) {
     rolleService.removeRoleFromUser(theId, theMitarbeiterId);
 
+    Rolle rolle = rolleService.findById(theId);
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleId(theId) ;
     model.addAttribute("rolleId", theId);
+    model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
 
     return "rolle/rolledetail";
@@ -123,8 +127,11 @@ public class AdminRolleController {
   @GetMapping("/addRoleToUserPage")
   public String addRoleToUserPage(@Validated @RequestParam("rolleId") Long theRoleId, Model model) {
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleIdExeptExisting(theRoleId);
+    Rolle rolle = rolleService.findById(theRoleId);
+
     model.addAttribute("rolleId", theRoleId);
     model.addAttribute("mitarbeiter", mitarbeiterListe);
+    model.addAttribute("rolle",rolle);
 
     return "rolle/add-user" ;
   }
@@ -135,10 +142,12 @@ public class AdminRolleController {
 
     rolleService.addRoleToUser(theId, theMitarbeiterId);
 
-    List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleId(theId) ;
+    List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleIdExeptExisting(theId);
+    Rolle rolle = rolleService.findById(theId);
     model.addAttribute("rolleId", theId);
+    model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
 
-    return "rolle/rolledetail";
+    return "rolle/add-user";
   }
 }

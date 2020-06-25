@@ -2,13 +2,16 @@ package at.blo0dy.SpringBank.security;
 
 import com.sun.xml.bind.api.impl.NameConverter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.password.StandardPasswordEncoder;
@@ -22,11 +25,28 @@ import javax.sql.DataSource;
 @Order(1)
 public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
 
-
-
   // add a reference to our security datasource
   @Autowired
   private DataSource ds;
+
+//  @Autowired
+//  public PasswordEncoder BCryptPasswordEncoder() {
+//    return new BCryptPasswordEncoder();
+//    }
+
+//  @Autowired
+//  private UserDetailsService userDetailsService;
+
+//  @Bean
+//  public AuthenticationManager customAuthenticationManager() throws Exception {
+//    return authenticationManager();
+//  }
+
+//  @Autowired
+//  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+//    auth.userDetailsService(userDetailsService).passwordEncoder(BCryptPasswordEncoder());
+//  }
+
 
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -45,8 +65,7 @@ public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
                     " and lc.mitarbeiter_id = m.id" +
                     " and m.id = ur.mita_id" +
                     " and r.id = ur.role_id")
-            .passwordEncoder(new BCryptPasswordEncoder() {
-            });
+            .passwordEncoder(new BCryptPasswordEncoder());
 
   }
 
@@ -89,6 +108,7 @@ public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
               .exceptionHandling()
               .accessDeniedPage("/access-denied");
+
 
     // disabled for dev-h2-console
     http.csrf().disable();

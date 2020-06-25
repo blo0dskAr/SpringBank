@@ -6,19 +6,30 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 
 @Service
-@Profile("test")
+@Profile({"test", "dev"})
 public class PropertyServiceForJasyptStarter {
 
   @Value("${spring.datasource.password}")
   private String property;
 
+  @Value("${server.ssl.key-store-password}")
+  private String keyStoreProperty;
+
   public String getProperty() {
     return property;
   }
 
-  public String getPasswordUsingEnvironment(Environment environment) {
-    return environment.getProperty("spring.datasource.password");
+  public String getKeyStoreProperty() {
+    return keyStoreProperty;
   }
+
+//  public String getPasswordUsingEnvironment(Environment environment) {
+//    return environment.getProperty("spring.datasource.password");
+//  }
+
+//  public String getPasswordUsaingEnvironment(Environment environment) {
+//    return environment.getProperty("server.ssl.key-store-password");
+//  }
 
 }
 

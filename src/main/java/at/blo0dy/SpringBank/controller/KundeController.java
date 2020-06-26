@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("mitarbeiter/kunde")
+@RequestMapping("/kunde")
 public class KundeController {
 
   KundeService kundeService;
@@ -20,9 +20,23 @@ public class KundeController {
 
   @RequestMapping({"", "/", "/index"})
   public String getPreIndexPage(Model model) {
-    model.addAttribute("activeLink", "home");
+    model.addAttribute("activeLink", "KundeHome");
 
     return "kunde/index";
+  }
+
+  @RequestMapping("/index2")
+  public String getTestIndexPage(Model model) {
+    model.addAttribute("activeLink", "KundeHome");
+
+    return "kunde/index2";
+  }
+
+  @RequestMapping("/index4")
+  public String getAnotherTestIndexPage(Model model) {
+    model.addAttribute("activeLink", "KundeHome");
+
+    return "kunde/index4";
   }
 
 

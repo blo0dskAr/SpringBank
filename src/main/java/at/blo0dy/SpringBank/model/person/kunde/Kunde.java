@@ -21,6 +21,8 @@ public class Kunde extends Person  {
 
   @Column(name = "kundennummer")
   private String kundennummer;
+
+  @Column(name = "password")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.

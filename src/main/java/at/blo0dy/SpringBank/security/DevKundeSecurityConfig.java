@@ -1,7 +1,6 @@
 package at.blo0dy.SpringBank.security;
 
-import at.blo0dy.SpringBank.model.person.kunde.Kunde;
-import at.blo0dy.SpringBank.service.KundeService;
+import at.blo0dy.SpringBank.service.kunde.KundeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -18,7 +17,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @Profile("dev")
-@Order(2)
+@Order(1)
 public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Autowired
@@ -63,13 +62,18 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
   // added for Custom Login Form: (ohne kommt schönere default page)
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-            .antMatchers("/register**").permitAll()
-            .antMatchers("/customer/**").hasRole("customer")
+    http.requestMatchers()
+//            .antMatchers("/kunde/*").permitAll()
+            .antMatchers("/kunde/banking/**")
+            .and()
+            .authorizeRequests().anyRequest().hasAuthority("customer")
             // .anyRequest().authenticated()      // auskommentiert weil wir oben auf Rollen prüfen, und nicht nur
             // aufs authentifiziert ja/nein schaun
             .and()
             .formLogin()
+            .loginPage("/kunde/loginpage")
+            .loginProcessingUrl("/kunde/kundeauthenticationpage")
+            .successForwardUrl("/kunde/banking/index")
             .permitAll()
             .and()
             .logout().permitAll()
@@ -77,8 +81,8 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
             .exceptionHandling()
             .accessDeniedPage("/access-denied");
 
-    http.csrf().disable();
-    http.headers().frameOptions().disable();
+//    http.csrf().disable();
+//    http.headers().frameOptions().disable();
   }
 
 

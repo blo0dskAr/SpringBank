@@ -19,7 +19,7 @@ public class Kunde extends Person  {
   @Column(name = "id")
   private Long id;*/
 
-  @Column(name = "kundennummer")
+  @Column(name = "kundennummer", nullable = false, unique = true)
   private String kundennummer;
 
   @Column(name = "password")

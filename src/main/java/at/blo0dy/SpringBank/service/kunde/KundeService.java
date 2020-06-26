@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.service;
+package at.blo0dy.SpringBank.service.kunde;
 
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,5 +15,5 @@ public interface KundeService {
 
   public void deleteById(Long theId);
 
-  Kunde loadUserByKundennummer(String kundennummer);
+//  Kunde loadUserByKundennummer(String kundennummer);
 }

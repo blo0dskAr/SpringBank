@@ -9,6 +9,7 @@ import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import at.blo0dy.SpringBank.service.*;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
+import at.blo0dy.SpringBank.service.kunde.KundeService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
@@ -125,6 +126,8 @@ private void loadData() {
   kunde1.setId(1L);
   kunde1.setNachname("McKundeFace");
   kunde1.setVorname("Kundy");
+  kunde1.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde1.setRolle("customer");
 
   // Rolle uebergeben
 

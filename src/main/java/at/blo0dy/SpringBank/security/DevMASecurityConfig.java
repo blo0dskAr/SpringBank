@@ -22,7 +22,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @Profile("dev")
-@Order(1)
+@Order(2)
 public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
 
   // add a reference to our security datasource

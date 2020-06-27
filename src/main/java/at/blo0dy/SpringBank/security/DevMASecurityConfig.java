@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@Profile("dev")
+@Profile("test")
 @Order(2)
 public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
 

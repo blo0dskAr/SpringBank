@@ -2,10 +2,11 @@ package at.blo0dy.SpringBank.service.kunde;
 
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 import java.util.List;
 
-public interface KundeService {
+public interface KundeService   {
 
   public List<Kunde> findAll();
 
@@ -15,5 +16,5 @@ public interface KundeService {
 
   public void deleteById(Long theId);
 
-//  Kunde loadUserByKundennummer(String kundennummer);
+  //UserDetails loadUserByUsername(String kundennummer);
 }

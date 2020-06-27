@@ -128,6 +128,8 @@ private void loadData() {
   kunde1.setVorname("Kundy");
   kunde1.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
   kunde1.setRolle("customer");
+  kunde1.setTelefonNummer("asdasd");
+  kunde1.setEmailAdresse("wwdifwoeifjowei");
 
   // Rolle uebergeben
 

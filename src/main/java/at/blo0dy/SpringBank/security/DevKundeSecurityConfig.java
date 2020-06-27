@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.security;
 
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.annotation.Order;
@@ -9,7 +10,9 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.sql.DataSource;
 
@@ -20,46 +23,62 @@ import javax.sql.DataSource;
 @Order(1)
 public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
 
+//  @Autowired
+//  private KundeService kundeService;
+
   @Autowired
-  private KundeService kundeService;
+  private UserDetailsService userDetailsService;
 
   // add a reference to our security datasource
   @Autowired
   private DataSource ds;
 
+  @Bean
+  public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
+
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-    // User.UserBuilder users = User.withDefaultPasswordEncoder();
+  auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
 
-    auth.jdbcAuthentication().dataSource(ds)
+    // working jdbc implementation
+/*    auth.jdbcAuthentication().dataSource(ds)
             .usersByUsernameQuery(
                     "select kundennummer, password, is_active from kunde where kundennummer=?")
             .authoritiesByUsernameQuery(
                     "select kundennummer, rolle from kunde" +
                             " where kundennummer=?")
             .passwordEncoder(new BCryptPasswordEncoder() {
-            });
+            });*/
+  }
 
-//  auth.userDetailsService(kundeService);
+
+
+
+  protected void configure(HttpSecurity http) throws Exception {
+    http.authorizeRequests()
+            .antMatchers("/kunde/banking/index")
+            .hasAuthority("customer")
+          .antMatchers("/kunde/**").permitAll()
+
+          .and()
+            .formLogin()
+            .loginPage("/kunde/loginpage")
+            .loginProcessingUrl("/kunde/kundeauthenticationpage")
+            .usernameParameter("kundennummer")
+            .passwordParameter("password")
+            .successForwardUrl("/kunde/index");
+
+
+    http.csrf().disable();
+    http.headers().frameOptions().disable();
 
   }
 
-/*  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    // add our user for in memory authentication
-    User.UserBuilder users = User.withDefaultPasswordEncoder();
 
-    auth.inMemoryAuthentication()
-            .withUser(users.username("norole").password("test123").roles())
-            .withUser(users.username("customer").password("test123").roles("CUSTOMER"))
-            .withUser(users.username("employee").password("test123").roles("EMPLOYEE"))
-            .withUser(users.username("manager").password("test123").roles("EMPLOYEE", "MANAGER"))
-            .withUser(users.username("admin").password("test123").roles("EMPLOYEE", "ADMIN", "TESTER"));
-  }*/
-
-
-  // added for Custom Login Form: (ohne kommt schönere default page)
+/*  // LAST WORKING
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.requestMatchers()
@@ -83,41 +102,6 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    http.csrf().disable();
 //    http.headers().frameOptions().disable();
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-/*  @Override
-  protected void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-            .antMatchers("/mitarbeiter/**").hasRole("ADMIN")
-*//*            .antMatchers("/leaders/**").hasRole("MANAGER")
-            .antMatchers("/systems/**").hasRole("ADMIN")*//*
-             .antMatchers("/**").authenticated();
-             //.anyRequest().authenticated();
-
-     *//*       http.authorizeRequests()
-            .antMatchers("/preindex**").permitAll();*//*
-*//*            .and()
-            .formLogin()
-            .loginPage("/showMyLoginPage")
-            .loginProcessingUrl("/authenticateTheUser")
-            .permitAll()
-            .and()
-            .logout().permitAll()
-            .and()
-            .exceptionHandling()
-            .accessDeniedPage("/access-denied");*//*
   }*/
 
 }

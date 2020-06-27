@@ -2,8 +2,8 @@ package at.blo0dy.SpringBank.service.kunde;
 
 import at.blo0dy.SpringBank.dao.KundeRepository;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
+//public class KundeServiceImpl implements KundeService {
 public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   private KundeRepository kundeRepository;
@@ -55,44 +57,25 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     kundeRepository.deleteById(theId);
   }
 
-//  @Override
-//  public UserDetails loadUserByKundennummer(String kundennummer) throws UsernameNotFoundException {
-//    final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
-//    if (kunde == null) {
-//      throw new UsernameNotFoundException(kundennummer);
+
+  //  @Override
+//  public UserDetails loadUserByUsername(String username)
+//          throws UsernameNotFoundException {
+//    User user = userRepository.findByUsername(username);
+//    if (user != null) {
+//      return user;
 //    }
-//    UserDetails user = User.withUsername(kunde.getKundennummer()).password(kunde.getPassword()).authorities(kunde.getRolle()).build();
-//    return user;
+//    throw new UsernameNotFoundException("User '" + username + "' not found");
 //  }
 
   @Override
   public UserDetails loadUserByUsername(String kundennummer) throws UsernameNotFoundException {
     final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
-    if (kunde == null) {
-      throw new UsernameNotFoundException(kundennummer);
+//    System.out.println(kunde);
+    if (kunde != null) {
+      return kunde;
     }
-    UserDetails user = User.withUsername(kunde.getKundennummer()).password(kunde.getPassword()).authorities(kunde.getRolle()).build();
-    return user;
+    throw new UsernameNotFoundException("User + " + kunde.getKundennummer() + " not found");
   }
 
-
-//  @Override
-//  public Kunde loadUserByKundennummer(String kundennummer)
-//          throws UsernameNotFoundException {
-//    Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
-//    if (kunde != null) {
-//      return kunde;
-//    }
-//    throw new UsernameNotFoundException("Kunde: " + kundennummer + " not found");
-//
-//  }
-
-//  @Override
-//  public UserDetails loadUserByKundennummer(String kundennummer) throws UsernameNotFoundException {
-//    Kunde kunde = kundeRepository.findByKundennummer(s);
-//    if (user == null) {
-//      throw new UsernameNotFoundException(username);
-//    }
-//    return new MyUserPrincipal(user);
-//  }
 }

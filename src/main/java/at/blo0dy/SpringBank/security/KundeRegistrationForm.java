@@ -26,8 +26,5 @@ public class KundeRegistrationForm {
 
     return new Kunde(vorname,  nachname, new Adresse(strasse, plz, ort, land), kundennummer,  telefonNummer,  emailAdresse, passwordEncoder.encode(password), true, true, true, true );
 
-
   }
-
-
 }

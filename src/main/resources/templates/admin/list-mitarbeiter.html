@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mainlayout.html}">
+<head>
+    <title>My Admin Page</title>
+</head>
+<body>
+<div class="container">
+    <div layout:fragment="content">
+        <h3>Admin - Mitarbeiter Directory</h3>
+        <hr>
+
+        <p class="h4 mb-4">Admin Page</p>
+
+        <table class ="table table-bordered table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Vorname</th>
+                    <th>Nachname</th>
+                    <th>MA-Nr.</th>
+                    <th>Position</th>
+                    <th>Adresse</th>
+                    <th>Aktion durchführen</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:remove="all">
+                    <td th:text="${ma.vorname}">345</td>
+                    <td th:text="${ma.nachname}">Tasty Goodness</td>
+                    <td th:text="${ma.mitarbeiterNummer}">Tasty Goodness</td>
+                    <td th:text="${ma.position}">Tasty Goodness</td>
+                    <td th:text="${ma.adresse}">Tasty Goodness</td>
+                </tr>
+                <tr th:remove="all">
+                    <td th:text="${ma.vorname}">345</td>
+                    <td th:text="${ma.nachname}">Tasty Goodness</td>
+                    <td th:text="${ma.mitarbeiterNummer}">Tasty Goodness</td>
+                    <td th:text="${ma.position}">Tasty Goodness</td>
+                    <td th:text="${ma.adresse}">Tasty Goodness</td>
+                </tr>
+                <tr th:each="ma : ${mitarbeiter}">
+                    <td th:text="${ma.vorname}">345</td>
+                    <td th:text="${ma.nachname}">Tasty Goodness</td>
+                    <td th:text="${ma.mitarbeiterNummer}">Tasty Goodness</td>
+                    <td th:text="${ma.position}">Tasty Goodness</td>
+                    <td th:text="${ma.adresse}">Tasty Goodness</td>
+                    <td>
+                        <a th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/showFormForUpdate(mitarbeiterId=${ma.id})}"
+                           class="btn btn-info btn-sm">
+                            Update
+                        </a>
+                        |
+                        <a th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/delete(mitarbeiterId=${ma.id})}"
+                class = "btn btn-danger btn-sm"
+                onclick="if (!(confirm('Are you sure you want to delete this mitarbeiter?'))) return false">
+                Delete
+                        </a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <a th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/showFormForAdd}"
+            class="btn btn-primary btn-sm mb-3">
+            Add Mitarbeiter
+        </a>
+    </div>
+</div>
+
+</body>
+</html>

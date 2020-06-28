@@ -45,7 +45,6 @@ public class RolleServiceImpl implements RolleService {
   @Override
   @Transactional
   public void save(Rolle rolle) {
-    System.out.println("Called Method: " + getClass().getSimpleName() + "save(Rolle rolle)");
       rolleRepository.save(rolle);
   }
 
@@ -57,20 +56,7 @@ public class RolleServiceImpl implements RolleService {
   @Override
   @Transactional
   public void deleteById(Long theId) {
-    System.out.println(countByMitarbeiterId(theId));
-//    if (countByMitarbeiterId(theId) == 0) {
       rolleRepository.deleteById(theId);
-/*    } else {
-      System.err.println("fehler beim löschen");
-    }*/
-// TODO: Funkt nicht weils an einer stelle weiter unten hinterm repo kracht und die exception nicht mitkommt.
-    // ToDo: da muss ein exceptionhandler oder sowas dazwischen?
-/*    try {
-      rolleRepository.deleteById(theId);
-    } catch (Exception ex) {
-      System.out.println("Exception caught: " + getClass().getSimpleName() + "deleteById(Long theId)");
-      ex.toString();
-    }*/
   }
 
   @Override

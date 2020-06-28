@@ -9,10 +9,10 @@
 <div class="container">
     <div layout:fragment="content">
 
-        <h3>Rollen - Add Rolle zu Mitarbeiter Page</h3>
+        <h3 th:text="'Rollen - Add Rolle(' + ${rolle.name} + ') zu Mitarbeiter: '">Rollen - Add Rolle zu Mitarbeiter Page</h3>
         <hr>
 
-        <p class="h4 mb-4">User Adden</p>
+        <p class="h4 mb-4">Mitarbeiter hinzufügen</p>
 
         <table class ="table table-bordered table-striped table-hover">
             <thead class="thead-dark">
@@ -26,7 +26,7 @@
                 <td th:text="${mitarbeiter.vorname}">123</td>
                 <td th:text="${mitarbeiter.nachname}">rolemcroleface</td>
                 <td>
-                    <a th:href="@{/mitarbeiter/rollen/addRoleToUser(rolleId=${rolleId}, mitarbeiterId=${mitarbeiter.Id})}"
+                    <a th:href="@{/mitarbeiter/admin/rollen/addRoleToUser(rolleId=${rolleId}, mitarbeiterId=${mitarbeiter.Id})}"
                        class = "btn btn-info btn-sm">
                         Add User
                     </a>
@@ -34,7 +34,7 @@
             </tr>
         </table>
         <hr>
-        <a th:href="@{/mitarbeiter/rollen/showRolleDetail(rolleId=${rolleId})}">Back to Rollen Details</a>
+        <a th:href="@{/mitarbeiter/admin/rollen/showRolleDetail(rolleId=${rolleId})}">Back to Rollen Details</a>
 
     </div>
 </div>

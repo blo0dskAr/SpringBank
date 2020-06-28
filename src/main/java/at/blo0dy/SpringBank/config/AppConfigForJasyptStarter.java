@@ -6,6 +6,6 @@ import org.springframework.context.annotation.PropertySource;
 
 @Configuration
 @PropertySource("classpath:application.properties")
-@Profile("test")
+@Profile({"test", "dev"})
 public class AppConfigForJasyptStarter {
 }

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+                xmlns:form="http://www.springframework.org/tags/form">
+<head>
+    <title>Doesnt Matter</title>
+</head>
+<body class="sb-nav-fixed">
+
+
+<div id="app" class="container">
+    <nav class="sb-topnav navbar navbar-expand navbar-dark bg-dark" th:fragment="topNavigation">
+        <a class="navbar-brand" th:href="@{~/kunde/index}">MyEck Logo</a>
+        <div  sec:authorize="isFullyAuthenticated()">
+        <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
+        </div>
+        <!-- Navbar Search-->
+        <!--            <form class="d-none d-md-inline-block form-inline ml-auto mr-0 mr-md-3 my-2 my-md-0">-->
+        <!--                <div class="input-group">-->
+        <!--                    <input class="form-control" type="text" placeholder="Search for..." aria-label="Search" aria-describedby="basic-addon2" />-->
+        <!--                    <div class="input-group-append">-->
+        <!--                        <button class="btn btn-primary" type="button"><i class="fas fa-search"></i></button>-->
+        <!--                    </div>-->
+        <!--                </div>-->
+        <!--            </form>-->
+        <!-- Navbar-->
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <div sec:authorize="!isFullyAuthenticated()">
+                    <a th:class="${#strings.equals(activeLink, 'KundeHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/kunde/index}">Home</a>
+                </div>
+                <div sec:authorize="isFullyAuthenticated()">
+                    <a th:class="${#strings.equals(activeLink, 'KundeBankingHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/kunde/banking/index}">Home</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+<!--                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'nav-link active' : 'nav-link'" th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Mitarbeiter</a>-->
+                <a class="nav-link dropdown-toggle" id="sparenDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sparen</a>
+                <div class="dropdown-menu" aria-labelledby="sparenDropdown">
+                    <a class="dropdown-item" th:href="@{/kunde/sparen/index}">Allgemeine Information</a>
+                    <a class="dropdown-item" th:href="@{/kunde/sparen/rechner}">Spar-Rechner</a>
+                    <a class="dropdown-item" th:href="@{/kunde/banking/sparen/eroeffnung}">Eröffnen</a>
+                </div>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="kreditDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kredit</a>
+                <div class="dropdown-menu" aria-labelledby="kreditDropdown">
+                    <a class="dropdown-item" th:href="@{/kunde/kredit/index}">Allgemeine Information</a>
+                    <a class="dropdown-item" th:href="@{/kunde/kredit/rechner}">Spar-Rechner</a>
+                    <a class="dropdown-item" th:href="@{/kunde/banking/kredit/eroeffnung}">Eröffnen</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="giroDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Giro-Konto</a>
+                <div class="dropdown-menu" aria-labelledby="giroDropdown">
+                    <a class="dropdown-item" th:href="@{/kunde/giro/index}">Allgemeine Information</a>
+                    <a class="dropdown-item" th:href="@{/kunde/banking/giro/eroeffnung}">Eröffnen</a>
+                </div>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" id="wirDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über uns</a>
+                <div class="dropdown-menu" aria-labelledby="wirDropdown">
+                    <a class="dropdown-item" th:href="@{/kunde/wir/philosophie}">Philosophie</a>
+                    <a class="dropdown-item" th:href="@{/kunde/wir/karriere}">Karriere</a>
+                    <a class="dropdown-item" th:href="@{/kunde/wir/kontakt}">Kontakt</a>
+                    <a class="dropdown-item" th:href="@{/kunde/wir/impressum}">Impressum</a>
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">BlaBla</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <div sec:authorize="isFullyAuthenticated()">
+                <li class="nav-item">
+                    <form th:action="@{/kunde/banking/logoutpage}" method="POST">
+                        <input class="btn btn-outline-success mx-2" type="submit" value="Logout"/>
+                    </form>
+                </li>
+            </div>
+            <div sec:authorize="!isFullyAuthenticated()">
+                <li class="nav-item">
+                    <form th:action="@{/kunde/banking/loginpage}" method="GET">
+                       <input class="btn btn-outline-success mx-2" type="submit" value="Login"/>
+                    </form>
+                </li>
+            </div>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" href="{{ url('/login') }}">Login</a>-->
+<!--            </li>-->
+<!--            <li class="nav-item">-->
+<!--                &lt;!&ndash; Adding a Logout Button &ndash;&gt;-->
+<!--                <form class="form-inline mt-2 mt-md-0" th:action="@{/mitarbeiter/logoutpage}" method="POST">-->
+<!--                    <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Logout"/>-->
+<!--                </form>-->
+<!--            </li>-->
+            <div sec:authorize="isFullyAuthenticated()">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <a class="dropdown-item" href="#">Activity Log</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" th:href=@{/kunde/banking/logoutpage}>Logout</a>
+                    </div>
+                </li>
+            </div>
+        </ul>
+    </nav>
+</div>
+
+<!--  add a search box -->
+<!--                <form:form class="form-inline mt-2 mt-md-0" action="search" method="GET">
+                    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="theSearchName" />
+
+                    <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search" ></input>
+                </form:form>-->
+<!--<form class="form-inline mt-2 mt-md-0" action="search" method="GET">
+    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="theSearchName" >
+    <button class="btn btn-outline-success my-2 my-sm-0" value="Search" type="submit">Search</button>
+</form>-->
+
+</body>
+</html>

@@ -78,6 +78,21 @@ insert into bank
 values
 (1, "blo0dy", "blo0dy Investments From Hell Inc.", 12345666) ;
 
+insert into adresse
+(id, strasse, plz, ort, land)
+values
+(3, "TestStraße 35", '1100','Wien', 'Österreich') ;
+
+insert into person
+(id, nachname, vorname, adresse_id)
+values
+(3, 'McTestFace', 'Testi', 3) ;
+
+insert into kunde
+(id, email_adresse, telefon_nummer, kundennummer, first_login_done, has_acceptedagb, is_active, is_legi, password, rolle)
+values
+(3, 'test@test.at','123456','123',true,true,true,true, '$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm', 'customer') ;
+
 commit ;
 
 

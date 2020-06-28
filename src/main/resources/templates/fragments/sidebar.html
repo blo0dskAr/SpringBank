@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-<!--    &lt;!&ndash; Required meta tags &ndash;&gt;
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    &lt;!&ndash; Bootstrap CSS &ndash;&gt;
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">-->
     <title>Doesnt Matter</title>
 </head>
 <body>
@@ -18,69 +14,8 @@
             <div class="sidebar-sticky pt-3">
                 <ul class="nav flex-column">
                     <li class="nav-item">
-                        <a class="nav-link active" href="#">
-                            Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/mitarbeiter/list}">
-                            Mitarbeiter
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{~/mitarbeiter/rollen}" >
-                            Rollen
-                        </a>
-                    </li>
-                    <li th:class="${#strings.equals(activeLink, 'home')} ? 'nav-item active' : 'nav-item'">
-<!--                    <li class="nav-item">-->
-                        <a class="nav-link" href="#" data-toggle="collapse" data-target="#customers"> Customers</a>
-                            <ul class="sub-menu collapse" id="customers">
-                            <li th:class="${#strings.equals(activeLink, 'home')} ? 'nav-item active' : 'nav-item'">
-                                <a th:href="@{~/mitarbeiter/kunde#home}">CSS3 Animation<span class="sr-only">(current)</span></a>
-                            </li>
-                            <li th:class="${#strings.equals(activeLink, 'home')} ? 'nav-item active' : 'nav-item'">
-                                <a class="nav-link" href="/">Home<span class="sr-only">(current)</span></a>
-                            </li>
-                                <li th:classappend="${#httpServletRequest.getRequestURI() == '/mitarbeiter/kunde' ? 'active':''}">
-                                    <a th:href="@{~/mitarbeiter/kunde}"><span>Smashboard</span></a></li>
-                            <li>
-                                <a th:href="@{~/mitarbeiter/kunde/index#home}" data-toggle="collapse" data-target=".navbar-collapse">General</a>
-                            </li>
-                            <li><a href="#">Buttons</a></li>
-                            <li><a href="#">Tabs & Accordions</a></li>
-                            <li><a href="#">Typography</a></li>
-                            <li><a href="#">FontAwesome</a></li>
-                            <li><a href="#">Slider</a></li>
-                            <li><a href="#">Panels</a></li>
-                            <li><a href="#">Widgets</a></li>
-                            <li><a href="#">Bootstrap Model</a></li>
-                        </ul>
-                    </li>
-<!--                        <a class="nav-link" href="#">-->
-<!--                            Customers-->
-<!--                        </a>-->
-
-                        <div class="panel-group">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h4 class="panel-title">
-                                        <a data-toggle="collapse" href="#collapse1">Collapsible list group</a>
-                                    </h4>
-                                </div>
-                                <div id="collapse1" class="panel-collapse collapse">
-                                    <ul class="list-group">
-                                        <li class="list-group-item">One</li>
-                                        <li class="list-group-item">Two</li>
-                                        <li class="list-group-item">Three</li>
-                                    </ul>
-                                    <div class="panel-footer">Footer</div>
-                                </div>
-                            </div>
-                        </div>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Reports
+                        <a th:class="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">
+                            Home
                         </a>
                     </li>
                     <li class="nav-item">
@@ -88,9 +23,22 @@
                             Integrations
                         </a>
                     </li>
+                    <div sec:authorize="hasAuthority('admin')"  >
+                    <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''">Admin</a>
+                    <div id="collapse" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')} ? 'show' : ''" >
+                        <ul class="list-group">
+                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/mitarbeiterAdministration/list}">
+                                Mitarbeiter
+                            </a>
+                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/rolle')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/rollen/index}">
+                                Rollen
+                                </a>
+                            <li class="list-group-item">Three</li>
+                        </ul>
+                    </div>
+                    </div>
                 </ul>
 
-                <!--<h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">-->
                 <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
                     <span>Saved reports</span>
                 </h6>
@@ -120,7 +68,6 @@
         </nav>
     </div>
 </div>
-<!--</div>-->
 
 </body>
 </html>

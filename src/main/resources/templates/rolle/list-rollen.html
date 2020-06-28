@@ -31,14 +31,14 @@
             <tr th:each="rolle : ${rollen}">
                 <td th:text="${rolle.id}">123</td>
                 <td th:text="${rolle.name}">rolemcroleface</td>
-                <td><a th:href="@{/mitarbeiter/rollen/showRolleDetail(rolleId=${rolle.id})}">Testi</a></td>
+                <td><a th:href="@{/mitarbeiter/admin/rollen/showRolleDetail(rolleId=${rolle.id})}">show Details</a></td>
                 <td>
-                    <a th:href="@{/mitarbeiter/rollen/showFormForUpdate(rolleId=${rolle.id})}"
+                    <a th:href="@{/mitarbeiter/admin/rollen/showFormForUpdate(rolleId=${rolle.id})}"
                        class="btn btn-info btn-sm">
                         Update
                     </a>
                     |
-                    <a th:href="@{/mitarbeiter/rollen/delete(rolleId=${rolle.id})}"
+                    <a th:href="@{/mitarbeiter/admin/rollen/delete(rolleId=${rolle.id})}"
                        class = "btn btn-danger btn-sm"
                        onclick="if (!(confirm('Are you sure you want to delete this Role?'))) return false">
                         Delete
@@ -46,7 +46,7 @@
                 </td>
             </tr>
         </table>
-        <a th:href="@{/mitarbeiter/rollen/showFormForAdd}"
+        <a th:href="@{/mitarbeiter/admin/rollen/showFormForAdd}"
            class="btn btn-primary btn-sm mb-3">
             Add Rolle
         </a>

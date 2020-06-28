@@ -43,7 +43,6 @@ public class LoginCredentialsServiceImpl implements LoginCredentialsService {
   @Transactional
   public void save(LoginCredentials loginCredentials) {
     loginCredentialsRepository.save(loginCredentials);
-    System.out.println("LCServiceImpl:LoginCredentials: " + loginCredentials);
   }
 
   @Override

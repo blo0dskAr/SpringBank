@@ -5,7 +5,6 @@ import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -13,22 +12,20 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/mitarbeiter/rollen")
-public class RolleController {
+@RequestMapping("/mitarbeiter/admin/rollen")
+public class AdminRolleController {
 
   RolleService rolleService;
   MitarbeiterService mitarbeiterService;
 
   @Autowired
-  public RolleController(RolleService rolleService, MitarbeiterService mitarbeiterService) {
+  public AdminRolleController(RolleService rolleService, MitarbeiterService mitarbeiterService) {
     this.rolleService = rolleService;
     this.mitarbeiterService = mitarbeiterService;
   }
@@ -39,20 +36,10 @@ public class RolleController {
     List<Rolle> rollenListe = rolleService.findAll() ;
 
     model.addAttribute("rollen", rollenListe) ;
+    model.addAttribute("activeLink", "AdminRolleList");
 
     return "rolle/list-rollen";
   }
-
-/*  @ExceptionHandler(ConstraintViolationException.class)
-  public ModelAndView handleError(HttpServletRequest req, Exception ex) {
-    log.error("Request: " + req.getRequestURL() + " raised " + ex);
-
-    ModelAndView mav = new ModelAndView();
-    mav.addObject("exception", ex);
-    mav.addObject("url", req.getRequestURL());
-    mav.setViewName("error");
-    return mav;
-  }*/
 
   // Todo ExceptionHandler checken und basteln.
   @GetMapping("/delete")
@@ -60,23 +47,20 @@ public class RolleController {
     try {
       rolleService.deleteById(theId);
     } catch (DataIntegrityViolationException ex) {
-      ex.printStackTrace();
-      log.error("ConstraintVerletzung beim löschen einer Rolle vorgefallen");
+     // ex.printStackTrace();
+      log.error("ConstraintVerletzung beim löschen einer Rolle(id = " + theId + " vorgefallen");
       model.addAttribute("constrainterror", ex.getRootCause());
-      //listRollen(model) ;
-/*      List<Rolle> rollenListe = rolleService.findAll() ;
-      model.addAttribute("rollen", rollenListe) ;*/
-      return "/rolle/list-rollen";
+
+      List<Rolle> rollenListe = rolleService.findAll() ;
+      model.addAttribute("rollen", rollenListe) ;
+      model.addAttribute("activeLink", "AdminRolleList");
+
+      return "rolle/list-rollen";
+
     }
-    return "redirect:/mitarbeiter/rollen/index";
+    return "redirect:/mitarbeiter/admin/rollen/index";
   }
 
-/*  @PostMapping("/delete")
-  public String deleteRole(@Valid @ModelAttribute("rolle") Rolle rolle, Model model, Errors errors) {
-    System.out.println("---------------> TEST ");
-      rolleService.delete(rolle);
-    return "redirect:/mitarbeiter/rollen/index";
-  }*/
 
   @PostMapping("/save")
   public String saveRolle(@Valid @ModelAttribute("rolle") Rolle rolle, Errors errors) {
@@ -84,7 +68,7 @@ public class RolleController {
       return "rolle/rollen-form";
     }  else {
       rolleService.save(rolle);
-      return "redirect:/mitarbeiter/rollen/index";
+      return "redirect:/mitarbeiter/admin/rollen/index";
     }
   }
 
@@ -114,8 +98,10 @@ public class RolleController {
   public String listRolleDetail(@Validated @RequestParam("rolleId") Long theRoleId, Model model) {
 
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleId(theRoleId) ;
+    Rolle rolle = rolleService.findById(theRoleId);
 
     model.addAttribute("rolleId", theRoleId);
+    model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
 
     return "rolle/rolledetail";
@@ -127,8 +113,10 @@ public class RolleController {
                                    @Validated @RequestParam("mitarbeiterId") Long theMitarbeiterId, Model model) {
     rolleService.removeRoleFromUser(theId, theMitarbeiterId);
 
+    Rolle rolle = rolleService.findById(theId);
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleId(theId) ;
     model.addAttribute("rolleId", theId);
+    model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
 
     return "rolle/rolledetail";
@@ -139,8 +127,11 @@ public class RolleController {
   @GetMapping("/addRoleToUserPage")
   public String addRoleToUserPage(@Validated @RequestParam("rolleId") Long theRoleId, Model model) {
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleIdExeptExisting(theRoleId);
+    Rolle rolle = rolleService.findById(theRoleId);
+
     model.addAttribute("rolleId", theRoleId);
     model.addAttribute("mitarbeiter", mitarbeiterListe);
+    model.addAttribute("rolle",rolle);
 
     return "rolle/add-user" ;
   }
@@ -151,15 +142,12 @@ public class RolleController {
 
     rolleService.addRoleToUser(theId, theMitarbeiterId);
 
-    List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleId(theId) ;
+    List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleIdExeptExisting(theId);
+    Rolle rolle = rolleService.findById(theId);
     model.addAttribute("rolleId", theId);
+    model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
 
-    return "rolle/rolledetail";
+    return "rolle/add-user";
   }
-
-
-
-
-
 }

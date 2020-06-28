@@ -64,7 +64,7 @@ public class DevSecurityConfig {
               .logoutUrl("/mitarbeiter/logoutpage")
               .invalidateHttpSession(true)
               .deleteCookies("JSESSIONID")
-              .logoutSuccessUrl("/mitarbeiter/loginpage?logout")
+              .logoutSuccessUrl("/mitarbeiter/loginpage?logout").permitAll()
 
               .and()
               .exceptionHandling()
@@ -110,20 +110,21 @@ public class DevSecurityConfig {
 
                 .and()
                 .formLogin()
-                .loginPage("/kunde/loginpage")
+                .loginPage("/kunde/banking/loginpage")
                 .usernameParameter("kundennummer")
                 .passwordParameter("password")
                 .loginProcessingUrl("/kunde/banking/kundeauthenticationpage")
 //              .failureUrl("/loginUser?error=loginError")
-
-                .failureUrl("/kunde/loginpage?error=loginError")
                 .defaultSuccessUrl("/kunde/banking/index")
-                .successForwardUrl("/kunde/banking/index")
+                .successForwardUrl("/kunde/banking/index").permitAll()
+
                 .and()
                 .logout()
-//              .logoutUrl("/user_logout")
-                .logoutSuccessUrl("/kunde/loginpage?logout")
+                .logoutUrl("/kunde/banking/logoutpage")
                 .deleteCookies("JSESSIONID")
+                .invalidateHttpSession(true)
+                .logoutSuccessUrl("/kunde/banking/loginpage?logout").permitAll()
+
 
                 .and()
                 .exceptionHandling()
@@ -138,5 +139,44 @@ public class DevSecurityConfig {
 
 
   }
+
+
+  @Configuration
+  @Order(3)
+  public static class App3ConfigurationAdapter extends WebSecurityConfigurerAdapter {
+
+
+    public App3ConfigurationAdapter() {
+      super();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+      http.antMatcher("/kunde*")
+              .antMatcher("/kunde/**")
+              .authorizeRequests()
+              .anyRequest().permitAll()
+
+              .and()
+              .csrf().disable();
+
+      http.headers().frameOptions().disable();
+
+    }
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+
 
 }

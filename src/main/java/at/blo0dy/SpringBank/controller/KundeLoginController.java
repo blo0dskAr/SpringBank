@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/kunde")
+@RequestMapping("/kunde/banking")
 public class KundeLoginController {
 
 //  @Autowired

@@ -7,10 +7,14 @@
     <title>Header</title>
 </head>
 
-<body class="sb-nav-fixed">
+<!--<body class="sb-nav-fixed" th:classappend="${#request.isUserInRole('customer') ? '' : 'sb-sidenav-toggled'}" >-->
+<body class="sb-nav-fixed" th:classappend="${#authorization.expression('hasAuthority(''customer'')') ? '' : 'sb-sidenav-toggled'}" >
+
     <div th:replace="kunde/fragments/navigation.html :: topNavigation"></div>
     <div id="layoutSidenav">
-        <div th:replace="kunde/fragments/sidebar :: sideNavigation"></div>
+        <div sec:authorize="isFullyAuthenticated()">
+            <div th:replace="kunde/fragments/sidebar :: sideNavigation"></div>
+        </div>
         <div id="layoutSidenav_content">
             <div layout:fragment="content"></div>
             <div th:replace="kunde/fragments/footer.html :: footer"></div>

@@ -24,21 +24,4 @@ public class KundeController {
 
     return "kunde/index";
   }
-
-  @RequestMapping("/index2")
-  public String getTestIndexPage(Model model) {
-    model.addAttribute("activeLink", "KundeHome");
-
-    return "kunde/index2";
-  }
-
-  @RequestMapping("/index4")
-  public String getAnotherTestIndexPage(Model model) {
-    model.addAttribute("activeLink", "KundeHome");
-
-    return "kunde/index4";
-  }
-
-
-
 }

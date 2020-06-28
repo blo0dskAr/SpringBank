@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/register2")
+@RequestMapping("/kunde/register")
 public class KundeRegistrationController {
 
   private KundeRepository kundeRepository;

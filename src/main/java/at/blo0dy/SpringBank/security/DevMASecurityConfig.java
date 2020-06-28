@@ -1,3 +1,4 @@
+/*
 package at.blo0dy.SpringBank.security;
 
 import com.sun.xml.bind.api.impl.NameConverter;
@@ -21,39 +22,17 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
-@Profile("test")
-@Order(2)
+@Profile("dev")
+@Order(1)
 public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
 
   // add a reference to our security datasource
   @Autowired
   private DataSource ds;
 
-//  @Autowired
-//  public PasswordEncoder BCryptPasswordEncoder() {
-//    return new BCryptPasswordEncoder();
-//    }
-
-//  @Autowired
-//  private UserDetailsService userDetailsService;
-
-//  @Bean
-//  public AuthenticationManager customAuthenticationManager() throws Exception {
-//    return authenticationManager();
-//  }
-
-//  @Autowired
-//  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//    auth.userDetailsService(userDetailsService).passwordEncoder(BCryptPasswordEncoder());
-//  }
-
-
   @Override
   protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 
-/*
-    User.UserBuilder users = User.withDefaultPasswordEncoder();
-*/
 
     auth.jdbcAuthentication()
             .dataSource(ds)
@@ -69,27 +48,14 @@ public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
 
   }
 
+
+*/
 /*  @Override
-  protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-    // add our user for in memory authentication
-    User.UserBuilder users = User.withDefaultPasswordEncoder();
-
-    auth.inMemoryAuthentication()
-            .withUser(users.username("norole").password("test123").roles())
-            .withUser(users.username("customer").password("test123").roles("CUSTOMER"))
-            .withUser(users.username("employee").password("test123").roles("EMPLOYEE"))
-            .withUser(users.username("manager").password("test123").roles("EMPLOYEE", "MANAGER"))
-            .withUser(users.username("admin").password("test123").roles("EMPLOYEE", "ADMIN", "TESTER"));
-  }*/
-
-
-  // added for Custom Login Form: (ohne kommt schönere default page)
-  @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
-            .antMatchers("/index").permitAll()
-            .antMatchers("/").permitAll()
-            .antMatchers("/h2-console**").permitAll()
+//            .antMatchers("/index").permitAll()
+//            .antMatchers("/").permitAll()
+//            .antMatchers("/h2-console**").permitAll()
             .antMatchers("/mitarbeiter/index").authenticated()
             .antMatchers("/mitarbeiter/").authenticated()
             .antMatchers("/mitarbeiter/admin/**").hasAuthority("admin")
@@ -107,7 +73,33 @@ public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
               .logoutSuccessUrl("/mitarbeiter/loginpage?logout").permitAll()
             .and()
               .exceptionHandling()
-              .accessDeniedPage("/access-denied");
+              .accessDeniedPage("/access-denied");*//*
+
+
+@Override
+  protected void configure(HttpSecurity http) throws Exception {
+    http.antMatcher("/mitarbeiter*")
+            .authorizeRequests()
+            .anyRequest()
+            .hasAuthority("admin")
+
+            .and()
+            .formLogin()
+            .loginPage("/mitarbeiter/loginpage")
+            .loginProcessingUrl("/mitarbeiter/maauthenticationpage")
+            .successForwardUrl("/mitarbeiter/index")
+            //.defaultSuccessUrl()
+            //.failureUrl()
+            .and()
+            .logout()
+            .logoutUrl("/mitarbeiter/logoutpage")
+            .invalidateHttpSession(true)
+            .deleteCookies("JSESSIONID")
+            .logoutSuccessUrl("/mitarbeiter/loginpage?logout")
+
+            .and()
+            .exceptionHandling()
+            .accessDeniedPage("/access-denied");
 
 
     // disabled for dev-h2-console
@@ -127,18 +119,29 @@ public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
+*/
 /*  @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
             .antMatchers("/mitarbeiter/**").hasRole("ADMIN")
-*//*            .antMatchers("/leaders/**").hasRole("MANAGER")
+*//*
+*/
+/*            .antMatchers("/leaders/**").hasRole("MANAGER")
             .antMatchers("/systems/**").hasRole("ADMIN")*//*
+*/
+/*
              .antMatchers("/**").authenticated();
              //.anyRequest().authenticated();
 
-     *//*       http.authorizeRequests()
+     *//*
+*/
+/*       http.authorizeRequests()
             .antMatchers("/preindex**").permitAll();*//*
-*//*            .and()
+*/
+/*
+*//*
+*/
+/*            .and()
             .formLogin()
             .loginPage("/showMyLoginPage")
             .loginProcessingUrl("/authenticateTheUser")
@@ -148,6 +151,10 @@ public class DevMASecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .exceptionHandling()
             .accessDeniedPage("/access-denied");*//*
-  }*/
+*/
+/*
+  }*//*
+
 
 }
+*/

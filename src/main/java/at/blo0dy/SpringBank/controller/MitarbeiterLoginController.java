@@ -14,7 +14,8 @@ public class MitarbeiterLoginController {
 //  @Autowired
 //  BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  @GetMapping({"/loginpage", "", "/"})
+//  @GetMapping({"/loginpage", "", "/"})
+  @GetMapping("/loginpage")
   public String loginpage() {
 
     return "mitarbeiter/loginpage";

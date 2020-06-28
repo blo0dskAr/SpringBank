@@ -12,7 +12,7 @@ public class KundeLoginController {
 //  @Autowired
 //  BCryptPasswordEncoder bCryptPasswordEncoder;
 
-  @GetMapping({"/loginpage", "", "/"})
+  @GetMapping("/loginpage")
   public String loginpage() {
 
     return "kunde/login";

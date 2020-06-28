@@ -1,3 +1,4 @@
+/*
 package at.blo0dy.SpringBank.security;
 
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -20,7 +21,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableWebSecurity
 @Profile("dev")
-@Order(1)
+@Order(2)
 public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //  @Autowired
@@ -29,7 +30,6 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
   @Autowired
   private UserDetailsService userDetailsService;
 
-  // add a reference to our security datasource
   @Autowired
   private DataSource ds;
 
@@ -44,6 +44,7 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
   auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
 
     // working jdbc implementation
+*/
 /*    auth.jdbcAuthentication().dataSource(ds)
             .usersByUsernameQuery(
                     "select kundennummer, password, is_active from kunde where kundennummer=?")
@@ -51,17 +52,18 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
                     "select kundennummer, rolle from kunde" +
                             " where kundennummer=?")
             .passwordEncoder(new BCryptPasswordEncoder() {
-            });*/
+            });*//*
+
   }
 
-
-
-
+*/
+/*    // Grundsätzlich working, aber die logins sind jetzt alle hinig
   protected void configure(HttpSecurity http) throws Exception {
     http.authorizeRequests()
             .antMatchers("/kunde/banking/index")
             .hasAuthority("customer")
           .antMatchers("/kunde/**").permitAll()
+            .antMatchers("/**").permitAll()
 
           .and()
             .formLogin()
@@ -69,16 +71,66 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
             .loginProcessingUrl("/kunde/kundeauthenticationpage")
             .usernameParameter("kundennummer")
             .passwordParameter("password")
-            .successForwardUrl("/kunde/index");
+            .successForwardUrl("/kunde/index")
+            .permitAll()
+            .and()
+            .logout().permitAll()
+//            .invalidateHttpSession(true)
+//            .deleteCookies("JSESSIONID")
+//            .logoutSuccessUrl("/mitarbeiter/loginpage?logout").permitAll()
+            .and()
+            .exceptionHandling()
+            .accessDeniedPage("/access-denied");*//*
 
 
-    http.csrf().disable();
-    http.headers().frameOptions().disable();
+  @Override
+  protected void configure(HttpSecurity http) throws Exception {
+      http.antMatcher("/kunde/banking*")
+              .authorizeRequests()
+              .anyRequest()
+              .hasAuthority("customer")
+
+              .and()
+              .formLogin()
+              .loginPage("/kunde/loginpage")
+              .loginProcessingUrl("/kunde/kundeauthenticationpage")
+//              .failureUrl("/loginUser?error=loginError")
+//              .defaultSuccessUrl("/userPage")
+              .usernameParameter("kundennummer")
+              .passwordParameter("password")
+              .successForwardUrl("/kunde/index")
+              .and()
+              .logout()
+//              .logoutUrl("/user_logout")
+              .logoutSuccessUrl("/kunde/loginpage?logout")
+              .deleteCookies("JSESSIONID")
+              .and()
+              .exceptionHandling()
+              .accessDeniedPage("/access-denied");
+
+
+
+      http.csrf().disable();
+      http.headers().frameOptions().disable();
 
   }
 
 
-/*  // LAST WORKING
+
+
+
+
+
+
+
+
+
+
+
+
+
+*/
+/*  // (vorletztes "working" kommt vermutlich weg)
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.requestMatchers()
@@ -102,6 +154,8 @@ public class DevKundeSecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    http.csrf().disable();
 //    http.headers().frameOptions().disable();
-  }*/
+  }*//*
+
 
 }
+*/

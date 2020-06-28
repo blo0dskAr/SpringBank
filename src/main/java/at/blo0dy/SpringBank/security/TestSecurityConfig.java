@@ -16,12 +16,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import javax.sql.DataSource;
 
 @Configuration
-@Profile("dev")
+@Profile("test")
 @EnableWebSecurity
-public class DevSecurityConfig {
+public class TestSecurityConfig {
 
   @Configuration
-  @Profile("dev")
+  @Profile("test")
   @Order(1)
   public static class App1ConfigurationAdapter extends WebSecurityConfigurerAdapter {
     public App1ConfigurationAdapter() {
@@ -82,7 +82,7 @@ public class DevSecurityConfig {
 
 
     @Configuration
-    @Profile("dev")
+    @Profile("test")
     @Order(2)
     public static class App2ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
@@ -93,7 +93,6 @@ public class DevSecurityConfig {
       public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
       }
-
 
       public App2ConfigurationAdapter() {
         super();
@@ -146,7 +145,7 @@ public class DevSecurityConfig {
 
 
   @Configuration
-  @Profile("dev")
+  @Profile("test")
   @Order(3)
   public static class App3ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 

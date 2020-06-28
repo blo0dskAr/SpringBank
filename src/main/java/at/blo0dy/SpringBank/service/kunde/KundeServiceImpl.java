@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.validation.constraints.Null;
 import java.util.List;
 import java.util.Optional;
 
@@ -70,8 +71,7 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String kundennummer) throws UsernameNotFoundException {
-    final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
-//    System.out.println(kunde);
+      final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
     if (kunde != null) {
       return kunde;
     }

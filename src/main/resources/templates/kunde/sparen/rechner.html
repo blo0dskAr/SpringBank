@@ -17,6 +17,49 @@
 <body>
 <div layout:fragment="content">
     <main>
+        <div class="container-fluid px-2">
+            <div class="row">
+                <div class="col-4">
+                    <form method="POST" th:action="@{/kunde/sparen/rechner}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
+                        <div class="form-group">
+                            <label for="datum">Datum: </label>
+                            <input type="date" class="form-control" id="datum" name="datum" th:value="${sparzinsrechnervorlage.datum}" th:field="${sparzinsrechnervorlage.datum}">
+<!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                        </div>
+                        <div class="form-group">
+                            <label for="betrag">Betrag: </label>
+                            <input type="text" class="form-control" id="betrag" name="betrag" placeholder="Betrag" th:value="${sparzinsrechnervorlage.betrag}">
+                        </div>
+                        <div class="form-group">
+                            <label for="zinssatz">Zinssatz: </label>
+                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="Zinssatz" th:value="${sparzinsrechnervorlage.zinssatz}">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+                <div class="col-4">
+                    <h3>Ergebnis:</h3>
+                    <div class="form-group disabled">
+                        <label for="zinsen">Zinsen: </label>
+                        <input type="text" class="form-control" id="zinsen" name="zinsen" placeholder="0,00" th:field="${ergebnis.zinsen}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="kest">KESt: </label>
+                        <input type="text" class="form-control" id="kest" name="kest" placeholder="0,00" th:field="${ergebnis.kest}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="saldo">Saldo nach Zinsen: </label>
+                        <input type="text" class="form-control" id="saldo" name="saldo" placeholder="0,00" th:field="${ergebnis.betrag}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br><br><br><br><br><br><br>
+        <div>
+            <p th:text="${datum}"></p>
+            <p th:text="${betrag}"></p>
+            <p th:text="${zinssatz}"></p>
+        </div>
 
     </main>
 </div>

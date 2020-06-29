@@ -58,17 +58,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     kundeRepository.deleteById(theId);
   }
 
-
-  //  @Override
-//  public UserDetails loadUserByUsername(String username)
-//          throws UsernameNotFoundException {
-//    User user = userRepository.findByUsername(username);
-//    if (user != null) {
-//      return user;
-//    }
-//    throw new UsernameNotFoundException("User '" + username + "' not found");
-//  }
-
   @Override
   public UserDetails loadUserByUsername(String kundennummer) throws UsernameNotFoundException {
       final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);

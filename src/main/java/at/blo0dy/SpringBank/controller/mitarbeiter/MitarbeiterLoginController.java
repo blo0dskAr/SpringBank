@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.controller;
+package at.blo0dy.SpringBank.controller.mitarbeiter;
 
 
 import org.springframework.beans.factory.annotation.Autowired;

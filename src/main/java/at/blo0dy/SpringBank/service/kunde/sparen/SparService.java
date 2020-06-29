@@ -9,7 +9,7 @@ public interface SparService {
 
   double getZinssatz();
 
-  SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag);
+//  SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag);
 
   SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage);
 

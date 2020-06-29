@@ -31,12 +31,12 @@ public class Start {
     System.out.println("MAIN: Mitarbeiter erstellt: " + mitarbeiter);
 
 
-    for (int i = 1 ; i <= 31; i++) {
-      System.out.println(i + ". des Monats - Tage bis MonatsEnde: " + SparenUtility.getTageBisMonatsEnde(LocalDate.of(2020, 3, i)));
-    }
+//    for (int i = 1 ; i <= 31; i++) {
+//      System.out.println(i + ". des Monats - Tage bis MonatsEnde: " + SparenUtility.getTageBisMonatsEnde(LocalDate.of(2020, 3, i)));
+//    }
 
 
-    System.out.println("zinsen von heute(" +LocalDate.now() + "): " + SparenUtility.getZinsenBisJahresEnde(LocalDate.now(), 10000) + " EUR.");
+//    System.out.println("zinsen von heute(" +LocalDate.now() + "): " + SparenUtility.getZinsenBisJahresEnde(LocalDate.now(), 10000) + " EUR.");
 
 
 

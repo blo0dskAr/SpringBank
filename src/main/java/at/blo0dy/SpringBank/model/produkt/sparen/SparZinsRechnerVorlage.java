@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.NumberFormat;
 
 import java.time.LocalDate;
 
@@ -14,7 +15,10 @@ public class SparZinsRechnerVorlage {
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate datum;
-  private Double zinssatz;
-  private Double betrag;
+  @NumberFormat(style = NumberFormat.Style.PERCENT)
+  private double zinssatz;
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+//  @NumberFormat(pattern = "#.###.###.###,##")
+  private double betrag;
 
 }

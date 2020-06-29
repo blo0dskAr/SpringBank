@@ -24,10 +24,10 @@ public class SparServiceImpl implements SparService {
     return SparenUtility.getZinssatz();
   }
 
-  @Override
-  public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag) {
-    return sparZinsRechnerRepository.getSparZinsRechnerEregebnis(datum, betrag);
-  }
+//  @Override
+//  public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag) {
+//    return sparZinsRechnerRepository.getSparZinsRechnerEregebnis(datum, betrag);
+//  }
 
   @Override
   public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage) {

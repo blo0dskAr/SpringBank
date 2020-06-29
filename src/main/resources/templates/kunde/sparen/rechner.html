@@ -23,22 +23,26 @@
                     <form method="POST" th:action="@{/kunde/sparen/rechner}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
                         <div class="form-group">
                             <label for="datum">Datum: </label>
-                            <input type="date" class="form-control" id="datum" name="datum" th:value="${sparzinsrechnervorlage.datum}" th:field="${sparzinsrechnervorlage.datum}">
+                            <input type="date" class="form-control" id="datum" name="datum" th:field="${sparzinsrechnervorlage.datum}">
 <!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                         </div>
                         <div class="form-group">
                             <label for="betrag">Betrag: </label>
-                            <input type="text" class="form-control" id="betrag" name="betrag" placeholder="Betrag" th:value="${sparzinsrechnervorlage.betrag}">
+                            <input type="text" class="form-control" id="betrag" name="betrag" placeholder="Betrag" th:field="${sparzinsrechnervorlage.betrag}">
                         </div>
                         <div class="form-group">
                             <label for="zinssatz">Zinssatz: </label>
-                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="Zinssatz" th:value="${sparzinsrechnervorlage.zinssatz}">
+                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="Zinssatz" th:field="${sparzinsrechnervorlage.zinssatz}">
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
                 <div class="col-4">
                     <h3>Ergebnis:</h3>
+                    <div class="form-group">
+                        <label for="anfangssaldo">Anfangssaldo: </label>
+                        <input type="text" class="form-control" id="anfangssaldo" name="anfangssaldo" placeholder="0,00" th:field="${ergebnis.anfangsBetrag}" disabled>
+                    </div>
                     <div class="form-group disabled">
                         <label for="zinsen">Zinsen: </label>
                         <input type="text" class="form-control" id="zinsen" name="zinsen" placeholder="0,00" th:field="${ergebnis.zinsen}" disabled>
@@ -48,8 +52,12 @@
                         <input type="text" class="form-control" id="kest" name="kest" placeholder="0,00" th:field="${ergebnis.kest}" disabled>
                     </div>
                     <div class="form-group">
-                        <label for="saldo">Saldo nach Zinsen: </label>
-                        <input type="text" class="form-control" id="saldo" name="saldo" placeholder="0,00" th:field="${ergebnis.betrag}" disabled>
+                        <label for="ergebnisVorKest">Saldo nach Zinsen: </label>
+                        <input type="text" class="form-control" id="ergebnisVorKest" name="ergebnisVorKest" placeholder="0,00" th:field="${ergebnis.ergebnisVorKest}" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="ergebnisNachKest">Saldo Zinsen/KESt: </label>
+                        <input type="text" class="form-control" id="ergebnisNachKest" name="ergebnisNachKest" placeholder="0,00" th:field="${ergebnis.ergebnisNachKest}" disabled>
                     </div>
                 </div>
             </div>

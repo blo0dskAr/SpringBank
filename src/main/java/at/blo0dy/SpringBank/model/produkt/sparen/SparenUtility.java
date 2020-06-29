@@ -9,19 +9,19 @@ import java.time.LocalDate;
 
 public class SparenUtility {
 
-  private static final Double zinssatz = 5.0 ;
+  private static final Double zinssatz = 5.00 ;
 
-  public static SparZinsRechnerErgebnis getZinsenBisJahresEnde(LocalDate datum, double betrag) {
-
-    // hol Tage bis Jahresende
-    int tage = getTageBisMonatsEnde(datum) + (getTageBisJahresEnde(datum)*30);
-
-    // berechnet Zinsen & kest bis JahresEnde als SparZinsRechnerErgebnis
-    BigDecimal zinsen = BigDecimal.valueOf(betrag).multiply(BigDecimal.valueOf(zinssatz)).multiply(BigDecimal.valueOf(tage)).divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
-    BigDecimal kest = zinsen.multiply( BigDecimal.valueOf(0.25)).setScale(2, RoundingMode.HALF_UP);
-
-    return new SparZinsRechnerErgebnis(betrag, zinsen.doubleValue(), kest.doubleValue()) ;
-  }
+//  public static SparZinsRechnerErgebnis getZinsenBisJahresEnde(LocalDate datum, double betrag) {
+//
+//    // hol Tage bis Jahresende
+//    int tage = getTageBisMonatsEnde(datum) + (getTageBisJahresEnde(datum)*30);
+//
+//    // berechnet Zinsen & kest bis JahresEnde als SparZinsRechnerErgebnis
+//    BigDecimal zinsen = BigDecimal.valueOf(betrag).multiply(BigDecimal.valueOf(zinssatz)).multiply(BigDecimal.valueOf(tage)).divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
+//    BigDecimal kest = zinsen.multiply( BigDecimal.valueOf(0.25)).setScale(2, RoundingMode.HALF_UP);
+//
+//    return new SparZinsRechnerErgebnis(betrag, zinsen.doubleValue(), kest.doubleValue()) ;
+//  }
 
   public static SparZinsRechnerErgebnis getZinsenBisJahresEnde(SparZinsRechnerVorlage sparZinsRechnerVorlage) {
 
@@ -36,8 +36,9 @@ public class SparenUtility {
 
     BigDecimal kest = zinsen.multiply( BigDecimal.valueOf(0.25)).setScale(2, RoundingMode.HALF_UP);
 
-    return new SparZinsRechnerErgebnis(sparZinsRechnerVorlage.getBetrag(), zinsen.doubleValue(), kest.doubleValue()) ;
-
+    return new SparZinsRechnerErgebnis(sparZinsRechnerVorlage.getBetrag(), zinsen.doubleValue(), kest.doubleValue(),
+                                        sparZinsRechnerVorlage.getBetrag()+zinsen.doubleValue(),
+                                        sparZinsRechnerVorlage.getBetrag()+zinsen.doubleValue()-kest.doubleValue()) ;
   }
 
   public static int getTageBisMonatsEnde(LocalDate datum) {

@@ -16,10 +16,10 @@ public class SparZinsRechnerRepositoryImpl implements SparZinsRechnerRepository{
     return SparenUtility.getZinssatz();
   }
 
-  @Override
-  public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag) {
-    return SparenUtility.getZinsenBisJahresEnde(datum, betrag);
-  }
+//  @Override
+//  public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag) {
+//    return SparenUtility.getZinsenBisJahresEnde(datum, betrag);
+//  }
 
   @Override
   public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage) {

@@ -38,13 +38,14 @@ public class KundeSparenController {
   @GetMapping("/rechner")
   public String viewSparenRechner(Model model) {
 
-    SparZinsRechnerVorlage sv = new SparZinsRechnerVorlage(LocalDate.now(), SparenUtility.getZinssatz(),5000D);
-    SparZinsRechnerErgebnis se = new SparZinsRechnerErgebnis(0,0,0);
+    SparZinsRechnerVorlage sv = new SparZinsRechnerVorlage(LocalDate.now(), sparService.getZinssatz(),5000D);
+    SparZinsRechnerErgebnis se = new SparZinsRechnerErgebnis(0.00,0.00,0.00,0.00, 0.00);
 
-    model.addAttribute("zinssatz", sparService.getZinssatz());
-    model.addAttribute("betrag", 5000);
-    model.addAttribute("datum", LocalDate.now());
+//    model.addAttribute("zinssatz", sparService.getZinssatz());
+//    model.addAttribute("betrag", 5000);
+//    model.addAttribute("datum", LocalDate.now());
     model.addAttribute("ergebnis",se);
+//    sv.setZinssatz(sv.getZinssatz()/100);
     model.addAttribute("sparzinsrechnervorlage", sv);
 
     return "kunde/sparen/rechner";
@@ -57,9 +58,11 @@ public class KundeSparenController {
     }  else {
       SparZinsRechnerErgebnis se = sparService.getSparZinsRechnerEregebnis(sv);
 
-      model.addAttribute("zinssatz", sparService.getZinssatz());
-      model.addAttribute("betrag", 5000);
-      model.addAttribute("datum", LocalDate.now());
+//      model.addAttribute("zinssatz", sparService.getZinssatz());
+//      model.addAttribute("betrag", 5000);
+//      model.addAttribute("datum", LocalDate.now());
+//      sv.setZinssatz(sv.getZinssatz()/100);
+      model.addAttribute("sparzinsrechnervorlage", sv);
       model.addAttribute("ergebnis",se);
       return "kunde/sparen/rechner";
     }

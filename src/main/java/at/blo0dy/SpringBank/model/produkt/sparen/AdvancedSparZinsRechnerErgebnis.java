@@ -12,17 +12,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class AdvancedSparZinsRechnerErgebnis {
 
-/*  @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double anfangsBetrag;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double zinsen;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double kest;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double ergebnisVorKest;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double ergebnisNachKest;*/
-
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal anfangsBetrag;
   @NumberFormat(style = NumberFormat.Style.CURRENCY)

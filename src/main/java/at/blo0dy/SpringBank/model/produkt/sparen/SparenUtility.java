@@ -6,7 +6,6 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -33,17 +32,19 @@ public class SparenUtility {
     int tage = getTageBisMonatsEnde(sparZinsRechnerVorlage.getDatum()) + (getTageBisJahresEnde(sparZinsRechnerVorlage.getDatum())*30);
 
     // berechnet Zinsen & kest bis JahresEnde als SparZinsRechnerErgebnis
-    BigDecimal zinsen = BigDecimal.valueOf(sparZinsRechnerVorlage.getBetrag())
-                                  .multiply(BigDecimal.valueOf(sparZinsRechnerVorlage.getZinssatz()))
+    BigDecimal zinsen = sparZinsRechnerVorlage.getBetrag()
+                                  .multiply(sparZinsRechnerVorlage.getZinssatz())
                                   .multiply(BigDecimal.valueOf(tage))
                                   .divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
 
     // rechnet die KESt aus den Zinsen
     BigDecimal kest = zinsen.multiply( BigDecimal.valueOf(0.25)).setScale(2, RoundingMode.HALF_UP);
 
-    return new SparZinsRechnerErgebnis(sparZinsRechnerVorlage.getBetrag(), zinsen.doubleValue(), kest.doubleValue(),
-                                        sparZinsRechnerVorlage.getBetrag()+zinsen.doubleValue(),
-                                        sparZinsRechnerVorlage.getBetrag()+zinsen.doubleValue()-kest.doubleValue()) ;
+    // holt mir (so als workaround momentan) den betrag als BigDecimal
+    BigDecimal betrag = sparZinsRechnerVorlage.getBetrag() ;
+
+    return new SparZinsRechnerErgebnis(betrag, zinsen, kest,
+            betrag.add(zinsen),  betrag.add(zinsen).subtract(kest)) ;
   }
 
   public static int getTageBisMonatsEnde(LocalDate datum) {
@@ -78,14 +79,14 @@ public class SparenUtility {
 
     AdvancedSparZinsRechnerVorlage neueVorlage = null;
 
-    for (int i = 1; i <= sparZinsRechnerVorlage.getAnlagedauer(); i++ ) {
+    for (int i = 1; i <= sparZinsRechnerVorlage.getAnlagedauer().intValue() ; i++ ) {
       if (neueVorlage==null) {
         neueVorlage = sparZinsRechnerVorlage;
         neueVorlage.setBetrag(neueVorlage.getInitialBetrag());
       }
       AdvancedSparZinsRechnerErgebnis rechnungsErgebnis = getSparenZinsBerechnungfuerEinJahr(neueVorlage);
       ergebnis.add(rechnungsErgebnis);
-       neueVorlage.setBetrag(rechnungsErgebnis.getEndKapital().doubleValue()) ;
+       neueVorlage.setBetrag(rechnungsErgebnis.getEndKapital()) ;
     }
      return ergebnis;
   }
@@ -93,18 +94,17 @@ public class SparenUtility {
   public static AdvancedSparZinsRechnerErgebnis getSparenZinsBerechnungfuerEinJahr(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage) {
 
     // AnfangsBetrag mal rausschreiben
-    BigDecimal initialBetrag = BigDecimal.valueOf(sparZinsRechnerVorlage.getBetrag());
+    BigDecimal initialBetrag = sparZinsRechnerVorlage.getBetrag();
 
     // Normale Zinsberechnung für ein Jahr mit dem AnfangsBetrag
-    BigDecimal kapitalZinsen = BigDecimal.valueOf(sparZinsRechnerVorlage.getBetrag())
-                                          .multiply(BigDecimal.valueOf(sparZinsRechnerVorlage.getZinssatz()))
+    BigDecimal kapitalZinsen = sparZinsRechnerVorlage.getBetrag()
+                                          .multiply(sparZinsRechnerVorlage.getZinssatz())
                                           .multiply(BigDecimal.valueOf(360))
                                           .divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
 
     // Rechnung für monatliche Einzahlung aber Jährlicher Verzinsung: .. mathe is zlang her ...
     // K(n) = R * (12 + 5,5 * p)
-    BigDecimal k = BigDecimal.valueOf(sparZinsRechnerVorlage.getMonatlicheEinzahlung()).multiply(BigDecimal.valueOf(12).add(BigDecimal.valueOf(5.5).multiply(BigDecimal.valueOf(sparZinsRechnerVorlage.getZinssatz()/100)))).setScale(2,RoundingMode.HALF_UP);
-
+    BigDecimal k = sparZinsRechnerVorlage.getMonatlicheEinzahlung().multiply(BigDecimal.valueOf(12).add(BigDecimal.valueOf(5.5).multiply(sparZinsRechnerVorlage.getZinssatz().divide(BigDecimal.valueOf(100))))).setScale(2,RoundingMode.HALF_UP);
 
    /* // Nachschüssige Rentenrechnung
    // mah .. rentenrechnung is da a blödsinn, weil nur jährlicher und ned monatlicher zinseszins:
@@ -117,7 +117,7 @@ public class SparenUtility {
                             .divide(q.subtract(BigDecimal.ONE))).setScale(2, RoundingMode.HALF_UP);*/
 
     // summe der monatlichen Einzahlungen
-    BigDecimal summeMonatlicheEinzahlungen = BigDecimal.valueOf(sparZinsRechnerVorlage.getMonatlicheEinzahlung()).multiply(BigDecimal.valueOf(12));
+    BigDecimal summeMonatlicheEinzahlungen = sparZinsRechnerVorlage.getMonatlicheEinzahlung().multiply(BigDecimal.valueOf(12));
 
     // Zinsanteil durch monatliche rausrechnen
     BigDecimal zinsAnteil = k.subtract(summeMonatlicheEinzahlungen);
@@ -133,7 +133,4 @@ public class SparenUtility {
 
     return new AdvancedSparZinsRechnerErgebnis(initialBetrag, summeMonatlicheEinzahlungen,gesamtZinsen,kestAnteil,endBetrag);
   }
-
-
-
 }

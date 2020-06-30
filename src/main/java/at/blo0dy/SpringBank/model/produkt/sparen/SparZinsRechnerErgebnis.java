@@ -5,20 +5,22 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.NumberFormat;
 
+import java.math.BigDecimal;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class SparZinsRechnerErgebnis {
 
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double anfangsBetrag;
+  private BigDecimal anfangsBetrag;
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double zinsen;
+  private BigDecimal zinsen;
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double kest;
+  private BigDecimal kest;
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double ergebnisVorKest;
+  private BigDecimal ergebnisVorKest;
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
-  private double ergebnisNachKest;
+  private BigDecimal ergebnisNachKest;
 
 }

@@ -23,16 +23,25 @@
                     <form method="POST" th:action="@{/kunde/sparen/rechner}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
                         <div class="form-group">
                             <label for="datum">Datum: </label>
-                            <input type="date" class="form-control" id="datum" name="datum" th:field="${sparzinsrechnervorlage.datum}">
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('datum')}"
+                                 th:errors="*{datum}">datum Error</div>
+                            <input type="date" class="form-control" id="datum" name="datum" th:field="*{datum}">
 <!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                         </div>
                         <div class="form-group">
                             <label for="betrag">Betrag: </label>
-                            <input type="text" class="form-control" id="betrag" name="betrag" placeholder="1234,56" th:field="${sparzinsrechnervorlage.betrag}">
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('betrag')}"
+                                 th:errors="*{betrag}">betrag Error</div>
+                            <input type="text" class="form-control" id="betrag" name="betrag" placeholder="1234,56" th:field="*{betrag}">
                         </div>
                         <div class="form-group">
                             <label for="zinssatz">Zinssatz: </label>
-                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${sparzinsrechnervorlage.zinssatz}" disabled>
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('zinssatz')}"
+                                 th:errors="*{zinssatz}">zinssatz Error</div>
+                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="*{zinssatz}" disabled>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

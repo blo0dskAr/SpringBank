@@ -23,16 +23,25 @@
                     <form method="POST" th:action="@{/kunde/sparen/rechner2}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
                         <div class="form-group">
                             <label for="anlagedauer">Anlagedauer(Jahre): </label>
-                            <input type="text" class="form-control" id="anlagedauer" name="anlagedauer" th:field="${sparzinsrechnervorlage.anlagedauer}">
+                            <div class="text-danger"
+                                  th:if="${#fields.hasErrors('anlagedauer')}"
+                                  th:errors="*{anlagedauer}">Anlagedauer Error</div>
+                            <input type="text" class="form-control" id="anlagedauer" name="anlagedauer" placeholder="20 Jahre" th:field="*{anlagedauer}">
 <!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                         </div>
                         <div class="form-group">
-                            <label for="anfangsbetrag">Anfangsbetrag: </label>
-                            <input type="text" class="form-control" id="anfangsbetrag" name="anfangsbetrag" placeholder="1234,56" th:field="${sparzinsrechnervorlage.initialBetrag}">
+                            <label for="initialBetrag">Anfangsbetrag: </label>
+                            <div class="text-danger"
+                                  th:if="${#fields.hasErrors('initialBetrag')}"
+                                  th:errors="*{initialBetrag}">initialBetrag Error</div>
+                            <input type="text" class="form-control" id="initialBetrag" name="initialBetrag" placeholder="1234,56 €" th:field="*{initialBetrag}">
                         </div>
                         <div class="form-group">
-                            <label for="monatlichezahlung">monatl. Einzahlung: </label>
-                            <input type="text" class="form-control" id="monatlichezahlung" name="monatlichezahlung" th:field="${sparzinsrechnervorlage.monatlicheEinzahlung}">
+                            <label for="monatlicheEinzahlung">monatl. Einzahlung: </label>
+                            <div class="text-danger"
+                                  th:if="${#fields.hasErrors('monatlicheEinzahlung')}"
+                                  th:errors="*{monatlicheEinzahlung}">monatlicheEinzahlung Error</div>
+                            <input type="text" class="form-control" id="monatlicheEinzahlung" name="monatlicheEinzahlung" placeholder="123,56 €"  th:field="*{monatlicheEinzahlung}">
                         </div>
                         <div class="form-group">
                             <label for="zinssatz">Zinssatz: </label>

@@ -8,10 +8,10 @@ import java.util.List;
 @Component
 public class SparZinsRechnerRepositoryImpl implements SparZinsRechnerRepository{
 
-  @Override
-  public double getZinssatz() {
-    return SparenUtility.getZinssatz();
-  }
+//  @Override
+//  public double getZinssatz() {
+//    return SparenUtility.getZinssatz();
+//  }
 
 //  @Override
 //  public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag) {

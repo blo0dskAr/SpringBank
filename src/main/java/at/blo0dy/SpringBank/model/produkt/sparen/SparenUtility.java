@@ -38,6 +38,7 @@ public class SparenUtility {
                                   .multiply(BigDecimal.valueOf(tage))
                                   .divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
 
+    // rechnet die KESt aus den Zinsen
     BigDecimal kest = zinsen.multiply( BigDecimal.valueOf(0.25)).setScale(2, RoundingMode.HALF_UP);
 
     return new SparZinsRechnerErgebnis(sparZinsRechnerVorlage.getBetrag(), zinsen.doubleValue(), kest.doubleValue(),
@@ -78,23 +79,15 @@ public class SparenUtility {
     AdvancedSparZinsRechnerVorlage neueVorlage = null;
 
     for (int i = 1; i <= sparZinsRechnerVorlage.getAnlagedauer(); i++ ) {
-
       if (neueVorlage==null) {
         neueVorlage = sparZinsRechnerVorlage;
         neueVorlage.setBetrag(neueVorlage.getInitialBetrag());
       }
-
       AdvancedSparZinsRechnerErgebnis rechnungsErgebnis = getSparenZinsBerechnungfuerEinJahr(neueVorlage);
-
       ergebnis.add(rechnungsErgebnis);
-
        neueVorlage.setBetrag(rechnungsErgebnis.getEndKapital().doubleValue()) ;
     }
-
-
      return ergebnis;
-
-
   }
 
   public static AdvancedSparZinsRechnerErgebnis getSparenZinsBerechnungfuerEinJahr(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage) {
@@ -109,11 +102,8 @@ public class SparenUtility {
                                           .divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
 
     // Rechnung für monatliche Einzahlung aber Jährlicher Verzinsung: .. mathe is zlang her ...
-    // K(n) = R * (12 + 6,5 * p) * q^n-1/q-1
-//    BigDecimal p = BigDecimal.valueOf(sparZinsRechnerVorlage.getZinssatz());
-//    BigDecimal q = p.divide(BigDecimal.valueOf(100)).add(BigDecimal.ONE);
-
-    BigDecimal k = BigDecimal.valueOf(sparZinsRechnerVorlage.getMonatlicheEinzahlung()).multiply(BigDecimal.valueOf(12).add(BigDecimal.valueOf(5.5).multiply(BigDecimal.valueOf(zinssatz/100)))).setScale(2,RoundingMode.HALF_UP);
+    // K(n) = R * (12 + 5,5 * p)
+    BigDecimal k = BigDecimal.valueOf(sparZinsRechnerVorlage.getMonatlicheEinzahlung()).multiply(BigDecimal.valueOf(12).add(BigDecimal.valueOf(5.5).multiply(BigDecimal.valueOf(sparZinsRechnerVorlage.getZinssatz()/100)))).setScale(2,RoundingMode.HALF_UP);
 
 
    /* // Nachschüssige Rentenrechnung
@@ -132,6 +122,7 @@ public class SparenUtility {
     // Zinsanteil durch monatliche rausrechnen
     BigDecimal zinsAnteil = k.subtract(summeMonatlicheEinzahlungen);
 
+    // zinsen aus kapital und frischen einzahlungen addieren
     BigDecimal gesamtZinsen = zinsAnteil.add(kapitalZinsen);
 
     // KESt-Anteil rausrechnen
@@ -140,10 +131,7 @@ public class SparenUtility {
     // endBetrag nach KESt (neuer anfangs Betrag)
     BigDecimal endBetrag = initialBetrag.add(gesamtZinsen).subtract(kestAnteil).add(summeMonatlicheEinzahlungen);
 
-//    ergebnis.add(new AdvancedSparZinsRechnerErgebnis(anfangsBetrag, summeMonatlicheEinzahlungen,zinsAnteil,kestAnteil,endBetrag));
-
     return new AdvancedSparZinsRechnerErgebnis(initialBetrag, summeMonatlicheEinzahlungen,gesamtZinsen,kestAnteil,endBetrag);
-
   }
 
 

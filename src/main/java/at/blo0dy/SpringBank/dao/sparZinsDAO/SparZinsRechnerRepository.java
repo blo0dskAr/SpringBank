@@ -1,11 +1,11 @@
 package at.blo0dy.SpringBank.dao.sparZinsDAO;
 
+import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerErgebnis;
+import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerVorlage;
 import at.blo0dy.SpringBank.model.produkt.sparen.SparZinsRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.sparen.SparZinsRechnerVorlage;
-import at.blo0dy.SpringBank.model.produkt.sparen.SparenUtility;
-import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.util.List;
 
 
 public interface SparZinsRechnerRepository {
@@ -16,5 +16,5 @@ public interface SparZinsRechnerRepository {
 
   SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage) ;
 
-
+  List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage) ;
 }

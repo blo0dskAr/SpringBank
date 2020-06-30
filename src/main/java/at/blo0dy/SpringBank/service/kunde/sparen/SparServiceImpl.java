@@ -1,13 +1,12 @@
 package at.blo0dy.SpringBank.service.kunde.sparen;
 
 import at.blo0dy.SpringBank.dao.sparZinsDAO.SparZinsRechnerRepository;
-import at.blo0dy.SpringBank.model.produkt.sparen.SparZinsRechnerErgebnis;
-import at.blo0dy.SpringBank.model.produkt.sparen.SparZinsRechnerVorlage;
-import at.blo0dy.SpringBank.model.produkt.sparen.SparenUtility;
+import at.blo0dy.SpringBank.model.produkt.sparen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
+import java.util.List;
+
 
 @Service
 public class SparServiceImpl implements SparService {
@@ -33,6 +32,11 @@ public class SparServiceImpl implements SparService {
   public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage) {
     return sparZinsRechnerRepository.getSparZinsRechnerEregebnis(sparZinsRechnerVorlage);
   }
+
+  @Override
+  public List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage) {
+    return sparZinsRechnerRepository.getAdvancedSparZinsRechnerErgebnis(sparZinsRechnerVorlage);
+  };
 
 
 

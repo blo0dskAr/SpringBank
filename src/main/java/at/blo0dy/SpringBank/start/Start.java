@@ -2,11 +2,6 @@ package at.blo0dy.SpringBank.start;
 
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
-import at.blo0dy.SpringBank.model.produkt.sparen.SparenUtility;
-import org.apache.tomcat.jni.Local;
-
-import java.math.BigDecimal;
-import java.time.LocalDate;
 
 public class Start {
 

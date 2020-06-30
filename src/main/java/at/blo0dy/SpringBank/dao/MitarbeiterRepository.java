@@ -2,8 +2,6 @@ package at.blo0dy.SpringBank.dao;
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.security.core.userdetails.User;
 
 
 import java.util.List;

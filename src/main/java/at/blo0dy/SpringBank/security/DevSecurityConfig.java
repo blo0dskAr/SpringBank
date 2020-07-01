@@ -12,8 +12,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.sql.DataSource;
+import java.util.Locale;
 
 @Configuration
 @Profile("dev")
@@ -30,6 +33,13 @@ public class DevSecurityConfig {
 
     @Autowired
     private DataSource ds;
+
+    @Bean
+    public LocaleResolver localeResolver() {
+      SessionLocaleResolver slr = new SessionLocaleResolver();
+      slr.setDefaultLocale(Locale.GERMANY);
+      return slr;
+    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

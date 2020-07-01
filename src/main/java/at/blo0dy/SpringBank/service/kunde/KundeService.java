@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface KundeService   {
 
-  public List<Kunde> findAll();
+  List<Kunde> findAll();
 
-  public Kunde findById(Long theId);
+  Kunde findById(Long theId);
 
-  public void save(Kunde kunde);
+  void save(Kunde kunde);
 
-  public void deleteById(Long theId);
+  void deleteById(Long theId);
 
   //UserDetails loadUserByUsername(String kundennummer);
 }

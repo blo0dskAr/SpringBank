@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.controller;
+package at.blo0dy.SpringBank.controller.mitarbeiter;
 
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import at.blo0dy.SpringBank.service.bank.BankService;

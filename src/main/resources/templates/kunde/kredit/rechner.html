@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+
+      layout:decorate="~{kunde/mainlayout.html}">
+
+<head>
+    <meta charset="utf-8" />
+    <!--        <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>Kredit - Rechner</title>
+    <!--        <link rel="stylesheet" th:href="@{/css/kunde/styles.css}" type="text/css" />-->
+    <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link rel="stylesheet" th:href="@{/css/kunde/styles.css}" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid px-2">
+            <div class="row">
+                <div class="col-4">
+                    <form method="POST" th:action="@{/kunde/kredit/rechner}" th:object="${kreditrechnervorlage}" id="doKreditBerechnung">
+                        <div class="form-group">
+                            <label for="kreditbetrag">KreditBetrag: </label>
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('kreditBetrag')}"
+                                 th:errors="*{kreditBetrag}">Kreditbetrag Error</div>
+                            <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1234,56 €" th:field="*{kreditBetrag}">
+                        </div>
+                        <div class="form-group">
+                            <label for="laufzeit">Laufzeit(Monate): </label>
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('laufzeit')}"
+                                 th:errors="*{laufzeit}">laufzeit Error</div>
+                            <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="84 Monate" th:field="*{laufzeit}">
+                        </div>
+                        <div class="form-group">
+                            <label for="zinssatz">Zinssatz: </label>
+                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${kreditrechnervorlage.zinssatz}" disabled>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+            <div class="row pt-4">
+                <div class="col-4">
+                    <h2>Ergebnis</h2>
+                    <div class="form-group pt-2">
+                        <label for="kreditBetragErgebnis">KreditBetrag: </label>
+                        <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:field="${ergebnis.kreditBetrag}" disabled>
+                        <label for="zinsAnteil">Zinsen-Anteil: </label>
+                        <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:field="${ergebnis.zinsAnteil}" disabled>
+                        <label for="gesamtBelastung">Gesamtbelastung: </label>
+                        <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:field="${ergebnis.gesamtBelastung}" disabled>
+                        <label for="monatlicheRate">Monatliche Rate: </label>
+                        <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:field="${ergebnis.monatlicheRate}" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </main>
+</div>
+</body>
+</html>

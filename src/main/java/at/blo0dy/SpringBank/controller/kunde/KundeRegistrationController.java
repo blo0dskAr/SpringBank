@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.controller;
+package at.blo0dy.SpringBank.controller.kunde;
 
 
 import at.blo0dy.SpringBank.dao.KundeRepository;

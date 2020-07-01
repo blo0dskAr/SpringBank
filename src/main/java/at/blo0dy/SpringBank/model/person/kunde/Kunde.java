@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.model.person.kunde;
 
+import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
@@ -38,6 +39,10 @@ public class Kunde extends Person implements UserDetails {
 //                cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
   private List<Konto> kontenListe;
+
+  @OneToMany(mappedBy = "kunde",
+              cascade = {CascadeType.ALL})
+  private List<SparKontoAntrag> sparKontoAntragsListe;
 
   private boolean isLegi = true;
   private boolean hasAcceptedAGB = true;

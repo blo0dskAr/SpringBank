@@ -104,17 +104,12 @@ public class SparenUtility {
 
     // Rechnung für monatliche Einzahlung aber Jährlicher Verzinsung: .. mathe is zlang her ...
     // K(n) = R * (12 + 5,5 * p)
-    BigDecimal k = sparZinsRechnerVorlage.getMonatlicheEinzahlung().multiply(BigDecimal.valueOf(12).add(BigDecimal.valueOf(5.5).multiply(sparZinsRechnerVorlage.getZinssatz().divide(BigDecimal.valueOf(100))))).setScale(2,RoundingMode.HALF_UP);
-
-   /* // Nachschüssige Rentenrechnung
-   // mah .. rentenrechnung is da a blödsinn, weil nur jährlicher und ned monatlicher zinseszins:
-    // K(n) = R * q^n-1/q-1
-    BigDecimal p = BigDecimal.valueOf(sparZinsRechnerVorlage.getZinssatz()/12);
-    BigDecimal q = p.divide(BigDecimal.valueOf(100)).add(BigDecimal.ONE);
-
-    BigDecimal k = BigDecimal.valueOf(sparZinsRechnerVorlage.getMonatlicheEinzahlung())
-                            .multiply((q.pow(12).subtract(BigDecimal.ONE))
-                            .divide(q.subtract(BigDecimal.ONE))).setScale(2, RoundingMode.HALF_UP);*/
+    BigDecimal k = sparZinsRechnerVorlage.getMonatlicheEinzahlung()
+                        .multiply(BigDecimal.valueOf(12)
+                                .add(BigDecimal.valueOf(5.5)
+                                        .multiply(sparZinsRechnerVorlage.getZinssatz()
+                                                .divide(BigDecimal.valueOf(100)))))
+                        .setScale(2,RoundingMode.HALF_UP);
 
     // summe der monatlichen Einzahlungen
     BigDecimal summeMonatlicheEinzahlungen = sparZinsRechnerVorlage.getMonatlicheEinzahlung().multiply(BigDecimal.valueOf(12));

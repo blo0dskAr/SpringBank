@@ -76,7 +76,7 @@ public class KundeSparenController {
     BigDecimal anfangsWerte = BigDecimal.ZERO;
 
     // / 100 division workaround fürs frontend
-    AdvancedSparZinsRechnerVorlage sv = new AdvancedSparZinsRechnerVorlage(BigInteger.ZERO, BigDecimal.valueOf(sparService.getZinssatz() / 100), anfangsWerte,anfangsWerte, anfangsWerte);
+    AdvancedSparZinsRechnerVorlage sv = new AdvancedSparZinsRechnerVorlage(BigInteger.valueOf(5), BigDecimal.valueOf(sparService.getZinssatz() / 100), BigDecimal.ZERO,BigDecimal.valueOf(100), BigDecimal.valueOf(5000));
     AdvancedSparZinsRechnerErgebnis se = new AdvancedSparZinsRechnerErgebnis(anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte);
 
     model.addAttribute("ergebnis", se);

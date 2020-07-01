@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{kunde/mainlayout.html}">>
+<head>
+    <Title> Register - Sparkonto </Title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <main>
+            <div class="container-fluid px-0">
+
+                <h1> Register - SparKonto </h1>
+
+                <form method="POST" th:action="@{/kunde/banking/sparen/register}" id="registerForm">
+
+                    <label for="erstAuftrag">ErstAuftrag einrichten: </label>
+                    <input type="text" id="erstAuftrag" name="erstAuftrag"/><br>
+
+                    <label for="dauerAuftrag">Dauerauftrag einrichten: </label>
+                    <input type="text" id="dauerAuftrag" name="dauerAuftrag"/><br>
+
+                    <label for="kundennummer">Kundennummer: </label>
+                    <input type="text" class="text-secondary" id="kundennummer" name="kundennummer" th:value="${kundennummer}" readonly/><br>
+
+                    <input type="submit" value="Konto eröffnen!" />
+
+                </form>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

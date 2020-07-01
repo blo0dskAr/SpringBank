@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.model.person.kunde;
 
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import lombok.Data;
@@ -12,17 +13,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
 @Table(name = "kunde")
 @PrimaryKeyJoinColumn(name = "id")
 public class Kunde extends Person implements UserDetails {
-
-/*  @Id
-  //@GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;*/
 
   @Column(name = "kundennummer", nullable = false, unique = true)
   private String kundennummer;
@@ -36,8 +33,11 @@ public class Kunde extends Person implements UserDetails {
 
   private String rolle = "customer";
 
-//  private Adresse adresse;
-  // private List<Konto> konten;
+  @OneToMany(mappedBy = "kunde",
+//             cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
+//                cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
+                cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
+  private List<Konto> kontenListe;
 
   private boolean isLegi = true;
   private boolean hasAcceptedAGB = true;

@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.security;
+package at.blo0dy.SpringBank.service.kunde.registration;
 
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;

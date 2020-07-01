@@ -1,6 +1,8 @@
 package at.blo0dy.SpringBank.bootstrap;
 
 import at.blo0dy.SpringBank.Bank;
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
@@ -9,11 +11,14 @@ import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import at.blo0dy.SpringBank.service.*;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
+import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 @Profile("dev")
@@ -25,14 +30,17 @@ public class BootStrap1 implements CommandLineRunner {
   private final LoginCredentialsService loginCredentialsService;
   private final BankService bankService;
   private final RolleService rolleService;
+  private final SparService sparService;
 
-  public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService, BankService bankService, RolleService rolleService) {
+  public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
+                    BankService bankService, RolleService rolleService, SparService sparService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
     this.loginCredentialsService = loginCredentialsService;
     this.bankService = bankService;
     this.rolleService = rolleService;
+    this.sparService = sparService;
   }
 
   @Override
@@ -123,7 +131,7 @@ private void loadData() {
   Kunde kunde1 = new Kunde();
   kunde1.setKundennummer("123");
   kunde1.setAdresse(adresse3);
-  kunde1.setId(1L);
+  kunde1.setId(3L);
   kunde1.setNachname("McKundeFace");
   kunde1.setVorname("Kundy");
   kunde1.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -152,8 +160,16 @@ private void loadData() {
   lc2.setMitarbeiter(mitarbeiter2);
   loginCredentialsService.save(lc2);
 
-  //mitarbeiterService.save(mitarbeiter);
+  // Sparkonto anlegen
+  SparKonto sparKonto1 = new SparKonto();
+  sparKonto1.setConnectedGiro("123456789");
+  sparKonto1.setEroeffnungsDatum(LocalDate.now());
+  sparKonto1.setId(1L);
+  sparKonto1.setKontonummer(123001L);
+  sparKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
+  sparKonto1.setKunde(kunde1);
 
+  sparService.save(sparKonto1);
 
 
 }

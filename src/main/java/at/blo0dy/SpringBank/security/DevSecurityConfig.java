@@ -150,8 +150,6 @@ public class DevSecurityConfig {
         http.headers().frameOptions().disable();
 
       }
-
-
   }
 
 
@@ -179,19 +177,6 @@ public class DevSecurityConfig {
 
     }
 
-
   }
-
-
-
-
-
-
-
-
-
-
-
-
 
 }

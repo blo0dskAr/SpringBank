@@ -35,8 +35,6 @@ public class Kunde extends Person implements UserDetails {
   private String rolle = "customer";
 
   @OneToMany(mappedBy = "kunde",
-//             cascade = {CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
-//                cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.REFRESH, CascadeType.MERGE})
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
   private List<Konto> kontenListe;
 
@@ -64,19 +62,6 @@ public class Kunde extends Person implements UserDetails {
     this.firstLoginDone = firstLoginDone;
     this.rolle = "customer";
   }
-
-//  @Override
-//  public String toString() {
-//    return "Kunde{" +
-//            "kundenNummer=" + kundennummer +
-//            ", telefonNummer='" + telefonNummer + '\'' +
-//            ", emailAdresse='" + emailAdresse + '\'' +
-//            ", isLegi=" + isLegi +
-//            ", hasAcceptedAGB=" + hasAcceptedAGB +
-//            ", isActive=" + isActive +
-//            ", firstLoginDone=" + firstLoginDone +
-//            '}';
-//  }
 
   public void checkActive() {
     if (this.isLegi == true && this.hasAcceptedAGB == true) {

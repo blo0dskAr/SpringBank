@@ -5,6 +5,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Data
@@ -25,9 +26,12 @@ public class Konto {
   private Long kontonummer;
 
 //  @Valid
-@ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-@JoinColumn(name="kunde_id")
+  @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+  @JoinColumn(name="kunde_id")
   private Kunde kunde ;
+
+  @Column(name = "akt_saldo")
+  private BigDecimal aktSaldo;
 
   // private List<Kontobuchungen>
 

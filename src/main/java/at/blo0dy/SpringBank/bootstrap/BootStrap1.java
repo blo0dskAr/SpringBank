@@ -18,6 +18,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Component
@@ -165,11 +166,22 @@ private void loadData() {
   sparKonto1.setConnectedGiro("123456789");
   sparKonto1.setEroeffnungsDatum(LocalDate.now());
   sparKonto1.setId(1L);
+  sparKonto1.setAktSaldo(BigDecimal.valueOf(2500));
   sparKonto1.setKontonummer(123001L);
   sparKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto1.setKunde(kunde1);
 
+  SparKonto sparKonto2 = new SparKonto();
+  sparKonto2.setConnectedGiro("123456789");
+  sparKonto2.setEroeffnungsDatum(LocalDate.now());
+  sparKonto2.setId(2L);
+  sparKonto2.setAktSaldo(BigDecimal.valueOf(5000));
+  sparKonto2.setKontonummer(123002L);
+  sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
+  sparKonto2.setKunde(kunde1);
+
   sparService.save(sparKonto1);
+  sparService.save(sparKonto2);
 
 
 }

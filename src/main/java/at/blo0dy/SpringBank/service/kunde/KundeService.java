@@ -17,4 +17,6 @@ public interface KundeService   {
   void deleteById(Long theId);
 
   //UserDetails loadUserByUsername(String kundennummer);
+
+  Kunde findByKundennummer(String kundennummer);
 }

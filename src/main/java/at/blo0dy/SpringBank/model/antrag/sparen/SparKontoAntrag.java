@@ -5,17 +5,16 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.time.LocalDateTime;
 
 @Data
 @Entity
 @Table(name = "sparkontoantrag")
-
+@NoArgsConstructor
+@AllArgsConstructor
 public class SparKontoAntrag {
 
   @Id
@@ -26,7 +25,7 @@ public class SparKontoAntrag {
   @Column(name = "antrag_datum")
   private LocalDateTime antragsDatum;
 
-  @Column(name = "antrag_status")
+  @Column(name = "antrags_status")
   @Enumerated(EnumType.STRING)
   private AntragsStatusEnum antragsStatus;
 
@@ -39,9 +38,10 @@ public class SparKontoAntrag {
   @Column(name = "kundennummer")
   private Long kundennummer;
 
-  @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
-  @JoinColumn(name = "kunde_id")
-  private Kunde kunde;
+//  @ManyToOne(cascade = {CascadeType.ALL})
+//  @ManyToOne
+//  @JoinColumn(name = "kunde_id")
+//  private Kunde kunde;
 
   // Custom Constructor for  SparkontoRegistrationForm
   public SparKontoAntrag(LocalDateTime antragsDatum, AntragsStatusEnum antragsStatus, BigDecimal erstAuftrag, BigDecimal dauerAuftrag, Long kundennummer) {

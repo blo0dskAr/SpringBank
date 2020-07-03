@@ -24,18 +24,40 @@
                         </a>
                     </li>
                     <div sec:authorize="hasAuthority('admin')"  >
-                    <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''">Admin</a>
-                    <div id="collapse" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')} ? 'show' : ''" >
-                        <ul class="list-group">
-                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/mitarbeiterAdministration/list}">
-                                Mitarbeiter
-                            </a>
-                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/rolle')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/rollen/index}">
-                                Rollen
+                        <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''">Admin</a>
+                        <div id="collapse" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')} ? 'show' : ''" >
+                            <ul class="list-group">
+                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/mitarbeiterAdministration/list}">
+                                    Mitarbeiter
                                 </a>
-                            <li class="list-group-item">Three</li>
-                        </ul>
+                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/rolle')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/rollen/index}">
+                                    Rollen
+                                    </a>
+                                <li class="list-group-item">Three</li>
+                            </ul>
+                        </div>
                     </div>
+                    <div sec:authorize="hasAuthority('mitarbeiter')"  >
+                        <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKunde" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')}  ? 'active' : ''">Kunde</a>
+                        <div id="collapseKunde" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')} ? 'show' : ''" >
+                            <ul class="list-group">
+                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/index')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/index}">
+                                    Übersicht
+                                </a>
+                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeSparen" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')}  ? 'active' : ''">Sparen</a>
+                                <div id="collapseKundeSparen" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'show' : ''" >
+                                    <ul class="list-group">
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/sparen/antrag}">
+                                            AntragsBearbeitung
+                                        </a>
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/sparen/konto}">
+                                            KontoBearbeitung
+                                        </a>
+                                    </ul>
+                                </div>
+                                <li class="list-group-item">Item#3</li>
+                            </ul>
+                        </div>
                     </div>
                 </ul>
 

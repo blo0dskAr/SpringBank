@@ -67,4 +67,8 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     throw new UsernameNotFoundException("User + " + kunde.getKundennummer() + " not found");
   }
 
+  public Kunde findByKundennummer(String kundennummer) {
+    return kundeRepository.findByKundennummer(kundennummer);
+  }
+
 }

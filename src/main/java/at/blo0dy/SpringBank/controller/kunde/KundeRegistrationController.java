@@ -2,7 +2,8 @@ package at.blo0dy.SpringBank.controller.kunde;
 
 
 import at.blo0dy.SpringBank.dao.KundeRepository;
-import at.blo0dy.SpringBank.model.antrag.person.KundeRegistrationForm;
+import at.blo0dy.SpringBank.model.person.kunde.KundeRegistrationForm;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public class KundeRegistrationController {
   private KundeRepository kundeRepository;
   private PasswordEncoder passwordEncoder;
 
-
+  @Autowired
   public KundeRegistrationController(KundeRepository kundeRepository, PasswordEncoder passwordEncoder) {
     this.kundeRepository = kundeRepository;
     this.passwordEncoder = passwordEncoder;

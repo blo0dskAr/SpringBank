@@ -55,4 +55,20 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
     sparKontoAntragRepository.deleteById(theId);
   }
 
+  @Override
+  @Transactional
+  public long count() {
+    return sparKontoAntragRepository.count();
+  }
+
+  @Override
+  public long countByStatus(String statusEnum) {
+    return sparKontoAntragRepository.countByStatus(statusEnum);
+  }
+
+  public List<SparKontoAntrag> findByStatus(String statusEnum) {
+    List<SparKontoAntrag> sparKontoAntragListe = sparKontoAntragRepository.findByStatus(statusEnum) ;
+    return  sparKontoAntragListe;
+  }
+
 }

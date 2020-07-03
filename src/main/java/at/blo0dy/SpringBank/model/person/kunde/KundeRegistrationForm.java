@@ -1,7 +1,6 @@
-package at.blo0dy.SpringBank.model.antrag.person;
+package at.blo0dy.SpringBank.model.person.kunde;
 
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
-import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.Data;
 import org.springframework.security.crypto.password.PasswordEncoder;
 

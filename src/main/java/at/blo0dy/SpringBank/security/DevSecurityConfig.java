@@ -58,12 +58,24 @@ public class DevSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      http.antMatcher("/mitarbeiter*")
+      // orig
+/*      http.antMatcher("/mitarbeiter*")
               .antMatcher("/mitarbeiter/**")
               .authorizeRequests()
               .anyRequest()
-              .hasAuthority("admin")
+              .hasAuthority("admin")*/
 
+          // nicht orig (funkt . mitarbeiter muss einloggen um irgendwas zu sehen, admin und kunde mit rollen admin/mitarbeiter nur getrennt möglich)
+          http.antMatcher("/mitarbeiter/*")
+              .antMatcher("/mitarbeiter/**")
+              .authorizeRequests()
+                  .antMatchers("/mitarbeiter/admin/**", "/mitarbeiter/admin*").hasAuthority("admin")
+                  .antMatchers("/mitarbeiter/kunde/**", "/mitarbeiter/kunde*").hasAuthority("mitarbeiter")
+                  .anyRequest()
+                  .authenticated()
+
+
+              // orig
               .and()
               .formLogin()
               .loginPage("/mitarbeiter/loginpage").permitAll()
@@ -153,6 +165,8 @@ public class DevSecurityConfig {
   }
 
 
+  // hinzugefügt um auch nur unter kunde/* einen security context zu bekommen, sollte sich noch mti dem obigen mergen lassen.
+  // Kunden und mitarbeiter trennen lass ich vorerst (sollte ja ned in einer applikation stecken)
   @Configuration
   @Profile("dev")
   @Order(3)

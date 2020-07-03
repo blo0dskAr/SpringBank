@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.controller.mitarbeiter;
+package at.blo0dy.SpringBank.controller.mitarbeiter.admin;
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;

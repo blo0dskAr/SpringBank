@@ -7,13 +7,20 @@ import java.util.List;
 
 public interface SparKontoAntragService {
 
-  // standard jpa crud operations:
-  public List<SparKontoAntrag> findAll();
+  List<SparKontoAntrag> findAll();
 
-  public SparKontoAntrag findById(Long theId);
+  SparKontoAntrag findById(Long theId);
 
-  public void save(SparKontoAntrag sparKontoAntrag);
+  void save(SparKontoAntrag sparKontoAntrag);
 
-  public void deleteById(Long theId);
+  void deleteById(Long theId);
+
+  long count();
+
+  long countByStatus(String statusEnum);
+
+  List<SparKontoAntrag> findByStatus(String statusEnum);
+
+
 
 }

@@ -38,9 +38,10 @@ public class Kunde extends Person implements UserDetails {
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
   private List<Konto> kontenListe;
 
-  @OneToMany(mappedBy = "kunde",
-              cascade = {CascadeType.ALL})
-  private List<SparKontoAntrag> sparKontoAntragsListe;
+//  @OneToMany(mappedBy = "kunde",
+////          cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
+//              cascade = {CascadeType.ALL})
+//  private List<SparKontoAntrag> sparKontoAntragsListe;
 
   private boolean isLegi = true;
   private boolean hasAcceptedAGB = true;
@@ -62,6 +63,7 @@ public class Kunde extends Person implements UserDetails {
     this.firstLoginDone = firstLoginDone;
     this.rolle = "customer";
   }
+
 
   public void checkActive() {
     if (this.isLegi == true && this.hasAcceptedAGB == true) {
@@ -101,4 +103,6 @@ public class Kunde extends Person implements UserDetails {
   public boolean isEnabled() {
     return isActive;
   }
+
+
 }

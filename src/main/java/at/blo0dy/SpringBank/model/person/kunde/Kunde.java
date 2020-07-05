@@ -12,6 +12,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -23,13 +24,17 @@ import java.util.List;
 public class Kunde extends Person implements UserDetails {
 
   @Column(name = "kundennummer", nullable = false, unique = true)
+  @NotBlank(message = "kundennummer must be defined.")
   private String kundennummer;
 
   @Column(name = "password")
+  @NotBlank(message = "password must be defined.")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
+  @NotBlank(message = "telefonNummer must be defined.")
   private String telefonNummer;
+  @NotBlank(message = "emailAdresse must be defined.")
   private String emailAdresse;
 
   private String rolle = "customer";
@@ -43,6 +48,7 @@ public class Kunde extends Person implements UserDetails {
 //              cascade = {CascadeType.ALL})
 //  private List<SparKontoAntrag> sparKontoAntragsListe;
 
+  // TODO: mit false initialisieren sobald der komplette weg für legi & AGB ready ist.
   private boolean isLegi = true;
   private boolean hasAcceptedAGB = true;
   private boolean isActive = true;

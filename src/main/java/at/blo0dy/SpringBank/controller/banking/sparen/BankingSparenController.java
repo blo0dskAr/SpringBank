@@ -25,7 +25,7 @@ public class BankingSparenController {
   @GetMapping("/eroeffnung")
   public String viewSparenEroeffnung() {
 
-    return "kunde/sparen/eroeffnungsForm";
+    return "kunde/banking/sparen/eroeffnungsForm";
   }
 
   @GetMapping("/sparkontouebersicht")

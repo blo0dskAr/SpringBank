@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.dao;
 
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,5 +20,15 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
   Kunde findByKundennummerShort(String kundennummer);*/
 
 
+  @Query(value="select max(kontonummer) from kunde ku, konto ko" +
+                " where ko.kunde_id = ku.id" +
+                "   and ku.kundennummer = ?1 ;",
+                nativeQuery = true)
+  Long getLatestKontonummerByKundennummer(String kundennummer);
+
+
+  @Query (value ="select max((ku.kundennummer)+1) from kunde ku  ",
+          nativeQuery = true)
+  Long getLatestKundennummerPlusOne();
 
 }

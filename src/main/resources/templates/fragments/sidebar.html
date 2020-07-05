@@ -55,6 +55,17 @@
                                         </a>
                                     </ul>
                                 </div>
+                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeKredit" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')}  ? 'active' : ''">Kredit</a>
+                                <div id="collapseKundeKredit" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'show' : ''" >
+                                    <ul class="list-group">
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/kredit/antrag}">
+                                            AntragsBearbeitung
+                                        </a>
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/kredit/konto}">
+                                            KontoBearbeitung
+                                        </a>
+                                    </ul>
+                                </div>
                                 <li class="list-group-item">Item#3</li>
                             </ul>
                         </div>

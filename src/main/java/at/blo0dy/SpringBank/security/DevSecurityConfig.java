@@ -23,6 +23,11 @@ import java.util.Locale;
 @EnableWebSecurity
 public class DevSecurityConfig {
 
+  @Bean
+  public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
+
   @Configuration
   @Profile("dev")
   @Order(1)
@@ -111,10 +116,13 @@ public class DevSecurityConfig {
       @Autowired
       private UserDetailsService userDetailsService;
 
-      @Bean
+      @Autowired
+      PasswordEncoder encoder;
+
+      /*@Bean
       public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
-      }
+      }*/
 
 
       public App2ConfigurationAdapter() {
@@ -123,7 +131,7 @@ public class DevSecurityConfig {
 
       @Override
       protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
       }
 
       @Override
@@ -176,6 +184,7 @@ public class DevSecurityConfig {
     public App3ConfigurationAdapter() {
       super();
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

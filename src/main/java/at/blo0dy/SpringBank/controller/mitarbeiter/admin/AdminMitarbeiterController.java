@@ -4,6 +4,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.admin;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import at.blo0dy.SpringBank.service.bank.BankService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/mitarbeiter/admin/mitarbeiterAdministration")
 public class AdminMitarbeiterController {

@@ -1,19 +1,38 @@
 package at.blo0dy.SpringBank.controller.banking.kredit;
 
 
+import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
+import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/kunde/banking/kredit")
 public class BankingKreditController {
 
+  KreditService kreditService;
 
-  @GetMapping("/eroeffnung")
-  public String viewKreditEroeffnung() {
+  @Autowired
+  public BankingKreditController(KreditService kreditService) {
+    this.kreditService = kreditService;
+  }
 
-    return "kunde/banking/kredit/eroeffnungsForm";
+  @GetMapping("/kreditkontouebersicht")
+  public String viewKreditKontoUebersicht(Model model) {
+
+    List<KreditKonto> kreditKontoListe = kreditService.findAll();
+
+    model.addAttribute("kreditKontoListe",kreditKontoListe);
+    model.addAttribute("activeLink", "bankenKreditUebersicht");
+
+
+    return "kunde/banking/kredit/kreditkontouebersicht";
   }
 
 

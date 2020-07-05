@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -19,6 +20,11 @@ import javax.sql.DataSource;
 @Profile("test")
 @EnableWebSecurity
 public class TestSecurityConfig {
+
+  @Bean
+  public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
 
   @Configuration
   @Profile("test")
@@ -89,10 +95,13 @@ public class TestSecurityConfig {
       @Autowired
       private UserDetailsService userDetailsService;
 
-      @Bean
+      @Autowired
+      private PasswordEncoder encoder;
+
+/*      @Bean
       public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
-      }
+      }*/
 
       public App2ConfigurationAdapter() {
         super();
@@ -100,7 +109,7 @@ public class TestSecurityConfig {
 
       @Override
       protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
       }
 
       @Override
@@ -153,6 +162,7 @@ public class TestSecurityConfig {
     public App3ConfigurationAdapter() {
       super();
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {

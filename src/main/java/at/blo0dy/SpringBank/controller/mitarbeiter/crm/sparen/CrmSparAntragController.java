@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.controller.mitarbeiter.crm;
+package at.blo0dy.SpringBank.controller.mitarbeiter.crm.sparen;
 
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
@@ -64,8 +64,10 @@ public class CrmSparAntragController {
 
     Kunde mykunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
 
+    KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+
     if (sparKontoAntrag.getAntragsStatus().equals(AntragsStatusEnum.GENEHMIGT))  {
-      SparKonto sparKonto = new SparKonto(LocalDate.now(), 12345678005L, mykunde,  BigDecimal.ZERO, KontoStatusEnum.ANTRAG_OFFEN, "12345678001",  sparKontoAntrag);
+      SparKonto sparKonto = new SparKonto(LocalDate.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, "12345678001",  sparKontoAntrag);
       System.out.println(sparKonto);
       sparService.save(sparKonto);
     }
@@ -75,13 +77,5 @@ public class CrmSparAntragController {
 
     return "redirect:/mitarbeiter/kunde/sparen/antrag";
   }
-
-
-  @GetMapping("/konto")
-  public String showSparKontoPage() {
-
-    return "mitarbeiter/crm/sparKonto";
-  }
-
 
 }

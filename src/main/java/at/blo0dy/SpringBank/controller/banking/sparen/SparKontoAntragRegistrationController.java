@@ -13,38 +13,36 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-  @Controller
-  @RequestMapping("/kunde/banking/sparen")
-  public class SparKontoRegistrationController {
+@Controller
+@RequestMapping("/kunde/banking/sparen")
+public class SparKontoAntragRegistrationController {
 
-    private SparKontoAntragRepository sparKontoAntragRepository;
-    private KundeRepository kundeRepository ;
+  private SparKontoAntragRepository sparKontoAntragRepository;
+  private KundeRepository kundeRepository ;
 
-    @Autowired
-    public SparKontoRegistrationController(SparKontoAntragRepository sparKontoAntragRepository, KundeRepository kundeRepository) {
-      this.sparKontoAntragRepository = sparKontoAntragRepository;
-      this.kundeRepository = kundeRepository;
-    }
+  @Autowired
+  public SparKontoAntragRegistrationController(SparKontoAntragRepository sparKontoAntragRepository, KundeRepository kundeRepository) {
+    this.sparKontoAntragRepository = sparKontoAntragRepository;
+    this.kundeRepository = kundeRepository;
+  }
 
-    @GetMapping("/register")
+  @GetMapping("/register")
   public String registerForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication , Model model) {
 
-      String kundennummer = kundeRepository.findByKundennummer("123").getKundennummer();
-
-    System.out.println(kundennummer);
-
-    model.addAttribute("kundennummer", kundeRepository.findByKundennummer(authentication.getName()).getKundennummer());
-      System.out.println(model);
+    String kundennummer = authentication.getName();
+    model.addAttribute("kundennummer", kundennummer);
 
     return "/kunde/banking/sparen/registration";
   }
 
   @PostMapping("/register")
   public String processRegistration(SparKontoRegistrationForm form) {
-    System.out.println(form);
     sparKontoAntragRepository.save(form.toSparKontoAntrag());
     return "redirect:/kunde/banking/index";
   }
+
+
+
 
 
 }

@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.controller.kunde;
+package at.blo0dy.SpringBank.controller.banking;
 
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import org.springframework.beans.factory.annotation.Autowired;

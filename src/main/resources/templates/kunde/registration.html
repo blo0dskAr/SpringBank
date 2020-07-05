@@ -2,45 +2,81 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <Title> Test </Title>
+    <title>Home</title>
+
+    <meta name="keywords" content="Home" />
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link rel="stylesheet" th:href="@{/css/kunde/styles.css}" type="text/css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
 
     <h1> Register </h1>
 
-    <form method="POST" th:action="@{/kunde/register}" id="registerForm">
+    <form method="POST" th:action="@{/kunde/register}" id="registerForm" th:object="${kunde}">
+         <span class="text-danger"
+               th:if="${#fields.hasErrors('vorname')}"
+               th:errors="*{vorname}">Vorname Error</span>
         <label for="vorname">Vorname: </label>
-        <input type="text" id="vorname" name="vorname"/><br>
+        <input type="text" id="vorname" name="vorname" th:field="*{vorname}"/><br>
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('nachname')}"
+              th:errors="*{nachname}">Nachname Error</span>
         <label for="nachname">Nachname: </label>
-        <input type="text" id="nachname" name="nachname"/><br>
+        <input type="text" id="nachname" name="nachname" th:field="*{nachname}"/><br>
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('password')}"
+              th:errors="*{password}">password Error</span>
         <label for="password">Password: </label>
-        <input type="password" id="password" name="password"/><br>
+        <input type="password" id="password" name="password" th:field="*{password}"/><br>
+<!--        <label for="confirm">Confirm Password: </label>
+        <input type="password" id="confirm" name="confirm"/><br>-->
 
-        <label for="confirm">Confirm Password: </label>
-        <input type="password" id="confirm" name="confirm"/><br>
-        <label for="kundennummer">Kundennummer: </label>
-        <input type="text" id="kundennummer" name="kundennummer"/><br>
+        <!-- Guggen wie man das automatisch generieren kann -->
+<!--        <label for="kundennummer">Kundennummer: </label>
+        <input type="text" id="kundennummer" name="kundennummer"/><br>-->
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('adresse.strasse')}"
+              th:errors="*{adresse.strasse}">Strasse Error</span>
         <label for="strasse">Straße: </label>
-        <input type="text" id="strasse" name="strasse"/><br>
+        <input type="text" id="strasse" name="strasse" th:field="*{adresse.strasse}" /><br>
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('adresse.ort')}"
+              th:errors="*{adresse.ort}">Ort Error</span>
         <label for="ort">Ort: </label>
-        <input type="text" id="ort" name="ort"/><br>
+        <input type="text" id="ort" name="ort" th:field="*{adresse.ort}" /><br>
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('adresse.land')}"
+              th:errors="*{adresse.land}">Land Error</span>
         <label for="land">Land: </label>
-        <input type="text" id="land" name="land"/><br>
+        <input type="text" id="land" name="land" th:field="*{adresse.land}" /><br>
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('adresse.plz')}"
+              th:errors="*{adresse.plz}">PLZ Error</span>
         <label for="plz">plz: </label>
-        <input type="text" id="plz" name="plz"/><br>
+        <input type="text" id="plz" name="plz" th:field="*{adresse.plz}" /><br>
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('telefonNummer')}"
+              th:errors="*{telefonNummer}">PLZ Error</span>
         <label for="telefonNummer">TelefonNummer: </label>
-        <input type="text" id="telefonNummer" name="telefonNummer"/><br>
+        <input type="text" id="telefonNummer" name="telefonNummer" th:field="*{telefonNummer}" /><br>
 
+        <span class="text-danger"
+              th:if="${#fields.hasErrors('emailAdresse')}"
+              th:errors="*{emailAdresse}">PLZ Error</span>
         <label for="emailAdresse">Email: </label>
-        <input type="text" id="emailAdresse" name="emailAdresse"/><br>
+        <input type="text" id="emailAdresse" name="emailAdresse" th:field="*{emailAdresse}"/><br>
 
         <input type="submit" value="Register" />
 

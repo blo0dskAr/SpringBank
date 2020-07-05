@@ -35,9 +35,7 @@ public class SparServiceImpl implements SparService {
   @Transactional
   public SparKonto findById(Long theId) {
     Optional<SparKonto> result = sparKontoRepository.findById(theId);
-
     SparKonto sparKonto;
-
     sparKonto = result.get();
 
     return sparKonto ;

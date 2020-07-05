@@ -3,7 +3,7 @@ package at.blo0dy.SpringBank.controller.kunde.kredit;
 
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
-import at.blo0dy.SpringBank.service.kunde.kredit.KreditService;
+import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -8,6 +8,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -22,7 +23,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class KreditKonto extends Konto {
 
-  @OneToOne
+  @OneToOne(cascade = CascadeType.ALL)
   private KreditKontoAntrag kreditKontoAntrag;
 
   @Column(name = "kredit_betrag")

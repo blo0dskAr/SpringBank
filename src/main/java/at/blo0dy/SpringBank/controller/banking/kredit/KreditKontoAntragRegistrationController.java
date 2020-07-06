@@ -85,22 +85,24 @@ public class KreditKontoAntragRegistrationController {
     model.addAttribute("kreditform", kreditKontoRegistrationForm);
     log.debug(kreditKontoRegistrationForm.toString());*/
 
-    return "/kunde/banking/kredit/registration";
+    return "kunde/banking/kredit/registration";
 }
 
   @PostMapping(value = "/register", params={"calculate"})
-  public String processRegistration(@Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
-                                    @CurrentSecurityContext(expression = "authentication") Authentication authentication, Errors errors, Model model) {
-
-      if (errors.hasErrors()) {
+  public String processRegistration(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                    @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
+                                    BindingResult bindingResult, Model model) {
+      if (bindingResult.hasErrors()) {
         kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
-        return "kunde/kredit/rechner";
+        model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
+        return "kunde/banking/kredit/registration";
       }  else {
         KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(kv);
         // Workaround bis dieses % wird als *100 dargestellt (aber nicht gerechnet) gelöst wird
         kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
         model.addAttribute("kreditrechnervorlage", kv);
         model.addAttribute("ergebnis",ke);
+        model.addAttribute("calculatedCorrectly", true);
 
 /*        String kundennummer = authentication.getName();
         model.addAttribute("kundennummer", kundennummer);
@@ -112,24 +114,25 @@ public class KreditKontoAntragRegistrationController {
 //        log.debug("kreditKontoRegistrationForm: " + kreditKontoRegistrationForm);
 
 
-        return "/kunde/banking/kredit/registration";
+        return "kunde/banking/kredit/registration";
       }
     }
 
   @PostMapping(value = "/register", params={"saveKreditAntrag"})
-  public String tralala(@Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
+  public String tralala(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                        @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
                         @Validated @ModelAttribute("ergebnis") KreditRechnerErgebnis ke,
-                        @CurrentSecurityContext(expression = "authentication") Authentication authentication, Errors errors, Model model) {
+                         Errors errors, Model model) {
 
 
     String kundennummer = authentication.getName();
     model.addAttribute("kundennummer", kundennummer);
 
-    KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.now(), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), KreditUtility.getZinssatz(), Long.valueOf(kundennummer) );
+    KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.now(), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), KreditUtility.getZinssatz(), ke.getGesamtBelastung(), Long.valueOf(kundennummer) );
     kreditKontoAntragService.save(kreditKontoRegistrationForm.toKreditKontoAntrag());
 
 
-    return "/kunde/banking/kredit/registration";
+    return "kunde/banking/kredit/registration";
   }
 
 

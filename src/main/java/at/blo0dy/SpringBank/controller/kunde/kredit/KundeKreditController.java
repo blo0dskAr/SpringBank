@@ -34,20 +34,18 @@ public class KundeKreditController {
     return "kunde/kredit/index";
   }
 
-  @GetMapping("/eroeffnung")
-  public String viewKreditEroeffnung() {
-
-    return "kunde/banking/kredit/eroeffnungsForm";
-  }
+//  @GetMapping("/eroeffnung")
+//  public String viewKreditEroeffnung() {
+//
+//    return "kunde/banking/kredit/eroeffnungsForm";
+//  }
 
   @GetMapping("/rechner")
   public String showKreditRechnerForm(Model model) {
 
-    BigDecimal anfangsWerte = BigDecimal.ZERO;
-
     // / 100 division workaround fürs frontend
     KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), kreditService.getZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
-    KreditRechnerErgebnis ke = new KreditRechnerErgebnis(anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte);
+    KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
     model.addAttribute("kreditrechnervorlage", kv);
     model.addAttribute("ergebnis", ke);
@@ -59,6 +57,7 @@ public class KundeKreditController {
   public String berechneKredit(@Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv, BindingResult result, Model model ) {
     if (result.hasErrors()) {
       kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
+      model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
       return "kunde/kredit/rechner";
     }  else {
       KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(kv);
@@ -71,3 +70,22 @@ public class KundeKreditController {
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

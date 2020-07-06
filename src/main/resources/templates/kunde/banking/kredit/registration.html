@@ -31,8 +31,11 @@
                                     <label for="zinssatz">Zinssatz: </label>
                                     <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${kreditrechnervorlage.zinssatz}" disabled>
                                 </div>
-                                <button type="submit" class="btn btn-primary" name="calculate" value="calculate">Submit</button>
+                                <button type="submit" class="btn btn-primary" name="calculate" value="calculate">Berechnen</button>
+<!--                                <div th:if="${param.error == null && param.calculate == calculate}">-->
+                                <span th:if ="${calculatedCorrectly}">
                                 <button type="submit" class="btn btn-primary" name="saveKreditAntrag" value="saveKreditAntrag">KontoEröffnen</button>
+                                </span>
                             </form>
                         </div>
                     </div>

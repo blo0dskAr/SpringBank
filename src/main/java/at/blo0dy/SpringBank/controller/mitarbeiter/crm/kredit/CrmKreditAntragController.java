@@ -60,7 +60,7 @@ public class CrmKreditAntragController {
 
   @PostMapping("/antrag/saveKreditAntrag2KontoForm")
   public String saveKreditAntrag2KontoForm(@Valid @ModelAttribute("kreditKontoAntrag") KreditKontoAntrag kreditKontoAntrag,
-                                         @Valid @ModelAttribute("kunde") Kunde kunde, Model model) {
+                                           @ModelAttribute("kunde") Kunde kunde, Model model) {
 
     Kunde mykunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
 
@@ -74,11 +74,23 @@ public class CrmKreditAntragController {
       kreditService.save(kreditKonto);
     }
 
-
-
     kreditKontoAntragService.save(kreditKontoAntrag);
 
     return "redirect:/mitarbeiter/kunde/kredit/antrag";
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+

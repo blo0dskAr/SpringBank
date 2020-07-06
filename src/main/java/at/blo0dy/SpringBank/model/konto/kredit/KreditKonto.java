@@ -25,7 +25,7 @@ public class KreditKonto extends Konto {
   @OneToOne
   private KreditKontoAntrag kreditKontoAntrag;
 
-  @Column(name = "kredit_auftrag")
+  @Column(name = "kredit_betrag")
   private BigDecimal kreditBetrag;
 
   @Column(name = "rate")

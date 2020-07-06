@@ -41,10 +41,11 @@ public class KreditKontoRegistrationForm {
   @Digits(integer = 4, fraction = 2, message = "Kredit Muss vorher berechnet werden")
   @NotNull(message = "Kredit Muss vorher berechnet werden")
   private BigDecimal zinssatz;
+  private BigDecimal gesamtBelastung;
   private Long kundennummer;
 
   public KreditKontoAntrag toKreditKontoAntrag() {
-    return new KreditKontoAntrag(antragsDatum,  AntragsStatusEnum.EINGEREICHT, kreditBetrag, KreditUtility.getZinssatz(), rate, laufzeit, kundennummer);
+    return new KreditKontoAntrag(antragsDatum,  AntragsStatusEnum.EINGEREICHT, kreditBetrag, KreditUtility.getZinssatz(), rate, laufzeit, gesamtBelastung, kundennummer);
 
   }
 }

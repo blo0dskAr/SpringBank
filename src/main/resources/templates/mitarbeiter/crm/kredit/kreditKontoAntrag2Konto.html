@@ -21,20 +21,30 @@
                            <div class="form-group col-md-12">
                                <h4>Antrags-Daten</h4>
                            </div>
-                           <p th:text="${kunde.id}"></p>
-                           <p th:text="${kreditKontoAntrag.id}"></p>
                            <div class="form-group col-md-6">
-                               <label for="erstAuftrag">Erst-Auftrag</label>
-                               <input type="text" class="form-control" id="erstAuftrag" name="erstAuftrag" placeholder="1.000.000,00 €" th:value="${kreditKontoAntrag.erstAuftrag}">
+                               <label for="kreditBetrag">Kreditbetrag</label>
+                               <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1.000.000,00 €" th:value="${kreditKontoAntrag.kreditBetrag}">
                            </div>
                            <div class="form-group col-md-6">
-                               <label for="dauerAuftrag">Dauer-Auftrag</label>
-                               <input type="text" class="form-control" id="dauerAuftrag" name="dauerAuftrag" placeholder="5.000,00 €" th:value="${kreditKontoAntrag.dauerAuftrag}">
+                               <label for="zinssatz">Zinssatz</label>
+                               <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="5.000,00 €" th:value="${kreditKontoAntrag.zinssatz}">
                            </div>
-                       </div>
-                       <div class="form-group">
-                           <label for="antragKundennummer">Kundennummer</label>
-                           <input type="text" class="form-control" id="antragKundennummer" name="antragKundennummer" placeholder="12345678" th:value="${kreditKontoAntrag.kundennummer}">
+                           <div class="form-group col-md-6">
+                               <label for="rate">Monatl. Rate</label>
+                               <input type="text" class="form-control" id="rate" name="rate" placeholder="5.000,00 €" th:value="${kreditKontoAntrag.rate}">
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="laufzeit">Laufzeit</label>
+                               <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="5.000,00 €" th:value="${kreditKontoAntrag.laufzeit}">
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="antragKundennummer">Kundennummer</label>
+                               <input type="text" class="form-control" id="antragKundennummer" name="antragKundennummer" placeholder="12345678" th:value="${kreditKontoAntrag.kundennummer}">
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="gesamtBelastung">Gesamtbelastung</label>
+                               <input type="text" class="form-control" id="gesamtBelastung" name="gesamtBelastung" placeholder="12.123,12 €" th:value="${kreditKontoAntrag.gesamtBelastung}">
+                           </div>
                        </div>
                        <div class="form-group">
                            <label for="antragsStatus">Status</label>
@@ -72,15 +82,15 @@
                                 <input type="text" class="form-control" id="ort" name="ort" th:value="${kunde.adresse.ort}" readonly>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="land">PLZ</label>
-                                <input type="text" class="form-control" id="land" name="land" th:value="${kunde.adresse.land}" readonly>
-                            </div>
-                            <div class="form-group col-md-2">
-                                <label for="plz">Land</label>
+                                <label for="plz">PLZ</label>
                                 <input type="text" class="form-control" id="plz" name="plz" th:value="${kunde.adresse.plz}" readonly>
                             </div>
-                            <div class="form-group col-md-2">
-                                <label for="plz">Land</label>
+                            <div class="form-group col-md-6">
+                                <label for="land">Land</label>
+                                <input type="text" class="form-control" id="land" name="land" th:value="${kunde.adresse.land}" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="plz">Kundennummer</label>
                                 <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kunde.kundennummer}" readonly>
                             </div>
                         </div>
@@ -106,7 +116,7 @@
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" id="loginDoneCheckbox" name="firstLoginDone"  th:checked="${kunde.firstLoginDone}" readonly>
                                 <label class="form-check-label" for="loginDoneCheckbox">
-                                    hat AGB akzeptiert
+                                    ErstLogin erledigt
                                 </label>
                             </div>
                         </div>

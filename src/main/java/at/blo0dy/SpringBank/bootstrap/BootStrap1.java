@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.bootstrap;
 
 import at.blo0dy.SpringBank.Bank;
+import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
@@ -13,6 +14,8 @@ import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import at.blo0dy.SpringBank.service.*;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
+import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
+import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -38,9 +41,12 @@ public class BootStrap1 implements CommandLineRunner {
   private final RolleService rolleService;
   private final SparService sparService;
   private final SparKontoAntragService sparKontoAntragService;
+  private final KreditKontoAntragService kreditKontoAntragService;
+  private final KreditService kreditService;
 
   public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
-                    BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService) {
+                    BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService, KreditKontoAntragService kreditKontoAntragService,
+                    KreditService kreditService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
@@ -48,7 +54,9 @@ public class BootStrap1 implements CommandLineRunner {
     this.bankService = bankService;
     this.rolleService = rolleService;
     this.sparService = sparService;
-    this.sparKontoAntragService = sparKontoAntragService ;
+    this.sparKontoAntragService = sparKontoAntragService;
+    this.kreditKontoAntragService = kreditKontoAntragService;
+    this.kreditService = kreditService;
   }
 
   @Override
@@ -189,7 +197,6 @@ private void loadData() {
   sparKontoAntrag2.setAntragsDatum(LocalDateTime.now());
   sparKontoAntrag2.setAntragsStatus(AntragsStatusEnum.ABGELEHNT);
   sparKontoAntrag2.setId(3L);
-//  sparKontoAntrag2.setKunde(kunde1);
   sparKontoAntrag2.setKundennummer(1232L);
   sparKontoAntragService.save(sparKontoAntrag2);
 
@@ -197,7 +204,6 @@ private void loadData() {
   sparKontoAntrag3.setAntragsDatum(LocalDateTime.now());
   sparKontoAntrag3.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
   sparKontoAntrag3.setId(4L);
-//  sparKontoAntrag3.setKunde(kunde1);
   sparKontoAntrag3.setKundennummer(1233L);
   sparKontoAntragService.save(sparKontoAntrag3);
 
@@ -205,7 +211,6 @@ private void loadData() {
   sparKontoAntrag4.setAntragsDatum(LocalDateTime.now());
   sparKontoAntrag4.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
   sparKontoAntrag4.setId(5L);
-//  sparKontoAntrag4.setKunde(kunde1);
   sparKontoAntrag4.setKundennummer(1234L);
   sparKontoAntragService.save(sparKontoAntrag4);
 
@@ -223,6 +228,17 @@ private void loadData() {
   sparKontoAntrag6.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag6);
 
+  KreditKontoAntrag kreditKontoAntrag1 = new KreditKontoAntrag();
+  kreditKontoAntrag1.setId(1L);
+  kreditKontoAntrag1.setAntragsDatum(LocalDateTime.now());
+  kreditKontoAntrag1.setKreditBetrag(BigDecimal.valueOf(15000));
+  kreditKontoAntrag1.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  kreditKontoAntrag1.setKundennummer(123L);
+  kreditKontoAntrag1.setLaufzeit(BigInteger.valueOf(120));
+  kreditKontoAntrag1.setZinssatz(BigDecimal.valueOf(8.00));
+  kreditKontoAntrag1.setRate(BigDecimal.valueOf(181.99));
+  kreditKontoAntrag1.setGesamtBelastung(BigDecimal.valueOf(21838.80));
+  kreditKontoAntragService.save(kreditKontoAntrag1);
 
   // SparKonto anlegen
   SparKonto sparKonto1 = new SparKonto();

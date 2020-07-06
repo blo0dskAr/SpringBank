@@ -41,17 +41,21 @@ public class KreditKontoAntrag {
   @Column(name = "laufzeit")
   private BigInteger laufzeit;
 
+  @Column(name = "gesamt_belastung")
+  private BigDecimal gesamtBelastung;
+
   @Column(name = "kundennummer")
   private Long kundennummer;
 
 
   // Custom Constructor for  SparkontoRegistrationForm
-  public KreditKontoAntrag(LocalDateTime antragsDatum, AntragsStatusEnum antragsStatus, BigDecimal kreditBetrag, BigDecimal zinssatz, BigDecimal rate, BigInteger laufzeit, Long kundennummer) {
+  public KreditKontoAntrag(LocalDateTime antragsDatum, AntragsStatusEnum antragsStatus, BigDecimal kreditBetrag, BigDecimal zinssatz, BigDecimal rate, BigInteger laufzeit, BigDecimal gesamtBelastung, Long kundennummer) {
     this.antragsDatum = antragsDatum;
     this.antragsStatus = antragsStatus;
     this.kreditBetrag = kreditBetrag;
     this.rate = rate;
     this.laufzeit = laufzeit;
+    this.gesamtBelastung = gesamtBelastung;
     this.kundennummer = kundennummer;
   }
 }

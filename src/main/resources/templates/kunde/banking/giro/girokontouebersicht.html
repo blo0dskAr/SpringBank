@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+
+      layout:decorate="~{kunde/mainlayout.html}">
+
+<head>
+    <title>Giro - Index</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid px-0">
+            <h1> Übersicht - GiroKonto </h1>
+            <div class="row justify-content-md-center">
+                <th:block th:each="girokonto, iStat : ${giroKontenListe}">
+                    <div class="col-10 pt-4">
+                        <div class="accordion" th:attr="id=|accordionExample${iStat.count}|" >
+                            <div class="card">
+                                <div class="card-header" th:attr="id=|heading${iStat.count}|">
+                                    <div class="row">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-outline-dark text-left float-left" type="button" data-toggle="collapse" th:attr="data-target=|#collapse${iStat.count}|, aria-controls=|collapse${iStat.count}|" aria-expanded="true" th:text="${girokonto.kontonummer}">
+                                                Kontonummer
+                                            </button>
+                                        </h2>
+                                        <div class="col-6">
+                                            <div class="text-right text-secondary mp-0 small"> Inhaber: Der Herr mim Gwehr </div>
+                                            <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="text-right text-secondary mp-0 small"> Kontosaldo: 100.000.000,00 </div>
+                                            <div class="text-right text-secondary mp-0 small"> KontoName: dollarZgenerat0r </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="collapse" th:attr="data-parent=|#accordionExample${iStat.count}|, id=|collapse${iStat.count}|, aria-labelledby=|heading${iStat.count}|" >
+                                    <div class="card-body">
+                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th:block>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

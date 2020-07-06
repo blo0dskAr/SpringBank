@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.bootstrap;
 
 import at.blo0dy.SpringBank.Bank;
+import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
@@ -14,6 +15,8 @@ import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import at.blo0dy.SpringBank.service.*;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
+import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
+import at.blo0dy.SpringBank.service.konto.giro.GiroService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
@@ -46,11 +49,13 @@ public class BootStrap1 implements CommandLineRunner {
   private final SparKontoAntragService sparKontoAntragService;
   private final KreditKontoAntragService kreditKontoAntragService;
   private final KreditService kreditService;
+  private final GiroKontoAntragService giroKontoAntragService;
+  private final GiroService giroService;
 
 
   public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
                     BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService, KreditKontoAntragService kreditKontoAntragService,
-                    KreditService kreditService) {
+                    KreditService kreditService, GiroKontoAntragService giroKontoAntragService, GiroService giroService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
@@ -61,6 +66,8 @@ public class BootStrap1 implements CommandLineRunner {
     this.sparKontoAntragService = sparKontoAntragService;
     this.kreditKontoAntragService = kreditKontoAntragService;
     this.kreditService = kreditService;
+    this.giroKontoAntragService = giroKontoAntragService;
+    this.giroService = giroService;
   }
 
   @Override
@@ -243,6 +250,23 @@ private void loadData() {
   kreditKontoAntrag1.setRate(BigDecimal.valueOf(181.99));
   kreditKontoAntrag1.setGesamtBelastung(BigDecimal.valueOf(21838.80));
   kreditKontoAntragService.save(kreditKontoAntrag1);
+
+  GiroKontoAntrag giroKontoAntrag1 = new GiroKontoAntrag();
+  giroKontoAntrag1.setId(1L);
+  giroKontoAntrag1.setAntragsDatum(LocalDateTime.now());
+  giroKontoAntrag1.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  giroKontoAntrag1.setUeberziehungsrahmenGewuenscht(true);
+  giroKontoAntrag1.setKundennummer(123L);
+  giroKontoAntragService.save(giroKontoAntrag1);
+
+  GiroKontoAntrag giroKontoAntrag2 = new GiroKontoAntrag();
+  giroKontoAntrag2.setId(2L);
+  giroKontoAntrag2.setAntragsDatum(LocalDateTime.now());
+  giroKontoAntrag2.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  giroKontoAntrag2.setUeberziehungsrahmenGewuenscht(false);
+  giroKontoAntrag2.setKundennummer(123L);
+  giroKontoAntragService.save(giroKontoAntrag2);
+
 
   // SparKonto anlegen
   SparKonto sparKonto1 = new SparKonto();

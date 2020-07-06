@@ -66,6 +66,17 @@
                                         </a>
                                     </ul>
                                 </div>
+                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeGiro" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')}  ? 'active' : ''">Giro</a>
+                                <div id="collapseKundeGiro" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'show' : ''" >
+                                    <ul class="list-group">
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/giro/antrag}">
+                                            AntragsBearbeitung
+                                        </a>
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/giro/konto}">
+                                            KontoBearbeitung
+                                        </a>
+                                    </ul>
+                                </div>
                                 <li class="list-group-item">Item#3</li>
                             </ul>
                         </div>

@@ -23,7 +23,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class KreditKonto extends Konto {
 
-  @OneToOne(cascade = CascadeType.ALL)
+//  @OneToOne(cascade = CascadeType.ALL)
+  @OneToOne
   private KreditKontoAntrag kreditKontoAntrag;
 
   @Column(name = "kredit_betrag")

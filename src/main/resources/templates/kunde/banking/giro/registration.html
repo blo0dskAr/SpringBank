@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{kunde/mainlayout.html}">
+<head>
+    <title>Girokonto - Eröffnung</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-8">
+                        <form method="POST" th:action="@{/kunde/banking/giro/register}" th:object="${girokontoantrag}" id="registerForm">
+                            <h1> Register - GiroKonto </h1>
+                            <hr class="my-1">
+                            <div class="form-row">
+                                <div class="pt-4 pb-2" id="accordion">
+                                    <div class="checkbox">
+                                        <label data-toggle="collapse" data-target="#collapseOne">
+                                            <input type="checkbox" th:checked="*{ueberziehungsrahmenGewuenscht}" th:field="*{ueberziehungsrahmenGewuenscht}"/> Ich möchte einen Überziehungsrahmen
+                                        </label>
+                                    </div>
+                                    <div id="collapseOne" class="panel-collapse collapse in">
+                                        <div class="card-body">
+                                            <div class="alert alert-primary" role="alert">
+                                                <a>(*) Ein Überziehungsrahmen von 500,00 € wird ihnen automatisch gewährt, verrückt! Nicht wahr? Bei der HonestBank vertrauen wir unseren Kunden! .. mehr aber noch unseren Schuldeneintreibern! Die lassens knacken :)</a>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="kundennummer">Kundennummer: </label>
+                                    <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kundennummer}" readonly/><br>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type="submit" class="btn btn-primary" value="Konto eröffnen!" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

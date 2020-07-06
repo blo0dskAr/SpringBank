@@ -17,6 +17,11 @@
                        <input type="hidden" th:field="${kreditKontoAntrag.id}" />
                        <input type="hidden" th:field="${kreditKontoAntrag.antragsDatum}" />
 <!--                       <input type="hidden" th:field="*{kunde}" />-->
+                       <span th:if ="${kreditMussNeuBerechnetWerden}">
+                           <div class="alert alert-danger">
+                               Achtung: Kreditdaten wurden verändert, muss neu berechnet werden!
+                           </div>
+                       </span>
                        <div class="form-row">
                            <div class="form-group col-md-12">
                                <h4>Antrags-Daten</h4>
@@ -24,18 +29,27 @@
                            <div class="form-group col-md-6">
                                <label for="kreditBetrag">Kreditbetrag</label>
                                <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1.000.000,00 €" th:value="${kreditKontoAntrag.kreditBetrag}">
+                               <div class="text-danger"
+                                    th:if="${#fields.hasErrors('kreditKontoAntrag.kreditBetrag')}"
+                                    th:errors="*{kreditKontoAntrag.kreditBetrag}">Kreditbetrag Error</div>
                            </div>
                            <div class="form-group col-md-6">
                                <label for="zinssatz">Zinssatz</label>
-                               <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="5.000,00 €" th:value="${kreditKontoAntrag.zinssatz}">
+                               <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="6,50 %" th:value="${kreditKontoAntrag.zinssatz}">
+                               <div class="text-danger"
+                                    th:if="${#fields.hasErrors('kreditKontoAntrag.zinssatz')}"
+                                    th:errors="*{kreditKontoAntrag.zinssatz}">Kreditbetrag Error</div>
                            </div>
                            <div class="form-group col-md-6">
                                <label for="rate">Monatl. Rate</label>
-                               <input type="text" class="form-control" id="rate" name="rate" placeholder="5.000,00 €" th:value="${kreditKontoAntrag.rate}">
+                               <input type="text" class="form-control" id="rate" name="rate" placeholder="123,45 €" th:value="${kreditKontoAntrag.rate}" readonly>
                            </div>
                            <div class="form-group col-md-6">
                                <label for="laufzeit">Laufzeit</label>
-                               <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="5.000,00 €" th:value="${kreditKontoAntrag.laufzeit}">
+                               <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="84 Monate" th:value="${kreditKontoAntrag.laufzeit}">
+                               <div class="text-danger"
+                                    th:if="${#fields.hasErrors('kreditKontoAntrag.laufzeit')}"
+                                    th:errors="*{kreditKontoAntrag.laufzeit}">Kreditbetrag Error</div>
                            </div>
                            <div class="form-group col-md-6">
                                <label for="antragKundennummer">Kundennummer</label>
@@ -43,7 +57,7 @@
                            </div>
                            <div class="form-group col-md-6">
                                <label for="gesamtBelastung">Gesamtbelastung</label>
-                               <input type="text" class="form-control" id="gesamtBelastung" name="gesamtBelastung" placeholder="12.123,12 €" th:value="${kreditKontoAntrag.gesamtBelastung}">
+                               <input type="text" class="form-control" id="gesamtBelastung" name="gesamtBelastung" placeholder="12.123,12 €" th:value="${kreditKontoAntrag.gesamtBelastung}" readonly>
                            </div>
                        </div>
                        <div class="form-group">
@@ -58,6 +72,7 @@
                            </select>
 <!--                           <input type="text" class="form-control" id="status" placeholder="Apartment, studio, or floor">-->
                        </div>
+                       <button type="submit" class="btn btn-primary" name="recalculate" value="recalculate">Neu Berechnen</button>
                        <hr class="mt-5">
                         <div class="form-row">
                             <div class="form-group col-md-12">
@@ -120,7 +135,7 @@
                                 </label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Speichern</button>
+                        <button type="submit" class="btn btn-primary" name="saveKreditKonto" value="saveKreditKonto">Speichern</button>
                    </form>
                </div>
             </div>

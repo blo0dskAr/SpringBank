@@ -69,22 +69,6 @@ public class KreditKontoAntragRegistrationController {
     String kundennummer = authentication.getName();
     model.addAttribute("kundennummer", kundennummer);
 
-/*//    KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.ZERO, kreditService.getZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.ZERO);
-    KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
-
-//    model.addAttribute("kreditrechnervorlage", kv);
-    model.addAttribute("kreditrechnerergebnis", ke);
-
-//    KreditKontoAntrag kreditKontoAntrag = new KreditKontoAntrag();
-//    kreditKontoAntrag.setId(0L);
-//    model.addAttribute("kreditform",kreditKontoAntrag);
-    String kundennummer = authentication.getName();
-    model.addAttribute("kundennummer", kundennummer);
-
-    KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.now(), BigDecimal.ZERO, BigDecimal.ZERO, BigInteger.ZERO, KreditUtility.getZinssatz(), Long.valueOf(kundennummer) );
-    model.addAttribute("kreditform", kreditKontoRegistrationForm);
-    log.debug(kreditKontoRegistrationForm.toString());*/
-
     return "kunde/banking/kredit/registration";
 }
 
@@ -104,15 +88,8 @@ public class KreditKontoAntragRegistrationController {
         model.addAttribute("ergebnis",ke);
         model.addAttribute("calculatedCorrectly", true);
 
-/*        String kundennummer = authentication.getName();
-        model.addAttribute("kundennummer", kundennummer);
-
-        KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.now(), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), KreditUtility.getZinssatz(), Long.valueOf(kundennummer) );*/
-
         log.debug("vorlage: " + kv);
         log.debug("ergebnis: " + ke);
-//        log.debug("kreditKontoRegistrationForm: " + kreditKontoRegistrationForm);
-
 
         return "kunde/banking/kredit/registration";
       }
@@ -120,47 +97,30 @@ public class KreditKontoAntragRegistrationController {
 
   @PostMapping(value = "/register", params={"saveKreditAntrag"})
   public String tralala(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                        @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
+                        @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv, Errors errors1,
                         @Validated @ModelAttribute("ergebnis") KreditRechnerErgebnis ke,
-                         Errors errors, Model model) {
+                         Errors errors2, Model model) {
 
+    if (errors1.hasErrors() || errors2.hasErrors()) {
+      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
+      model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
+      return "kunde/banking/kredit/registration";
+    }
+    ke = kreditService.getKreditRechnerErgebnis(kv);
 
     String kundennummer = authentication.getName();
     model.addAttribute("kundennummer", kundennummer);
 
-    KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.now(), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), KreditUtility.getZinssatz(), ke.getGesamtBelastung(), Long.valueOf(kundennummer) );
+    log.debug("KE ------------------> " + ke);
+    log.debug("KV ------------------> " + kv);
+
+    log.debug("KreditAntrag soll gespeichert werden für Kunde: " + kundennummer);
+    KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.now(), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), kv.getZinssatz(), ke.getGesamtBelastung(), Long.valueOf(kundennummer) );
+    log.debug("KreditKontoRegistrationForm wurde erstellt: " + kreditKontoRegistrationForm.toString());
     kreditKontoAntragService.save(kreditKontoRegistrationForm.toKreditKontoAntrag());
+    log.debug("Kreditantrag wurde erfolgreich gespeichert.");
 
 
     return "kunde/banking/kredit/registration";
   }
-
-
-
-
-
-
-
-
-
-    /*if (errors.hasErrors()) {
-      form.setZinssatz(KreditUtility.getZinssatz());
-      log.debug("KreditKontoAntragRegistrationController: Fehler beim speichern von KreditAntrag erhalten: " + errors.getAllErrors());
-      log.debug(form.toString());
-
-      KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
-      model.addAttribute("kreditrechnerergebnis", ke);
-
-      model.addAttribute("kreditform",form);
-      return "/kunde/banking/kredit/registration";
-    } else {
-      KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(new KreditRechnerVorlage(form.getLaufzeit(),form.getZinssatz(),form.getKreditBetrag()));
-      model.addAttribute("kreditrechnerergebnis",ke);
-      model.addAttribute("kreditform",form);
-      log.debug("KreditKontoAntragRegistrationController: KreditKontoAntragForm wird gespeichert");
-      //kreditKontoAntragService.save(form.toKreditKontoAntrag());
-      // TODO: bei zeiten auf bestätigungsPage leiten, damit die Kundennummer mitgeteilt wird.
-      return "redirect:/kunde/banking/index";
-    }*/
-
 }

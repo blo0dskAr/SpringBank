@@ -10,15 +10,15 @@
     <div layout:fragment="content">
         <main>
             <div class="container-fluid px-2">
-                    <div class="row">
-                        <div class="col-4">
-                            <form method="POST" th:action="@{/kunde/banking/kredit/register}" th:object="${kreditrechnervorlage}" id="doKreditBerechnung">
-                                <div class="form-group">
-                                    <label for="kreditbetrag">KreditBetrag: </label>
-                                    <div class="text-danger"
-                                         th:if="${#fields.hasErrors('kreditBetrag')}"
-                                         th:errors="*{kreditBetrag}">Kreditbetrag Error</div>
-                                    <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1234,56 €" th:field="*{kreditBetrag}">
+                <div class="row">
+                    <div class="col-4">
+                        <form method="POST" th:action="@{/kunde/banking/kredit/register}" th:object="${kreditrechnervorlage}" id="doKreditBerechnung">
+                            <div class="form-group">
+                                <label for="kreditbetrag">KreditBetrag: </label>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('kreditBetrag')}"
+                                     th:errors="*{kreditBetrag}">Kreditbetrag Error</div>
+                                <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1234,56 €" th:field="*{kreditBetrag}">
                                 </div>
                                 <div class="form-group">
                                     <label for="laufzeit">Laufzeit(Monate): </label>
@@ -36,11 +36,9 @@
                                 <span th:if ="${calculatedCorrectly}">
                                 <button type="submit" class="btn btn-primary" name="saveKreditAntrag" value="saveKreditAntrag">KontoEröffnen</button>
                                 </span>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="row pt-4">
-                        <div class="col-4">
+<!--                        </div>-->
+<!--                    <div class="row pt-4">-->
+<!--                        <div class="col-4">-->
                             <h2>Ergebnis</h2>
                             <div class="form-group pt-2">
                                 <label for="kreditBetragErgebnis">KreditBetrag: </label>
@@ -52,8 +50,9 @@
                                 <label for="monatlicheRate">Monatliche Rate: </label>
                                 <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:field="${ergebnis.monatlicheRate}" disabled>
                             </div>
-                        </div>
+                        </form>
                     </div>
+                </div>
             </div>
         </main>
     </div>

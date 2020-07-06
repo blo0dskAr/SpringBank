@@ -23,11 +23,14 @@ import at.blo0dy.SpringBank.service.rolle.RolleService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Locale;
 
 @Component
 @Profile("dev")
@@ -43,6 +46,7 @@ public class BootStrap1 implements CommandLineRunner {
   private final SparKontoAntragService sparKontoAntragService;
   private final KreditKontoAntragService kreditKontoAntragService;
   private final KreditService kreditService;
+
 
   public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
                     BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService, KreditKontoAntragService kreditKontoAntragService,

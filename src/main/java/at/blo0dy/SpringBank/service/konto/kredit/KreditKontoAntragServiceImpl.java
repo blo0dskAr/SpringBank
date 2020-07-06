@@ -67,4 +67,23 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
     return  kreditKontoAntragListe;
   }
 
+  @Override
+  public boolean compareBasicKreditData(KreditKontoAntrag antrag1, KreditKontoAntrag antrag2) {
+    if (antrag1.getKreditBetrag().equals(antrag2.getKreditBetrag()) && antrag1.getZinssatz().equals(antrag2.getZinssatz()) && antrag1.getLaufzeit().equals(antrag2.getLaufzeit())) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  @Override
+  @Transactional
+  public void setKreditAntragAbgelehntWeilNeuBerechnetById(Long kreditKontoAntragId) {
+
+    kreditKontoAntragRepository.setKreditAntragAbgelehntWeilNeuBerechnetById(kreditKontoAntragId);
+
+  }
+
+
+
 }

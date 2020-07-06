@@ -28,18 +28,6 @@ public class KundeRegistrationForm {
   @Valid
   private Adresse adresse;
 
-/*  @NotBlank(message = "Straße must be defined.")
-  private String strasse;
-
-  @Pattern(regexp = "[0-9]{4,5}" )
-  private String plz;
-
-  @NotBlank(message = "Ort must be defined.")
-  private String ort;
-
-  @NotBlank(message = "Land must be defined.")
-  private String land;*/
-
   @NotBlank(message = "Telefonnummer must be defined.")
   private String telefonNummer;
 

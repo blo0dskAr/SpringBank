@@ -8,6 +8,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,6 +18,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
+@Slf4j
 @Controller
 @RequestMapping("mitarbeiter/kunde/sparen")
 public class CrmSparAntragController {
@@ -60,20 +62,21 @@ public class CrmSparAntragController {
 
   @PostMapping("/antrag/saveSparAntrag2KontoForm")
   public String saveSparAntrag2KontoForm(@Valid @ModelAttribute("sparKontoAntrag") SparKontoAntrag sparKontoAntrag,
-                                         @Valid @ModelAttribute("kunde") Kunde kunde, Model model) {
+                                         @ModelAttribute("kunde") Kunde kunde, Model model) {
 
-    Kunde mykunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
+    final Kunde mykunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
 
-    KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+    final KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
     if (sparKontoAntrag.getAntragsStatus().equals(AntragsStatusEnum.GENEHMIGT))  {
+      log.debug("CrmSparAntragController: Sparkonto wurde genehmigt, Sparkonto wird erstellt");
       SparKonto sparKonto = new SparKonto(LocalDate.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, "12345678001",  sparKontoAntrag);
-      System.out.println(sparKonto);
+      log.debug("CrmSparAntragController: --> SparkontoDaten: " + sparKonto.toString()) ;
       sparService.save(sparKonto);
     }
 
+    log.debug("CrmSparAntragController: " + "SparKontoAntrag wird gespeichert");
     sparKontoAntragService.save(sparKontoAntrag);
-    //kundeService.save(kunde);
 
     return "redirect:/mitarbeiter/kunde/sparen/antrag";
   }

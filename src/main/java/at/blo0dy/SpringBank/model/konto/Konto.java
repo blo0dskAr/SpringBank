@@ -37,8 +37,8 @@ public class Konto {
   @Column(name = "kontonummer")
   private Long kontonummer;
 
-//  @Valid
-  @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+//  @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
+  @ManyToOne
   @JoinColumn(name="kunde_id")
   private Kunde kunde ;
 

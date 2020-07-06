@@ -9,24 +9,31 @@
 <body>
     <div layout:fragment="content">
         <main>
-            <div class="container-fluid px-0">
-
-                <h1> Register - SparKonto </h1>
-
-                <form method="POST" th:action="@{/kunde/banking/sparen/register}" id="registerForm">
-
-                    <label for="erstAuftrag">ErstAuftrag einrichten: </label>
-                    <input type="text" id="erstAuftrag" name="erstAuftrag"/><br>
-
-                    <label for="dauerAuftrag">Dauerauftrag einrichten: </label>
-                    <input type="text" id="dauerAuftrag" name="dauerAuftrag"/><br>
-
-                    <label for="kundennummer">Kundennummer: </label>
-                    <input type="text" class="text-secondary" id="kundennummer" name="kundennummer" th:value="${kundennummer}" readonly/><br>
-
-                    <input type="submit" value="Konto eröffnen!" />
-
-                </form>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-8">
+                        <form method="POST" th:action="@{/kunde/banking/sparen/register}" id="registerForm">
+                            <h1> Register - SparKonto </h1>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="erstAuftrag">ErstAuftrag einrichten: </label>
+                                    <input type="text" class="form-control" id="erstAuftrag" name="erstAuftrag" placeholder="5.000,00 €"/>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="dauerAuftrag">Dauerauftrag einrichten: </label>
+                                    <input type="text" class="form-control" id="dauerAuftrag" name="dauerAuftrag" placeholder="250,00 €"/>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label for="kundennummer">Kundennummer: </label>
+                                    <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kundennummer}" readonly/><br>
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <input type="submit" class="btn btn-primary" value="Konto eröffnen!" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
         </main>
     </div>

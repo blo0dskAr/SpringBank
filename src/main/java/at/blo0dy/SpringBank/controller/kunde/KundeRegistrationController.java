@@ -51,10 +51,11 @@ public class KundeRegistrationController {
   public String processRegistration(@Valid @ModelAttribute("kunde") KundeRegistrationForm form, Errors errors, Model model ) {
     log.debug("KundeRegistrationForm wird gespeichert");
     if (errors.hasErrors()) {
+      log.debug("KundeRegistrationController: Fehler beim speichern von Kunde erhalten. Anzahl:" + errors.getErrorCount());
       model.addAttribute("kunde",form);
       return "kunde/registration";
     } else {
-      log.debug("KundenForm wird gespeichert: ermittle Kundennummer");
+      log.debug("Neue KundeForm soll gespeichert werden: ermittle Kundennummer");
       String newKundennummer = kundeService.getLatestKundennummerPlusOne().toString();
       log.debug("Neue Kundennummer lautet: " + newKundennummer + " .. KundenForm wird gespeichert");
       kundeService.save(form.toUser(encoder, kundeService.getLatestKundennummerPlusOne().toString()));

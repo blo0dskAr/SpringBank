@@ -33,6 +33,7 @@ public class GiroKontoAntragRegistrationController {
     this.kundeRepository = kundeRepository;
   }
 
+
   @GetMapping("/register")
   public String registerForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication , Model model) {
 

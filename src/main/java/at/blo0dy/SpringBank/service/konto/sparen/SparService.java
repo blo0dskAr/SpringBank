@@ -1,7 +1,9 @@
 package at.blo0dy.SpringBank.service.konto.sparen;
 
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoRepository;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
+import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerVorlage;
@@ -25,8 +27,11 @@ public interface SparService {
   // das liegt mir noch immer im magen
   double getZinssatz();
 
-//  SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag);
+  List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 
+  List<SparKonto> findSparKontoByKunde(Kunde kunde);
+
+  // Zinsenrechner
   SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage);
 
   List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage);

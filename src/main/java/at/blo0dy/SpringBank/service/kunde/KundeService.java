@@ -6,6 +6,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 public interface KundeService   {
@@ -29,4 +30,6 @@ public interface KundeService   {
   Long generateNewKontonummerByKundennummer(String kundennummer);
 
   Long getLatestKundennummerPlusOne();
+
+  BigDecimal getSummeOffenerKontenByKundennummer(String kundennummer);
 }

@@ -60,6 +60,7 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
   }
 
   @Override
+  @Transactional
   public long countByStatus(String statusEnum) {
     return giroKontoAntragRepository.countByStatus(statusEnum);
   }
@@ -67,6 +68,13 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
   public List<GiroKontoAntrag> findByStatus(String statusEnum) {
     List<GiroKontoAntrag> giroKontoAntragListe = giroKontoAntragRepository.findByStatus(statusEnum) ;
     return  giroKontoAntragListe;
+  }
+
+  @Override
+  @Transactional
+  public List<GiroKontoAntrag> findGiroAntraegeByKundennummer(String kundennummer) {
+    return giroKontoAntragRepository.findGiroAntraegeByKundennummer(kundennummer);
+
   }
 
 }

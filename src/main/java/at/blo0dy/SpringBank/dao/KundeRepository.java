@@ -5,6 +5,8 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
+
 public interface KundeRepository extends JpaRepository<Kunde, Long> {
 
   Kunde findByKundennummer(String kundennummer);
@@ -30,5 +32,11 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
   @Query (value ="select max((ku.kundennummer)+1) from kunde ku  ",
           nativeQuery = true)
   Long getLatestKundennummerPlusOne();
+
+@Query(value = " select sum(akt_saldo) from konto ko, sparkonto sko " +
+        "  where ko.kunde_id = (select ku.id from kunde ku " +
+        "  where ku.kundennummer= ?1 ) " +
+        "  and ko.id = sko.id ", nativeQuery = true)
+  BigDecimal getSummeOffenerKontenByKundennummer(String kundennummer);
 
 }

@@ -149,7 +149,7 @@ public class DevSecurityConfig {
                 .passwordParameter("password")
                 .loginProcessingUrl("/kunde/banking/kundeauthenticationpage")
 //              .failureUrl("/loginUser?error=loginError")
-                .defaultSuccessUrl("/kunde/banking/index")
+//                .defaultSuccessUrl("/kunde/banking/index")
                 .successForwardUrl("/kunde/banking/index").permitAll()
 
                 .and()

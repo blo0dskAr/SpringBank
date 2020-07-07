@@ -16,10 +16,15 @@ public interface KreditKontoAntragRepository extends JpaRepository<KreditKontoAn
   List<KreditKontoAntrag> findByStatus(String statusEnum);
 
   @Modifying
-  @Query(value ="update kreditkontoantrag ka set" +
-                "  ka.antrags_status = 'ABGELEHNT_WEIL_NEU_BERECHNET'" +
-                "  where ka.id = ?1 ;",
-                nativeQuery = true)
+  @Query(value = "update kreditkontoantrag ka set" +
+          "  ka.antrags_status = 'ABGELEHNT_WEIL_NEU_BERECHNET'" +
+          "  where ka.id = ?1 ;",
+          nativeQuery = true)
   void setKreditAntragAbgelehntWeilNeuBerechnetById(Long kreditKontoAntragId);
 
+  @Query(value = "select * from kreditkontoantrag ka where ka.kundennummer = ?1", nativeQuery = true)
+  List<KreditKontoAntrag> findKreditAntraegeByKundennummer(String kundennummer);
+
+
 }
+

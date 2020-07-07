@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.service.konto.kredit;
 
 import at.blo0dy.SpringBank.dao.konto.kredit.KreditKontoRepository;
 import at.blo0dy.SpringBank.dao.kreditZinsDAO.KreditRechnerRepository;
+import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
@@ -9,6 +10,7 @@ import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -62,6 +64,12 @@ public class KreditServiceImpl implements KreditService {
   @Override
   public KreditRechnerErgebnis getKreditRechnerErgebnis(KreditRechnerVorlage kreditRechnerVorlage) {
     return kreditRechnerRepository.getKreditRechnerErgebnis(kreditRechnerVorlage);
+  }
+
+  @Override
+  @Transactional
+  public List<KreditKonto> findKreditKontenByKundennummer(String kundennummer) {
+    return kreditKontoRepository.findKreditKontenByKundennummer(kundennummer);
   }
 
 }

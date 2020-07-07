@@ -27,7 +27,7 @@ public interface KreditService {
 
   KreditRechnerErgebnis getKreditRechnerErgebnis(KreditRechnerVorlage kreditRechnerVorlage);
 
-
+  List<KreditKonto> findKreditKontenByKundennummer(String kundennummer);
 
 
 }

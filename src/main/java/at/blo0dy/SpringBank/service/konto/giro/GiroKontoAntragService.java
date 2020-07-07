@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.service.konto.giro;
 
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
+import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public interface GiroKontoAntragService {
   long countByStatus(String statusEnum);
 
   List<GiroKontoAntrag> findByStatus(String statusEnum);
+
+  List<GiroKontoAntrag> findGiroAntraegeByKundennummer(String kundennummer);
 
 
 

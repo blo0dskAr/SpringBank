@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.TransactionScoped;
 import java.util.List;
 import java.util.Optional;
 
@@ -62,6 +63,7 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
   }
 
   @Override
+  @Transactional
   public long countByStatus(String statusEnum) {
     return sparKontoAntragRepository.countByStatus(statusEnum);
   }
@@ -69,6 +71,12 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
   public List<SparKontoAntrag> findByStatus(String statusEnum) {
     List<SparKontoAntrag> sparKontoAntragListe = sparKontoAntragRepository.findByStatus(statusEnum) ;
     return  sparKontoAntragListe;
+  }
+
+  @Override
+  @Transactional
+  public List<SparKontoAntrag> findSparAntraegeByKundennummer(String kundennummer) {
+    return sparKontoAntragRepository.findSparAntraegeByKundennummer(kundennummer);
   }
 
 }

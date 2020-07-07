@@ -2,7 +2,10 @@ package at.blo0dy.SpringBank.service.konto.sparen;
 
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoRepository;
 import at.blo0dy.SpringBank.dao.sparZinsDAO.SparZinsRechnerRepository;
+import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
+import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.produkt.sparen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -74,7 +77,17 @@ public class SparServiceImpl implements SparService {
     return sparZinsRechnerRepository.getAdvancedSparZinsRechnerErgebnis(sparZinsRechnerVorlage);
   };
 
+  @Override
+  @Transactional
+  public List<SparKonto> findSparKontoByKundennummer(String kundennummer) {
+    return sparKontoRepository.findSparKontoByKundennummer(kundennummer);
+  }
 
+  @Override
+  @Transactional
+  public List<SparKonto> findSparKontoByKunde(Kunde kunde) {
+    return sparKontoRepository.findSparKontoByKunde(kunde);
+  }
 
 
 

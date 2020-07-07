@@ -14,4 +14,7 @@ public interface GiroKontoAntragRepository extends JpaRepository<GiroKontoAntrag
   @Query(value = "select * from girokontoantrag where antrags_status=?1", nativeQuery = true)
   List<GiroKontoAntrag> findByStatus(String statusEnum);
 
+  @Query(value = "select * from girokontoantrag ka where ka.kundennummer = ?1", nativeQuery = true)
+  List<GiroKontoAntrag> findGiroAntraegeByKundennummer(String kundennummer);
+
 }

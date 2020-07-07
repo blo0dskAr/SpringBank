@@ -14,4 +14,7 @@ public interface SparKontoAntragRepository extends JpaRepository<SparKontoAntrag
   @Query(value = "select * from sparkontoantrag where antrags_status=?1", nativeQuery = true)
   List<SparKontoAntrag> findByStatus(String statusEnum);
 
+  @Query(value = "select * from sparkontoantrag ka where ka.kundennummer = ?1", nativeQuery = true)
+  List<SparKontoAntrag> findSparAntraegeByKundennummer(String kundennummer);
+
 }

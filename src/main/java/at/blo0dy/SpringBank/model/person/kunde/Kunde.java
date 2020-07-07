@@ -32,7 +32,7 @@ public class Kunde extends Person implements UserDetails {
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
-  @NotBlank(message = "telefonNummer must be defined.")
+  @NotBlank(message = "Telefonnummer must be defined.")
   private String telefonNummer;
   @NotBlank(message = "emailAdresse must be defined.")
   private String emailAdresse;

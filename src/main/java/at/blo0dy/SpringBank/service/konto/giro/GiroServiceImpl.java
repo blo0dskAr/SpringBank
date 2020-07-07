@@ -53,4 +53,10 @@ public class GiroServiceImpl implements GiroService {
     giroKontoRepository.deleteById(theId);
   }
 
+  @Override
+  @Transactional
+  public List<GiroKonto> findGiroKontenByKundennummer(String kundennummer) {
+    return giroKontoRepository.findGiroKontenByKundennummer(kundennummer);
+  }
+
 }

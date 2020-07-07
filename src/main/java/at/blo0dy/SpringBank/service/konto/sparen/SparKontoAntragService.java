@@ -21,6 +21,8 @@ public interface SparKontoAntragService {
 
   List<SparKontoAntrag> findByStatus(String statusEnum);
 
+  List<SparKontoAntrag> findSparAntraegeByKundennummer(String kundennummer);
+
 
 
 }

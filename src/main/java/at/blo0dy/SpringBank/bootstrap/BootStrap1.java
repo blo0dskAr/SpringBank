@@ -208,36 +208,22 @@ private void loadData() {
   sparKontoAntrag2.setAntragsDatum(LocalDateTime.now());
   sparKontoAntrag2.setAntragsStatus(AntragsStatusEnum.ABGELEHNT);
   sparKontoAntrag2.setId(3L);
-  sparKontoAntrag2.setKundennummer(1232L);
+  sparKontoAntrag2.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag2);
 
   SparKontoAntrag sparKontoAntrag3 = new SparKontoAntrag();
   sparKontoAntrag3.setAntragsDatum(LocalDateTime.now());
   sparKontoAntrag3.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
   sparKontoAntrag3.setId(4L);
-  sparKontoAntrag3.setKundennummer(1233L);
+  sparKontoAntrag3.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag3);
 
   SparKontoAntrag sparKontoAntrag4 = new SparKontoAntrag();
   sparKontoAntrag4.setAntragsDatum(LocalDateTime.now());
   sparKontoAntrag4.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
   sparKontoAntrag4.setId(5L);
-  sparKontoAntrag4.setKundennummer(1234L);
+  sparKontoAntrag4.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag4);
-
-  SparKontoAntrag sparKontoAntrag5 = new SparKontoAntrag();
-  sparKontoAntrag5.setAntragsDatum(LocalDateTime.now());
-  sparKontoAntrag5.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
-  sparKontoAntrag5.setId(6L);
-  sparKontoAntrag5.setKundennummer(123L);
-  sparKontoAntragService.save(sparKontoAntrag5);
-
-  SparKontoAntrag sparKontoAntrag6 = new SparKontoAntrag();
-  sparKontoAntrag6.setAntragsDatum(LocalDateTime.now());
-  sparKontoAntrag6.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
-  sparKontoAntrag6.setId(7L);
-  sparKontoAntrag6.setKundennummer(123L);
-  sparKontoAntragService.save(sparKontoAntrag6);
 
   KreditKontoAntrag kreditKontoAntrag1 = new KreditKontoAntrag();
   kreditKontoAntrag1.setId(1L);
@@ -291,9 +277,6 @@ private void loadData() {
 
   sparService.save(sparKonto1);
   sparService.save(sparKonto2);
-
-
-
 
 }
 }

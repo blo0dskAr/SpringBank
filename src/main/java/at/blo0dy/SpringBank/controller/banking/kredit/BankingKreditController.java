@@ -26,9 +26,9 @@ public class BankingKreditController {
   @GetMapping("/kreditkontouebersicht")
   public String viewKreditKontoUebersicht(Model model) {
 
-    List<KreditKonto> kreditKontoListe = kreditService.findAll();
+    List<KreditKonto> kreditKontenListe = kreditService.findAll();
 
-    model.addAttribute("kreditKontoListe",kreditKontoListe);
+    model.addAttribute("kreditKontenListe",kreditKontenListe);
     model.addAttribute("activeLink", "bankenKreditUebersicht");
 
 

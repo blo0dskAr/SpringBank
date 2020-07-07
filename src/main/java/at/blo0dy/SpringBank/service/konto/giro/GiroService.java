@@ -21,4 +21,6 @@ public interface GiroService {
 
   public void deleteById(Long theId);
 
+  List<GiroKonto> findGiroKontenByKundennummer(String kundennummer);
+
 }

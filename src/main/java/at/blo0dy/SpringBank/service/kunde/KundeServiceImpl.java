@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.constraints.Null;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -127,7 +128,9 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     return kundeRepository.getLatestKundennummerPlusOne();
   }
 
-
+  public BigDecimal getSummeOffenerKontenByKundennummer(String kundennummer) {
+   return kundeRepository.getSummeOffenerKontenByKundennummer(kundennummer);
+  }
 
 
 

@@ -58,6 +58,7 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
   }
 
   @Override
+  @Transactional
   public long countByStatus(String statusEnum) {
     return kreditKontoAntragRepository.countByStatus(statusEnum);
   }
@@ -82,6 +83,12 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
 
     kreditKontoAntragRepository.setKreditAntragAbgelehntWeilNeuBerechnetById(kreditKontoAntragId);
 
+  }
+
+  @Override
+  @Transactional
+  public List<KreditKontoAntrag> findKreditAntraegeByKundennummer(String kundennummer) {
+    return kreditKontoAntragRepository.findKreditAntraegeByKundennummer(kundennummer);
   }
 
 

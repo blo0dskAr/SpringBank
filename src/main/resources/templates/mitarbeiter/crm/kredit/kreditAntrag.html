@@ -43,8 +43,8 @@
                         </thead>
                         <tr th:each="kreditKontoAntrag : ${offeneAntragListe}">
                             <td th:text="${kreditKontoAntrag.id}">123</td>
-                            <td th:text="${kreditKontoAntrag.antragsDatum}">123</td>
-                            <td th:text="${kreditKontoAntrag.antragsStatus}">123</td>
+                            <td th:text="${kreditKontoAntrag.antragDatum}">123</td>
+                            <td th:text="${kreditKontoAntrag.antragStatus}">123</td>
                             <td th:text="${kreditKontoAntrag.kundennummer}">123</td>
                             <td>
                                 <a th:href="@{/mitarbeiter/kunde/kredit/antrag/showKreditAntragForKontoForm(kreditKontoAntragId=${kreditKontoAntrag.id})}"

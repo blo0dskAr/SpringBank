@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.model.antrag.sparen;
 
 
-import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
+import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -19,7 +19,7 @@ public class SparKontoRegistrationForm {
 
 
   @DateTimeFormat
-  private LocalDateTime antragsDatum ;
+  private LocalDateTime antragDatum ;
   @DecimalMin(value = "0", message = "Bitte einen Betrag zw. 0 und 50.000,00 wählen. Darf auch leer bleiben")
   @DecimalMax(value = "50000", message = "Bitte einen Betrag zw. 0 und 50.000,00 wählen. Darf auch leer bleiben")
   @Digits(integer = 5, fraction = 2, message = "Bitte einen Betrag zw. 0 und 50.000,00 wählen. Darf leer bleiben, maximal 2 Nachkommastellen")
@@ -27,14 +27,14 @@ public class SparKontoRegistrationForm {
   private BigDecimal erstAuftrag;
   @DecimalMin(value = "0", message = "Bitte einen Betrag zw. 0 und 5.000,00 wählen. Darf auch leer bleiben")
   @DecimalMax(value = "5000", message = "Bitte einen Betrag zw. 0 und 5.000,00 wählen. Darf auch leer bleiben")
-  @Digits(integer = 4, fraction = 2, message = "Bitte einen Betrag zw. 0 und 50.000,00 wählen. Darf leer bleiben, maximal 2 Nachkommastellen")
+  @Digits(integer = 4, fraction = 2, message = "Bitte einen Betrag zw. 0 und 5.000,00 wählen. Darf leer bleiben, maximal 2 Nachkommastellen")
   @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##" )
   private BigDecimal dauerAuftrag;
   private Long kundennummer;
 
   public SparKontoAntrag toSparKontoAntrag() {
-    log.debug("SparFormtoSparKontoAntrag wird aufgerufen: " + antragsDatum + " " + erstAuftrag + " " + dauerAuftrag + " " + kundennummer);
-    return new SparKontoAntrag(antragsDatum,  AntragsStatusEnum.EINGEREICHT, erstAuftrag, dauerAuftrag, kundennummer);
+    log.debug("SparFormtoSparKontoAntrag wird aufgerufen: " + antragDatum + " " + erstAuftrag + " " + dauerAuftrag + " " + kundennummer);
+    return new SparKontoAntrag(antragDatum,  AntragStatusEnum.EINGEREICHT, erstAuftrag, dauerAuftrag, kundennummer);
 
   }
 }

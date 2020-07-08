@@ -10,15 +10,15 @@ public interface KontoAntragRepository extends JpaRepository<KontoAntrag, Long> 
   Long countAntraegeGesamtByKundennummer(String kundennummer);
 
   @Query(value = "select count(*) from kontoantrag ka where ka.kundennummer=?1" +
-                  "  and ka.antrags_status like 'EINGEREICHT%'", nativeQuery = true)
+                  "  and ka.antrag_status like 'EINGEREICHT%'", nativeQuery = true)
   Long countOffeneAntraegeByKundennummer(String kundennummer);
 
   @Query(value = "select count(*) from kontoantrag ka where ka.kundennummer=?1" +
-                  "  and ka.antrags_status like 'ABGELEHNT%'", nativeQuery = true)
+                  "  and ka.antrag_status like 'ABGELEHNT%'", nativeQuery = true)
   Long countAbgelehnteAntraegeByKundennummer(String kundennummer);
 
   @Query(value = "select count(*) from kontoantrag ka where ka.kundennummer=?1" +
-                  "  and ka.antrags_status like 'GENEHMIGT%'", nativeQuery = true)
+                  "  and ka.antrag_status like 'GENEHMIGT%'", nativeQuery = true)
   Long countDurchgefuehrteAntraegeByKundennummer(String kundennummer);
 
 }

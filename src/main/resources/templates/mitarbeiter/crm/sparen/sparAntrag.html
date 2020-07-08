@@ -43,8 +43,8 @@
                         </thead>
                         <tr th:each="sparKontoAntrag : ${offeneAntragListe}">
                             <td th:text="${sparKontoAntrag.id}">123</td>
-                            <td th:text="${sparKontoAntrag.antragsDatum}">123</td>
-                            <td th:text="${sparKontoAntrag.antragsStatus}">123</td>
+                            <td th:text="${sparKontoAntrag.antragDatum}">123</td>
+                            <td th:text="${sparKontoAntrag.antragStatus}">123</td>
                             <td th:text="${sparKontoAntrag.kundennummer}">123</td>
                             <td>
                                 <a th:href="@{/mitarbeiter/kunde/sparen/antrag/showSparAntragForKontoForm(sparKontoAntragId=${sparKontoAntrag.id})}"

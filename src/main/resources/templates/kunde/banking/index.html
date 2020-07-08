@@ -163,12 +163,12 @@
                                                     <tr th:each="sparkontoantrag : ${sparkontoantragliste}">
                                                         <td th:text="${sparkontoantrag.id}"><a href="#">345</a></td>
                                                         <td th:text="${sparkontoantrag.getClass().getSimpleName()}">AntragTyp</td>
-                                                        <td th:text="${sparkontoantrag.antragsDatum}">AntragDatum</td>
-                                                        <td th:switch="${sparkontoantrag.antragsStatus}" >
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                                                            <span th:text="${sparkontoantrag.antragsStatus}">AntragStatus</span>
+                                                        <td th:text="${sparkontoantrag.antragDatum}">AntragDatum</td>
+                                                        <td th:switch="${sparkontoantrag.antragStatus}" >
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
+                                                            <span th:text="${sparkontoantrag.antragStatus}">AntragStatus</span>
                                                         </td>
                                                         <td>
     <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
@@ -181,12 +181,12 @@
                                                     <tr th:each="kreditkontoantrag : ${kreditkontoantragliste}">
                                                         <td th:text="${kreditkontoantrag.id}"><a href="#">345</a></td>
                                                         <td th:text="${kreditkontoantrag.getClass().getSimpleName()}">AntragTyp</td>
-                                                        <td th:text="${kreditkontoantrag.antragsDatum}">AntragDatum</td>
-                                                        <td th:switch="${kreditkontoantrag.antragsStatus}" >
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                                                            <span th:text="${kreditkontoantrag.antragsStatus}">AntragStatus</span>
+                                                        <td th:text="${kreditkontoantrag.antragDatum}">AntragDatum</td>
+                                                        <td th:switch="${kreditkontoantrag.antragStatus}" >
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
+                                                            <span th:text="${kreditkontoantrag.antragStatus}">AntragStatus</span>
                                                         </td>
                                                         <td>
                                                             <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
@@ -199,12 +199,12 @@
                                                     <tr th:each="girokontoantrag : ${girokontoantragliste}">
                                                         <td th:text="${girokontoantrag.id}"><a href="#">345</a></td>
                                                         <td th:text="${girokontoantrag.getClass().getSimpleName()}">AntragTyp</td>
-                                                        <td th:text="${girokontoantrag.antragsDatum}">AntragDatum</td>
-                                                        <td th:switch="${girokontoantrag.antragsStatus}" >
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragsStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                                                            <span th:text="${girokontoantrag.antragsStatus}">AntragStatus</span>
+                                                        <td th:text="${girokontoantrag.antragDatum}">AntragDatum</td>
+                                                        <td th:switch="${girokontoantrag.antragStatus}" >
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
+                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
+                                                            <span th:text="${girokontoantrag.antragStatus}">AntragStatus</span>
                                                         </td>
                                                         <td>
                                                             <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->

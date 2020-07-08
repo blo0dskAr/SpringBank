@@ -60,10 +60,10 @@ public class SparKontoAntragRegistrationController {
       return "/kunde/banking/sparen/registration";
     }
 
-    // AntragsDatum generieren und für die Eingabe optimieren.
+    // AntragDatum generieren und für die Eingabe optimieren.
     // TODO: guggen wie man das global aktiviert, die bisherigen versuche waren eher mäßig..
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-    form.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+    form.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
 
     log.debug("SparKontoRegistrationForm erhalten: " + form);
     log.debug("SparKontoRegistrationForm wird als SparkontoAntrag gespeichert");

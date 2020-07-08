@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.model.antrag.kredit;
 
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
-import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
+import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,18 +20,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class KreditKontoAntrag extends KontoAntrag {
-
-//  @Id
-//  @GeneratedValue(strategy = GenerationType.IDENTITY)
-//  @Column(name = "id")
-//  private Long id;
-
-//  @Column(name = "antrag_datum")
-//  private LocalDateTime antragsDatum;
-//
-//  @Column(name = "antrags_status")
-//  @Enumerated(EnumType.STRING)
-//  private AntragsStatusEnum antragsStatus;
 
   @DecimalMin(value = "1000", message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
   @DecimalMax(value = "80000", message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
@@ -59,20 +47,14 @@ public class KreditKontoAntrag extends KontoAntrag {
   @Column(name = "gesamt_belastung")
   private BigDecimal gesamtBelastung;
 
-//  @Column(name = "kundennummer")
-//  private Long kundennummer;
-
 
 //   Custom Constructor for  SparkontoRegistrationForm
-  public KreditKontoAntrag(LocalDateTime antragsDatum, AntragsStatusEnum antragsStatus, BigDecimal kreditBetrag, BigDecimal zinssatz, BigDecimal rate, BigInteger laufzeit, BigDecimal gesamtBelastung, Long kundennummer) {
-    super(antragsDatum, antragsStatus,kundennummer);
-//    this.antragsDatum = antragsDatum;
-//    this.antragsStatus = antragsStatus;
+  public KreditKontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, BigDecimal kreditBetrag, BigDecimal zinssatz, BigDecimal rate, BigInteger laufzeit, BigDecimal gesamtBelastung, Long kundennummer) {
+    super(antragDatum, antragStatus,kundennummer);
     this.kreditBetrag = kreditBetrag;
     this.zinssatz = zinssatz;
     this.rate = rate;
     this.laufzeit = laufzeit;
     this.gesamtBelastung = gesamtBelastung;
-//    this.kundennummer = kundennummer;
   }
 }

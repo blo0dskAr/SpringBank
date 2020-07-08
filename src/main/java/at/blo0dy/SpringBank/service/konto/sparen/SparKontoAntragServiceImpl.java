@@ -68,6 +68,8 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
     return sparKontoAntragRepository.countByStatus(statusEnum);
   }
 
+  @Override
+  @Transactional
   public List<SparKontoAntrag> findByStatus(String statusEnum) {
     List<SparKontoAntrag> sparKontoAntragListe = sparKontoAntragRepository.findByStatus(statusEnum) ;
     return  sparKontoAntragListe;

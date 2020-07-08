@@ -25,4 +25,4 @@ public interface KontoRepository extends JpaRepository<Konto, Long> {
           "  where ku.kundennummer= ?1 ) ", nativeQuery = true)
   BigDecimal getGesamtSaldoOffenerKontenByKundennummer(String kundennummer);
 
-} 
+}

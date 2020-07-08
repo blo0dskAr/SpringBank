@@ -1,11 +1,9 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.giro;
 
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
-import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
-import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
+import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
-import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -70,7 +67,7 @@ public class CrmGiroAntragController {
     final Kunde mykunde = kundeService.findByKundennummer(giroKontoAntrag.getKundennummer().toString());
     final KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
-    if (giroKontoAntrag.getAntragsStatus().equals(AntragsStatusEnum.GENEHMIGT))  {
+    if (giroKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT))  {
       BigDecimal ueberziehungsrahmen;
       if (giroKontoAntrag.isUeberziehungsrahmenGewuenscht()) {
         ueberziehungsrahmen = BigDecimal.valueOf(500);

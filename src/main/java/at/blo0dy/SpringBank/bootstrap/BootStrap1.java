@@ -4,7 +4,7 @@ import at.blo0dy.SpringBank.Bank;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
-import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
+import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
@@ -193,8 +193,8 @@ private void loadData() {
 
   // SparKonto Antrag anlegen
   SparKontoAntrag sparKontoAntrag = new SparKontoAntrag();
-  sparKontoAntrag.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKontoAntrag.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  sparKontoAntrag.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag.setAntragStatus(AntragStatusEnum.EINGEREICHT);
   sparKontoAntrag.setId(1L);
   sparKontoAntrag.setErstAuftrag(BigDecimal.valueOf(5000));
   sparKontoAntrag.setDauerAuftrag(BigDecimal.valueOf(250));
@@ -202,38 +202,38 @@ private void loadData() {
   sparKontoAntragService.save(sparKontoAntrag);
 
   SparKontoAntrag sparKontoAntrag1 = new SparKontoAntrag();
-  sparKontoAntrag1.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKontoAntrag1.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  sparKontoAntrag1.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag1.setAntragStatus(AntragStatusEnum.EINGEREICHT);
   sparKontoAntrag1.setId(2L);
   sparKontoAntrag1.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag1);
 
   SparKontoAntrag sparKontoAntrag2 = new SparKontoAntrag();
-  sparKontoAntrag2.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKontoAntrag2.setAntragsStatus(AntragsStatusEnum.ABGELEHNT);
+  sparKontoAntrag2.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag2.setAntragStatus(AntragStatusEnum.ABGELEHNT);
   sparKontoAntrag2.setId(3L);
   sparKontoAntrag2.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag2);
 
   SparKontoAntrag sparKontoAntrag3 = new SparKontoAntrag();
-  sparKontoAntrag3.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKontoAntrag3.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
+  sparKontoAntrag3.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag3.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   sparKontoAntrag3.setId(4L);
   sparKontoAntrag3.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag3);
 
   SparKontoAntrag sparKontoAntrag4 = new SparKontoAntrag();
-  sparKontoAntrag4.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKontoAntrag4.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
+  sparKontoAntrag4.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag4.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   sparKontoAntrag4.setId(5L);
   sparKontoAntrag4.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag4);
 
   KreditKontoAntrag kreditKontoAntrag1 = new KreditKontoAntrag();
   kreditKontoAntrag1.setId(6L);
-  kreditKontoAntrag1.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKontoAntrag1.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   kreditKontoAntrag1.setKreditBetrag(BigDecimal.valueOf(15000));
-  kreditKontoAntrag1.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  kreditKontoAntrag1.setAntragStatus(AntragStatusEnum.EINGEREICHT);
   kreditKontoAntrag1.setKundennummer(123L);
   kreditKontoAntrag1.setLaufzeit(BigInteger.valueOf(120));
   kreditKontoAntrag1.setZinssatz(BigDecimal.valueOf(8.00));
@@ -243,9 +243,9 @@ private void loadData() {
 
   KreditKontoAntrag kreditKontoAntrag2 = new KreditKontoAntrag();
   kreditKontoAntrag2.setId(7L);
-  kreditKontoAntrag2.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKontoAntrag2.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   kreditKontoAntrag2.setKreditBetrag(BigDecimal.valueOf(15000));
-  kreditKontoAntrag2.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
+  kreditKontoAntrag2.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   kreditKontoAntrag2.setKundennummer(123L);
   kreditKontoAntrag2.setLaufzeit(BigInteger.valueOf(120));
   kreditKontoAntrag2.setZinssatz(BigDecimal.valueOf(8.00));
@@ -255,24 +255,24 @@ private void loadData() {
 
   GiroKontoAntrag giroKontoAntrag1 = new GiroKontoAntrag();
   giroKontoAntrag1.setId(8L);
-  giroKontoAntrag1.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  giroKontoAntrag1.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  giroKontoAntrag1.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKontoAntrag1.setAntragStatus(AntragStatusEnum.EINGEREICHT);
   giroKontoAntrag1.setUeberziehungsrahmenGewuenscht(true);
   giroKontoAntrag1.setKundennummer(123L);
   giroKontoAntragService.save(giroKontoAntrag1);
 
   GiroKontoAntrag giroKontoAntrag2 = new GiroKontoAntrag();
   giroKontoAntrag2.setId(9L);
-  giroKontoAntrag2.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  giroKontoAntrag2.setAntragsStatus(AntragsStatusEnum.EINGEREICHT);
+  giroKontoAntrag2.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKontoAntrag2.setAntragStatus(AntragStatusEnum.EINGEREICHT);
   giroKontoAntrag2.setUeberziehungsrahmenGewuenscht(false);
   giroKontoAntrag2.setKundennummer(123L);
   giroKontoAntragService.save(giroKontoAntrag2);
 
   GiroKontoAntrag giroKontoAntrag3 = new GiroKontoAntrag();
   giroKontoAntrag3.setId(10L);
-  giroKontoAntrag3.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  giroKontoAntrag3.setAntragsStatus(AntragsStatusEnum.GENEHMIGT);
+  giroKontoAntrag3.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKontoAntrag3.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   giroKontoAntrag3.setUeberziehungsrahmenGewuenscht(false);
   giroKontoAntrag3.setKundennummer(123L);
   giroKontoAntragService.save(giroKontoAntrag3);

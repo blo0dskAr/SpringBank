@@ -55,7 +55,7 @@ public class GiroKontoAntragRegistrationController {
   public String processRegistration(@ModelAttribute("girokontoantrag") GiroKontoRegistrationForm form, RedirectAttributes redirectAttrs) {
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-    form.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+    form.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
 
     log.debug("GiroKontoRegistrationForm erhalten: " + form);
     log.debug("GiroKontoAntragRegistrationController: GiroKontoRegistrationForm wird als GirokontoAntrag gespeichert");

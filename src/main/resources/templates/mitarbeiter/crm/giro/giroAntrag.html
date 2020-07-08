@@ -43,8 +43,8 @@
                         </thead>
                         <tr th:each="giroKontoAntrag : ${offeneAntragListe}">
                             <td th:text="${giroKontoAntrag.id}">123</td>
-                            <td th:text="${giroKontoAntrag.antragsDatum}">123</td>
-                            <td th:text="${giroKontoAntrag.antragsStatus}">123</td>
+                            <td th:text="${giroKontoAntrag.antragDatum}">123</td>
+                            <td th:text="${giroKontoAntrag.antragStatus}">123</td>
                             <td th:text="${giroKontoAntrag.kundennummer}">123</td>
                             <td>
                                 <a th:href="@{/mitarbeiter/kunde/giro/antrag/showGiroAntragForKontoForm(giroKontoAntragId=${giroKontoAntrag.id})}"

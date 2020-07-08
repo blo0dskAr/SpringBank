@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kredit;
 
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
-import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
+import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Slf4j
@@ -100,7 +99,7 @@ public class CrmKreditAntragController {
 
     KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
-    if (kreditKontoAntrag.getAntragsStatus().equals(AntragsStatusEnum.GENEHMIGT)) {
+    if (kreditKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT)) {
       KreditKonto kreditKonto = new KreditKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
               kontoStatusAufgrundKundenStatus, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), kreditKontoAntrag);
       kreditService.save(kreditKonto);
@@ -130,7 +129,7 @@ public class CrmKreditAntragController {
     kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
     model.addAttribute("kunde", kunde);
 
-    KreditKontoAntrag neuBerechneterAntrag = new KreditKontoAntrag(LocalDateTime.now(),AntragsStatusEnum.EINGEREICHT,ke.getKreditBetrag(),kreditKontoAntrag.getZinssatz(),
+    KreditKontoAntrag neuBerechneterAntrag = new KreditKontoAntrag(LocalDateTime.now(), AntragStatusEnum.EINGEREICHT,ke.getKreditBetrag(),kreditKontoAntrag.getZinssatz(),
                                                                     ke.getMonatlicheRate(),kreditKontoAntrag.getLaufzeit(),ke.getGesamtBelastung(),kreditKontoAntrag.getKundennummer());
     log.debug("NEU BERECHNETER KREDITKONTO ANTRAG: ------> " + neuBerechneterAntrag.toString());
 

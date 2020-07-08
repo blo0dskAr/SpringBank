@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDateTime;
@@ -50,9 +51,11 @@ public class SparKontoAntragRegistrationController {
 
   @PostMapping("/register")
   public String processRegistration(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                                    @Valid @ModelAttribute("sparkontoantrag") SparKontoRegistrationForm form, BindingResult result, Model model) {
+                                    @Valid @ModelAttribute("sparkontoantrag") SparKontoRegistrationForm form, BindingResult result,
+                                    Model model, RedirectAttributes redirectAttrs) {
 
     if (result.hasErrors()) {
+      log.debug("SparKontoAntragRegistrationController: Fehler beim speichern Der SparkontoRegistrationForm erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       model.addAttribute("kundennummer", authentication.getName());
       return "/kunde/banking/sparen/registration";
     }
@@ -66,6 +69,8 @@ public class SparKontoAntragRegistrationController {
     log.debug("SparKontoAntragRegistrationController: SparKontoRegistrationForm wird als SparkontoAntrag gespeichert");
     sparKontoAntragRepository.save(form.toSparKontoAntrag());
     log.debug("SparKontoAntragRegistrationController: SparKontoRegistrationForm wurde erfolgreich als SparkontoAntrag gespeichert");
+
+    redirectAttrs.addFlashAttribute("antragGespeichert", true);
     return "redirect:/kunde/banking/index";
   }
 

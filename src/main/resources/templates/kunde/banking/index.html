@@ -19,6 +19,11 @@
         <main>
             <div class="container-fluid mt-4">
                 <h1 class="mt-4">BANKING INDEX AAAAAHHHH</h1>
+                <div th:if="${antragGespeichert}">
+                    <div class="alert alert-info ">
+                        Ihr Antrag wurde gespeichert. Der Status kann nun in Ihren Anträgen eingesehen werden.
+                    </div>
+                </div>
                 <div class="row border justify-content-md-center ">
                     <div class="col">
                         <div class="accordion" id="accordion1"  >

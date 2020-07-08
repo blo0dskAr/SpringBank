@@ -53,10 +53,7 @@ public class KreditKontoAntrag {
   @Column(name = "laufzeit")
   private BigInteger laufzeit;
 
-  @DecimalMin(value = "1000", message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
-  @DecimalMax(value = "80000", message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
-  @NotNull(message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   @Column(name = "gesamt_belastung")
   private BigDecimal gesamtBelastung;
 

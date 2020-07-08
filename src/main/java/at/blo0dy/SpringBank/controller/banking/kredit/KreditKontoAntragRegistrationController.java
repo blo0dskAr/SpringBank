@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import javax.validation.constraints.DecimalMax;
@@ -38,6 +39,7 @@ import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.security.cert.PKIXReason;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Controller
@@ -57,8 +59,6 @@ public class KreditKontoAntragRegistrationController {
 
   @GetMapping("/register")
   public String registerForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication , Model model) {
-    log.debug("KreditRegisterForm aufgerufen für kunde/user: " + authentication.getName());
-
 
     KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), kreditService.getZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
     KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
@@ -68,15 +68,17 @@ public class KreditKontoAntragRegistrationController {
 
     String kundennummer = authentication.getName();
     model.addAttribute("kundennummer", kundennummer);
+    log.debug("Kunde " + kundennummer + " ruft die SparKontoRegistrierungsSeite auf. Standardvorlage wurde erstellt.");
 
     return "kunde/banking/kredit/registration";
 }
 
   @PostMapping(value = "/register", params={"calculate"})
-  public String processRegistration(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                                    @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
-                                    BindingResult bindingResult, Model model) {
+  public String processKreditRegistration(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                          @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
+                                          BindingResult bindingResult, Model model) {
       if (bindingResult.hasErrors()) {
+        log.debug("Fehler beim speichern Der KreditRechnerVorlage erhalten. Wird mit Fehler neu geladen. (count=" + bindingResult.getErrorCount() + ")");
         kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
         model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
         return "kunde/banking/kredit/registration";
@@ -88,6 +90,7 @@ public class KreditKontoAntragRegistrationController {
         model.addAttribute("ergebnis",ke);
         model.addAttribute("calculatedCorrectly", true);
 
+        log.debug("KreditBerechnung wurde erfolgreich durchgeführt:");
         log.debug("vorlage: " + kv);
         log.debug("ergebnis: " + ke);
 
@@ -96,10 +99,10 @@ public class KreditKontoAntragRegistrationController {
     }
 
   @PostMapping(value = "/register", params={"saveKreditAntrag"})
-  public String tralala(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                        @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv, Errors errors1,
-                        @Validated @ModelAttribute("ergebnis") KreditRechnerErgebnis ke,
-                         Errors errors2, Model model) {
+  public String saveKreditRegistration(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                       @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv, Errors errors1,
+                                       @Validated @ModelAttribute("ergebnis") KreditRechnerErgebnis ke, Errors errors2,
+                                       Model model, RedirectAttributes redirectAttrs) {
 
     if (errors1.hasErrors() || errors2.hasErrors()) {
       kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
@@ -111,16 +114,21 @@ public class KreditKontoAntragRegistrationController {
     String kundennummer = authentication.getName();
     model.addAttribute("kundennummer", kundennummer);
 
+    log.debug("KreditAntrag mit folgenden Daten wird erstellt:");
     log.debug("KE ------------------> " + ke);
     log.debug("KV ------------------> " + kv);
 
     log.debug("KreditAntrag soll gespeichert werden für Kunde: " + kundennummer);
-    KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.now(), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), kv.getZinssatz(), ke.getGesamtBelastung(), Long.valueOf(kundennummer) );
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+
+    KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.parse(LocalDateTime.now().format(formatter)), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), kv.getZinssatz(), ke.getGesamtBelastung(), Long.valueOf(kundennummer) );
     log.debug("KreditKontoRegistrationForm wurde erstellt: " + kreditKontoRegistrationForm.toString());
     kreditKontoAntragService.save(kreditKontoRegistrationForm.toKreditKontoAntrag());
     log.debug("Kreditantrag wurde erfolgreich gespeichert.");
 
-
-    return "kunde/banking/kredit/registration";
+    redirectAttrs.addFlashAttribute("antragGespeichert", true);
+//    return "kunde/banking/index";
+    return "redirect:/kunde/banking/index" ;
   }
 }

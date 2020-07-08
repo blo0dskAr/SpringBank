@@ -24,24 +24,10 @@ public class KreditKontoRegistrationForm {
   @DateTimeFormat()
   private LocalDateTime antragsDatum = LocalDateTime.now() ;
 
-//  @DecimalMin(value = "1000" , message = "Wert muss zwischen 1.000 € und 80.000 € liegen")
-//  @DecimalMax(value = "80000", message = "Wert muss zwischen 1.000 € und 80.000 € liegen")
-//  @Digits(integer = 5, fraction = 0)
-//  @NotNull(message = "Wert muss zwischen 1.000 € und 80.000 € liegen")
+  // Hier aktuell keine Formvalidation Annotationen notwendig, wird durch KreditRechnerVorlage geprüft
   private BigDecimal kreditBetrag;
-//  @DecimalMin(value = "1" , message = "Kredit Muss vorher berechnet werden")
-//  @Digits(integer = 5, fraction = 2, message = "Kredit Muss vorher berechnet werden")
-//  @NotNull(message = "Kredit Muss vorher berechnet werden")
   private BigDecimal rate;
-//  @DecimalMin(value = "12", message = "Wert muss zwischen 12 und 180 Monaten liegen")
-//  @DecimalMax(value = "180", message = "Wert muss zwischen 12 und 180 Monaten liegen")
-//  @NotNull(message = "Wert muss zwischen 12 und 180 Monaten liegen")
-//  @Digits(integer = 3, fraction = 0, message = "Wert muss zwischen 12 und 180 Monaten liegen")
   private BigInteger laufzeit;
-//  @DecimalMin(value = "1" , message = "Bei dem Zinssatz kann was nicht stimmen")
-//  @DecimalMax(value = "20", message = "Bei dem Zinssatz kann was nicht stimmen")
-//  @Digits(integer = 4, fraction = 2, message = "Kredit Muss vorher berechnet werden")
-//  @NotNull(message = "Kredit Muss vorher berechnet werden")
   private BigDecimal zinssatz;
   private BigDecimal gesamtBelastung;
   private Long kundennummer;

@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Entity
@@ -18,7 +19,7 @@ import java.time.LocalDate;
 @AllArgsConstructor
 public class Konto {
 
-  public Konto(LocalDate eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus) {
+  public Konto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus) {
     this.eroeffnungsDatum = eroeffnungsDatum;
     this.kontonummer = kontonummer;
     this.kunde = kunde;
@@ -32,7 +33,7 @@ public class Konto {
   private Long id;
 
   @Column(name = "eroeffnungs_datum")
-  private LocalDate eroeffnungsDatum;
+  private LocalDateTime eroeffnungsDatum;
 
   @Column(name = "kontonummer")
   private Long kontonummer;

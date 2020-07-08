@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -25,7 +26,7 @@ public class GiroKonto extends Konto {
 
   private BigDecimal ueberziehungsRahmen;
 
-  public GiroKonto(LocalDate eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, GiroKontoAntrag giroKontoAntrag, BigDecimal ueberziehungsRahmen) {
+  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, GiroKontoAntrag giroKontoAntrag, BigDecimal ueberziehungsRahmen) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
     this.giroKontoAntrag = giroKontoAntrag;
     this.ueberziehungsRahmen = ueberziehungsRahmen;

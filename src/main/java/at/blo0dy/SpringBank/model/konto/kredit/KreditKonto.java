@@ -14,6 +14,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -37,7 +38,7 @@ public class KreditKonto extends Konto {
   private BigInteger laufzeit;
 
 
-  public KreditKonto(LocalDate eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit,  KreditKontoAntrag kreditKontoAntrag) {
+  public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit, KreditKontoAntrag kreditKontoAntrag) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
     this.kreditKontoAntrag = kreditKontoAntrag;
     this.kreditBetrag = kreditBetrag;

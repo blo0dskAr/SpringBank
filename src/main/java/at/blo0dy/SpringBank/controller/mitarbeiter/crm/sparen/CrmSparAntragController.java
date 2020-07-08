@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Controller
@@ -70,7 +71,7 @@ public class CrmSparAntragController {
 
     if (sparKontoAntrag.getAntragsStatus().equals(AntragsStatusEnum.GENEHMIGT))  {
       log.debug("CrmSparAntragController: Sparkonto wurde genehmigt, Sparkonto wird erstellt");
-      SparKonto sparKonto = new SparKonto(LocalDate.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, "12345678001",  sparKontoAntrag);
+      SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, "12345678001",  sparKontoAntrag);
       log.debug("CrmSparAntragController: --> SparkontoDaten: " + sparKonto.toString()) ;
       sparService.save(sparKonto);
     }

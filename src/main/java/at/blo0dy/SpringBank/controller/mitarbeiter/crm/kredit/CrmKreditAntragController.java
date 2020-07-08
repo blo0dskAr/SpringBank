@@ -101,7 +101,7 @@ public class CrmKreditAntragController {
     KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
     if (kreditKontoAntrag.getAntragsStatus().equals(AntragsStatusEnum.GENEHMIGT)) {
-      KreditKonto kreditKonto = new KreditKonto(LocalDate.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
+      KreditKonto kreditKonto = new KreditKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
               kontoStatusAufgrundKundenStatus, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), kreditKontoAntrag);
       kreditService.save(kreditKonto);
     }

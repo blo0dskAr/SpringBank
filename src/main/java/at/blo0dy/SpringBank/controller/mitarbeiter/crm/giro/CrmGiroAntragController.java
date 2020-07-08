@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Slf4j
 @Controller
@@ -77,7 +78,7 @@ public class CrmGiroAntragController {
         ueberziehungsrahmen = BigDecimal.ZERO;
       }
       log.debug("CrmGirorAntragController: Girokonto wurde genehmigt, Girokonto wird erstellt");
-      GiroKonto giroKonto = new GiroKonto(LocalDate.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, giroKontoAntrag,ueberziehungsrahmen );
+      GiroKonto giroKonto = new GiroKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, giroKontoAntrag,ueberziehungsrahmen );
       log.debug("CrmGiroAntragController: --> GirokontoDaten: " + giroKonto.toString()) ;
       giroService.save(giroKonto);
     }

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 @Data
@@ -26,7 +26,7 @@ public class SparKonto extends Konto {
   @Column(name = "connected_giro")
   private String connectedGiro;
 
-  public SparKonto(LocalDate eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, String connectedGiro, SparKontoAntrag sparKontoAntrag) {
+  public SparKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, String connectedGiro, SparKontoAntrag sparKontoAntrag) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
     this.connectedGiro = connectedGiro;
     this.sparKontoAntrag = sparKontoAntrag;

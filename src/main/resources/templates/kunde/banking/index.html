@@ -125,12 +125,12 @@
                                             </h2>
                                         </div>
                                         <div class="col-6">
-                                            <div class="text-right text-secondary mp-0 small"> Anträge Gesamt:  </div>
-                                            <div class="text-right text-secondary mp-0 small"> Offene Anträge:  </div>
+                                            <div class="text-right text-secondary mp-0 small" th:text="${'Anträge Gesamt: ' + antraegeGesamt}"> Anträge Gesamt:  </div>
+                                            <div class="text-right text-secondary mp-0 small" th:text="${'Offene Anträge: ' + offeneAntraegeGesamt}"> Offene Anträge:  </div>
                                         </div>
                                         <div class="col">
-                                            <div class="text-right text-secondary mp-0 small"> Abgelehnte Anträge: 100.000.000,00 </div>
-                                            <div class="text-right text-secondary mp-0 small"> durchgeführte Anträge: dollarZgenerat0r </div>
+                                            <div class="text-right text-secondary mp-0 small" th:text="${'Durchgeführte Anträge: ' + durchgefuehrteAntraegeGesamt}"> durchgeführte Anträge: </div>
+                                            <div class="text-right text-secondary mp-0 small" th:text="${'Abgelehnte Anträge: ' + abgelehnteAntraegeGesamt}"> abgelehnte Anträge:  </div>
                                         </div>
                                     </div>
                                 </div>
@@ -253,8 +253,8 @@
                                             </h2>
                                         </div>
                                         <div class="col-6">
-                                            <div class="text-right text-secondary mp-0 small"> Inhaber: Der Herr mim Gwehr </div>
-                                            <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
+                                            <div class="text-right text-secondary mp-0 small" th:text="${'Konten gesamt: ' + kontenGesamt}"> Konten gesamt: </div>
+                                            <div class="text-right text-secondary mp-0 small" th:text="${'Offene Konten: ' + offeneKontenGesamt}"> offene Konten: </div>
                                         </div>
                                         <div class="col">
 <!--                                            <div class="text-right text-secondary mp-0 small"  th:text="'GesamtSaldo: '"> <div text="du oasch">penis</div>  </div>-->
@@ -263,7 +263,7 @@
                                                 <span th:text="'GesamtSaldo: '"></span>
                                                 <span th:classappend="${summeoffenerkonten != null && summeoffenerkonten > 0 ? 'text-success' : 'text-danger'}" th:text="${summeoffenerkonten} + ' €'"></span>
                                             </div>
-                                            <div class="text-right text-secondary mp-0 small"> KontoName: dollarZgenerat0r </div>
+<!--                                            <div class="text-right text-secondary mp-0 small"> KontoName: dollarZgenerat0r </div>-->
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +274,7 @@
                                             <div class="row">
                                                 <div class="col-3 pl-0">
                                                     <h2 class="mb-0">
-                                                        <button class="btn btn-outline-dark text-left float-left" type="button"  aria-expanded="true" th:text="${sparkonto.kontonummer}" >
+                                                        <button class="btn btn-outline-dark text-left float-left" type="button"  aria-expanded="true" th:text="${sparkonto.kontonummer + ' Details'}" >
                                                             Kontonummer
                                                         </button>
                                                     </h2>
@@ -284,9 +284,12 @@
                                                     <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
                                                 </div>
                                                 <div class="col">
-                                                    <div class="text-right text-secondary mp-0 small" th:text="'Kontosaldo: ' + ${sparkonto.aktSaldo}"> Kontosaldo: 100.000.000,00 </div>
-<!--                                                    <div class="text-right text-secondary mp-0 small"> Kontosaldo: 100.000.000,00 </div>-->
-                                                    <div class="text-right text-secondary mp-0 small"> KontoName: dollarZgenerat0r </div>
+                                                    <div class="text-right text-secondary mp-0 small">
+                                                        <span th:text="'KontoSaldo: '"></span>
+                                                        <span th:classappend="${sparkonto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${sparkonto.aktSaldo} + ' €'"></span>
+<!--                                                        th:text="'Kontosaldo: ' + ${sparkonto.aktSaldo}"> Kontosaldo: 100.000.000,00-->
+                                                    </div>
+                                                    <div class="text-right text-secondary mp-0 small" th:text="'KontoTyp: ' + ${sparkonto.getClass().getSimpleName()}"> KontoTyp: dollarZgenerat0r </div>
                                                 </div>
                                             </div>
                                         </div>

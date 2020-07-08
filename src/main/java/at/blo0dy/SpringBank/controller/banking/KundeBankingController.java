@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.controller.banking;
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
@@ -8,6 +9,8 @@ import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoAntragService;
+import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
@@ -33,9 +36,11 @@ import java.util.List;
 @RequestMapping("/kunde/banking")
 public class KundeBankingController {
 
+  KontoService kontoService;
   GiroService giroService;
   KreditService kreditService;
   SparService sparService;
+  KontoAntragService kontoAntragService;
   GiroKontoAntragService giroKontoAntragService;
   KreditKontoAntragService kreditKontoAntragService;
   SparKontoAntragService sparKontoAntragService;
@@ -43,10 +48,14 @@ public class KundeBankingController {
 
 
   @Autowired
-  public KundeBankingController(GiroService giroService, KreditService kreditService, SparService sparService, GiroKontoAntragService giroKontoAntragService, KreditKontoAntragService kreditKontoAntragService, SparKontoAntragService sparKontoAntragService, KundeService kundeService) {
+  public KundeBankingController(KontoService kontoService, GiroService giroService, KreditService kreditService, SparService sparService, KontoAntragService kontoAntragService,
+                                GiroKontoAntragService giroKontoAntragService, KreditKontoAntragService kreditKontoAntragService, SparKontoAntragService sparKontoAntragService,
+                                KundeService kundeService) {
+    this.kontoService = kontoService;
     this.giroService = giroService;
     this.kreditService = kreditService;
     this.sparService = sparService;
+    this.kontoAntragService = kontoAntragService;
     this.giroKontoAntragService = giroKontoAntragService;
     this.kreditKontoAntragService = kreditKontoAntragService;
     this.sparKontoAntragService = sparKontoAntragService;
@@ -65,7 +74,6 @@ public class KundeBankingController {
 
     BigDecimal summeOffenerKonten = kundeService.getSummeOffenerKontenByKundennummer(authKundennummer);
 
-
     List<SparKontoAntrag> sparKontoAntragListe = sparKontoAntragService.findSparAntraegeByKundennummer(authKundennummer);
     List<KreditKontoAntrag> kreditKontoAntragListe = kreditKontoAntragService.findKreditAntraegeByKundennummer(authKundennummer);
     List<GiroKontoAntrag> giroKontoAntragListe = giroKontoAntragService.findGiroAntraegeByKundennummer(authKundennummer);
@@ -74,18 +82,28 @@ public class KundeBankingController {
     List<GiroKonto> giroKontenListe = giroService.findGiroKontenByKundennummer(authKundennummer);*/
 
 
-
     Kunde kunde = kundeService.findByKundennummer(authKundennummer);
 
 //    List<SparKonto> sparKontenListe = sparService.findSparKontoByKunde(kunde);
 
-    log.debug("KUNDE: ----------------------------> " + kunde);
     model.addAttribute("activeLink", "KundeBankingHome");
     model.addAttribute("kunde", kunde);
     model.addAttribute("sparkontoantragliste", sparKontoAntragListe);
     model.addAttribute("kreditkontoantragliste", kreditKontoAntragListe);
     model.addAttribute("girokontoantragliste", giroKontoAntragListe);
     model.addAttribute("sparkontenliste", sparKontenListe);
+
+    // TODO: Ich möcht zwar gern eine seite wo viel passiert (wie man performance spürt), aber trotzdem sollten die untrigen mal gruppiert in listen oder ähnliches durchgeführt werden
+    // TODO: Damit nicht zu viele einzelrequest in die Datenbank notwendig sind.
+    model.addAttribute("antraegeGesamt", kontoAntragService.countAntraegeGesamtByKundennummer(authKundennummer));
+    model.addAttribute("offeneAntraegeGesamt", kontoAntragService.countOffeneAntraegeByKundennummer(authKundennummer));
+    model.addAttribute("abgelehnteAntraegeGesamt", kontoAntragService.countAbgelehnteAntraegeByKundennummer(authKundennummer));
+    model.addAttribute("durchgefuehrteAntraegeGesamt", kontoAntragService.countDurchgefuehrteAntraegeByKundennummer(authKundennummer));
+
+    model.addAttribute("kontenGesamt", kontoService.countKontenGesamtByKundennummer(authKundennummer));
+    model.addAttribute("offeneKontenGesamt", kontoService.countOffeneKontenGesamtByKundennummer(authKundennummer));
+
+
 /*    model.addAttribute("kreditkontenliste", kreditKontenListe);
     model.addAttribute("girokontenliste", giroKontenListe);*/
     model.addAttribute("summeoffenerkonten", summeOffenerKonten);

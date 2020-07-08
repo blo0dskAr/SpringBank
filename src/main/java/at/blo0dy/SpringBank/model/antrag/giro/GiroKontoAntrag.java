@@ -27,6 +27,7 @@ public class GiroKontoAntrag {
   @Enumerated(EnumType.STRING)
   private AntragsStatusEnum antragsStatus;
 
+  @Column(name = "ueberziehungsrahmen_gewuenscht")
   private boolean ueberziehungsrahmenGewuenscht;
 
   @Column(name = "kundennummer")

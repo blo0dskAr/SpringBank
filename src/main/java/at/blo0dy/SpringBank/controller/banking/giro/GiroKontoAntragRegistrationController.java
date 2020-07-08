@@ -18,6 +18,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Slf4j
 @Controller
@@ -48,10 +52,17 @@ public class GiroKontoAntragRegistrationController {
   }
 
   @PostMapping("/register")
-  public String processRegistration(@ModelAttribute("girokontoantrag") GiroKontoRegistrationForm form) {
-    log.debug("GIROFORM -------------> " + form);
+  public String processRegistration(@ModelAttribute("girokontoantrag") GiroKontoRegistrationForm form, RedirectAttributes redirectAttrs) {
+
+    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+    form.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+
+    log.debug("GiroKontoRegistrationForm erhalten: " + form);
     log.debug("GiroKontoAntragRegistrationController: GiroKontoRegistrationForm wird als GirokontoAntrag gespeichert");
     giroKontoAntragRepository.save(form.toGiroKontoAntrag());
+    log.debug("GiroKontoRegistrationForm wurde erfolgreich als GirokontoAntrag gespeichert");
+
+    redirectAttrs.addFlashAttribute("antragGespeichert", true);
     return "redirect:/kunde/banking/index";
   }
 

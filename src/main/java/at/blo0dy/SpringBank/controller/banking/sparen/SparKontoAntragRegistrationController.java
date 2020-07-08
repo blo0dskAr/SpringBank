@@ -42,7 +42,7 @@ public class SparKontoAntragRegistrationController {
 
     // TODO: authentication.getname als name mitschicken sollt ich mal als controller advice für authentifizierte KundenPages definieren
     String kundennummer = authentication.getName();
-    log.debug("SparKontoAntragRegistrationController: Kunde " + kundennummer + " ruft die SparKontoRegistrierungsSeite auf" );
+    log.debug("Kunde " + kundennummer + " ruft die SparKontoRegistrierungsSeite auf" );
     model.addAttribute("kundennummer", kundennummer);
     model.addAttribute("sparkontoantrag", sparKontoRegistrationForm);
 
@@ -55,7 +55,7 @@ public class SparKontoAntragRegistrationController {
                                     Model model, RedirectAttributes redirectAttrs) {
 
     if (result.hasErrors()) {
-      log.debug("SparKontoAntragRegistrationController: Fehler beim speichern Der SparkontoRegistrationForm erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      log.debug("Fehler beim speichern Der SparkontoRegistrationForm erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       model.addAttribute("kundennummer", authentication.getName());
       return "/kunde/banking/sparen/registration";
     }
@@ -65,10 +65,10 @@ public class SparKontoAntragRegistrationController {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     form.setAntragsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
 
-    log.debug("SparKontoAntragRegistrationController: SparKontoRegistrationForm erhalten: " + form);
-    log.debug("SparKontoAntragRegistrationController: SparKontoRegistrationForm wird als SparkontoAntrag gespeichert");
+    log.debug("SparKontoRegistrationForm erhalten: " + form);
+    log.debug("SparKontoRegistrationForm wird als SparkontoAntrag gespeichert");
     sparKontoAntragRepository.save(form.toSparKontoAntrag());
-    log.debug("SparKontoAntragRegistrationController: SparKontoRegistrationForm wurde erfolgreich als SparkontoAntrag gespeichert");
+    log.debug("SparKontoRegistrationForm wurde erfolgreich als SparkontoAntrag gespeichert");
 
     redirectAttrs.addFlashAttribute("antragGespeichert", true);
     return "redirect:/kunde/banking/index";

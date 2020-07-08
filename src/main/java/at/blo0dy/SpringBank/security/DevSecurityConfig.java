@@ -28,6 +28,13 @@ public class DevSecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
+  @Bean
+  public LocaleResolver localeResolver() {
+    SessionLocaleResolver slr = new SessionLocaleResolver();
+    slr.setDefaultLocale(Locale.GERMANY);
+    return slr;
+  }
+
   @Configuration
   @Profile("dev")
   @Order(1)
@@ -38,13 +45,6 @@ public class DevSecurityConfig {
 
     @Autowired
     private DataSource ds;
-
-    @Bean
-    public LocaleResolver localeResolver() {
-      SessionLocaleResolver slr = new SessionLocaleResolver();
-      slr.setDefaultLocale(Locale.GERMANY);
-      return slr;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {

@@ -79,8 +79,6 @@ public class KundeBankingController {
 
 //    List<SparKonto> sparKontenListe = sparService.findSparKontoByKunde(kunde);
 
-    log.debug("SPARKONTENLISTE: ------> " + sparKontenListe);
-
     model.addAttribute("activeLink", "KundeBankingHome");
     model.addAttribute("kunde", kunde);
     model.addAttribute("sparkontoantragliste", sparKontoAntragListe);

@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.model.antrag.sparen;
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
@@ -13,21 +14,22 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "sparkontoantrag")
+@PrimaryKeyJoinColumn(name = "id")
 @NoArgsConstructor
 @AllArgsConstructor
-public class SparKontoAntrag {
+public class SparKontoAntrag extends KontoAntrag {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+//  @Id
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
+//  @Column(name = "id")
+//  private Long id;
 
-  @Column(name = "antrag_datum")
-  private LocalDateTime antragsDatum;
-
-  @Column(name = "antrags_status")
-  @Enumerated(EnumType.STRING)
-  private AntragsStatusEnum antragsStatus;
+//  @Column(name = "antrag_datum")
+//  private LocalDateTime antragsDatum;
+//
+//  @Column(name = "antrags_status")
+//  @Enumerated(EnumType.STRING)
+//  private AntragsStatusEnum antragsStatus;
 
   @Column(name = "erst_auftrag")
   private BigDecimal erstAuftrag;
@@ -35,8 +37,8 @@ public class SparKontoAntrag {
   @Column(name = "dauer_auftrag")
   private BigDecimal dauerAuftrag;
 
-  @Column(name = "kundennummer")
-  private Long kundennummer;
+//  @Column(name = "kundennummer")
+//  private Long kundennummer;
 
 //  @ManyToOne(cascade = {CascadeType.ALL})
 //  @ManyToOne
@@ -45,10 +47,11 @@ public class SparKontoAntrag {
 
   // Custom Constructor for  SparkontoRegistrationForm
   public SparKontoAntrag(LocalDateTime antragsDatum, AntragsStatusEnum antragsStatus, BigDecimal erstAuftrag, BigDecimal dauerAuftrag, Long kundennummer) {
-    this.antragsDatum = antragsDatum;
-    this.antragsStatus = antragsStatus;
+    super(antragsDatum,antragsStatus,kundennummer);
+//    this.antragsDatum = antragsDatum;
+//    this.antragsStatus = antragsStatus;
     this.erstAuftrag = erstAuftrag;
     this.dauerAuftrag = dauerAuftrag;
-    this.kundennummer = kundennummer;
+//    this.kundennummer = kundennummer;
   }
 }

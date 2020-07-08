@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.model.antrag.kredit;
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragsStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,21 +16,22 @@ import java.time.LocalDateTime;
 @Data
 @Entity
 @Table(name = "kreditkontoantrag")
+@PrimaryKeyJoinColumn(name = "id")
 @NoArgsConstructor
 @AllArgsConstructor
-public class KreditKontoAntrag {
+public class KreditKontoAntrag extends KontoAntrag {
 
-  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;
+//  @Id
+//  @GeneratedValue(strategy = GenerationType.IDENTITY)
+//  @Column(name = "id")
+//  private Long id;
 
-  @Column(name = "antrag_datum")
-  private LocalDateTime antragsDatum;
-
-  @Column(name = "antrags_status")
-  @Enumerated(EnumType.STRING)
-  private AntragsStatusEnum antragsStatus;
+//  @Column(name = "antrag_datum")
+//  private LocalDateTime antragsDatum;
+//
+//  @Column(name = "antrags_status")
+//  @Enumerated(EnumType.STRING)
+//  private AntragsStatusEnum antragsStatus;
 
   @DecimalMin(value = "1000", message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
   @DecimalMax(value = "80000", message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
@@ -57,19 +59,20 @@ public class KreditKontoAntrag {
   @Column(name = "gesamt_belastung")
   private BigDecimal gesamtBelastung;
 
-  @Column(name = "kundennummer")
-  private Long kundennummer;
+//  @Column(name = "kundennummer")
+//  private Long kundennummer;
 
 
-  // Custom Constructor for  SparkontoRegistrationForm
+//   Custom Constructor for  SparkontoRegistrationForm
   public KreditKontoAntrag(LocalDateTime antragsDatum, AntragsStatusEnum antragsStatus, BigDecimal kreditBetrag, BigDecimal zinssatz, BigDecimal rate, BigInteger laufzeit, BigDecimal gesamtBelastung, Long kundennummer) {
-    this.antragsDatum = antragsDatum;
-    this.antragsStatus = antragsStatus;
+    super(antragsDatum, antragsStatus,kundennummer);
+//    this.antragsDatum = antragsDatum;
+//    this.antragsStatus = antragsStatus;
     this.kreditBetrag = kreditBetrag;
     this.zinssatz = zinssatz;
     this.rate = rate;
     this.laufzeit = laufzeit;
     this.gesamtBelastung = gesamtBelastung;
-    this.kundennummer = kundennummer;
+//    this.kundennummer = kundennummer;
   }
 }

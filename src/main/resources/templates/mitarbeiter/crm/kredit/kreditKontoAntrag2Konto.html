@@ -28,21 +28,21 @@
                            </div>
                            <div class="form-group col-md-6">
                                <label for="kreditBetrag">Kreditbetrag</label>
-                               <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1.000.000,00 €" th:value="${kreditKontoAntrag.kreditBetrag}">
+                               <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1.000.000,00 €" th:value="${#numbers.formatDecimal(kreditKontoAntrag.kreditBetrag, 0, 'POINT', 2, 'COMMA')}">
                                <div class="text-danger"
                                     th:if="${#fields.hasErrors('kreditKontoAntrag.kreditBetrag')}"
                                     th:errors="*{kreditKontoAntrag.kreditBetrag}">Kreditbetrag Error</div>
                            </div>
                            <div class="form-group col-md-6">
                                <label for="zinssatz">Zinssatz</label>
-                               <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="6,50 %" th:value="${kreditKontoAntrag.zinssatz}">
+                               <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="6,50 %" th:value="${#numbers.formatDecimal(kreditKontoAntrag.zinssatz, 0, 'POINT', 2, 'COMMA')}">
                                <div class="text-danger"
                                     th:if="${#fields.hasErrors('kreditKontoAntrag.zinssatz')}"
                                     th:errors="*{kreditKontoAntrag.zinssatz}">Kreditbetrag Error</div>
                            </div>
                            <div class="form-group col-md-6">
                                <label for="rate">Monatl. Rate</label>
-                               <input type="text" class="form-control" id="rate" name="rate" placeholder="123,45 €" th:value="${kreditKontoAntrag.rate}" readonly>
+                               <input type="text" class="form-control" id="rate" name="rate" placeholder="123,45 €" th:value="${#numbers.formatDecimal(kreditKontoAntrag.rate, 0, 'POINT', 2, 'COMMA')}" readonly>
                            </div>
                            <div class="form-group col-md-6">
                                <label for="laufzeit">Laufzeit</label>
@@ -57,7 +57,7 @@
                            </div>
                            <div class="form-group col-md-6">
                                <label for="gesamtBelastung">Gesamtbelastung</label>
-                               <input type="text" class="form-control" id="gesamtBelastung" name="gesamtBelastung" placeholder="12.123,12 €" th:value="${kreditKontoAntrag.gesamtBelastung}" readonly>
+                               <input type="text" class="form-control" id="gesamtBelastung" name="gesamtBelastung" placeholder="12.123,12 €" th:value="${#numbers.formatDecimal(kreditKontoAntrag.gesamtBelastung, 0, 'POINT', 2, 'COMMA')}" readonly>
                            </div>
                        </div>
                        <div class="form-group">
@@ -72,7 +72,7 @@
                            </select>
 <!--                           <input type="text" class="form-control" id="status" placeholder="Apartment, studio, or floor">-->
                        </div>
-                       <button type="submit" class="btn btn-primary" name="recalculate" value="recalculate">Neu Berechnen</button>
+                       <button type="submit" class="btn btn-primary" name="recalculate" value="recalculate"  >Neu Berechnen</button>
                        <hr class="mt-5">
                         <div class="form-row">
                             <div class="form-group col-md-12">

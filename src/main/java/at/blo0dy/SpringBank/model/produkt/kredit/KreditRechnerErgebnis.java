@@ -12,16 +12,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class KreditRechnerErgebnis {
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal kreditBetrag;
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal zinsAnteil;
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal gesamtBelastung;
 
-  @NumberFormat(style = NumberFormat.Style.NUMBER)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal monatlicheRate;
 
 }

@@ -18,6 +18,8 @@ public interface KreditKontoAntragService {
 
   void deleteById(Long theId);
 
+  KreditKontoAntrag getOne(Long aLong);
+
   long count();
 
   long countByStatus(String statusEnum);

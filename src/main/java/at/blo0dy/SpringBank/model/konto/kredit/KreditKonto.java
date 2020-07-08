@@ -25,6 +25,7 @@ import java.time.LocalDateTime;
 public class KreditKonto extends Konto {
 
 //  @OneToOne(cascade = CascadeType.ALL)
+//  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
   @OneToOne
   private KreditKontoAntrag kreditKontoAntrag;
 

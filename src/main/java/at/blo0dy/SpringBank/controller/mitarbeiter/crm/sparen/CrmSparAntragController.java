@@ -81,6 +81,7 @@ public class CrmSparAntragController {
       sparService.save(sparKonto);
     }
 
+    // TODO: wenn ihr hier speicher, wird mirs datum in der Datenbank abgeschnitten, weiß aber noch nicht warum nur hier ..
     log.debug("SparKontoAntrag wird gespeichert");
     sparKontoAntragService.save(sparKontoAntrag);
 

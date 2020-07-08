@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.TransactionScoped;
 import java.util.List;
 import java.util.Optional;
 
@@ -49,6 +50,12 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
   @Transactional
   public void deleteById(Long theId) {
     kreditKontoAntragRepository.deleteById(theId);
+  }
+
+  @Override
+  @Transactional
+  public KreditKontoAntrag getOne(Long aLong) {
+    return kreditKontoAntragRepository.getOne(aLong);
   }
 
   @Override

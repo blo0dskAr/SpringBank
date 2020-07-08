@@ -55,6 +55,7 @@ public class CrmKreditAntragController {
 
     KreditKontoAntrag kreditKontoAntrag = kreditKontoAntragService.findById(kreditKontoAntragId);
     Kunde kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
+    log.debug("showKreditAntragForKontoForm für id=" + kreditKontoAntragId + ", KundeNr= " + kunde.getKundennummer());
 
     model.addAttribute("kreditKontoAntrag", kreditKontoAntrag);
     model.addAttribute("kunde", kunde);
@@ -67,44 +68,46 @@ public class CrmKreditAntragController {
   public String saveKreditAntrag2KontoForm(@Valid @ModelAttribute("kreditKontoAntrag") KreditKontoAntrag kreditKontoAntrag, BindingResult bindingResult,
                                            @ModelAttribute("kunde") Kunde kunde, Model model) {
 
-    try {
-      // TODO: da mal bissl aufräumen , ich brauch nur noch den selbstgeschriebenen dataComparer...
-      log.debug("CrmKreditAntragController: saveKreditAntrag2KontoForm ----> KreditKontoAntrag: " + kreditKontoAntrag);
-      KreditKontoAntrag vergleichsAntrag = kreditKontoAntragService.findById(kreditKontoAntrag.getId());
-      log.debug("CrmKreditAntragController: saveKreditAntrag2KontoForm ----> Vergleichs-Antrag: " + vergleichsAntrag);
-      log.debug("VERGLEICH DER ANTRAG_DATAS -------> " + kreditKontoAntragService.compareBasicKreditData(kreditKontoAntrag, vergleichsAntrag));
+    Long tmpKredAntrId = kreditKontoAntrag.getId();
+    String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
 
-      if (kreditKontoAntragService.compareBasicKreditData(kreditKontoAntrag, vergleichsAntrag)) {
-        model.addAttribute("kreditMussNeuBerechnetWerden", false);
-      } else {
-        kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
-        model.addAttribute("kunde", kunde);
-        model.addAttribute("kreditMussNeuBerechnetWerden", true);
-        return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto";
+      log.debug("KreditAntrag id=" + tmpKredAntrId + ", KundeNr:" + tmpKundenNummer + " soll gespeichert werden" );
+      try {
+          KreditKontoAntrag vergleichsAntrag = kreditKontoAntragService.findById(tmpKredAntrId);
+          log.debug("Es wird geprüft ob sich die KreditAntragdaten verändert haben für KreditAntragId=" + tmpKredAntrId);
+          if (kreditKontoAntragService.compareBasicKreditData(kreditKontoAntrag, vergleichsAntrag)) {
+          model.addAttribute("kreditMussNeuBerechnetWerden", false);
+          log.debug("--> Keine NeuBerechnung Notwendig für KreditAntragId=" + tmpKredAntrId);
+        } else {
+          kunde = kundeService.findByKundennummer(tmpKundenNummer);
+          model.addAttribute("kunde", kunde);
+          model.addAttribute("kreditMussNeuBerechnetWerden", true);
+          log.debug("--> NeuBerechnung Notwendig für KreditAntragId=" + tmpKredAntrId);
+          return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto";
+        }
+      } catch (Exception e) {
+        log.debug("Exception Gefangen, da wohl irgendwas null " + e.getMessage());
       }
-    } catch (Exception e) {
-      log.debug("Exception Gefangen, da wohl irgendwas null " + e.getMessage());
-    }
 
     if (bindingResult.hasErrors()) {
-      // KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(new KreditRechnerVorlage(kreditKontoAntrag.getLaufzeit(),kreditKontoAntrag.getZinssatz(),kreditKontoAntrag.getKreditBetrag()));
-      kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
+      kunde = kundeService.findByKundennummer(tmpKundenNummer);
       model.addAttribute("kunde", kunde);
-      log.debug("showKreditAntragForKontoForm:------> Kunde:  " + kunde);
+      log.debug("FormValidation Error erhalten für Kunde=" + tmpKundenNummer );
 
       return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto";
     }
 
-    Kunde mykunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
-
-    KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
-
+    // Wenn auf genehmigt gestellt wird, wird ein neues Kreditkonto gespeichert
     if (kreditKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT)) {
+      Kunde mykunde = kundeService.findByKundennummer(tmpKundenNummer);
+      KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
       KreditKonto kreditKonto = new KreditKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
               kontoStatusAufgrundKundenStatus, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), kreditKontoAntrag);
+      log.debug("KreditAntrag wurde genehmigt, neues KreditKonto wird gespeichert. Kunde: " + tmpKundenNummer);
       kreditService.save(kreditKonto);
     }
 
+    log.debug("Änderungen an KreditAntragId=" + tmpKredAntrId + " werden gespeichert");
     kreditKontoAntragService.save(kreditKontoAntrag);
     return "redirect:/mitarbeiter/kunde/kredit/antrag";
   }
@@ -114,16 +117,17 @@ public class CrmKreditAntragController {
   public String recalculateKreditAntrag2KontoForm(@Valid @ModelAttribute("kreditKontoAntrag") KreditKontoAntrag kreditKontoAntrag, BindingResult bindingResult,
                                                   @ModelAttribute("kunde") Kunde kunde, Model model) {
 
-    if (bindingResult.hasErrors()) {
-      // KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(new KreditRechnerVorlage(kreditKontoAntrag.getLaufzeit(),kreditKontoAntrag.getZinssatz(),kreditKontoAntrag.getKreditBetrag()));
-      kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
-      model.addAttribute("kunde", kunde);
-      log.debug("showKreditAntragForKontoForm:------> Kunde:  " + kunde);
+    Long tmpKredAntrId = kreditKontoAntrag.getId();
+    String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
 
+    if (bindingResult.hasErrors()) {
+      kunde = kundeService.findByKundennummer(tmpKundenNummer);
+      model.addAttribute("kunde", kunde);
+      log.debug("FormValidation Error bei Neuberechnung erhalten für Kunde=" + tmpKundenNummer );
       return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto";
     }
 
-    log.debug("KREDITKONTOANTRAG BEIM RECALCULATEN: -----> " + kreditKontoAntrag.toString());
+    log.debug("Neuberechnung für KreditAntragId=" + tmpKredAntrId + " wird durchgeführt");
     KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(new KreditRechnerVorlage(kreditKontoAntrag.getLaufzeit(), kreditKontoAntrag.getZinssatz(), kreditKontoAntrag.getKreditBetrag()));
 
     kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
@@ -131,12 +135,18 @@ public class CrmKreditAntragController {
 
     KreditKontoAntrag neuBerechneterAntrag = new KreditKontoAntrag(LocalDateTime.now(), AntragStatusEnum.EINGEREICHT,ke.getKreditBetrag(),kreditKontoAntrag.getZinssatz(),
                                                                     ke.getMonatlicheRate(),kreditKontoAntrag.getLaufzeit(),ke.getGesamtBelastung(),kreditKontoAntrag.getKundennummer());
-    log.debug("NEU BERECHNETER KREDITKONTO ANTRAG: ------> " + neuBerechneterAntrag.toString());
 
-    model.addAttribute("kreditKontoAntrag", neuBerechneterAntrag);
-    kreditKontoAntragService.setKreditAntragAbgelehntWeilNeuBerechnetById(kreditKontoAntrag.getId());
+    kreditKontoAntrag.setGesamtBelastung(ke.getGesamtBelastung());;
+    kreditKontoAntrag.setKreditBetrag(ke.getKreditBetrag());
+    kreditKontoAntrag.setRate(ke.getMonatlicheRate());
+    kreditKontoAntragService.save(kreditKontoAntrag);
+    log.debug("Neuberechnung für KreditAntragId=" + tmpKredAntrId + " wurde durchgeführt, Änderungen gespeichert");
 
-    return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto";
+    model.addAttribute("neuBerechneterAntrag", neuBerechneterAntrag);
+    model.addAttribute("ke",ke);
+    model.addAttribute("kreditKontoAntrag", kreditKontoAntrag);
+
+    return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto" ;
   }
 
 }

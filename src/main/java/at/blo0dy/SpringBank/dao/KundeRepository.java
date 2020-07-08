@@ -39,4 +39,9 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
         "  and ko.id = sko.id ", nativeQuery = true)
   BigDecimal getSummeOffenerKontenByKundennummer(String kundennummer);
 
+//  Long countAntraegeGesamtByKundennummer(String kundennummer);
+//  Long countOffeneAntraegeByKundennummer(String kundennummer);
+//  Long countAbgelehnteAntraegeByKundennummer(String kundennummer);
+//  Long countDurchgefuehrteAntraegeByKundennummer(String kundennummer);
+
 }

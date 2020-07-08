@@ -20,6 +20,4 @@ public interface SparKontoRepository extends JpaRepository<SparKonto, Long> {
           " and ko.id = sko.id  ", nativeQuery = true)
   List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 
-   List<SparKonto> findSparKontoByKunde(Kunde kunde);
-
 }

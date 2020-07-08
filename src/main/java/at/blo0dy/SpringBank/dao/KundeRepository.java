@@ -33,15 +33,6 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
           nativeQuery = true)
   Long getLatestKundennummerPlusOne();
 
-@Query(value = " select sum(akt_saldo) from konto ko, sparkonto sko " +
-        "  where ko.kunde_id = (select ku.id from kunde ku " +
-        "  where ku.kundennummer= ?1 ) " +
-        "  and ko.id = sko.id ", nativeQuery = true)
-  BigDecimal getSummeOffenerKontenByKundennummer(String kundennummer);
 
-//  Long countAntraegeGesamtByKundennummer(String kundennummer);
-//  Long countOffeneAntraegeByKundennummer(String kundennummer);
-//  Long countAbgelehnteAntraegeByKundennummer(String kundennummer);
-//  Long countDurchgefuehrteAntraegeByKundennummer(String kundennummer);
 
 }

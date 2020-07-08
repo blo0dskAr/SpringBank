@@ -29,7 +29,6 @@ public interface SparService {
 
   List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 
-  List<SparKonto> findSparKontoByKunde(Kunde kunde);
 
   // Zinsenrechner
   SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage);

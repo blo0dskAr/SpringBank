@@ -128,10 +128,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     return kundeRepository.getLatestKundennummerPlusOne();
   }
 
-  public BigDecimal getSummeOffenerKontenByKundennummer(String kundennummer) {
-   return kundeRepository.getSummeOffenerKontenByKundennummer(kundennummer);
-  }
-
 
 
 

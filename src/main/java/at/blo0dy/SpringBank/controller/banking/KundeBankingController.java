@@ -72,19 +72,17 @@ public class KundeBankingController {
 
     String authKundennummer = authentication.getName();
 
-    BigDecimal summeOffenerKonten = kundeService.getSummeOffenerKontenByKundennummer(authKundennummer);
+    BigDecimal gesamtSaldoOffenerKonten = kontoService.getGesamtSaldoOffenerKontenByKundennummer(authKundennummer);
 
     List<SparKontoAntrag> sparKontoAntragListe = sparKontoAntragService.findSparAntraegeByKundennummer(authKundennummer);
     List<KreditKontoAntrag> kreditKontoAntragListe = kreditKontoAntragService.findKreditAntraegeByKundennummer(authKundennummer);
     List<GiroKontoAntrag> giroKontoAntragListe = giroKontoAntragService.findGiroAntraegeByKundennummer(authKundennummer);
     List<SparKonto> sparKontenListe = sparService.findSparKontoByKundennummer(authKundennummer);
-/*    List<KreditKonto> kreditKontenListe = kreditService.findKreditKontenByKundennummer(authKundennummer);
-    List<GiroKonto> giroKontenListe = giroService.findGiroKontenByKundennummer(authKundennummer);*/
+    List<KreditKonto> kreditKontenListe = kreditService.findKreditKontenByKundennummer(authKundennummer);
+    List<GiroKonto> giroKontenListe = giroService.findGiroKontenByKundennummer(authKundennummer);
 
 
     Kunde kunde = kundeService.findByKundennummer(authKundennummer);
-
-//    List<SparKonto> sparKontenListe = sparService.findSparKontoByKunde(kunde);
 
     model.addAttribute("activeLink", "KundeBankingHome");
     model.addAttribute("kunde", kunde);
@@ -92,6 +90,8 @@ public class KundeBankingController {
     model.addAttribute("kreditkontoantragliste", kreditKontoAntragListe);
     model.addAttribute("girokontoantragliste", giroKontoAntragListe);
     model.addAttribute("sparkontenliste", sparKontenListe);
+    model.addAttribute("kreditkontenliste", kreditKontenListe);
+    model.addAttribute("girokontenliste", giroKontenListe);
 
     // TODO: Ich möcht zwar gern eine seite wo viel passiert (wie man performance spürt), aber trotzdem sollten die untrigen mal gruppiert in listen oder ähnliches durchgeführt werden
     // TODO: Damit nicht zu viele einzelrequest in die Datenbank notwendig sind.
@@ -104,9 +104,7 @@ public class KundeBankingController {
     model.addAttribute("offeneKontenGesamt", kontoService.countOffeneKontenGesamtByKundennummer(authKundennummer));
 
 
-/*    model.addAttribute("kreditkontenliste", kreditKontenListe);
-    model.addAttribute("girokontenliste", giroKontenListe);*/
-    model.addAttribute("summeoffenerkonten", summeOffenerKonten);
+    model.addAttribute("gesamtSaldoOffenerKonten", gesamtSaldoOffenerKonten);
 
     return "kunde/banking/index";
   }

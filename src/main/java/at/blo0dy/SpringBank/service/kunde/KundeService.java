@@ -31,5 +31,5 @@ public interface KundeService   {
 
   Long getLatestKundennummerPlusOne();
 
-  BigDecimal getSummeOffenerKontenByKundennummer(String kundennummer);
+
 }

@@ -28,12 +28,6 @@ public class BankingSparenController {
     this.kundeService = kundeService;
   }
 
-  @GetMapping("/eroeffnung")
-  public String viewSparenEroeffnung() {
-
-    return "kunde/banking/sparen/eroeffnungsForm";
-  }
-
   @GetMapping("/sparkontouebersicht")
   public String viewSparKontoUebersicht(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 

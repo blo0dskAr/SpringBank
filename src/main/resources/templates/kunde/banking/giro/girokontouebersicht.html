@@ -25,12 +25,14 @@
                                             </button>
                                         </h2>
                                         <div class="col-6">
-                                            <div class="text-right text-secondary mp-0 small"> Inhaber: Der Herr mim Gwehr </div>
+                                            <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber: Der Herr mim Gwehr </div>
                                             <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
                                         </div>
                                         <div class="col">
-                                            <div class="text-right text-secondary mp-0 small"> Kontosaldo: 100.000.000,00 </div>
-                                            <div class="text-right text-secondary mp-0 small"> KontoName: dollarZgenerat0r </div>
+                                            <div class="text-right text-secondary mp-0 small">
+                                                <span th:text="'KontoSaldo: '"></span>
+                                                <span th:classappend="${girokonto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${girokonto.aktSaldo} + ' €'"></span>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

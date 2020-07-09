@@ -4,8 +4,7 @@ import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -14,8 +13,8 @@ import java.util.List;
 
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @Table(name = "mitarbeiter")
 @PrimaryKeyJoinColumn(name = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -41,21 +40,13 @@ public class Mitarbeiter extends Person {
           cascade = {CascadeType.ALL})
   private List<LoginCredentials> loginCredentials;
 
-/*  @OneToOne(cascade = CascadeType.ALL)
-  private Person person;*/
-
-/*  @OneToMany(mappedBy = "rolle",
-          // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
-          cascade = {CascadeType.ALL})
-  private List<Rolle> rollen;*/
-
   @Override
   public Long getId() {
     return super.getId();
   }
 
   @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
-@JoinTable(
+  @JoinTable(
         name = "map_mita_role",
         joinColumns = @JoinColumn(
                 name = "mita_id", referencedColumnName = "id"),

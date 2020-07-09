@@ -10,6 +10,10 @@ CREATE DATABASE  IF NOT EXISTS `spring_bank_test`;
 USE `spring_bank_test`;
 
 
+----------------------------------------------------
+-- some test Data
+----------------------------------------------------
+
 insert into adresse
 (id, strasse, plz, ort, land)
 values
@@ -96,6 +100,10 @@ values
 commit ;
 
 
+
+-------------------------------------------
+-- Drop Tables for Greenfield-Setup
+-------------------------------------------
 DROP TABLE IF EXISTS `map_mita_role`;
 DROP TABLE IF EXISTS `rolle`;
 DROP TABLE IF EXISTS `bank`;
@@ -106,8 +114,9 @@ DROP TABLE IF EXISTS `person`;
 DROP TABLE IF EXISTS `adresse`;
 
 
-
-
+--------------------------------------------
+-- Greenfield Setup
+--------------------------------------------
 
 DROP TABLE IF EXISTS `bank`;
 CREATE TABLE `bank` (
@@ -119,6 +128,7 @@ CREATE TABLE `bank` (
   UNIQUE (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+
 DROP TABLE IF EXISTS `adresse`;
 CREATE TABLE `adresse` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -129,6 +139,7 @@ CREATE TABLE `adresse` (
   PRIMARY KEY (`id`),
   UNIQUE (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 
 DROP TABLE IF EXISTS `person`;
 CREATE TABLE `person` (
@@ -155,8 +166,6 @@ CREATE TABLE `mitarbeiter` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 
-
-
 DROP TABLE IF EXISTS `login_credentials`;
 CREATE TABLE `login_credentials` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -169,7 +178,6 @@ CREATE TABLE `login_credentials` (
   KEY `FK_LOCR_MITA_idx` (`mitarbeiter_id`),
   CONSTRAINT `FK_LOCR_MITA` FOREIGN KEY (`mitarbeiter_id`) REFERENCES `mitarbeiter` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
-
 
 
 DROP TABLE IF EXISTS `kunde`;
@@ -190,6 +198,7 @@ CREATE TABLE `kunde` (
   CONSTRAINT `FK_KUND_PERS` FOREIGN KEY (`id`) REFERENCES `person` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+
 DROP TABLE IF EXISTS `rolle`;
 CREATE TABLE `rolle` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
@@ -197,6 +206,7 @@ CREATE TABLE `rolle` (
   PRIMARY KEY (`id`),
   UNIQUE (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
 
 DROP TABLE IF EXISTS `map_mita_role`;
 CREATE TABLE `map_mita_role` (
@@ -207,3 +217,15 @@ CREATE TABLE `map_mita_role` (
     UNIQUE (`mita_id`, `role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+
+DROP TABLE IF EXISTS `konto`;
+CREATE TABLE `konto` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `nachname` varchar(255) DEFAULT NULL,
+  `vorname` varchar(255) DEFAULT NULL,
+  `adresse_id` BIGINT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`id`),
+  KEY `FK_KONT_ANTR_idx` (`adresse_id`),
+  CONSTRAINT `FK_PERS_ADRS` FOREIGN KEY (`adresse_id`) REFERENCES `adresse` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;

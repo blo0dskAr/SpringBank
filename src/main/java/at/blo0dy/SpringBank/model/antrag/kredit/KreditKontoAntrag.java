@@ -26,7 +26,7 @@ public class KreditKontoAntrag extends KontoAntrag {
   @Digits(integer = 5,fraction = 2)
   @NotNull(message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
   @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
-  @Column(name = "kredit_auftrag")
+  @Column(name = "kredit_betrag")
   private BigDecimal kreditBetrag;
 
   @DecimalMin(value = "1", message = "Bitte einen Zinssatz zwischen 1 und 99 % angeben. Max. 2 Nachkommastellen")

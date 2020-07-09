@@ -63,21 +63,13 @@ public class DevSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      // orig
-/*      http.antMatcher("/mitarbeiter*")
+      http.antMatcher("/mitarbeiter/*")
               .antMatcher("/mitarbeiter/**")
               .authorizeRequests()
-              .anyRequest()
-              .hasAuthority("admin")*/
-
-          // nicht orig (funkt . mitarbeiter muss einloggen um irgendwas zu sehen, admin und kunde mit rollen admin/mitarbeiter nur getrennt möglich)
-          http.antMatcher("/mitarbeiter/*")
-              .antMatcher("/mitarbeiter/**")
-              .authorizeRequests()
-                  .antMatchers("/mitarbeiter/admin/**", "/mitarbeiter/admin*").hasAuthority("admin")
-                  .antMatchers("/mitarbeiter/kunde/**", "/mitarbeiter/kunde*").hasAuthority("mitarbeiter")
-                  .anyRequest()
-                  .authenticated()
+                .antMatchers("/mitarbeiter/admin/**", "/mitarbeiter/admin*").hasAuthority("admin")
+                .antMatchers("/mitarbeiter/kunde/**", "/mitarbeiter/kunde*").hasAuthority("mitarbeiter")
+                .anyRequest()
+                .authenticated()
 
 
               // orig
@@ -123,7 +115,6 @@ public class DevSecurityConfig {
       public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
       }*/
-
 
       public App2ConfigurationAdapter() {
         super();
@@ -199,7 +190,5 @@ public class DevSecurityConfig {
       http.headers().frameOptions().disable();
 
     }
-
   }
-
 }

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+
+      layout:decorate="~{mainlayout.html}">
+
+<head>
+    <title>Layout</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid">
+            <div class="row">
+               <div class="col-8">
+                   <form action="#" th:action="@{/mitarbeiter/kunde/kredit/antrag/saveKreditAntrag2KontoForm}" method="POST" >
+                       <input type="hidden" th:field="${kreditKontoAntrag.id}" />
+                       <input type="hidden" th:field="${kreditKontoAntrag.antragDatum}" />
+<!--                       <input type="hidden" th:field="*{kunde}" />-->
+                       <span th:if ="${kreditMussNeuBerechnetWerden}">
+                           <div class="alert alert-danger">
+                               Achtung: Kreditdaten wurden verändert, muss neu berechnet werden!
+                           </div>
+                       </span>
+                       <div class="form-row">
+                           <div class="form-group col-md-12">
+                               <h4>Antrags-Daten</h4>
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="kreditBetrag">Kreditbetrag</label>
+                               <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1.000.000,00 €" th:value="${#numbers.formatDecimal(kreditKontoAntrag.kreditBetrag, 0, 'POINT', 2, 'COMMA')}">
+                               <div class="text-danger"
+                                    th:if="${#fields.hasErrors('kreditKontoAntrag.kreditBetrag')}"
+                                    th:errors="*{kreditKontoAntrag.kreditBetrag}">Kreditbetrag Error</div>
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="zinssatz">Zinssatz</label>
+                               <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="6,50 %" th:value="${#numbers.formatDecimal(kreditKontoAntrag.zinssatz, 0, 'POINT', 2, 'COMMA')}">
+                               <div class="text-danger"
+                                    th:if="${#fields.hasErrors('kreditKontoAntrag.zinssatz')}"
+                                    th:errors="*{kreditKontoAntrag.zinssatz}">Kreditbetrag Error</div>
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="rate">Monatl. Rate</label>
+                               <input type="text" class="form-control" id="rate" name="rate" placeholder="123,45 €" th:value="${#numbers.formatDecimal(kreditKontoAntrag.rate, 0, 'POINT', 2, 'COMMA')}" readonly>
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="laufzeit">Laufzeit</label>
+                               <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="84 Monate" th:value="${kreditKontoAntrag.laufzeit}">
+                               <div class="text-danger"
+                                    th:if="${#fields.hasErrors('kreditKontoAntrag.laufzeit')}"
+                                    th:errors="*{kreditKontoAntrag.laufzeit}">Kreditbetrag Error</div>
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="antragKundennummer">Kundennummer</label>
+                               <input type="text" class="form-control" id="antragKundennummer" name="antragKundennummer" placeholder="12345678" th:value="${kreditKontoAntrag.kundennummer}">
+                           </div>
+                           <div class="form-group col-md-6">
+                               <label for="gesamtBelastung">Gesamtbelastung</label>
+                               <input type="text" class="form-control" id="gesamtBelastung" name="gesamtBelastung" placeholder="12.123,12 €" th:value="${#numbers.formatDecimal(kreditKontoAntrag.gesamtBelastung, 0, 'POINT', 2, 'COMMA')}" readonly>
+                           </div>
+                       </div>
+                       <div class="form-group">
+                           <label for="antragStatus">Status</label>
+                           <select id="antragStatus" class="form-control" th:field="*{kreditKontoAntrag.antragStatus}">
+                               <option th:each="antragStatusOpt : ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).values()}"
+                                       th:value="${{antragStatusOpt}}"
+                                       th:selected="${antragStatusOpt == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum)}"
+                                       th:text="${antragStatusOpt}">
+
+                               </option>
+                           </select>
+<!--                           <input type="text" class="form-control" id="status" placeholder="Apartment, studio, or floor">-->
+                       </div>
+                       <button type="submit" class="btn btn-primary" name="recalculate" value="recalculate"  >Neu Berechnen</button>
+                       <hr class="mt-5">
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <h4>Kunden-Daten</h4>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="vorname">Vorname</label>
+                                <input type="text" class="form-control" id="vorname" name="vorname" placeholder="Vorname" th:value="${kunde.vorname}" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="nachname">Nachname</label>
+                                <input type="text" class="form-control" id="nachname" name="nachname" placeholder="Nachname" th:value="${kunde.nachname}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="strasse">Straße</label>
+                            <input type="text" class="form-control" id="strasse" name="strasse" placeholder="Tralastraße 15/5" th:value="${kunde.adresse.strasse}" readonly>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                <label for="ort">Ort</label>
+                                <input type="text" class="form-control" id="ort" name="ort" th:value="${kunde.adresse.ort}" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="plz">PLZ</label>
+                                <input type="text" class="form-control" id="plz" name="plz" th:value="${kunde.adresse.plz}" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="land">Land</label>
+                                <input type="text" class="form-control" id="land" name="land" th:value="${kunde.adresse.land}" readonly>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label for="plz">Kundennummer</label>
+                                <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kunde.kundennummer}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-check">
+                            <input class="form-check-input" type="checkbox" id="legiCheckbox" name="legi" th:checked="${kunde.Legi}" readonly>
+                            <label class="form-check-label" for="legiCheckbox">
+                                ist Legitimiert
+                            </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="active" id="aktivCheckbox" th:checked="${kunde.active}" readonly>
+                                <label class="form-check-label" for="aktivCheckbox">
+                                    ist Aktiv
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="hasAcceptedAGB" id="AGBCheckbox"  th:checked="${kunde.hasAcceptedAGB}" readonly>
+                                <label class="form-check-label" for="AGBCheckbox">
+                                    hat AGB akzeptiert
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="loginDoneCheckbox" name="firstLoginDone"  th:checked="${kunde.firstLoginDone}" readonly>
+                                <label class="form-check-label" for="loginDoneCheckbox">
+                                    ErstLogin erledigt
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" name="saveKreditKonto" value="saveKreditKonto">Speichern</button>
+                   </form>
+               </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

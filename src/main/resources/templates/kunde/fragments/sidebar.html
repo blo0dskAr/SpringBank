@@ -3,6 +3,8 @@
 
 <head>
     <title>Doesnt Matter</title>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.1/js/all.min.js" crossorigin="anonymous"></script>-->
+
 </head>
 <body>
 
@@ -12,22 +14,13 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <div class="sb-sidenav-menu-heading">Core</div>
-                        <a class="nav-link" href="index.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-                            Dashboard
+                        <a th:class="${#strings.equals(activeLink, 'KundeBankingHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/kunde/banking/index}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                            Home
                         </a>
+
                         <div class="sb-sidenav-menu-heading">Interface</div>
-                        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLayouts" aria-expanded="false" aria-controls="collapseLayouts">
-                            <div class="sb-nav-link-icon"><i class="fas fa-columns"></i></div>
-                            Layouts
-                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
-                        </a>
-                        <div class="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-parent="#sidenavAccordion">
-                            <nav class="sb-sidenav-menu-nested nav">
-                                <a class="nav-link" href="layout-static.html">Static Navigation</a>
-                                <a class="nav-link" href="layout-sidenav-light.html">Light Sidenav</a>
-                            </nav>
-                        </div>
+
                         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
                             Pages
@@ -59,14 +52,88 @@
                                 </div>
                             </nav>
                         </div>
-                        <div class="sb-sidenav-menu-heading">Addons</div>
-                        <a class="nav-link" href="charts.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                            Charts
+
+                        <!--  SidePanel Sparen  -->
+                        <a class="nav-link collapsed" href="#"  th:classappend="${(#strings.startsWith(requestURI, '/kunde/sparen') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/sparen') ? 'active' : '')}"
+                           data-toggle="collapse" data-target="#sparencollapse" aria-expanded="false" aria-controls="sparencollapse">
+                            <div class="sb-nav-link-icon"><i class="fas fa-coins"></i></div>
+                            Sparen
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                         </a>
-                        <a class="nav-link" href="tables.html">
-                            <div class="sb-nav-link-icon"><i class="fas fa-table"></i></div>
-                            Tables
+                        <div class="collapse" th:classappend="${(#strings.startsWith(requestURI, '/kunde/sparen') ? 'show' : '') + (#strings.startsWith(requestURI, '/kunde/banking/sparen') ? 'show' : '')}"
+                             id="sparencollapse" aria-labelledby="heading1" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" th:href="@{/kunde/sparen/index}" >
+                                    <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                    Allgemeine Info</a>
+                                <a class="nav-link" th:href="@{/kunde/sparen/rechner}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-calculator"></i></div>
+                                    Rechner 1</a>
+                                <a class="nav-link" th:classappend="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{/kunde/sparen/rechner2}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-calculator"></i></div>
+                                    Rechner 2</a>
+                                <a class="nav-link" th:href="@{/kunde/banking/sparen/register}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                                    Eröffnen</a>
+                                <a class="nav-link" th:href="@{/kunde/banking/sparen/sparkontouebersicht}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-piggy-bank"></i></div>
+                                    Ihre Sparkonten</a>
+                            </nav>
+                        </div>
+
+
+                        <!--  SidePanel Kredit  -->
+                        <a class="nav-link collapsed" href="#"  th:classappend="${(#strings.startsWith(requestURI, '/kunde/kredit') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/kredit') ? 'active' : '')}"
+                           data-toggle="collapse" data-target="#kreditcollapse" aria-expanded="false" aria-controls="kreditcollapse">
+                            <div class="sb-nav-link-icon"><i class="fas fa-money-bill-alt"></i></div>
+                            Kredit
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" th:classappend="${(#strings.startsWith(requestURI, '/kunde/kredit') ? 'show' : '') + (#strings.startsWith(requestURI, '/kunde/banking/kredit') ? 'show' : '')}"
+                             id="kreditcollapse" aria-labelledby="heading1" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" th:href="@{/kunde/kredit/index}" >
+                                    <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                    Allgemeine Info</a>
+                                <a class="nav-link" th:href="@{/kunde/kredit/rechner}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-calculator"></i></div>
+                                    Kredit-Rechner</a>
+                                <a class="nav-link" th:href="@{/kunde/banking/kredit/register}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                                    Eröffnen</a>
+                                <a class="nav-link" th:href="@{/kunde/banking/kredit/kreditkontouebersicht}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                                    Ihre Kreditkonten</a>
+                            </nav>
+                        </div>
+
+
+                        <!--  SidePanel Giro  -->
+                        <a class="nav-link collapsed" href="#"  th:classappend="${(#strings.startsWith(requestURI, '/kunde/giro') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/giro') ? 'active' : '')}"
+                           data-toggle="collapse" data-target="#girocollapse" aria-expanded="false" aria-controls="girocollapse">
+                            <div class="sb-nav-link-icon"><i class="fas fa-wallet"></i></div>
+                            Giro
+                            <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                        </a>
+                        <div class="collapse" th:classappend="${(#strings.startsWith(requestURI, '/kunde/giro') ? 'show' : '') + (#strings.startsWith(requestURI, '/kunde/banking/giro') ? 'show' : '')}"
+                             id="girocollapse" aria-labelledby="heading1" data-parent="#sidenavAccordion">
+                            <nav class="sb-sidenav-menu-nested nav">
+                                <a class="nav-link" th:href="@{/kunde/giro/index}" >
+                                    <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                    Allgemeine Info</a>
+                                <a class="nav-link" th:href="@{/kunde/banking/giro/register}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-file-invoice-dollar"></i></div>
+                                    Eröffnen</a>
+                                <a class="nav-link" th:href="@{/kunde/banking/giro/girokontouebersicht}">
+                                    <div class="sb-nav-link-icon"><i class="fas fa-credit-card"></i></div>
+                                    Ihre Girokonten</a>
+                            </nav>
+                        </div>
+
+                        <div class="sb-sidenav-menu-heading">Addons</div>
+                        <a class="nav-link" href="#">
+                            <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                            FakeMenu
                         </a>
                     </div>
                 </div>

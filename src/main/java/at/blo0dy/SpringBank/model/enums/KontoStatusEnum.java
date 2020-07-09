@@ -1,0 +1,5 @@
+package at.blo0dy.SpringBank.model.enums;
+
+public enum KontoStatusEnum {
+  IN_EROEFFNUNG, OFFEN, GESCHLOSSEN
+}

@@ -23,6 +23,18 @@ import java.util.Locale;
 @EnableWebSecurity
 public class DevSecurityConfig {
 
+  @Bean
+  public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public LocaleResolver localeResolver() {
+    SessionLocaleResolver slr = new SessionLocaleResolver();
+    slr.setDefaultLocale(Locale.GERMANY);
+    return slr;
+  }
+
   @Configuration
   @Profile("dev")
   @Order(1)
@@ -33,13 +45,6 @@ public class DevSecurityConfig {
 
     @Autowired
     private DataSource ds;
-
-    @Bean
-    public LocaleResolver localeResolver() {
-      SessionLocaleResolver slr = new SessionLocaleResolver();
-      slr.setDefaultLocale(Locale.GERMANY);
-      return slr;
-    }
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
@@ -58,12 +63,16 @@ public class DevSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      http.antMatcher("/mitarbeiter*")
+      http.antMatcher("/mitarbeiter/*")
               .antMatcher("/mitarbeiter/**")
               .authorizeRequests()
-              .anyRequest()
-              .hasAuthority("admin")
+                .antMatchers("/mitarbeiter/admin/**", "/mitarbeiter/admin*").hasAuthority("admin")
+                .antMatchers("/mitarbeiter/kunde/**", "/mitarbeiter/kunde*").hasAuthority("mitarbeiter")
+                .anyRequest()
+                .authenticated()
 
+
+              // orig
               .and()
               .formLogin()
               .loginPage("/mitarbeiter/loginpage").permitAll()
@@ -99,11 +108,13 @@ public class DevSecurityConfig {
       @Autowired
       private UserDetailsService userDetailsService;
 
-      @Bean
+      @Autowired
+      PasswordEncoder encoder;
+
+      /*@Bean
       public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
-      }
-
+      }*/
 
       public App2ConfigurationAdapter() {
         super();
@@ -111,7 +122,7 @@ public class DevSecurityConfig {
 
       @Override
       protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
       }
 
       @Override
@@ -129,7 +140,7 @@ public class DevSecurityConfig {
                 .passwordParameter("password")
                 .loginProcessingUrl("/kunde/banking/kundeauthenticationpage")
 //              .failureUrl("/loginUser?error=loginError")
-                .defaultSuccessUrl("/kunde/banking/index")
+//                .defaultSuccessUrl("/kunde/banking/index")
                 .successForwardUrl("/kunde/banking/index").permitAll()
 
                 .and()
@@ -150,11 +161,11 @@ public class DevSecurityConfig {
         http.headers().frameOptions().disable();
 
       }
-
-
   }
 
 
+  // hinzugefügt um auch nur unter kunde/* einen security context zu bekommen, sollte sich noch mti dem obigen mergen lassen.
+  // Kunden und mitarbeiter trennen lass ich vorerst (sollte ja ned in einer applikation stecken)
   @Configuration
   @Profile("dev")
   @Order(3)
@@ -164,6 +175,7 @@ public class DevSecurityConfig {
     public App3ConfigurationAdapter() {
       super();
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -178,20 +190,5 @@ public class DevSecurityConfig {
       http.headers().frameOptions().disable();
 
     }
-
-
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

@@ -2,8 +2,7 @@ package at.blo0dy.SpringBank.model.person.rolle;
 
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -11,8 +10,9 @@ import javax.validation.constraints.Pattern;
 import java.util.List;
 
 @Entity
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "rolle")
 public class Rolle  {
 

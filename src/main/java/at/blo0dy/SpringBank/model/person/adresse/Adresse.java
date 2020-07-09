@@ -19,7 +19,7 @@ public class Adresse {
   private String strasse;
 
   @Column(name = "plz")
-  @Pattern(regexp = "[0-9]{4,5}" )
+  @Pattern(regexp = "[0-9]{4,5}", message = "PLZ als 4 bzw. 5-stellige Zahl angeben")
   private String plz;
 
   @Column(name = "ort")

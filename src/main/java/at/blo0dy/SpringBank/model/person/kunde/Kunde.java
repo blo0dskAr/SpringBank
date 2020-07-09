@@ -1,5 +1,8 @@
 package at.blo0dy.SpringBank.model.person.kunde;
 
+import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
+import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import lombok.Data;
@@ -10,8 +13,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Data
@@ -19,26 +24,32 @@ import java.util.Collection;
 @PrimaryKeyJoinColumn(name = "id")
 public class Kunde extends Person implements UserDetails {
 
-/*  @Id
-  //@GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;*/
-
   @Column(name = "kundennummer", nullable = false, unique = true)
+  @NotBlank(message = "kundennummer must be defined.")
   private String kundennummer;
 
   @Column(name = "password")
+  @NotBlank(message = "password must be defined.")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
+  @NotBlank(message = "Telefonnummer must be defined.")
   private String telefonNummer;
+  @NotBlank(message = "emailAdresse must be defined.")
   private String emailAdresse;
 
   private String rolle = "customer";
 
-//  private Adresse adresse;
-  // private List<Konto> konten;
+  @OneToMany(mappedBy = "kunde",
+                cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
+  private List<Konto> kontenListe;
 
+//  @OneToMany(mappedBy = "kunde",
+////          cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
+//              cascade = {CascadeType.ALL})
+//  private List<SparKontoAntrag> sparKontoAntragsListe;
+
+  // TODO: mit false initialisieren sobald der komplette weg für legi & AGB ready ist.
   private boolean isLegi = true;
   private boolean hasAcceptedAGB = true;
   private boolean isActive = true;
@@ -60,18 +71,6 @@ public class Kunde extends Person implements UserDetails {
     this.rolle = "customer";
   }
 
-//  @Override
-//  public String toString() {
-//    return "Kunde{" +
-//            "kundenNummer=" + kundennummer +
-//            ", telefonNummer='" + telefonNummer + '\'' +
-//            ", emailAdresse='" + emailAdresse + '\'' +
-//            ", isLegi=" + isLegi +
-//            ", hasAcceptedAGB=" + hasAcceptedAGB +
-//            ", isActive=" + isActive +
-//            ", firstLoginDone=" + firstLoginDone +
-//            '}';
-//  }
 
   public void checkActive() {
     if (this.isLegi == true && this.hasAcceptedAGB == true) {
@@ -111,4 +110,6 @@ public class Kunde extends Person implements UserDetails {
   public boolean isEnabled() {
     return isActive;
   }
+
+
 }

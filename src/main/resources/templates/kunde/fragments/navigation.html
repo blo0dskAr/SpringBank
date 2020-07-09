@@ -34,36 +34,47 @@
             </li>
             <li class="nav-item dropdown">
 <!--                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'nav-link active' : 'nav-link'" th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Mitarbeiter</a>-->
-                <a class="nav-link dropdown-toggle" id="sparenDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sparen</a>
-                <div class="dropdown-menu" aria-labelledby="sparenDropdown">
-                    <a class="dropdown-item" th:href="@{/kunde/sparen/index}">Allgemeine Information</a>
-                    <a class="dropdown-item" th:href="@{/kunde/sparen/rechner}">Spar-Rechner</a>
-                    <a class="dropdown-item" th:href="@{/kunde/banking/sparen/eroeffnung}">Eröffnen</a>
+                <a class="nav-link dropdown-toggle" th:classappend="${(#strings.startsWith(requestURI, '/kunde/sparen') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/sparen') ? 'active' : '')}"
+                   id="sparenDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sparen</a>
+                <div class="dropdown-menu animated--fade-in" aria-labelledby="sparenDropdown">
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeSparenHome')} ? 'text-primary' : ''" th:href="@{/kunde/sparen/index}">Allgemeine Information</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeSparenRechner1')} ? 'text-primary' : ''" th:href="@{/kunde/sparen/rechner}">Spar-Rechner</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeSparenRechner2')} ? 'text-primary' : ''" th:href="@{/kunde/sparen/rechner2}">Spar-Rechner2</a>
+                    <hr class="my-1">
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingSparenForm')} ? 'text-primary' : ''" th:href="@{/kunde/banking/sparen/register}">Eröffnen</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingSparenUebersicht')} ? 'text-primary' : ''" th:href="@{/kunde/banking/sparen/sparkontouebersicht}">Sparkonto Übersicht</a>
                 </div>
             </li>
 
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="kreditDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kredit</a>
+                <a class="nav-link dropdown-toggle" th:classappend="${(#strings.startsWith(requestURI, '/kunde/kredit') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/kredit') ? 'active' : '')}"
+                   id="kreditDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Kredit</a>
                 <div class="dropdown-menu" aria-labelledby="kreditDropdown">
-                    <a class="dropdown-item" th:href="@{/kunde/kredit/index}">Allgemeine Information</a>
-                    <a class="dropdown-item" th:href="@{/kunde/kredit/rechner}">Kredit-Rechner</a>
-                    <a class="dropdown-item" th:href="@{/kunde/banking/kredit/eroeffnung}">Eröffnen</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeKreditHome')} ? 'text-primary' : ''" th:href="@{/kunde/kredit/index}">Allgemeine Information</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeKreditRechner')} ? 'text-primary' : ''" th:href="@{/kunde/kredit/rechner}">Kredit-Rechner</a>
+                    <hr class="my-1">
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingKreditForm')} ? 'text-primary' : ''" th:href="@{/kunde/banking/kredit/register}">Eröffnen</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingKreditUebersicht')} ? 'text-primary' : ''" th:href="@{/kunde/banking/kredit/kreditkontouebersicht}">Kreditkonto Übersicht</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="giroDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Giro-Konto</a>
+                <a class="nav-link dropdown-toggle" th:classappend="${(#strings.startsWith(requestURI, '/kunde/giro') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/giro') ? 'active' : '')}"
+                   id="giroDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Giro-Konto</a>
                 <div class="dropdown-menu" aria-labelledby="giroDropdown">
-                    <a class="dropdown-item" th:href="@{/kunde/giro/index}">Allgemeine Information</a>
-                    <a class="dropdown-item" th:href="@{/kunde/banking/giro/eroeffnung}">Eröffnen</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeGiroHome')} ? 'text-primary' : ''" th:href="@{/kunde/giro/index}">Allgemeine Information</a>
+                    <hr class="my-1">
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingGiroForm')} ? 'text-primary' : ''" th:href="@{/kunde/banking/giro/register}">Eröffnen</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingGiroUebersicht')} ? 'text-primary' : ''" th:href="@{/kunde/banking/giro/girokontouebersicht}">Girokonto Übersicht</a>
                 </div>
             </li>
             <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" id="wirDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über uns</a>
+                <a class="nav-link dropdown-toggle" th:classappend="${#strings.startsWith(requestURI, '/kunde/bank/') ? 'active' : ''}"
+                   id="wirDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über uns</a>
                 <div class="dropdown-menu" aria-labelledby="wirDropdown">
-                    <a class="dropdown-item" th:href="@{/kunde/bank/philosophie}">Philosophie</a>
-                    <a class="dropdown-item" th:href="@{/kunde/bank/karriere}">Karriere</a>
-                    <a class="dropdown-item" th:href="@{/kunde/bank/kontakt}">Kontakt</a>
-                    <a class="dropdown-item" th:href="@{/kunde/bank/impressum}">Impressum</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankPhilosophie')} ? 'text-primary' : ''" th:href="@{/kunde/bank/philosophie}">Philosophie</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankKarriere')} ? 'text-primary' : ''" th:href="@{/kunde/bank/karriere}">Karriere</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankKontakt')} ? 'text-primary' : ''" th:href="@{/kunde/bank/kontakt}">Kontakt</a>
+                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankImpressum')} ? 'text-primary' : ''" th:href="@{/kunde/bank/impressum}">Impressum</a>
                 </div>
             </li>
             <li class="nav-item">

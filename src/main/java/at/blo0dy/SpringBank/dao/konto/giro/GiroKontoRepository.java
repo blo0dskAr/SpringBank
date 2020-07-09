@@ -1,0 +1,22 @@
+package at.blo0dy.SpringBank.dao.konto.giro;
+
+import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+
+public interface GiroKontoRepository extends JpaRepository<GiroKonto, Long> {
+
+  // std. impl.
+
+  @Query(value = "select * from konto ko, girokonto gko " +
+          "  where ko.kunde_id = (select ku.id from kunde ku " +
+          "                        where ku.kundennummer= ?1 )" +
+          " and ko.id = gko.id  ", nativeQuery = true)
+  List<GiroKonto> findGiroKontenByKundennummer(String kundennummer);
+
+}

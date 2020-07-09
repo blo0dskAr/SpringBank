@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.AutoConfigurationPackage;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
@@ -12,13 +13,28 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.SessionLocaleResolver;
 
 import javax.sql.DataSource;
+import java.util.Locale;
 
 @Configuration
 @Profile("test")
 @EnableWebSecurity
 public class TestSecurityConfig {
+
+  @Bean
+  public PasswordEncoder encoder() {
+    return new BCryptPasswordEncoder();
+  }
+
+  @Bean
+  public LocaleResolver localeResolver() {
+    SessionLocaleResolver slr = new SessionLocaleResolver();
+    slr.setDefaultLocale(Locale.GERMANY);
+    return slr;
+  }
 
   @Configuration
   @Profile("test")
@@ -48,12 +64,16 @@ public class TestSecurityConfig {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-      http.antMatcher("/mitarbeiter*")
+      http.antMatcher("/mitarbeiter/*")
               .antMatcher("/mitarbeiter/**")
               .authorizeRequests()
+              .antMatchers("/mitarbeiter/admin/**", "/mitarbeiter/admin*").hasAuthority("admin")
+              .antMatchers("/mitarbeiter/kunde/**", "/mitarbeiter/kunde*").hasAuthority("mitarbeiter")
               .anyRequest()
-              .hasAuthority("admin")
+              .authenticated()
 
+
+              // orig
               .and()
               .formLogin()
               .loginPage("/mitarbeiter/loginpage").permitAll()
@@ -89,10 +109,13 @@ public class TestSecurityConfig {
       @Autowired
       private UserDetailsService userDetailsService;
 
-      @Bean
+      @Autowired
+      private PasswordEncoder encoder;
+
+/*      @Bean
       public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
-      }
+      }*/
 
       public App2ConfigurationAdapter() {
         super();
@@ -100,7 +123,7 @@ public class TestSecurityConfig {
 
       @Override
       protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+        auth.userDetailsService(userDetailsService).passwordEncoder(encoder);
       }
 
       @Override
@@ -139,11 +162,11 @@ public class TestSecurityConfig {
         http.headers().frameOptions().disable();
 
       }
-
-
   }
 
 
+  // hinzugefügt um auch nur unter kunde/* einen security context zu bekommen, sollte sich noch mti dem obigen mergen lassen.
+  // Kunden und mitarbeiter trennen lass ich vorerst (sollte ja ned in einer applikation stecken)
   @Configuration
   @Profile("test")
   @Order(3)
@@ -153,6 +176,7 @@ public class TestSecurityConfig {
     public App3ConfigurationAdapter() {
       super();
     }
+
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -165,22 +189,6 @@ public class TestSecurityConfig {
               .csrf().disable();
 
       http.headers().frameOptions().disable();
-
     }
-
-
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

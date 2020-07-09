@@ -3,7 +3,7 @@ package at.blo0dy.SpringBank.controller.kunde.kredit;
 
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
-import at.blo0dy.SpringBank.service.kunde.kredit.KreditService;
+import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,28 +29,24 @@ public class KundeKreditController {
   }
 
   @GetMapping({"/index", "/", ""})
-  public String viewKreditIndex() {
+  public String viewKreditIndex(Model model) {
+
+    model.addAttribute("activeLink", "kundeKreditHome");
 
     return "kunde/kredit/index";
   }
 
-  @GetMapping("/eroeffnung")
-  public String viewKreditEroeffnung() {
-
-    return "kunde/banking/kredit/eroeffnungsForm";
-  }
 
   @GetMapping("/rechner")
   public String showKreditRechnerForm(Model model) {
 
-    BigDecimal anfangsWerte = BigDecimal.ZERO;
-
     // / 100 division workaround fürs frontend
     KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), kreditService.getZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
-    KreditRechnerErgebnis ke = new KreditRechnerErgebnis(anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte);
+    KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
     model.addAttribute("kreditrechnervorlage", kv);
     model.addAttribute("ergebnis", ke);
+    model.addAttribute("activeLink", "kundeKreditRechner");
 
     return "kunde/kredit/rechner";
   }
@@ -59,6 +55,8 @@ public class KundeKreditController {
   public String berechneKredit(@Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv, BindingResult result, Model model ) {
     if (result.hasErrors()) {
       kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
+      model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
+      model.addAttribute("activeLink", "kundeKreditRechner");
       return "kunde/kredit/rechner";
     }  else {
       KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(kv);
@@ -66,8 +64,28 @@ public class KundeKreditController {
       kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("kreditrechnervorlage", kv);
       model.addAttribute("ergebnis",ke);
+      model.addAttribute("activeLink", "kundeKreditRechner");
       return "kunde/kredit/rechner";
     }
   }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

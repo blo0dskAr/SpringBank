@@ -68,3 +68,20 @@ body {
     background-color: #008cee;
     border-color: #008cee;
 }
+
+
+/*  Sidebar - verschachtelte ListGroupItems  */
+#sidebarMenu ul.list-group > a.nav-link  {
+    background-color: white;
+    border-left : solid 1px rgba(0,0,0,.125);
+    border-right : solid 1px rgba(0,0,0,.125);
+    margin-left: 1rem;
+    padding-left: 1rem;
+    }
+
+#sidebarMenu ul.list-group > div.panel-collapse > ul.list-group  {
+    margin-left: 1rem;
+    }
+
+
+

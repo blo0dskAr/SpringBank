@@ -22,19 +22,19 @@
                 <div class="col-4">
                     <form method="POST" th:action="@{/kunde/sparen/rechner2}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
                         <div class="form-group">
-                            <label for="anlagedauer">Anlagedauer(Jahre): </label>
-                            <div class="text-danger"
-                                  th:if="${#fields.hasErrors('anlagedauer')}"
-                                  th:errors="*{anlagedauer}">Anlagedauer Error</div>
-                            <input type="text" class="form-control" id="anlagedauer" name="anlagedauer" placeholder="20 Jahre" th:field="*{anlagedauer}">
-<!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
-                        </div>
-                        <div class="form-group">
                             <label for="initialBetrag">Anfangsbetrag: </label>
                             <div class="text-danger"
                                   th:if="${#fields.hasErrors('initialBetrag')}"
                                   th:errors="*{initialBetrag}">initialBetrag Error</div>
                             <input type="text" class="form-control" id="initialBetrag" name="initialBetrag" placeholder="1234,56 €" th:field="*{initialBetrag}">
+                        </div>
+                        <div class="form-group">
+                            <label for="anlagedauer">Anlagedauer(Jahre): </label>
+                            <div class="text-danger"
+                                 th:if="${#fields.hasErrors('anlagedauer')}"
+                                 th:errors="*{anlagedauer}">Anlagedauer Error</div>
+                            <input type="text" class="form-control" id="anlagedauer" name="anlagedauer" placeholder="20 Jahre" th:field="*{anlagedauer}">
+                            <!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                         </div>
                         <div class="form-group">
                             <label for="monatlicheEinzahlung">monatl. Einzahlung: </label>

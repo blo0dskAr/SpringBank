@@ -42,7 +42,7 @@ public class Kunde extends Person implements UserDetails {
 
   @OneToMany(mappedBy = "kunde",
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
-  private List<KreditKonto> kontenListe;
+  private List<Konto> kontenListe;
 
 //  @OneToMany(mappedBy = "kunde",
 ////          cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})

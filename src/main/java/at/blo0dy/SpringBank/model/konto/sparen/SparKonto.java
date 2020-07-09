@@ -20,10 +20,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class SparKonto extends Konto {
 
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @OneToOne
-//  private SparKontoAntrag sparKontoAntrag;
-
   @Column(name = "connected_giro")
   private String connectedGiro;
 
@@ -40,3 +36,11 @@ public class SparKonto extends Konto {
   }*/
 
 }
+
+
+
+
+
+
+
+

@@ -217,15 +217,56 @@ CREATE TABLE `map_mita_role` (
     UNIQUE (`mita_id`, `role_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
+DROP TABLE IF EXISTS `kontoantrag`;
+CREATE TABLE `kontoantrag` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `antrag_datum` TIMESTAMP DEFAULT NULL,
+  `antrag_status` varchar(255) DEFAULT NULL,
+  `kundennummer` BIGINT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`id`),
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
 
 DROP TABLE IF EXISTS `konto`;
 CREATE TABLE `konto` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
-  `nachname` varchar(255) DEFAULT NULL,
-  `vorname` varchar(255) DEFAULT NULL,
-  `adresse_id` BIGINT DEFAULT NULL,
+  `akt_saldo` DEC(19,2) DEFAULT NULL,
+  `eroeffnungs_datum` TIMESTAMP DEFAULT NULL,
+  `konto_status` varchar(255) DEFAULT NULL,
+  `kontonummer` BIGINT DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE (`id`),
-  KEY `FK_KONT_ANTR_idx` (`adresse_id`),
-  CONSTRAINT `FK_PERS_ADRS` FOREIGN KEY (`adresse_id`) REFERENCES `adresse` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `FK_KONT_ANTR_idx` (`konto_antrag_id`),
+  CONSTRAINT `FK_KONT_ANTR` FOREIGN KEY (`konto_antrag_id`) REFERENCES `kontoantrag` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `FK_KONT_KUND_idx` (`kunde_id`),
+  CONSTRAINT `FK_KONT_KUND` FOREIGN KEY (`kunde_id`) REFERENCES `kunde` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `sparkonto`;
+CREATE TABLE `sparkonto` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `connected_giro` BIGINT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`id`),
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `kreditkonto`;
+CREATE TABLE `kreditkonto` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `kredit_betrag` DEC(19,2) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`id`),
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+DROP TABLE IF EXISTS `girokonto`;
+CREATE TABLE `girokonto` (
+  `id` BIGINT NOT NULL AUTO_INCREMENT,
+  `connected_giro` BIGINT DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE (`id`),
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=latin1;
+
+
+
+

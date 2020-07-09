@@ -41,7 +41,6 @@ public class Konto {
   @Column(name = "kontonummer")
   private Long kontonummer;
 
-//  @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST})
   @ManyToOne
   @JoinColumn(name="kunde_id")
   private Kunde kunde ;
@@ -52,14 +51,11 @@ public class Konto {
   @Column(name = "akt_saldo")
   private BigDecimal aktSaldo;
 
-  // private List<Kontobuchungen>
-
-//  @OneToOne(cascade = CascadeType.ALL)
-//  private KontoAntrag kontoAntrag ;
-
   @Column(name = "konto_status")
   @Enumerated(EnumType.STRING)
   private KontoStatusEnum kontoStatus;
+
+  // private List<Kontobuchungen>
 
 
 }

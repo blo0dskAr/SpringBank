@@ -1,6 +1,5 @@
 package at.blo0dy.SpringBank.model.konto.giro;
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
-import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
@@ -10,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -20,10 +18,6 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GiroKonto extends Konto {
-
-//  @OneToOne(cascade = CascadeType.ALL)
-//  @OneToOne
-//  private GiroKontoAntrag giroKontoAntrag;
 
   private BigDecimal ueberziehungsRahmen;
 
@@ -39,3 +33,13 @@ public class GiroKonto extends Konto {
 //    this.ueberziehungsRahmen = ueberziehungsRahmen;
 //  }
 }
+
+
+
+
+
+
+
+
+
+

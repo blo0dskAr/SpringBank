@@ -38,7 +38,7 @@ public class BankingSparenController {
 
     model.addAttribute("kunde", kunde);
     model.addAttribute("sparKontenListe",sparKontenListe);
-    model.addAttribute("activeLink", "bankenSparenUebersicht");
+    model.addAttribute("activeLink", "kundeBankingSparenUebersicht");
 
 
     return "kunde/banking/sparen/sparkontouebersicht";

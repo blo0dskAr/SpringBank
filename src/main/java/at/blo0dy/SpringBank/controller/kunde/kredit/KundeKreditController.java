@@ -29,16 +29,13 @@ public class KundeKreditController {
   }
 
   @GetMapping({"/index", "/", ""})
-  public String viewKreditIndex() {
+  public String viewKreditIndex(Model model) {
+
+    model.addAttribute("activeLink", "kundeKreditHome");
 
     return "kunde/kredit/index";
   }
 
-//  @GetMapping("/eroeffnung")
-//  public String viewKreditEroeffnung() {
-//
-//    return "kunde/banking/kredit/eroeffnungsForm";
-//  }
 
   @GetMapping("/rechner")
   public String showKreditRechnerForm(Model model) {
@@ -49,6 +46,7 @@ public class KundeKreditController {
 
     model.addAttribute("kreditrechnervorlage", kv);
     model.addAttribute("ergebnis", ke);
+    model.addAttribute("activeLink", "kundeKreditRechner");
 
     return "kunde/kredit/rechner";
   }
@@ -58,6 +56,7 @@ public class KundeKreditController {
     if (result.hasErrors()) {
       kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
+      model.addAttribute("activeLink", "kundeKreditRechner");
       return "kunde/kredit/rechner";
     }  else {
       KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(kv);
@@ -65,6 +64,7 @@ public class KundeKreditController {
       kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("kreditrechnervorlage", kv);
       model.addAttribute("ergebnis",ke);
+      model.addAttribute("activeLink", "kundeKreditRechner");
       return "kunde/kredit/rechner";
     }
   }

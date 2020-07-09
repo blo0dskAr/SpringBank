@@ -47,6 +47,7 @@ public class GiroKontoAntragRegistrationController {
     GiroKontoAntrag giroKontoAntrag = new GiroKontoAntrag();
 
     model.addAttribute("girokontoantrag", giroKontoAntrag);
+    model.addAttribute("activeLink", "kundeBankingGiroForm");
 
     return "/kunde/banking/giro/registration";
   }

@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.controller.kunde.giro;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,15 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class KundeGiroController {
 
   @GetMapping({"/index", "/", ""})
-  public String viewGiroIndex() {
+  public String viewGiroIndex(Model model) {
+    model.addAttribute("activeLink", "kundeGiroHome");
 
     return "kunde/giro/index";
-  }
-
-  @GetMapping("/eroeffnung")
-  public String viewGiroEroeffnung() {
-
-    return "kunde/banking/giro/eroeffnungsForm";
   }
 
 }

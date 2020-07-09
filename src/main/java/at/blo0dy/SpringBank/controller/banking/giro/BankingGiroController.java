@@ -39,13 +39,10 @@ public class BankingGiroController {
 
     model.addAttribute("kunde", kunde);
     model.addAttribute("giroKontenListe",giroKontenListe);
-    model.addAttribute("activeLink", "bankenGiroUebersicht");
-
+    model.addAttribute("activeLink", "kundeBankingGiroUebersicht");
 
     return "kunde/banking/giro/girokontouebersicht";
   }
-
-
 
 
 }

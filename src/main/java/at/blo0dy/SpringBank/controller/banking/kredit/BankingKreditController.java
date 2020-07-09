@@ -39,7 +39,7 @@ public class BankingKreditController {
 
     model.addAttribute("kunde", kunde);
     model.addAttribute("kreditKontenListe",kreditKontenListe);
-    model.addAttribute("activeLink", "bankenKreditUebersicht");
+    model.addAttribute("activeLink", "kundeBankingKreditUebersicht");
 
 
     return "kunde/banking/kredit/kreditkontouebersicht";

@@ -65,6 +65,7 @@ public class KreditKontoAntragRegistrationController {
 
     model.addAttribute("kreditrechnervorlage", kv);
     model.addAttribute("ergebnis", ke);
+    model.addAttribute("activeLink", "kundeBankingKreditForm");
 
     String kundennummer = authentication.getName();
     model.addAttribute("kundennummer", kundennummer);
@@ -81,6 +82,7 @@ public class KreditKontoAntragRegistrationController {
         log.debug("Fehler beim speichern Der KreditRechnerVorlage erhalten. Wird mit Fehler neu geladen. (count=" + bindingResult.getErrorCount() + ")");
         kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
         model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
+        model.addAttribute("activeLink", "kundeBankingKreditForm");
         return "kunde/banking/kredit/registration";
       }  else {
         KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(kv);
@@ -89,6 +91,7 @@ public class KreditKontoAntragRegistrationController {
         model.addAttribute("kreditrechnervorlage", kv);
         model.addAttribute("ergebnis",ke);
         model.addAttribute("calculatedCorrectly", true);
+        model.addAttribute("activeLink", "kundeBankingKreditForm");
 
         log.debug("KreditBerechnung wurde erfolgreich durchgeführt:");
         log.debug("vorlage: " + kv);

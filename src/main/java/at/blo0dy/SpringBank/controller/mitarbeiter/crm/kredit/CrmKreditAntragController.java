@@ -3,6 +3,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kredit;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
@@ -55,7 +56,7 @@ public class CrmKreditAntragController {
 
     KreditKontoAntrag kreditKontoAntrag = kreditKontoAntragService.findById(kreditKontoAntragId);
     Kunde kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
-    log.debug("showKreditAntragForKontoForm für id=" + kreditKontoAntragId + ", KundeNr= " + kunde.getKundennummer());
+    log.debug("showKreditAntragForKontoForm für id=" + kreditKontoAntragId + ", KundeNr= " + kunde.getKundennummer() + " wird angezeigt");
 
     model.addAttribute("kreditKontoAntrag", kreditKontoAntrag);
     model.addAttribute("kunde", kunde);
@@ -102,7 +103,7 @@ public class CrmKreditAntragController {
       Kunde mykunde = kundeService.findByKundennummer(tmpKundenNummer);
       KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
       KreditKonto kreditKonto = new KreditKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
-              kontoStatusAufgrundKundenStatus, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), kreditKontoAntrag);
+              kontoStatusAufgrundKundenStatus, kreditKontoAntrag, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit());
       log.debug("KreditAntrag wurde genehmigt, neues KreditKonto wird gespeichert. Kunde: " + tmpKundenNummer);
       kreditService.save(kreditKonto);
     }

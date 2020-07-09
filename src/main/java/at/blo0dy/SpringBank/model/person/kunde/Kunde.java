@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.model.person.kunde;
 
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import lombok.Data;
@@ -41,7 +42,7 @@ public class Kunde extends Person implements UserDetails {
 
   @OneToMany(mappedBy = "kunde",
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
-  private List<Konto> kontenListe;
+  private List<KreditKonto> kontenListe;
 
 //  @OneToMany(mappedBy = "kunde",
 ////          cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})

@@ -1,4 +1,5 @@
 package at.blo0dy.SpringBank.model.konto.sparen;
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
@@ -20,16 +21,22 @@ import java.time.LocalDateTime;
 public class SparKonto extends Konto {
 
 //  @OneToOne(cascade = CascadeType.ALL)
-  @OneToOne
-  private SparKontoAntrag sparKontoAntrag;
+//  @OneToOne
+//  private SparKontoAntrag sparKontoAntrag;
 
   @Column(name = "connected_giro")
   private String connectedGiro;
 
-  public SparKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, String connectedGiro, SparKontoAntrag sparKontoAntrag) {
+  public SparKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, String connectedGiro) {
+    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag);
+    this.connectedGiro = connectedGiro;
+  }
+
+// orig
+/*  public SparKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, String connectedGiro, SparKontoAntrag sparKontoAntrag) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
     this.connectedGiro = connectedGiro;
     this.sparKontoAntrag = sparKontoAntrag;
-  }
+  }*/
 
 }

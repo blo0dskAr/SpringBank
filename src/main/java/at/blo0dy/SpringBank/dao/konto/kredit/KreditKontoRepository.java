@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.dao.konto.kredit;
 
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import org.springframework.data.jpa.repository.JpaRepository;

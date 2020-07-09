@@ -36,6 +36,7 @@ public class KontoAntrag {
     this.antragStatus = antragStatus;
     this.kundennummer = kundennummer;
   }
+
 }
 
 

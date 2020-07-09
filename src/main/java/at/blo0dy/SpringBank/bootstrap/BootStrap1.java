@@ -6,6 +6,7 @@ import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
@@ -287,7 +288,7 @@ private void loadData() {
   sparKonto1.setKontonummer(123001L);
   sparKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto1.setKunde(kunde1);
-  sparKonto1.setSparKontoAntrag(sparKontoAntrag3);
+  sparKonto1.setKontoAntrag(sparKontoAntrag3);
 
   SparKonto sparKonto2 = new SparKonto();
   sparKonto2.setConnectedGiro("123456789");
@@ -297,7 +298,7 @@ private void loadData() {
   sparKonto2.setKontonummer(123002L);
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto2.setKunde(kunde1);
-  sparKonto2.setSparKontoAntrag(sparKontoAntrag4);
+  sparKonto2.setKontoAntrag(sparKontoAntrag4);
 
   GiroKonto giroKonto1 = new GiroKonto();
   giroKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
@@ -306,7 +307,7 @@ private void loadData() {
   giroKonto1.setKontonummer(123003L);
   giroKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   giroKonto1.setKunde(kunde1);
-  giroKonto1.setGiroKontoAntrag(giroKontoAntrag3);
+  giroKonto1.setKontoAntrag(giroKontoAntrag3);
   giroKonto1.setUeberziehungsRahmen(BigDecimal.valueOf(500));
   giroService.save(giroKonto1);
 
@@ -317,7 +318,7 @@ private void loadData() {
   kreditKonto1.setKontonummer(123004L);
   kreditKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   kreditKonto1.setKunde(kunde1);
-  kreditKonto1.setKreditKontoAntrag(kreditKontoAntrag2);
+  kreditKonto1.setKontoAntrag(kreditKontoAntrag2);
   kreditKonto1.setKreditBetrag(kreditKontoAntrag2.getKreditBetrag());
   kreditKonto1.setLaufzeit(kreditKontoAntrag2.getLaufzeit());
   kreditKonto1.setRate(kreditKontoAntrag2.getRate());

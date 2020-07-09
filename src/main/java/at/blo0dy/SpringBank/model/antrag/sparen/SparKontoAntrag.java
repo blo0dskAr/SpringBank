@@ -43,4 +43,6 @@ public class SparKontoAntrag extends KontoAntrag {
     this.erstAuftrag = erstAuftrag;
     this.dauerAuftrag = dauerAuftrag;
   }
+
+
 }

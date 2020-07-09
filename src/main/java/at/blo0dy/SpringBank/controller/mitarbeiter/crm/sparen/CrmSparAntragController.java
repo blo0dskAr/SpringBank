@@ -3,6 +3,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.sparen;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
@@ -53,6 +54,8 @@ public class CrmSparAntragController {
 
     SparKontoAntrag sparKontoAntrag = sparKontoAntragService.findById(sparKontoAntragId);
     Kunde kunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
+    log.debug("showSparAntragForKontoForm für id=" + sparKontoAntragId + ", KundeNr= " + kunde.getKundennummer() + " wird angezeigt");
+    sparKontoAntrag.setId(sparKontoAntragId);
 
     model.addAttribute("sparKontoAntrag", sparKontoAntrag);
     model.addAttribute("kunde", kunde);
@@ -65,19 +68,19 @@ public class CrmSparAntragController {
   public String saveSparAntrag2KontoForm(@Valid @ModelAttribute("sparKontoAntrag") SparKontoAntrag sparKontoAntrag, BindingResult result,
                                          @ModelAttribute("kunde") Kunde kunde, Model model) {
 
+    log.debug("SparKontoAntrag id=" + sparKontoAntrag.getId() + ", KundeNr:" + sparKontoAntrag.getKundennummer() + " soll gespeichert werden" );
     if (result.hasErrors()) {
       model.addAttribute("kunde", kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString()));
       return "mitarbeiter/crm/sparen/sparKontoAntrag2Konto";
     }
 
     final Kunde mykunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
-
     final KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
     if (sparKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT))  {
       log.debug("Sparkonto wurde genehmigt, Sparkonto wird erstellt");
-      SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, "12345678001",  sparKontoAntrag);
-      log.debug(" --> SparkontoDaten: " + sparKonto.toString()) ;
+      SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, sparKontoAntrag, "12345678001");
+      log.debug(" --> SparkontoDaten: " + sparKonto) ;
       sparService.save(sparKonto);
     }
 

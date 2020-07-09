@@ -1,5 +1,7 @@
 package at.blo0dy.SpringBank.model.konto;
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
+import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
@@ -19,12 +21,13 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Konto {
 
-  public Konto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus) {
+  public Konto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag) {
     this.eroeffnungsDatum = eroeffnungsDatum;
     this.kontonummer = kontonummer;
     this.kunde = kunde;
     this.aktSaldo = aktSaldo;
     this.kontoStatus = kontoStatus;
+    this.kontoAntrag = kontoAntrag;
   }
 
   @Id
@@ -42,6 +45,9 @@ public class Konto {
   @ManyToOne
   @JoinColumn(name="kunde_id")
   private Kunde kunde ;
+
+  @OneToOne
+  private KontoAntrag kontoAntrag;
 
   @Column(name = "akt_saldo")
   private BigDecimal aktSaldo;

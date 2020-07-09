@@ -1,4 +1,5 @@
 package at.blo0dy.SpringBank.model.konto.giro;
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
@@ -21,14 +22,20 @@ import java.time.LocalDateTime;
 public class GiroKonto extends Konto {
 
 //  @OneToOne(cascade = CascadeType.ALL)
-  @OneToOne
-  private GiroKontoAntrag giroKontoAntrag;
+//  @OneToOne
+//  private GiroKontoAntrag giroKontoAntrag;
 
   private BigDecimal ueberziehungsRahmen;
 
-  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, GiroKontoAntrag giroKontoAntrag, BigDecimal ueberziehungsRahmen) {
-    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
-    this.giroKontoAntrag = giroKontoAntrag;
+  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal ueberziehungsRahmen) {
+    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag);
     this.ueberziehungsRahmen = ueberziehungsRahmen;
   }
+
+  //  orig
+//  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, GiroKontoAntrag giroKontoAntrag, BigDecimal ueberziehungsRahmen) {
+//    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
+//    this.giroKontoAntrag = giroKontoAntrag;
+//    this.ueberziehungsRahmen = ueberziehungsRahmen;
+//  }
 }

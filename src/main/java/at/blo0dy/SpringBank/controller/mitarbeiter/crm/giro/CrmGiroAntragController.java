@@ -75,7 +75,7 @@ public class CrmGiroAntragController {
         ueberziehungsrahmen = BigDecimal.ZERO;
       }
       log.debug("CrmGirorAntragController: Girokonto wurde genehmigt, Girokonto wird erstellt");
-      GiroKonto giroKonto = new GiroKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, giroKontoAntrag,ueberziehungsrahmen );
+      GiroKonto giroKonto = new GiroKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, giroKontoAntrag, ueberziehungsrahmen );
       log.debug("CrmGiroAntragController: --> GirokontoDaten: " + giroKonto.toString()) ;
       giroService.save(giroKonto);
     }

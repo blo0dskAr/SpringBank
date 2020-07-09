@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.service.konto.kredit;
 
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;

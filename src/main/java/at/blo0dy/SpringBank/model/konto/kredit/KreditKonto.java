@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.model.konto.kredit;
 
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
@@ -26,8 +27,8 @@ public class KreditKonto extends Konto {
 
 //  @OneToOne(cascade = CascadeType.ALL)
 //  @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
-  @OneToOne
-  private KreditKontoAntrag kreditKontoAntrag;
+//  @OneToOne
+//  private KreditKontoAntrag kreditKontoAntrag;
 
   @Column(name = "kredit_betrag")
   private BigDecimal kreditBetrag;
@@ -39,12 +40,20 @@ public class KreditKonto extends Konto {
   private BigInteger laufzeit;
 
 
-  public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit, KreditKontoAntrag kreditKontoAntrag) {
+  public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit) {
+    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag);
+    this.kreditBetrag = kreditBetrag;
+    this.laufzeit = laufzeit;
+    this.rate = rate;
+  }
+
+  // orig
+/*  public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit, KreditKontoAntrag kreditKontoAntrag) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
     this.kreditKontoAntrag = kreditKontoAntrag;
     this.kreditBetrag = kreditBetrag;
     this.laufzeit = laufzeit;
     this.rate = rate;
-  }
+  }*/
 
 }

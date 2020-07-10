@@ -1,12 +1,18 @@
 package at.blo0dy.SpringBank.model.person;
 
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "person")
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Person {
@@ -24,12 +30,9 @@ public class Person {
   @Column(name = "nachname")
   private String nachname;
 
-
   @Valid
   @OneToOne(cascade = CascadeType.ALL)
   private Adresse adresse;
-
-  public Person() { }
 
   public Person(String vorname, String nachname, Adresse adresse) {
     this.vorname = vorname;

@@ -58,6 +58,7 @@ public class AdminMitarbeiterController {
     return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";
   }
 
+
   @PostMapping("/save")
   public String saveMitarbeiter(@Valid @ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter, Errors errors) {
     if (errors.hasErrors()) {

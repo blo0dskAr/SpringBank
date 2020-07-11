@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 @Entity
 @Data
@@ -22,12 +23,15 @@ public class Person {
   @Column(name = "id")
   private Long id;
 
+  // TODO: Mal ein RegexPattern für Name (mit hatscheks usw.) suchen.
   @NotBlank(message = "Vorname must be defined.")
   @Column(name = "vorname")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
   private String vorname;
 
   @NotBlank(message = "Nachname must be defined.")
   @Column(name = "nachname")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
   private String nachname;
 
   @Valid

@@ -3,8 +3,10 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.admin;
 import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
+import at.blo0dy.SpringBank.security.DevSecurityConfig;
 import at.blo0dy.SpringBank.service.MitarbeiterServiceImpl;
 import at.blo0dy.SpringBank.service.bank.BankServiceImpl;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,8 +16,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.FilterChainProxy;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
@@ -32,13 +36,13 @@ import static org.hamcrest.collection.IsCollectionWithSize.hasSize;
 import static org.hamcrest.core.StringContains.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @WebMvcTest(value = AdminMitarbeiterController.class)
 //@SpringBootTest
@@ -52,6 +56,7 @@ class AdminMitarbeiterControllerTest {
 
   @Autowired
   private FilterChainProxy springSecurityFilterChain;
+
 
   @MockBean
   private MitarbeiterServiceImpl mitarbeiterService;
@@ -79,24 +84,25 @@ class AdminMitarbeiterControllerTest {
     mockMvc = MockMvcBuilders
             .webAppContextSetup(wac)
             .defaultRequest(get("/")
-                    // funkt auch mit kompletten schrottdaten, hauptsache scheinbar der username passt(und hat die rollen etc)
-                    // also falsches passwort kann man nicht testen, aber falsche authority aufgrund username sollt gehn?
-                    .with(user("hwurst")))
+//                    // funkt auch mit kompletten schrottdaten, hauptsache scheinbar der username passt(und hat die rollen etc)
+//                    // also falsches passwort kann man nicht testen, aber falsche authority aufgrund username sollt gehn?
+                    .with(user("wuascht")))
             .apply(springSecurity())
             .build();
   }
 
-//  @WithMockUser(authorities = "customer")
   @Test
-  void getIndexPage() throws Exception {
+  void getIndexPage_Empty() throws Exception {
     mockMvc.perform(get("/mitarbeiter/admin/mitarbeiterAdministration"))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","AdminMAList"));
+            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","AdminMAList"))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasSize(0)))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());
   }
 
 
   @Test
-  void getIndexPage_CheckIfPageCorrectWithMultipleMitarbeiter() throws Exception {
+  void getIndexPage_WithMultipleMitarbeiter() throws Exception {
 
     when(mitarbeiterService.findAll()).thenReturn(mitarbeiterList);
 
@@ -112,6 +118,7 @@ class AdminMitarbeiterControllerTest {
             .andExpect(MockMvcResultMatchers.view().name("admin/list-mitarbeiter"))
             .andExpect(MockMvcResultMatchers.content().string(containsString("Admin - Mitarbeiter Directory")))
             .andExpect(MockMvcResultMatchers.content().string(containsString("testerVorname1")))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors())
             .andReturn();
 
     assertEquals(mitarbeiterList, result.getRequest().getAttribute("mitarbeiter"));
@@ -128,6 +135,7 @@ class AdminMitarbeiterControllerTest {
     MvcResult result =  mockMvc.perform(get("/mitarbeiter/admin/mitarbeiterAdministration/delete?mitarbeiterId={id}", 1L))
             .andExpect(status().isFound())
             .andExpect(MockMvcResultMatchers.redirectedUrl("/mitarbeiter/admin/mitarbeiterAdministration/list"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors())
             .andReturn();
     // TODO: redirectete Seite wird im Test nicht mit Daten befüllt ... eher was für IntegrationTest ?
     // .andExpect(MockMvcResultMatchers.model().attribute("activeLink","AdminMAList"));
@@ -160,6 +168,7 @@ class AdminMitarbeiterControllerTest {
     )
             .andExpect(status().isFound())
             .andExpect(MockMvcResultMatchers.redirectedUrl("/mitarbeiter/admin/mitarbeiterAdministration/list"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors())
             .andReturn();
 
     verify(mitarbeiterService, times(1)).save(mitarbeiter);
@@ -365,18 +374,55 @@ class AdminMitarbeiterControllerTest {
   }
 
 
-
-
-
-
-
-
   @Test
-  void showFormForAdd() {
+  void showFormForAdd() throws Exception {
+
+    MvcResult result =  mockMvc.perform(get("/mitarbeiter/admin/mitarbeiterAdministration/showFormForAdd"))
+            .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.model().attributeExists("mitarbeiter"))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("id", Matchers.equalTo(0L))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("vorname", Matchers.equalTo(null))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("nachname", Matchers.equalTo(null))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("position", Matchers.equalTo(null))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("mitarbeiterNummer", Matchers.equalTo(null))))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"adresse.land\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"adresse.plz\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"adresse.strasse\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"adresse.ort\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"position\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"mitarbeiterNummer\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"vorname\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("name=\"nachname\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("<input type=\"hidden\" id=\"id\" name=\"id\" value=\"0\"")))
+            .andExpect(MockMvcResultMatchers.content().string(containsString("<input type=\"hidden\" id=\"adresse.id\" name=\"adresse.id\"")))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors())
+            .andReturn();
+
+    System.out.println(result.getModelAndView().getModel().toString());
+
   }
 
   @Test
-  void showFormForUpdate() {
+  void showFormForUpdate() throws Exception{
+
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVornamexx", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "12345","Tester");
+    mitarbeiter.setId(1L);
+    when(mitarbeiterService.findById(1L)).thenReturn(mitarbeiter);
+
+    MvcResult result =  mockMvc.perform(get("/mitarbeiter/admin/mitarbeiterAdministration/showFormForUpdate?mitarbeiterId={id}", 1L))
+            .andExpect(status().isOk())
+            .andExpect(MockMvcResultMatchers.model().attributeExists("mitarbeiter"))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("id", Matchers.equalTo(1L))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("vorname", Matchers.equalTo("testerVornamexx"))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("nachname", Matchers.equalTo("testerNachname"))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("position", Matchers.equalTo("Tester"))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("mitarbeiterNummer", Matchers.equalTo("12345"))))
+            .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasProperty("adresse",Matchers.hasToString("TestStraße 15, 1236 Wien, Österreich"))))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors())
+            .andReturn();
+
+    System.out.println(result.getModelAndView().getModel().toString());
+
   }
 
 //  @Test

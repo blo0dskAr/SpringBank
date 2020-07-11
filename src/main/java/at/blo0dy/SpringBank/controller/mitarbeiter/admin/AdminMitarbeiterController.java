@@ -4,8 +4,11 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.admin;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import at.blo0dy.SpringBank.service.bank.BankService;
+import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -52,9 +55,12 @@ public class AdminMitarbeiterController {
   }
 
   @GetMapping("/delete")
-  public String deleteMitarbeiter(@RequestParam("mitarbeiterId") Long theId) {
-    mitarbeiterService.deleteById(theId);
-
+  public String deleteMitarbeiter(@RequestParam("mitarbeiterId") Long theId, Model model) {
+//    try {
+      mitarbeiterService.deleteById(theId);
+//    } catch (EmptyResultDataAccessException e) {
+//      throw new UsernameNotFoundException("Mitarbeiter with id: " + theId + " not found.");
+//    }
     return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";
   }
 

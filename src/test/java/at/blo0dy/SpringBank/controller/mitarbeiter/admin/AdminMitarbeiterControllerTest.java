@@ -88,6 +88,9 @@ class AdminMitarbeiterControllerTest {
             .andExpect(MockMvcResultMatchers.model().attribute("activeLink","AdminMAList"))
             .andExpect(MockMvcResultMatchers.model().attribute("mitarbeiter", hasSize(0)))
             .andExpect(MockMvcResultMatchers.model().hasNoErrors());
+
+    verify(mitarbeiterService, times(1)).findAll();
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
 
@@ -114,6 +117,7 @@ class AdminMitarbeiterControllerTest {
     assertEquals(mitarbeiterList, result.getRequest().getAttribute("mitarbeiter"));
 
     verify(mitarbeiterService, times(1)).findAll();
+    verifyNoMoreInteractions(mitarbeiterService);
 
   }
 
@@ -131,6 +135,7 @@ class AdminMitarbeiterControllerTest {
     // .andExpect(MockMvcResultMatchers.model().attribute("activeLink","AdminMAList"));
 
     verify(mitarbeiterService, times(1)).deleteById(anyLong());
+    verifyNoMoreInteractions(mitarbeiterService);
 
   }
 
@@ -162,6 +167,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(1)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -186,6 +192,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -210,6 +217,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -225,6 +233,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -240,6 +249,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
 
@@ -256,6 +266,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -271,6 +282,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -286,6 +298,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -301,6 +314,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -316,6 +330,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -331,6 +346,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -346,6 +362,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
   @Test
@@ -361,6 +378,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verifyNoMoreInteractions(mitarbeiterService);
   }
 
 
@@ -388,7 +406,7 @@ class AdminMitarbeiterControllerTest {
             .andExpect(MockMvcResultMatchers.model().hasNoErrors())
             .andReturn();
 
-    System.out.println(result.getModelAndView().getModel().toString());
+    verifyNoMoreInteractions(mitarbeiterService);
 
   }
 
@@ -412,6 +430,8 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     System.out.println(result.getModelAndView().getModel().toString());
+    verify(mitarbeiterService, times(1)).findById(any()); 
+    verifyNoMoreInteractions(mitarbeiterService);
 
   }
 

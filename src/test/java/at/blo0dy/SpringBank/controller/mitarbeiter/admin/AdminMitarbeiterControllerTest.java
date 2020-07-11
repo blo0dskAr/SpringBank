@@ -1,29 +1,20 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.admin;
 
-import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
-import at.blo0dy.SpringBank.security.DevSecurityConfig;
 import at.blo0dy.SpringBank.service.MitarbeiterServiceImpl;
 import at.blo0dy.SpringBank.service.bank.BankServiceImpl;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import org.mockito.Mockito;
-import org.mockito.stubbing.Answer;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.web.FilterChainProxy;
-import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -42,7 +33,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
 
 @WebMvcTest(value = AdminMitarbeiterController.class)
 //@SpringBootTest
@@ -56,7 +47,6 @@ class AdminMitarbeiterControllerTest {
 
   @Autowired
   private FilterChainProxy springSecurityFilterChain;
-
 
   @MockBean
   private MitarbeiterServiceImpl mitarbeiterService;

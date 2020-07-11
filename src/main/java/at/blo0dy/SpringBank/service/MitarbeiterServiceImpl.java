@@ -3,8 +3,6 @@ package at.blo0dy.SpringBank.service;
 import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

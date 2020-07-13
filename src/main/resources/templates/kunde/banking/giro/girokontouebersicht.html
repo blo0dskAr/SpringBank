@@ -12,6 +12,11 @@
     <main>
         <div class="container-fluid px-0">
             <h1> Übersicht - GiroKonto </h1>
+            <div th:if="${zahlungsAuftragGespeichert}">
+                <div class="alert alert-info ">
+                    Ihr Auftrag wurde gespeichert. Der Status kann nun in Ihren Aufträgen eingesehen werden.
+                </div>
+            </div>
             <div class="row justify-content-md-center">
                 <th:block th:each="girokonto, iStat : ${giroKontenListe}">
                     <div class="col-10 pt-4">

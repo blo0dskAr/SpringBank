@@ -35,7 +35,7 @@
                                <span class="text-danger"
                                      th:if="${#fields.hasErrors('kontonummer')}"
                                      th:errors="*{kontonummer}">kontonummer Error</span>
-                            <label for="kontonummer">Kontonummer:</label>
+                            <label for="kontonummer">Sparkonto:</label>
                             <select th:field="*{kontonummer}" class="form-control mb-4 col-8" id="kontonummer">
                                 <option value="" th:selected="${requestedKontonummer == null}" disabled>Konto auswählen... </option>
                                 <th:block th:each="kontonummer : ${kontonummerAuswahl}">

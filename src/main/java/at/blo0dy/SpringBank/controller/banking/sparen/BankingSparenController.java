@@ -20,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -77,6 +78,7 @@ public class BankingSparenController {
     zahlungsAuftrag.setId(0L);
     zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
+    // TODO: Glaub da ist theoretisch beschiss möglich - hier schon prüfen?
     zahlungsAuftrag.setKontonummer(requestedKontonummer);
 
     List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
@@ -84,12 +86,9 @@ public class BankingSparenController {
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
 
-    System.out.println(model);
 
-    return "kunde/banking/sparen/einzahlung-form";
+    return "kunde/banking/sparen/zahlungsAuftrag-form";
   }
-
-
 
   @PostMapping("/saveEinzahlungsFormWithKonto")
   public String saveEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
@@ -103,12 +102,12 @@ public class BankingSparenController {
 
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
-      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-
       List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
 
-      return "kunde/banking/sparen/einzahlung-form";
+      return "kunde/banking/sparen/zahlungsAuftrag-form";
     }
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
@@ -119,14 +118,20 @@ public class BankingSparenController {
       log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       model.addAttribute("errorObj", "errorObj");
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      System.out.println("ZAHLUNGSAUFTRAG NACH BESCHISSVERSUCH: " + zahlungsAuftrag);
-      return "kunde/banking/sparen/einzahlung-form";
+      return "kunde/banking/sparen/zahlungsAuftrag-form";
     }
 
     log.debug("Prüfungen für Kontonummer " + zahlungsAuftrag.getKontonummer() + " bei Kunde: " + authKundennummer + " erfolgreich abgeschlossen.");
     zahlungsAuftrag.setKonto(sparKonto);
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
     zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+    if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.EINZAHLUNG)) {
+      zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer().toString());
+      zahlungsAuftrag.setSenderKonto(sparKonto.getConnectedGiro());
+    } else {
+      zahlungsAuftrag.setSenderKonto(sparKonto.getConnectedGiro());
+      zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer().toString());
+    }
 
     log.debug("ZahlungsAuftrag zu Kunde: " + authKundennummer + " und Konto: " + zahlungsAuftrag.getKontonummer() + " wird gespeichert" );
     zahlungsAuftragService.save(zahlungsAuftrag);
@@ -134,4 +139,31 @@ public class BankingSparenController {
 
     return "redirect:/kunde/banking/sparen/sparkontouebersicht";
   }
+
+
+  // TODO: Das muss besser gehn als die GetMappings zu duplizieren, nur wegen des AUSZAHLUNG/EINZAHLUNG Enums.. params hat aber ned gepasst...
+  @GetMapping("/showAuszahlungsFormWithKonto")
+  public String showAuszahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
+
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showAddAuszahlungForm for Kunde: " + authKundennummer);
+
+    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
+
+    ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
+    zahlungsAuftrag.setId(0L);
+    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+    zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
+    zahlungsAuftrag.setKontonummer(requestedKontonummer);
+
+
+    List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+
+    model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+    model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
+
+
+    return "kunde/banking/sparen/zahlungsAuftrag-form";
+  }
+
 }

@@ -58,4 +58,10 @@ public class ZahlungsAuftrag {
   @Column(name = "auftrags_art")
   private ZahlungAuftragArtEnum auftragsArt;
 
+  @Column(name = "empfaenger_konto")
+  private String empfaengerKonto;
+
+  @Column(name = "senderKonto")
+  private String senderKonto;
+
 }

@@ -74,10 +74,13 @@
                                         <div class="row mt-3 justify-content-around align-items-center">
                                             <button type="button" class="btn btn-info">Konto Details</button>
                                             <a th:href="@{/kunde/banking/sparen/showEinzahlungsFormWithKonto(kontoId=${sparkonto.id})}"
-                                               class = "btn btn-info">
+                                               class = "btn btn-info" >
                                                Neue Einzahlung
                                             </a>
-                                            <button type="button" class="btn btn-info">Neue Auszahlung</button>
+                                            <a th:href="@{/kunde/banking/sparen/showAuszahlungsFormWithKonto(kontoId=${sparkonto.id})}"
+                                               class = "btn btn-info" >
+                                                Neue Auszahlung
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

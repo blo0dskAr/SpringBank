@@ -30,12 +30,10 @@ public class KundeKreditController {
 
   @GetMapping({"/index", "/", ""})
   public String viewKreditIndex(Model model) {
-
     model.addAttribute("activeLink", "kundeKreditHome");
 
     return "kunde/kredit/index";
   }
-
 
   @GetMapping("/rechner")
   public String showKreditRechnerForm(Model model) {

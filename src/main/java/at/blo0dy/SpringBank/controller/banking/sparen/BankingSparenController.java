@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -92,7 +93,7 @@ public class BankingSparenController {
   @PostMapping("/saveEinzahlungsFormWithKonto")
   public String saveEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                     @Valid @ModelAttribute(name = "zahlungsAuftrag") ZahlungsAuftrag zahlungsAuftrag, BindingResult result,
-                                    Model model ) {
+                                    Model model, RedirectAttributes redirectAttrs) {
 
     String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
@@ -138,6 +139,7 @@ public class BankingSparenController {
     zahlungsAuftragService.save(zahlungsAuftrag);
     log.debug("ZahlungsAuftrag zu Kunde: " + authKundennummer + " und Konto: " + zahlungsAuftrag.getKontonummer() + " wurde erfolgreich gespeichert" );
 
+    redirectAttrs.addFlashAttribute("zahlungsAuftragGespeichert", true);
     return "redirect:/kunde/banking/sparen/sparkontouebersicht";
   }
 

@@ -25,6 +25,8 @@ public interface KontoRepository extends JpaRepository<Konto, Long> {
           "  where ku.kundennummer= ?1 ) ", nativeQuery = true)
   BigDecimal getGesamtSaldoOffenerKontenByKundennummer(String kundennummer);
 
+  @Query(value = "select ko.kontonummer from konto ko " +
+                 " where ko.id = ?1 ", nativeQuery = true)
   String findKontonummerById(Long kontoId);
 
 }

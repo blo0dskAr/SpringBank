@@ -40,21 +40,4 @@ public class KreditKonto extends Konto {
     this.laufzeit = laufzeit;
   }
 
-
-//    public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit) {
-//    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag);
-//    this.kreditBetrag = kreditBetrag;
-//    this.laufzeit = laufzeit;
-//    this.rate = rate;
-//  }
-
-  // orig
-/*  public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit, KreditKontoAntrag kreditKontoAntrag) {
-    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
-    this.kreditKontoAntrag = kreditKontoAntrag;
-    this.kreditBetrag = kreditBetrag;
-    this.laufzeit = laufzeit;
-    this.rate = rate;
-  }*/
-
 }

@@ -288,10 +288,8 @@ private void loadData() {
 
   // SparKonto anlegen
   SparKonto sparKonto1 = new SparKonto();
-//  sparKonto1.setConnectedGiro("123456789");
   sparKonto1.setKontoname("tralala1");
   sparKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-//  sparKonto1.setId(1L);
   sparKonto1.setAktSaldo(BigDecimal.valueOf(4750.00));
   sparKonto1.setKontonummer(123001L);
   sparKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
@@ -299,10 +297,8 @@ private void loadData() {
   sparKonto1.setKontoAntrag(sparKontoAntrag3);
 
   SparKonto sparKonto2 = new SparKonto();
-//  sparKonto2.setConnectedGiro("123456789");
   sparKonto2.setKontoname("tralala2");
   sparKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-//  sparKonto2.setId(2L);
   sparKonto2.setAktSaldo(BigDecimal.valueOf(5000));
   sparKonto2.setKontonummer(123002L);
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
@@ -311,7 +307,6 @@ private void loadData() {
 
   GiroKonto giroKonto1 = new GiroKonto();
   giroKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-//  giroKonto1.setId(3L);
   giroKonto1.setAktSaldo(BigDecimal.valueOf(12345.67));
   giroKonto1.setKontonummer(123003L);
   giroKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
@@ -322,8 +317,7 @@ private void loadData() {
 
   KreditKonto kreditKonto1 = new KreditKonto();
   kreditKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-//  kreditKonto1.setId(4L);
-  kreditKonto1.setAktSaldo(BigDecimal.valueOf(-15000));
+  kreditKonto1.setAktSaldo(BigDecimal.valueOf(-14750));
   kreditKonto1.setKontonummer(123004L);
   kreditKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   kreditKonto1.setKunde(kunde1);
@@ -336,6 +330,7 @@ private void loadData() {
   sparService.save(sparKonto1);
   sparService.save(sparKonto2);
 
+  // Paar Sparkonto1 Buchungen
   KontoBuchung konto1Buchung1 = new KontoBuchung();
   konto1Buchung1.setId(1L);
   konto1Buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
@@ -353,7 +348,7 @@ private void loadData() {
   konto1Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
   konto1Buchung2.setBuchungsDatum(LocalDate.now());
   konto1Buchung2.setDatAnlage(LocalDateTime.now());
-  konto1Buchung2.setBuchungsText("InitialBetrag");
+  konto1Buchung2.setBuchungsText("Sparen");
   konto1Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(5250.00));
   konto1Buchung2.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung2);
@@ -364,11 +359,33 @@ private void loadData() {
   konto1Buchung3.setBuchungsBetrag(BigDecimal.valueOf(500.00));
   konto1Buchung3.setBuchungsDatum(LocalDate.now());
   konto1Buchung3.setDatAnlage(LocalDateTime.now());
-  konto1Buchung3.setBuchungsText("InitialBetrag");
+  konto1Buchung3.setBuchungsText("Grafikkarte");
   konto1Buchung3.setSaldoNachBuchung(BigDecimal.valueOf(4750.00));
   konto1Buchung3.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung3);
 
+  // Paar kreditkonto1 Buchungen
+  KontoBuchung kreditkonto1Buchung1 = new KontoBuchung();
+  konto1Buchung1.setId(4L);
+  kreditkonto1Buchung1.setBuchungsArt(BuchungsArtEnum.SOLL);
+  kreditkonto1Buchung1.setBuchungsBetrag(BigDecimal.valueOf(15000.00));
+  kreditkonto1Buchung1.setBuchungsDatum(LocalDate.now());
+  kreditkonto1Buchung1.setDatAnlage(LocalDateTime.now());
+  kreditkonto1Buchung1.setBuchungsText("KreditAuszahlung");
+  kreditkonto1Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(15000.00));
+  kreditkonto1Buchung1.setKonto(kreditKonto1);
+  kontoBuchungService.save(kreditkonto1Buchung1);
+
+  KontoBuchung kreditkonto1Buchung2 = new KontoBuchung();
+  konto1Buchung2.setId(5L);
+  kreditkonto1Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
+  kreditkonto1Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
+  kreditkonto1Buchung2.setBuchungsDatum(LocalDate.now());
+  kreditkonto1Buchung2.setDatAnlage(LocalDateTime.now());
+  kreditkonto1Buchung2.setBuchungsText("Rate");
+  kreditkonto1Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(14750.00));
+  kreditkonto1Buchung2.setKonto(kreditKonto1);
+  kontoBuchungService.save(kreditkonto1Buchung2);
 
 }
 }

@@ -4,6 +4,7 @@ import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 @Slf4j
 @Controller
@@ -103,7 +105,7 @@ public class CrmKreditAntragController {
       Kunde mykunde = kundeService.findByKundennummer(tmpKundenNummer);
       KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
       KreditKonto kreditKonto = new KreditKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
-              kontoStatusAufgrundKundenStatus, kreditKontoAntrag, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit());
+              kontoStatusAufgrundKundenStatus, kreditKontoAntrag, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), new ArrayList<KontoBuchung>());
       log.debug("KreditAntrag wurde genehmigt, neues KreditKonto wird gespeichert. Kunde: " + tmpKundenNummer);
       kreditService.save(kreditKonto);
     }

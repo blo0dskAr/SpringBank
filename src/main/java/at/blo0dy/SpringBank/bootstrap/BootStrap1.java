@@ -5,9 +5,11 @@ import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.BuchungsArtEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
+import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
@@ -20,6 +22,7 @@ import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
+import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
@@ -33,6 +36,7 @@ import org.springframework.stereotype.Component;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -53,11 +57,12 @@ public class BootStrap1 implements CommandLineRunner {
   private final KreditService kreditService;
   private final GiroKontoAntragService giroKontoAntragService;
   private final GiroService giroService;
+  private final KontoBuchungService kontoBuchungService;
 
 
   public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
                     BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService, KreditKontoAntragService kreditKontoAntragService,
-                    KreditService kreditService, GiroKontoAntragService giroKontoAntragService, GiroService giroService) {
+                    KreditService kreditService, GiroKontoAntragService giroKontoAntragService, GiroService giroService, KontoBuchungService kontoBuchungService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
@@ -70,6 +75,7 @@ public class BootStrap1 implements CommandLineRunner {
     this.kreditService = kreditService;
     this.giroKontoAntragService = giroKontoAntragService;
     this.giroService = giroService;
+    this.kontoBuchungService = kontoBuchungService;
   }
 
   @Override
@@ -283,8 +289,8 @@ private void loadData() {
   SparKonto sparKonto1 = new SparKonto();
   sparKonto1.setConnectedGiro("123456789");
   sparKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKonto1.setId(1L);
-  sparKonto1.setAktSaldo(BigDecimal.valueOf(2500));
+//  sparKonto1.setId(1L);
+  sparKonto1.setAktSaldo(BigDecimal.valueOf(4750.00));
   sparKonto1.setKontonummer(123001L);
   sparKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto1.setKunde(kunde1);
@@ -324,9 +330,42 @@ private void loadData() {
   kreditKonto1.setRate(kreditKontoAntrag2.getRate());
   kreditService.save(kreditKonto1);
 
-
   sparService.save(sparKonto1);
   sparService.save(sparKonto2);
+
+  KontoBuchung konto1Buchung1 = new KontoBuchung();
+  konto1Buchung1.setId(1L);
+  konto1Buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
+  konto1Buchung1.setBuchungsBetrag(BigDecimal.valueOf(5000.00));
+  konto1Buchung1.setBuchungsDatum(LocalDate.now());
+  konto1Buchung1.setDatAnlage(LocalDateTime.now());
+  konto1Buchung1.setBuchungsText("InitialBetrag");
+  konto1Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(5000.00));
+  konto1Buchung1.setKonto(sparKonto1);
+  kontoBuchungService.save(konto1Buchung1);
+
+  KontoBuchung konto1Buchung2 = new KontoBuchung();
+  konto1Buchung2.setId(2L);
+  konto1Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
+  konto1Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
+  konto1Buchung2.setBuchungsDatum(LocalDate.now());
+  konto1Buchung2.setDatAnlage(LocalDateTime.now());
+  konto1Buchung2.setBuchungsText("InitialBetrag");
+  konto1Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(5250.00));
+  konto1Buchung2.setKonto(sparKonto1);
+  kontoBuchungService.save(konto1Buchung2);
+
+  KontoBuchung konto1Buchung3 = new KontoBuchung();
+  konto1Buchung3.setId(3L);
+  konto1Buchung3.setBuchungsArt(BuchungsArtEnum.SOLL);
+  konto1Buchung3.setBuchungsBetrag(BigDecimal.valueOf(500.00));
+  konto1Buchung3.setBuchungsDatum(LocalDate.now());
+  konto1Buchung3.setDatAnlage(LocalDateTime.now());
+  konto1Buchung3.setBuchungsText("InitialBetrag");
+  konto1Buchung3.setSaldoNachBuchung(BigDecimal.valueOf(4750.00));
+  konto1Buchung3.setKonto(sparKonto1);
+  kontoBuchungService.save(konto1Buchung3);
+
 
 }
 }

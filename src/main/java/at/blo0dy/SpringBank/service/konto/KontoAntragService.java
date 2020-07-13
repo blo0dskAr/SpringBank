@@ -1,6 +1,5 @@
 package at.blo0dy.SpringBank.service.konto;
 
-import org.springframework.data.jpa.repository.Query;
 
 public interface KontoAntragService {
 

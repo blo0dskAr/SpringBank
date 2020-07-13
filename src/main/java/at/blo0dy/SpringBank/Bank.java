@@ -1,9 +1,7 @@
 package at.blo0dy.SpringBank;
 
-import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 
 
 @Entity

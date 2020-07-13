@@ -1,11 +1,15 @@
 package at.blo0dy.SpringBank.controller.banking.sparen;
 
 
-import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
+import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
+import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
+import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +17,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Slf4j
@@ -26,12 +33,16 @@ public class BankingSparenController {
   SparService sparService;
   KundeService kundeService;
   KontoBuchungService kontoBuchungService;
+  KontoService kontoService;
+  ZahlungsAuftragService zahlungsAuftragService;
 
   @Autowired
-  public BankingSparenController(SparService sparService, KundeService kundeService, KontoBuchungService kontoBuchungService) {
+  public BankingSparenController(SparService sparService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService) {
     this.sparService = sparService;
     this.kundeService = kundeService;
     this.kontoBuchungService = kontoBuchungService;
+    this.kontoService = kontoService;
+    this.zahlungsAuftragService = zahlungsAuftragService;
   }
 
   @GetMapping("/sparkontouebersicht")
@@ -54,5 +65,73 @@ public class BankingSparenController {
     return "kunde/banking/sparen/sparkontouebersicht";
   }
 
+  @GetMapping("/showEinzahlungsFormWithKonto")
+  public String showEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
 
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
+
+    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
+
+    ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
+    zahlungsAuftrag.setId(0L);
+    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+    zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
+    zahlungsAuftrag.setKontonummer(requestedKontonummer);
+
+    List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+
+    model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+    model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
+
+    System.out.println(model);
+
+    return "kunde/banking/sparen/einzahlung-form";
+  }
+
+
+
+  @PostMapping("/saveEinzahlungsFormWithKonto")
+  public String saveEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                    @Valid @ModelAttribute(name = "zahlungsAuftrag") ZahlungsAuftrag zahlungsAuftrag, BindingResult result,
+                                    Model model ) {
+
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
+
+    SparKonto sparKonto;
+
+    if (result.hasErrors()) {
+      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+
+      List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+
+      return "kunde/banking/sparen/einzahlung-form";
+    }
+
+    log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
+    try {
+      sparKonto = sparService.findSparKontoByKontonummerAndKundennummer(zahlungsAuftrag.getKontonummer(), authKundennummer);
+    } catch (NullPointerException e) {
+      // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking. . muss auch noch getestet werden irgendwie :)
+      log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
+      model.addAttribute("errorObj", "errorObj");
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      System.out.println("ZAHLUNGSAUFTRAG NACH BESCHISSVERSUCH: " + zahlungsAuftrag);
+      return "kunde/banking/sparen/einzahlung-form";
+    }
+
+    log.debug("Prüfungen für Kontonummer " + zahlungsAuftrag.getKontonummer() + " bei Kunde: " + authKundennummer + " erfolgreich abgeschlossen.");
+    zahlungsAuftrag.setKonto(sparKonto);
+    zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
+    zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+
+    log.debug("ZahlungsAuftrag zu Kunde: " + authKundennummer + " und Konto: " + zahlungsAuftrag.getKontonummer() + " wird gespeichert" );
+    zahlungsAuftragService.save(zahlungsAuftrag);
+    log.debug("ZahlungsAuftrag zu Kunde: " + authKundennummer + " und Konto: " + zahlungsAuftrag.getKontonummer() + " wurde erfolgreich gespeichert" );
+
+    return "redirect:/kunde/banking/sparen/sparkontouebersicht";
+  }
 }

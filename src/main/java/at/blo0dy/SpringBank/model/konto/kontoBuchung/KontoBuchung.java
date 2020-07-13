@@ -50,7 +50,7 @@ public class KontoBuchung {
   @Column(name = "buchungs_text")
   private String buchungsText;
 
-  @ManyToOne()
+  @ManyToOne
   @JoinColumn(name = "konto_id")
   private Konto konto;
 

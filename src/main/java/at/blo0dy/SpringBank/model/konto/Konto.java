@@ -4,6 +4,7 @@ import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
+import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -60,8 +61,11 @@ public class Konto {
   @Enumerated(EnumType.STRING)
   private KontoStatusEnum kontoStatus;
 
-  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-   private List<KontoBuchung> kontoBuchungList;
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "konto")
+  private List<KontoBuchung> kontoBuchungList;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "konto")
+  private List<ZahlungsAuftrag> kontoZahlungsAuftragList;
 
 
 }

@@ -366,7 +366,7 @@ private void loadData() {
 
   // Paar kreditkonto1 Buchungen
   KontoBuchung kreditkonto1Buchung1 = new KontoBuchung();
-  konto1Buchung1.setId(4L);
+  kreditkonto1Buchung1.setId(4L);
   kreditkonto1Buchung1.setBuchungsArt(BuchungsArtEnum.SOLL);
   kreditkonto1Buchung1.setBuchungsBetrag(BigDecimal.valueOf(15000.00));
   kreditkonto1Buchung1.setBuchungsDatum(LocalDate.now());
@@ -377,7 +377,7 @@ private void loadData() {
   kontoBuchungService.save(kreditkonto1Buchung1);
 
   KontoBuchung kreditkonto1Buchung2 = new KontoBuchung();
-  konto1Buchung2.setId(5L);
+  kreditkonto1Buchung2.setId(5L);
   kreditkonto1Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
   kreditkonto1Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
   kreditkonto1Buchung2.setBuchungsDatum(LocalDate.now());
@@ -386,6 +386,29 @@ private void loadData() {
   kreditkonto1Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(14750.00));
   kreditkonto1Buchung2.setKonto(kreditKonto1);
   kontoBuchungService.save(kreditkonto1Buchung2);
+
+  // Paar Girokonto1 Buchungen
+  KontoBuchung girokonto1buchung1 = new KontoBuchung();
+  girokonto1buchung1.setId(6L);
+  girokonto1buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
+  girokonto1buchung1.setBuchungsBetrag(BigDecimal.valueOf(2500));
+  girokonto1buchung1.setBuchungsDatum(LocalDate.now());
+  girokonto1buchung1.setDatAnlage(LocalDateTime.now());
+  girokonto1buchung1.setBuchungsText("Gehalt");
+  girokonto1buchung1.setSaldoNachBuchung(BigDecimal.valueOf(2500));
+  girokonto1buchung1.setKonto(giroKonto1);
+  kontoBuchungService.save(girokonto1buchung1);
+
+  KontoBuchung girokonto1buchung2 = new KontoBuchung();
+  girokonto1buchung2.setId(7L);
+  girokonto1buchung2.setBuchungsArt(BuchungsArtEnum.SOLL);
+  girokonto1buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
+  girokonto1buchung2.setBuchungsDatum(LocalDate.now());
+  girokonto1buchung2.setDatAnlage(LocalDateTime.now());
+  girokonto1buchung2.setBuchungsText("Einkauf");
+  girokonto1buchung2.setSaldoNachBuchung(BigDecimal.valueOf(2250));
+  girokonto1buchung2.setKonto(giroKonto1);
+  kontoBuchungService.save(girokonto1buchung2);
 
 }
 }

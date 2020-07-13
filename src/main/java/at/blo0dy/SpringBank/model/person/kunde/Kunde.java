@@ -55,10 +55,13 @@ public class Kunde extends Person implements UserDetails {
   private boolean isActive = true;
   private boolean firstLoginDone = true;
 
+  @Column(name = "connected_giro")
+  private String connectedGiro;
+
 
   public Kunde() { }
 
-  public Kunde(String vorname, String nachname, Adresse adresse, String kundennummer, String telefonNummer, String emailAdresse, String password, boolean isLegi, boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone) {
+  public Kunde(String vorname, String nachname, Adresse adresse, String kundennummer, String telefonNummer, String emailAdresse, String password, boolean isLegi, boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone, String connectedGiro) {
     super(vorname, nachname, adresse);
     this.kundennummer = kundennummer;
     this.telefonNummer = telefonNummer;
@@ -69,6 +72,7 @@ public class Kunde extends Person implements UserDetails {
     this.isActive = isActive;
     this.firstLoginDone = firstLoginDone;
     this.rolle = "customer";
+    this.connectedGiro = connectedGiro;
   }
 
 

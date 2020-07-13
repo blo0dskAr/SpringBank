@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.transaction.TransactionScoped;
 import javax.validation.constraints.Null;
 import java.math.BigDecimal;
 import java.util.List;
@@ -61,6 +62,7 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
+  @Transactional
   public UserDetails loadUserByUsername(String kundennummer) throws UsernameNotFoundException {
       final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
     if (kunde != null) {
@@ -94,11 +96,14 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
       kundeRepository.save(kunde);
   }
 
-
+  @Override
+  @Transactional
   public Kunde findByKundennummer(String kundennummer) {
     return kundeRepository.findByKundennummer(kundennummer);
   }
 
+  @Override
+  @Transactional
   public KontoStatusEnum getBestmoeglicherKontoStatusByKundennummer(String kundennummer) {
 
     log.debug("KundeServiceImpl: getBestmoeglicherKontoStatusByKundennummer -> Suche Kunde mit Kundennummer: " + kundennummer);
@@ -115,6 +120,8 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     }
   }
 
+  @Override
+  @Transactional
   public Long generateNewKontonummerByKundennummer(String kundennummer) {
     log.debug("KundeServiceImpl: Neue Kontonummer für Kunde " + kundennummer + " wird generiert");
     Long newKontonummer = kundeRepository.getLatestKontonummerByKundennummer(kundennummer)+1 ;
@@ -123,9 +130,17 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     return newKontonummer;
   }
 
+  @Override
+  @Transactional
   public Long getLatestKundennummerPlusOne() {
     log.debug("KundeServiceImpl: Neue Kundennummer wird generiert");
     return kundeRepository.getLatestKundennummerPlusOne();
+  }
+
+  @Override
+  @Transactional
+  public String getConnectedGiroByKundennummer(String kundenummer) {
+    return kundeRepository.getConnectedGiroByKundennummer(kundenummer);
   }
 
 

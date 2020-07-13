@@ -26,11 +26,6 @@
                     <form action="#" th:action="@{/kunde/banking/kredit/saveEinzahlungsFormWithKonto}"
                           th:object="${zahlungsAuftrag}" method="POST">
 
-                        <!-- Add hidden form Field to handle update -->
-                <!--        <input type="hidden" th:field="*{id}" />
-                        <input type="hidden" th:field="*{adresse.id}" />-->
-
-
                         <div class="form-group">
                                <span class="text-danger"
                                      th:if="${#fields.hasErrors('kontonummer')}"

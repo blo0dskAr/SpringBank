@@ -22,12 +22,12 @@ import java.util.List;
 @NoArgsConstructor
 public class SparKonto extends Konto {
 
-  @Column(name = "connected_giro")
-  private String connectedGiro;
+  @Column(name = "kontoname")
+  private String kontoname;
 
-  public SparKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, String connectedGiro, List<KontoBuchung> kontoBuchungList) {
+  public SparKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, List<KontoBuchung> kontoBuchungList, String kontoname) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList);
-    this.connectedGiro = connectedGiro;
+    this.kontoname = kontoname;
   }
 
 // orig

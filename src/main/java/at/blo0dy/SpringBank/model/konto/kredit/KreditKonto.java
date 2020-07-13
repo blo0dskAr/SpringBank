@@ -33,7 +33,6 @@ public class KreditKonto extends Konto {
   @Column(name = "laufzeit")
   private BigInteger laufzeit;
 
-
   public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit, List<KontoBuchung> kontoBuchungList) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList);
     this.kreditBetrag = kreditBetrag;

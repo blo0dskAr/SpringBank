@@ -176,6 +176,7 @@ private void loadData() {
   kunde1.setRolle("customer");
   kunde1.setTelefonNummer("asdasd");
   kunde1.setEmailAdresse("wwdifwoeifjowei");
+  kunde1.setConnectedGiro("123456789123");
 
   // Rolle uebergeben
 
@@ -287,7 +288,8 @@ private void loadData() {
 
   // SparKonto anlegen
   SparKonto sparKonto1 = new SparKonto();
-  sparKonto1.setConnectedGiro("123456789");
+//  sparKonto1.setConnectedGiro("123456789");
+  sparKonto1.setKontoname("tralala1");
   sparKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
 //  sparKonto1.setId(1L);
   sparKonto1.setAktSaldo(BigDecimal.valueOf(4750.00));
@@ -297,9 +299,10 @@ private void loadData() {
   sparKonto1.setKontoAntrag(sparKontoAntrag3);
 
   SparKonto sparKonto2 = new SparKonto();
-  sparKonto2.setConnectedGiro("123456789");
+//  sparKonto2.setConnectedGiro("123456789");
+  sparKonto2.setKontoname("tralala2");
   sparKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKonto2.setId(2L);
+//  sparKonto2.setId(2L);
   sparKonto2.setAktSaldo(BigDecimal.valueOf(5000));
   sparKonto2.setKontonummer(123002L);
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
@@ -308,7 +311,7 @@ private void loadData() {
 
   GiroKonto giroKonto1 = new GiroKonto();
   giroKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  giroKonto1.setId(3L);
+//  giroKonto1.setId(3L);
   giroKonto1.setAktSaldo(BigDecimal.valueOf(12345.67));
   giroKonto1.setKontonummer(123003L);
   giroKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
@@ -319,7 +322,7 @@ private void loadData() {
 
   KreditKonto kreditKonto1 = new KreditKonto();
   kreditKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  kreditKonto1.setId(4L);
+//  kreditKonto1.setId(4L);
   kreditKonto1.setAktSaldo(BigDecimal.valueOf(-15000));
   kreditKonto1.setKontonummer(123004L);
   kreditKonto1.setKontoStatus(KontoStatusEnum.OFFEN);

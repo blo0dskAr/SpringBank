@@ -31,5 +31,8 @@ public interface KundeService   {
 
   Long getLatestKundennummerPlusOne();
 
+  String getConnectedGiroByKundennummer(String kundenummer);
+
+
 
 }

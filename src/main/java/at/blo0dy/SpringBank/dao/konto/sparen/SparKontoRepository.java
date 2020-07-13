@@ -27,7 +27,7 @@ public interface SparKontoRepository extends JpaRepository<SparKonto, Long> {
           " and ko.konto_status = 'OFFEN'  ", nativeQuery = true)
   List<String> findKontoNummerOffenerSparKontenByKundennummer(String kundennummer);
 
-  @Query(value ="select ko.*, sko.id as sko_kont_id, sko.connected_giro from konto ko, sparkonto sko " +
+  @Query(value ="select ko.*, sko.id as sko_kont_id, sko.kontoname from konto ko, sparkonto sko " +
           " where ko.kontonummer = ?1" +
           "   and ko.kunde_id = (select ku.id from kunde ku" +
           " where ku.kundennummer = ?2)" +

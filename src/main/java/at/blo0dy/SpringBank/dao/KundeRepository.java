@@ -31,6 +31,7 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
           nativeQuery = true)
   Long getLatestKundennummerPlusOne();
 
-
+  @Query(value = "select ku.connected_giro from kunde ku where ku.kundennummer = ?1", nativeQuery = true)
+  String getConnectedGiroByKundennummer(String kundennummer);
 
 }

@@ -20,7 +20,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -125,11 +124,13 @@ public class BankingSparenController {
     zahlungsAuftrag.setKonto(sparKonto);
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
     zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+
+
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.EINZAHLUNG)) {
       zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer().toString());
-      zahlungsAuftrag.setSenderKonto(sparKonto.getConnectedGiro());
+      zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
     } else {
-      zahlungsAuftrag.setSenderKonto(sparKonto.getConnectedGiro());
+      zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
       zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer().toString());
     }
 

@@ -81,7 +81,7 @@ public class CrmSparAntragController {
 
     if (sparKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT))  {
       log.debug("Sparkonto wurde genehmigt, Sparkonto wird erstellt");
-      SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, sparKontoAntrag, "12345678001", new ArrayList<KontoBuchung>());
+      SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, sparKontoAntrag, new ArrayList<KontoBuchung>(), "");
       log.debug(" --> SparkontoDaten: " + sparKonto) ;
       sparService.save(sparKonto);
     }

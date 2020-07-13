@@ -3,6 +3,7 @@ package at.blo0dy.SpringBank.model.konto;
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
+import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,7 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
@@ -55,7 +57,8 @@ public class Konto {
   @Enumerated(EnumType.STRING)
   private KontoStatusEnum kontoStatus;
 
-  // private List<Kontobuchungen>
+  @OneToMany(cascade = CascadeType.ALL)
+   private List<KontoBuchung> kontoBuchungList;
 
 
 }

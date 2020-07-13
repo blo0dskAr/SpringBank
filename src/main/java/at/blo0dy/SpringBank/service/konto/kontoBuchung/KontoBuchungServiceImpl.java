@@ -24,7 +24,7 @@ public class KontoBuchungServiceImpl implements KontoBuchungService {
   @Transactional
   public List<KontoBuchung> findByKontoId(Long kontoId) {
     log.debug("findByKontoId für KontoId: " + kontoId + " wird durchgeführt");
-    return kontoBuchungRepository.findByKontoId(kontoId);
+    return kontoBuchungRepository.findByKontoIdOrderByIdDesc(kontoId);
   }
 
   @Override

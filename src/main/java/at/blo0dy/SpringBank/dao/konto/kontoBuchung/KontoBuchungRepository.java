@@ -8,7 +8,7 @@ import java.util.List;
 public interface KontoBuchungRepository extends JpaRepository<KontoBuchung, Long> {
 
 
-  List<KontoBuchung> findByKontoId(Long kontoId);
+  List<KontoBuchung> findByKontoIdOrderByIdDesc(Long kontoId);
 
 
 }

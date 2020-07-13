@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,7 +28,8 @@ class HomeControllerTest {
   void getPreIndexPage() throws Exception {
     mockMvc.perform(get("/"))
             .andExpect(status().isOk())
-            .andExpect(view().name("index"));
+            .andExpect(view().name("index"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
   }
 
 
@@ -44,6 +46,7 @@ class HomeControllerTest {
     mockMvc.perform(get("/access-denied"))
             .andExpect(status().isOk())
             .andExpect(view().name("access-denied"))
-            .andExpect(content().string(containsString("blo0dy Access Denied Page - You are not authorized to access this resource.")));
+            .andExpect(content().string(containsString("blo0dy Access Denied Page - You are not authorized to access this resource.")))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
   }
 }

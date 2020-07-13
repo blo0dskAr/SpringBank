@@ -1,7 +1,6 @@
 package at.blo0dy.SpringBank.service.konto.giro;
 
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
-import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 
 import java.util.List;
 

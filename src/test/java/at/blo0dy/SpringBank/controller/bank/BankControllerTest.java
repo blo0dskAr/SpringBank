@@ -4,6 +4,7 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -34,7 +35,8 @@ class BankControllerTest {
     mockMvc.perform(get("/kunde/bank/philosophie"))
             .andExpect(status().isOk())
             .andExpect(view().name("kunde/bank/philosophie"))
-            .andExpect(MockMvcResultMatchers.model().attributeExists("activeLink"));
+            .andExpect(MockMvcResultMatchers.model().attributeExists("activeLink"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());
   }
 
   @WithMockUser
@@ -43,7 +45,8 @@ class BankControllerTest {
     mockMvc.perform(get("/kunde/bank/philosophie"))
             .andExpect(status().isOk())
             .andExpect(view().name("kunde/bank/philosophie"))
-            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankPhilosophie"));
+            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankPhilosophie"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
   }
 
   @WithMockUser
@@ -52,7 +55,8 @@ class BankControllerTest {
     mockMvc.perform(get("/kunde/bank/karriere"))
             .andExpect(status().isOk())
             .andExpect(view().name("kunde/bank/karriere"))
-            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankKarriere"));
+            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankKarriere"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
   }
 
   @WithMockUser
@@ -61,7 +65,8 @@ class BankControllerTest {
     mockMvc.perform(get("/kunde/bank/kontakt"))
             .andExpect(status().isOk())
             .andExpect(view().name("kunde/bank/kontakt"))
-            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankKontakt"));
+            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankKontakt"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
   }
 
   @WithMockUser
@@ -70,7 +75,8 @@ class BankControllerTest {
     mockMvc.perform(get("/kunde/bank/impressum"))
             .andExpect(status().isOk())
             .andExpect(view().name("kunde/bank/impressum"))
-            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankImpressum"));
+            .andExpect(MockMvcResultMatchers.model().attribute("activeLink","kundeBankImpressum"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
   }
 
   @WithMockUser
@@ -78,7 +84,8 @@ class BankControllerTest {
   public void testList() throws Exception {
     mockMvc.perform(MockMvcRequestBuilders.get("/"))
             .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.view().name("index"));
+            .andExpect(MockMvcResultMatchers.view().name("index"))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
 //            .andExpect(MockMvcResultMatchers.model().attributeExists("requestURI"));
 //            .andExpect(MockMvcResultMatchers.model().attribute("products",
 //                    Matchers.is(Matchers.empty())));
@@ -92,7 +99,8 @@ class BankControllerTest {
             .andExpect(status().isOk())
             .andExpect(view().name("index"))
             .andExpect(content().string(
-                    containsString("Neuer Kunde werden")));
+                    containsString("Neuer Kunde werden")))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
   }
 
   @WithMockUser
@@ -106,6 +114,7 @@ class BankControllerTest {
     MvcResult result = mockMvc.perform(request)
             .andExpect(status().isOk())
             .andExpect(content().string(containsString("Neuer Kunde werden")))
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors())
             .andReturn();
 
   }

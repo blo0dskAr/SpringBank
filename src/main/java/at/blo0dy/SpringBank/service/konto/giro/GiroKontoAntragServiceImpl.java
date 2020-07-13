@@ -1,9 +1,7 @@
 package at.blo0dy.SpringBank.service.konto.giro;
 
 import at.blo0dy.SpringBank.dao.konto.giro.GiroKontoAntragRepository;
-import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoAntragRepository;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
-import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

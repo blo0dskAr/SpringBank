@@ -11,13 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class HomeController {
 
-/*  MitarbeiterService mitarbeiterService;
-
-  @Autowired
-  public HomeController(MitarbeiterService mitarbeiterService) {
-    this.mitarbeiterService = mitarbeiterService;
-  }*/
-
   @RequestMapping({"", "/", "/index"})
   public String getPreIndexPage(Model model) {
 

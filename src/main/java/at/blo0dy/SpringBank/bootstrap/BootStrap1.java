@@ -29,9 +29,11 @@ import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+import org.springframework.web.servlet.LocaleResolver;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -80,6 +82,9 @@ public class BootStrap1 implements CommandLineRunner {
     this.kontoBuchungService = kontoBuchungService;
     this.zahlungsAuftragService = zahlungsAuftragService;
   }
+
+  @Autowired
+  LocaleResolver localeResolver;
 
   @Override
   public void run(String... args) throws Exception {

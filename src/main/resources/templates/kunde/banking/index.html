@@ -182,7 +182,7 @@
                                                         </td>
                                                         <td>
     <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
-                                                            <a th:href="@{/kunde/banking/sparen/showSparAntragDetail}"
+                                                            <a th:href="@{/kunde/banking/sparen/showSparAntragDetailPage(antragId=${sparkontoantrag.id})}"
                                                                class="btn btn-info btn-sm">
                                                                 Details
                                                             </a>
@@ -200,7 +200,7 @@
                                                         </td>
                                                         <td>
                                                             <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
-                                                            <a th:href="@{/kunde/banking/kredit/showKreditAntragDetail}"
+                                                            <a th:href="@{/kunde/banking/kredit/showKreditAntragDetailPage(antragId=${kreditkontoantrag.id})}"
                                                                class="btn btn-info btn-sm">
                                                                 Details
                                                             </a>
@@ -209,7 +209,7 @@
                                                     <tr th:each="girokontoantrag : ${girokontoantragliste}">
                                                         <td th:text="${girokontoantrag.id}"><a href="#">345</a></td>
                                                         <td th:text="${girokontoantrag.getClass().getSimpleName()}">AntragTyp</td>
-                                                        <td th:text="{#temporals.format(girokontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
+                                                        <td th:text="${#temporals.format(girokontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
                                                         <td th:switch="${girokontoantrag.antragStatus}">
                                                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
                                                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
@@ -218,7 +218,7 @@
                                                         </td>
                                                         <td>
                                                             <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
-                                                            <a th:href="@{/kunde/banking/giro/showGiroAntragDetail}"
+                                                            <a th:href="@{/kunde/banking/giro/showGiroAntragDetailPage(antragId=${girokontoantrag.id})}"
                                                                class="btn btn-info btn-sm">
                                                                 Details
                                                             </a>

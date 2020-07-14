@@ -1,6 +1,8 @@
 package at.blo0dy.SpringBank.controller.banking.sparen;
 
 
+import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoAntragRepository;
+import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
@@ -8,6 +10,7 @@ import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
+import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -21,6 +24,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.naming.Binding;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -32,18 +36,21 @@ import java.util.List;
 public class BankingSparenController {
 
   SparService sparService;
+  SparKontoAntragService sparKontoAntragService;
   KundeService kundeService;
   KontoBuchungService kontoBuchungService;
   KontoService kontoService;
   ZahlungsAuftragService zahlungsAuftragService;
 
   @Autowired
-  public BankingSparenController(SparService sparService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService) {
+  public BankingSparenController(SparService sparService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService,
+                                 SparKontoAntragService sparKontoAntragService ) {
     this.sparService = sparService;
     this.kundeService = kundeService;
     this.kontoBuchungService = kontoBuchungService;
     this.kontoService = kontoService;
     this.zahlungsAuftragService = zahlungsAuftragService;
+    this.sparKontoAntragService = sparKontoAntragService;
   }
 
   @GetMapping("/sparkontouebersicht")
@@ -111,6 +118,7 @@ public class BankingSparenController {
     }
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
+    // TODO den TryCatchBlock brauch ich wahrscheinlich gar nicht, weil sparkonto=null nicht als exception kommt, sondern einfach als leeres ergebnis, das mit nem if zu checken is.
     try {
       sparKonto = sparService.findSparKontoByKontonummerAndKundennummer(zahlungsAuftrag.getKontonummer(), authKundennummer);
     } catch (NullPointerException e) {
@@ -201,6 +209,53 @@ public class BankingSparenController {
 
       return "kunde/banking/sparen/konto-detail";
     }
+  }
+
+
+
+  @GetMapping("/showSparAntragDetailPage")
+  public String showSparAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                         @RequestParam("antragId") Long antragId, RedirectAttributes redirectAttrs) {
+
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showSparAntragDetailPage for Kunde: " + authKundennummer + " and Antrag: " + antragId );
+
+    SparKontoAntrag sparKontoAntrag = sparKontoAntragService.findSparAntragByAntragIdAndKundennummer(antragId, authKundennummer);
+
+    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt.");
+    if (sparKontoAntrag == null) {
+      log.error("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - FEHLGESCHLAGEN");
+      redirectAttrs.addFlashAttribute("beschissError", true);
+
+      return "redirect:/kunde/banking/sparen/sparkontouebersicht";
+    }
+    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
+    model.addAttribute("sparkontoantrag", sparKontoAntrag);
+
+    return "kunde/banking/sparen/antrag-detail";
+  }
+
+
+  @PostMapping("/saveSparAntragDetailPage")
+  public String saveSparAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                         @Valid @ModelAttribute("sparkontoantrag") SparKontoAntrag sparKontoAntrag, BindingResult result,
+                                         RedirectAttributes redirectAttrs) {
+
+    String authKundennummer = authentication.getName();
+
+    if (result.hasErrors()) {
+      log.warn("Fehler beim speichern eines SparkontoAntrags für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      model.addAttribute("sparkontoantrag", sparKontoAntrag);
+
+      return "kunde/banking/sparen/antrag-detail";
+    }
+    
+    log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
+    sparKontoAntragService.save(sparKontoAntrag);
+    log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );
+
+    redirectAttrs.addFlashAttribute("antragGespeichert", true);
+    return "redirect:/kunde/banking/index";
   }
 
 }

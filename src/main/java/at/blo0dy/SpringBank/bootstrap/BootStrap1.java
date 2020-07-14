@@ -162,8 +162,16 @@ private void loadData() {
   adresse3.setLand("Österreich");
   adresse3.setStrasse("Dumdidumstrasse 15");
 
+  Adresse adresse4 = new Adresse();
+  adresse4.setId(4L);
+  adresse4.setOrt("Wien");
+  adresse4.setPlz("1230");
+  adresse4.setLand("Österreich");
+  adresse4.setStrasse("Dumdidumstrasse 15");
+
   // adresse persistieren
   adresseService.save(adresse3);
+  adresseService.save(adresse4);
 
   // Kunde erstellen
   Kunde kunde1 = new Kunde();
@@ -178,11 +186,21 @@ private void loadData() {
   kunde1.setEmailAdresse("wwdifwoeifjowei");
   kunde1.setConnectedGiro("123456789123");
 
-  // Rolle uebergeben
-
+  Kunde kunde2 = new Kunde();
+  kunde2.setKundennummer("124");
+  kunde2.setAdresse(adresse4);
+  kunde2.setId(4L);
+  kunde2.setNachname("McTestFace");
+  kunde2.setVorname("Testy");
+  kunde2.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde2.setRolle("customer");
+  kunde2.setTelefonNummer("12345");
+  kunde2.setEmailAdresse("dfdfdfdfdf");
+  kunde2.setConnectedGiro("123456789123");
 
   // kunde persistieren
   kundeService.save(kunde1);
+  kundeService.save(kunde2);
 
   // LoginCredentials erstellen
   LoginCredentials lc1 = new LoginCredentials();
@@ -200,13 +218,14 @@ private void loadData() {
   loginCredentialsService.save(lc2);
 
   // SparKonto Antrag anlegen
+  // kunde 2
   SparKontoAntrag sparKontoAntrag = new SparKontoAntrag();
   sparKontoAntrag.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKontoAntrag.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  sparKontoAntrag.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   sparKontoAntrag.setId(1L);
   sparKontoAntrag.setErstAuftrag(BigDecimal.valueOf(5000));
   sparKontoAntrag.setDauerAuftrag(BigDecimal.valueOf(250));
-  sparKontoAntrag.setKundennummer(123L);
+  sparKontoAntrag.setKundennummer(124L);
   sparKontoAntragService.save(sparKontoAntrag);
 
   SparKontoAntrag sparKontoAntrag1 = new SparKontoAntrag();
@@ -223,6 +242,7 @@ private void loadData() {
   sparKontoAntrag2.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag2);
 
+  // kunde 1
   SparKontoAntrag sparKontoAntrag3 = new SparKontoAntrag();
   sparKontoAntrag3.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   sparKontoAntrag3.setAntragStatus(AntragStatusEnum.GENEHMIGT);
@@ -230,6 +250,7 @@ private void loadData() {
   sparKontoAntrag3.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag3);
 
+  // kunde 1
   SparKontoAntrag sparKontoAntrag4 = new SparKontoAntrag();
   sparKontoAntrag4.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   sparKontoAntrag4.setAntragStatus(AntragStatusEnum.GENEHMIGT);
@@ -237,18 +258,20 @@ private void loadData() {
   sparKontoAntrag4.setKundennummer(123L);
   sparKontoAntragService.save(sparKontoAntrag4);
 
+  // kunde 2
   KreditKontoAntrag kreditKontoAntrag1 = new KreditKontoAntrag();
   kreditKontoAntrag1.setId(6L);
   kreditKontoAntrag1.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   kreditKontoAntrag1.setKreditBetrag(BigDecimal.valueOf(15000));
-  kreditKontoAntrag1.setAntragStatus(AntragStatusEnum.EINGEREICHT);
-  kreditKontoAntrag1.setKundennummer(123L);
+  kreditKontoAntrag1.setAntragStatus(AntragStatusEnum.GENEHMIGT);
+  kreditKontoAntrag1.setKundennummer(124L);
   kreditKontoAntrag1.setLaufzeit(BigInteger.valueOf(120));
   kreditKontoAntrag1.setZinssatz(BigDecimal.valueOf(8.00));
   kreditKontoAntrag1.setRate(BigDecimal.valueOf(181.99));
   kreditKontoAntrag1.setGesamtBelastung(BigDecimal.valueOf(21838.80));
   kreditKontoAntragService.save(kreditKontoAntrag1);
 
+  // kunde 1
   KreditKontoAntrag kreditKontoAntrag2 = new KreditKontoAntrag();
   kreditKontoAntrag2.setId(7L);
   kreditKontoAntrag2.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
@@ -269,14 +292,16 @@ private void loadData() {
   giroKontoAntrag1.setKundennummer(123L);
   giroKontoAntragService.save(giroKontoAntrag1);
 
+  // kunde 2
   GiroKontoAntrag giroKontoAntrag2 = new GiroKontoAntrag();
   giroKontoAntrag2.setId(9L);
   giroKontoAntrag2.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  giroKontoAntrag2.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  giroKontoAntrag2.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   giroKontoAntrag2.setUeberziehungsrahmenGewuenscht(false);
-  giroKontoAntrag2.setKundennummer(123L);
+  giroKontoAntrag2.setKundennummer(124L);
   giroKontoAntragService.save(giroKontoAntrag2);
 
+  // kunde 1
   GiroKontoAntrag giroKontoAntrag3 = new GiroKontoAntrag();
   giroKontoAntrag3.setId(10L);
   giroKontoAntrag3.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
@@ -287,6 +312,7 @@ private void loadData() {
 
 
   // SparKonto anlegen
+  // kunde 1
   SparKonto sparKonto1 = new SparKonto();
   sparKonto1.setKontoname("tralala1");
   sparKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
@@ -296,6 +322,7 @@ private void loadData() {
   sparKonto1.setKunde(kunde1);
   sparKonto1.setKontoAntrag(sparKontoAntrag3);
 
+  // kunde 1
   SparKonto sparKonto2 = new SparKonto();
   sparKonto2.setKontoname("tralala2");
   sparKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
@@ -305,6 +332,21 @@ private void loadData() {
   sparKonto2.setKunde(kunde1);
   sparKonto2.setKontoAntrag(sparKontoAntrag4);
 
+  // kunde 2
+  SparKonto sparKonto3 = new SparKonto();
+  sparKonto3.setKontoname("tralala3");
+  sparKonto3.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKonto3.setAktSaldo(BigDecimal.valueOf(5000));
+  sparKonto3.setKontonummer(124001L);
+  sparKonto3.setKontoStatus(KontoStatusEnum.OFFEN);
+  sparKonto3.setKunde(kunde2);
+  sparKonto3.setKontoAntrag(sparKontoAntrag);
+
+  sparService.save(sparKonto1);
+  sparService.save(sparKonto2);
+  sparService.save(sparKonto3);
+
+  // kunde 1
   GiroKonto giroKonto1 = new GiroKonto();
   giroKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   giroKonto1.setAktSaldo(BigDecimal.valueOf(12345.67));
@@ -315,6 +357,18 @@ private void loadData() {
   giroKonto1.setUeberziehungsRahmen(BigDecimal.valueOf(500));
   giroService.save(giroKonto1);
 
+  // kunde 2
+  GiroKonto giroKonto2 = new GiroKonto();
+  giroKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKonto2.setAktSaldo(BigDecimal.valueOf(12345.67));
+  giroKonto2.setKontonummer(124003L);
+  giroKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
+  giroKonto2.setKunde(kunde2);
+  giroKonto2.setKontoAntrag(giroKontoAntrag2);
+  giroKonto2.setUeberziehungsRahmen(BigDecimal.valueOf(500));
+  giroService.save(giroKonto2);
+
+  // kunde 1
   KreditKonto kreditKonto1 = new KreditKonto();
   kreditKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   kreditKonto1.setAktSaldo(BigDecimal.valueOf(-14750));
@@ -327,10 +381,22 @@ private void loadData() {
   kreditKonto1.setRate(kreditKontoAntrag2.getRate());
   kreditService.save(kreditKonto1);
 
-  sparService.save(sparKonto1);
-  sparService.save(sparKonto2);
+  // kunde 2
+  KreditKonto kreditKonto2 = new KreditKonto();
+  kreditKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKonto2.setAktSaldo(BigDecimal.valueOf(-14750));
+  kreditKonto2.setKontonummer(124002L);
+  kreditKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
+  kreditKonto2.setKunde(kunde2);
+  kreditKonto2.setKontoAntrag(kreditKontoAntrag1);
+  kreditKonto2.setKreditBetrag(kreditKontoAntrag1.getKreditBetrag());
+  kreditKonto2.setLaufzeit(kreditKontoAntrag1.getLaufzeit());
+  kreditKonto2.setRate(kreditKontoAntrag1.getRate());
+  kreditService.save(kreditKonto2);
+
 
   // Paar Sparkonto1 Buchungen
+  // kunde 1
   KontoBuchung konto1Buchung1 = new KontoBuchung();
   konto1Buchung1.setId(1L);
   konto1Buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
@@ -342,6 +408,7 @@ private void loadData() {
   konto1Buchung1.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung1);
 
+  // kunde 1
   KontoBuchung konto1Buchung2 = new KontoBuchung();
   konto1Buchung2.setId(2L);
   konto1Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
@@ -353,6 +420,7 @@ private void loadData() {
   konto1Buchung2.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung2);
 
+  // kunde 1
   KontoBuchung konto1Buchung3 = new KontoBuchung();
   konto1Buchung3.setId(3L);
   konto1Buchung3.setBuchungsArt(BuchungsArtEnum.SOLL);
@@ -364,7 +432,45 @@ private void loadData() {
   konto1Buchung3.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung3);
 
+  // Paar Sparkonto2 Buchungen
+  // kunde 2
+  KontoBuchung konto2Buchung1 = new KontoBuchung();
+  konto2Buchung1.setId(12L);
+  konto2Buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
+  konto2Buchung1.setBuchungsBetrag(BigDecimal.valueOf(5000.00));
+  konto2Buchung1.setBuchungsDatum(LocalDate.now());
+  konto2Buchung1.setDatAnlage(LocalDateTime.now());
+  konto2Buchung1.setBuchungsText("5k");
+  konto2Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(5000.00));
+  konto2Buchung1.setKonto(sparKonto1);
+  kontoBuchungService.save(konto2Buchung1);
+
+  // kunde 2
+  KontoBuchung konto2Buchung2 = new KontoBuchung();
+  konto2Buchung2.setId(13L);
+  konto2Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
+  konto2Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
+  konto2Buchung2.setBuchungsDatum(LocalDate.now());
+  konto2Buchung2.setDatAnlage(LocalDateTime.now());
+  konto2Buchung2.setBuchungsText("Dauersparen");
+  konto2Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(5250.00));
+  konto2Buchung2.setKonto(sparKonto3);
+  kontoBuchungService.save(konto2Buchung2);
+
+  // kunde 2
+  KontoBuchung konto2Buchung3 = new KontoBuchung();
+  konto2Buchung3.setId(14L);
+  konto2Buchung3.setBuchungsArt(BuchungsArtEnum.SOLL);
+  konto2Buchung3.setBuchungsBetrag(BigDecimal.valueOf(500.00));
+  konto2Buchung3.setBuchungsDatum(LocalDate.now());
+  konto2Buchung3.setDatAnlage(LocalDateTime.now());
+  konto2Buchung3.setBuchungsText("Soundkarte");
+  konto2Buchung3.setSaldoNachBuchung(BigDecimal.valueOf(4750.00));
+  konto2Buchung3.setKonto(sparKonto3);
+  kontoBuchungService.save(konto2Buchung3);
+
   // Paar kreditkonto1 Buchungen
+  // kunde 1
   KontoBuchung kreditkonto1Buchung1 = new KontoBuchung();
   kreditkonto1Buchung1.setId(4L);
   kreditkonto1Buchung1.setBuchungsArt(BuchungsArtEnum.SOLL);
@@ -376,6 +482,7 @@ private void loadData() {
   kreditkonto1Buchung1.setKonto(kreditKonto1);
   kontoBuchungService.save(kreditkonto1Buchung1);
 
+  // kunde 1
   KontoBuchung kreditkonto1Buchung2 = new KontoBuchung();
   kreditkonto1Buchung2.setId(5L);
   kreditkonto1Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
@@ -387,7 +494,32 @@ private void loadData() {
   kreditkonto1Buchung2.setKonto(kreditKonto1);
   kontoBuchungService.save(kreditkonto1Buchung2);
 
+  // kunde 1
+  KontoBuchung kreditkonto2Buchung1 = new KontoBuchung();
+  kreditkonto2Buchung1.setId(10L);
+  kreditkonto2Buchung1.setBuchungsArt(BuchungsArtEnum.SOLL);
+  kreditkonto2Buchung1.setBuchungsBetrag(BigDecimal.valueOf(15000.00));
+  kreditkonto2Buchung1.setBuchungsDatum(LocalDate.now());
+  kreditkonto2Buchung1.setDatAnlage(LocalDateTime.now());
+  kreditkonto2Buchung1.setBuchungsText("KreditAuszahlung");
+  kreditkonto2Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(15000.00));
+  kreditkonto2Buchung1.setKonto(kreditKonto2);
+  kontoBuchungService.save(kreditkonto2Buchung1);
+
+  // kunde 1
+  KontoBuchung kreditkonto2Buchung2 = new KontoBuchung();
+  kreditkonto2Buchung2.setId(11L);
+  kreditkonto2Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
+  kreditkonto2Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
+  kreditkonto2Buchung2.setBuchungsDatum(LocalDate.now());
+  kreditkonto2Buchung2.setDatAnlage(LocalDateTime.now());
+  kreditkonto2Buchung2.setBuchungsText("Rate");
+  kreditkonto2Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(14750.00));
+  kreditkonto2Buchung2.setKonto(kreditKonto2);
+  kontoBuchungService.save(kreditkonto2Buchung2);
+
   // Paar Girokonto1 Buchungen
+  // kunde 1
   KontoBuchung girokonto1buchung1 = new KontoBuchung();
   girokonto1buchung1.setId(6L);
   girokonto1buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
@@ -399,6 +531,7 @@ private void loadData() {
   girokonto1buchung1.setKonto(giroKonto1);
   kontoBuchungService.save(girokonto1buchung1);
 
+  // kunde 1
   KontoBuchung girokonto1buchung2 = new KontoBuchung();
   girokonto1buchung2.setId(7L);
   girokonto1buchung2.setBuchungsArt(BuchungsArtEnum.SOLL);
@@ -409,6 +542,30 @@ private void loadData() {
   girokonto1buchung2.setSaldoNachBuchung(BigDecimal.valueOf(2250));
   girokonto1buchung2.setKonto(giroKonto1);
   kontoBuchungService.save(girokonto1buchung2);
+
+  // kunde 2
+  KontoBuchung girokonto2buchung1 = new KontoBuchung();
+  girokonto2buchung1.setId(8L);
+  girokonto2buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
+  girokonto2buchung1.setBuchungsBetrag(BigDecimal.valueOf(1600));
+  girokonto2buchung1.setBuchungsDatum(LocalDate.now());
+  girokonto2buchung1.setDatAnlage(LocalDateTime.now());
+  girokonto2buchung1.setBuchungsText("Gehalt");
+  girokonto2buchung1.setSaldoNachBuchung(BigDecimal.valueOf(1600));
+  girokonto2buchung1.setKonto(giroKonto2);
+  kontoBuchungService.save(girokonto2buchung1);
+
+  // kunde 2
+  KontoBuchung girokonto2buchung2 = new KontoBuchung();
+  girokonto2buchung2.setId(9L);
+  girokonto2buchung2.setBuchungsArt(BuchungsArtEnum.SOLL);
+  girokonto2buchung2.setBuchungsBetrag(BigDecimal.valueOf(100));
+  girokonto2buchung2.setBuchungsDatum(LocalDate.now());
+  girokonto2buchung2.setDatAnlage(LocalDateTime.now());
+  girokonto2buchung2.setBuchungsText("Einkauf");
+  girokonto2buchung2.setSaldoNachBuchung(BigDecimal.valueOf(1500));
+  girokonto2buchung2.setKonto(giroKonto2);
+  kontoBuchungService.save(girokonto2buchung2);
 
 }
 }

@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
@@ -20,6 +22,12 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
   @Transactional
   public ZahlungsAuftrag save(ZahlungsAuftrag zahlungsAuftrag) {
     return zahlungsAuftragRepository.save(zahlungsAuftrag);
+  }
+
+  @Override
+  @Transactional
+  public List<ZahlungsAuftrag> findZahlungsAuftraegeByKontonummer(String kontonummer) {
+    return zahlungsAuftragRepository.findZahlungsAuftraegeByKontonummer(kontonummer);
   }
 
 }

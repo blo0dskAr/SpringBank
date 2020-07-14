@@ -169,4 +169,38 @@ public class BankingSparenController {
     return "kunde/banking/sparen/zahlungsAuftrag-form";
   }
 
+
+
+
+  @GetMapping("/showKontoDetailPage")
+  public String showKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                    @RequestParam("kontoId") Long kontoId, RedirectAttributes redirectAttrs) {
+
+    String requestedSparKontonummer = kontoService.findKontonummerById(kontoId);
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedSparKontonummer );
+
+    SparKonto sparKonto;
+
+    log.debug("Check ob Kontonummer " + requestedSparKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
+    sparKonto = sparService.findSparKontoByKontonummerAndKundennummer(requestedSparKontonummer, authKundennummer);
+
+    if (sparKonto == null) {
+    // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking. . muss auch noch getestet werden irgendwie :)
+    log.error("Check ob Kontonummer " + requestedSparKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
+    redirectAttrs.addFlashAttribute("beschissError", true);
+
+    return "redirect:/kunde/banking/sparen/sparkontouebersicht";
+    } else {
+      log.debug("Check ob Kontonummer " + requestedSparKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
+
+      List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragService.findZahlungsAuftraegeByKontonummer(requestedSparKontonummer);
+
+      model.addAttribute("sparkonto", sparKonto);
+      model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
+
+      return "kunde/banking/sparen/konto-detail";
+    }
+  }
+
 }

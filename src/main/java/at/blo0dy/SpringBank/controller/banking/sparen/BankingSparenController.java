@@ -173,12 +173,12 @@ public class BankingSparenController {
 
 
   @GetMapping("/showKontoDetailPage")
-  public String showKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                    @RequestParam("kontoId") Long kontoId, RedirectAttributes redirectAttrs) {
+  public String showSparKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                        @RequestParam("kontoId") Long kontoId, RedirectAttributes redirectAttrs) {
 
     String requestedSparKontonummer = kontoService.findKontonummerById(kontoId);
     String authKundennummer = authentication.getName();
-    log.debug("Showing showKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedSparKontonummer );
+    log.debug("Showing showSparKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedSparKontonummer );
 
     SparKonto sparKonto;
 

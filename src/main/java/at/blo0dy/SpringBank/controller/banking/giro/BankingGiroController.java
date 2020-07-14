@@ -172,4 +172,36 @@ public class BankingGiroController {
 
 
 
+  @GetMapping("/showKontoDetailPage")
+  public String showGiroKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                        @RequestParam("kontoId") Long kontoId, RedirectAttributes redirectAttrs) {
+
+    String requestedGiroKontonummer = kontoService.findKontonummerById(kontoId);
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showGiroKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedGiroKontonummer );
+
+    GiroKonto giroKonto;
+
+    log.debug("Check ob Kontonummer " + requestedGiroKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
+    giroKonto = giroService.findGiroKontoByKontonummerAndKundennummer(requestedGiroKontonummer, authKundennummer);
+
+    if (giroKonto == null) {
+      // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking. . muss auch noch getestet werden irgendwie :)
+      log.error("Check ob Kontonummer " + requestedGiroKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
+      redirectAttrs.addFlashAttribute("beschissError", true);
+
+      return "redirect:/kunde/banking/giro/girokontouebersicht";
+    } else {
+      log.debug("Check ob Kontonummer " + requestedGiroKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
+
+      List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragService.findZahlungsAuftraegeByKontonummer(requestedGiroKontonummer);
+
+      model.addAttribute("girokonto", giroKonto);
+      model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
+
+      return "kunde/banking/giro/konto-detail";
+    }
+  }
+
+
 }

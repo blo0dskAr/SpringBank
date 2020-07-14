@@ -145,6 +145,37 @@ public class BankingKreditController {
   }
 
 
+  @GetMapping("/showKontoDetailPage")
+  public String showKreditKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                          @RequestParam("kontoId") Long kontoId, RedirectAttributes redirectAttrs) {
+
+    String requestedKreditKontonummer = kontoService.findKontonummerById(kontoId);
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showKreditKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedKreditKontonummer );
+
+    KreditKonto kreditKonto;
+
+    log.debug("Check ob Kontonummer " + requestedKreditKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
+    kreditKonto = kreditService.findKreditKontoByKontonummerAndKundennummer(requestedKreditKontonummer, authKundennummer);
+
+    if (kreditKonto == null) {
+      // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking. . muss auch noch getestet werden irgendwie :)
+      log.error("Check ob Kontonummer " + requestedKreditKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
+      redirectAttrs.addFlashAttribute("beschissError", true);
+
+      return "redirect:/kunde/banking/kredit/kreditkontouebersicht";
+    } else {
+      log.debug("Check ob Kontonummer " + requestedKreditKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
+
+      List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragService.findZahlungsAuftraegeByKontonummer(requestedKreditKontonummer);
+
+      model.addAttribute("kreditkonto", kreditKonto);
+      model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
+
+      return "kunde/banking/kredit/konto-detail";
+    }
+  }
+
 
 
 }

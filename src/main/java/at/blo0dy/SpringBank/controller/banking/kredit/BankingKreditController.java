@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.controller.banking.kredit;
 
 
+import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
@@ -8,6 +9,7 @@ import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
+import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -32,6 +34,7 @@ import java.util.List;
 public class BankingKreditController {
 
   KreditService kreditService;
+  KreditKontoAntragService kreditKontoAntragService;
   KundeService kundeService;
   KontoBuchungService kontoBuchungService;
   KontoService kontoService;
@@ -39,12 +42,14 @@ public class BankingKreditController {
 
 
   @Autowired
-  public BankingKreditController(KreditService kreditService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService) {
+  public BankingKreditController(KreditService kreditService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService,
+                                 KreditKontoAntragService kreditKontoAntragService) {
     this.kreditService = kreditService;
     this.kundeService = kundeService;
     this.kontoBuchungService = kontoBuchungService;
     this.kontoService = kontoService;
     this.zahlungsAuftragService = zahlungsAuftragService;
+    this.kreditKontoAntragService = kreditKontoAntragService;
   }
 
   @GetMapping("/kreditkontouebersicht")
@@ -176,6 +181,29 @@ public class BankingKreditController {
     }
   }
 
+
+
+  @GetMapping("/showKreditAntragDetailPage")
+  public String showKreditAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                           @RequestParam("antragId") Long antragId, RedirectAttributes redirectAttrs) {
+
+    String authKundennummer = authentication.getName();
+    log.debug("Showing showKreditAntragDetailPage for Kunde: " + authKundennummer + " and Antrag: " + antragId );
+
+    KreditKontoAntrag kreditKontoAntrag = kreditKontoAntragService.findKreditAntragByAntragIdAndKundennummer(antragId, authKundennummer);
+
+    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt.");
+    if (kreditKontoAntrag == null) {
+      log.error("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - FEHLGESCHLAGEN");
+      redirectAttrs.addFlashAttribute("beschissError", true);
+
+      return "redirect:/kunde/banking/kredit/kreditkontouebersicht";
+    }
+    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
+    model.addAttribute("kreditkontoantrag", kreditKontoAntrag);
+
+    return "kunde/banking/kredit/antrag-detail";
+  }
 
 
 }

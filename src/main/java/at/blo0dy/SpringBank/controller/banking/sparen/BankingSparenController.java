@@ -249,7 +249,7 @@ public class BankingSparenController {
 
       return "kunde/banking/sparen/antrag-detail";
     }
-    
+
     log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
     sparKontoAntragService.save(sparKontoAntrag);
     log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );

@@ -142,4 +142,10 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   public String getConnectedGiroByKundennummer(String kundenummer) {
     return kundeRepository.getConnectedGiroByKundennummer(kundenummer);
   }
+
+  @Override
+  @Transactional
+  public void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro) {
+    kundeRepository.updateChangeableDataByKundennummer(kundennummer, email, tel, connectedGiro);
+  }
 }

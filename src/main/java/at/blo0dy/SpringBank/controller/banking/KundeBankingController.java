@@ -9,6 +9,7 @@ import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.konto.KontoAntragService;
 import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
@@ -25,9 +26,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.unbescape.properties.PropertiesKeyEscapeLevel;
 
+import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -45,12 +52,13 @@ public class KundeBankingController {
   KreditKontoAntragService kreditKontoAntragService;
   SparKontoAntragService sparKontoAntragService;
   KundeService kundeService;
+  AdresseService adresseService;
 
 
   @Autowired
   public KundeBankingController(KontoService kontoService, GiroService giroService, KreditService kreditService, SparService sparService, KontoAntragService kontoAntragService,
                                 GiroKontoAntragService giroKontoAntragService, KreditKontoAntragService kreditKontoAntragService, SparKontoAntragService sparKontoAntragService,
-                                KundeService kundeService) {
+                                KundeService kundeService, AdresseService adresseService) {
     this.kontoService = kontoService;
     this.giroService = giroService;
     this.kreditService = kreditService;
@@ -60,6 +68,7 @@ public class KundeBankingController {
     this.kreditKontoAntragService = kreditKontoAntragService;
     this.sparKontoAntragService = sparKontoAntragService;
     this.kundeService = kundeService;
+    this.adresseService = adresseService;
   }
 
   @RequestMapping({"", "/", "/index"})
@@ -69,7 +78,6 @@ public class KundeBankingController {
     if (authentication==null) {
       return "redirect:/kunde/banking/index";
     }
-
     String authKundennummer = authentication.getName();
 
     BigDecimal gesamtSaldoOffenerKonten = kontoService.getGesamtSaldoOffenerKontenByKundennummer(authKundennummer);
@@ -80,7 +88,6 @@ public class KundeBankingController {
     List<SparKonto> sparKontenListe = sparService.findSparKontoByKundennummer(authKundennummer);
     List<KreditKonto> kreditKontenListe = kreditService.findKreditKontenByKundennummer(authKundennummer);
     List<GiroKonto> giroKontenListe = giroService.findGiroKontenByKundennummer(authKundennummer);
-
 
     Kunde kunde = kundeService.findByKundennummer(authKundennummer);
 
@@ -108,5 +115,49 @@ public class KundeBankingController {
 
     return "kunde/banking/index";
   }
+
+
+  @GetMapping("/kunde-detailpage")
+  public String getKundeDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+
+    String authKundennummer = authentication.getName();
+    Kunde kunde = kundeService.findByKundennummer(authKundennummer);
+    log.debug("Showing viewKundeDetailPage for Kunde: " + authKundennummer);
+
+    model.addAttribute("kunde", kunde);
+
+    return "kunde/banking/kunde-detail";
+  }
+
+
+  @PostMapping("/kunde-detailpage")
+  public String saveKundeDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                    @Valid @ModelAttribute Kunde kunde, BindingResult result,
+                                    Model model, RedirectAttributes redirectAttrs) {
+
+    if (result.hasErrors()) {
+      model.addAttribute("kunde", kunde);
+      System.out.println("ICH HAB ERRORS");
+
+       return "kunde/banking/kunde-detail";
+    }
+
+    String authKundennummer = authentication.getName();
+    log.debug("Saving viewKundeDetailPage for Kunde: " + authKundennummer);
+
+    adresseService.save(kunde.getAdresse());
+    System.out.println(kunde);
+    kundeService.updateChangeableDataByKundennummer(authKundennummer, kunde.getEmailAdresse(), kunde.getTelefonNummer(), kunde.getConnectedGiro());
+
+    model.addAttribute("kunde", kunde);
+    redirectAttrs.addFlashAttribute("persDatenGespeichert",true);
+
+    return "redirect:/kunde/banking/index";
+  }
+
+
+
+
+
 
 }

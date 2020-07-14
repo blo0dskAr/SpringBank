@@ -182,9 +182,9 @@ private void loadData() {
   kunde1.setVorname("Kundy");
   kunde1.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
   kunde1.setRolle("customer");
-  kunde1.setTelefonNummer("asdasd");
-  kunde1.setEmailAdresse("wwdifwoeifjowei");
-  kunde1.setConnectedGiro("123456789123");
+  kunde1.setTelefonNummer("1234156");
+  kunde1.setEmailAdresse("test@test.at");
+  kunde1.setConnectedGiro("AT123451234567890123");
 
   Kunde kunde2 = new Kunde();
   kunde2.setKundennummer("124");
@@ -194,9 +194,9 @@ private void loadData() {
   kunde2.setVorname("Testy");
   kunde2.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
   kunde2.setRolle("customer");
-  kunde2.setTelefonNummer("12345");
-  kunde2.setEmailAdresse("dfdfdfdfdf");
-  kunde2.setConnectedGiro("123456789123");
+  kunde2.setTelefonNummer("12345345");
+  kunde2.setEmailAdresse("test@test.at");
+  kunde2.setConnectedGiro("AT123451234567890123");
 
   // kunde persistieren
   kundeService.save(kunde1);

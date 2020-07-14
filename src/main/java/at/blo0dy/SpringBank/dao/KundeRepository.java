@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.dao;
 
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 
@@ -33,5 +34,13 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
 
   @Query(value = "select ku.connected_giro from kunde ku where ku.kundennummer = ?1", nativeQuery = true)
   String getConnectedGiroByKundennummer(String kundennummer);
+
+  @Modifying
+  @Query(value ="update kunde ku set" +
+                " ku.email_adresse = ?2, " +
+                " ku.telefon_nummer = ?3, " +
+                " ku.connected_giro = ?4 " +
+          "where ku.kundennummer = ?1 " , nativeQuery = true)
+  void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
 
 }

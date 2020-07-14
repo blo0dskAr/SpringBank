@@ -33,6 +33,8 @@ public interface KundeService   {
 
   String getConnectedGiroByKundennummer(String kundenummer);
 
+  void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
+
 
 
 }

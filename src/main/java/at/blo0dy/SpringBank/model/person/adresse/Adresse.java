@@ -15,20 +15,23 @@ public class Adresse {
   private Long id;
 
   @Column(name = "strasse")
-  @NotBlank(message = "Straße must be defined.")
+  @NotBlank(message = "Straße darf nicht leer sein.")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -.,]{2,45}[0-9 -/a-zA-Z]+$", message = "Straße muss mindestens Adresse und Hausnummer enthalten (zB. Teststraße 5/D/7")
   private String strasse;
 
   @Column(name = "plz")
-  @Pattern(regexp = "[0-9]{4,5}", message = "PLZ als 4 bzw. 5-stellige Zahl angeben")
-  @NotBlank(message = "PLZ must be defined.")
+  @Pattern(regexp = "^[0-9]{4,5}$", message = "PLZ als 4 bzw. 5-stellige Zahl angeben")
+  @NotBlank(message = "PLZ darf nicht leer sein.")
   private String plz;
 
   @Column(name = "ort")
-  @NotBlank(message = "Ort must be defined.")
+  @NotBlank(message = "Ort darf nicht leer sein.")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]{2,30}$", message = "Ort darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   private String ort;
 
   @Column(name = "land")
-  @NotBlank(message = "Land must be defined.")
+  @NotBlank(message = "Land darf nicht leer sein.")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]{2,30}$", message = "Land darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   private String land;
 
   public Adresse() {
@@ -80,17 +83,6 @@ public class Adresse {
   public void setLand(String land) {
     this.land = land;
   }
-
-/*  @Override
-  public String toString() {
-    return "Adresse{" +
-            "id=" + id +
-            ", strasse='" + strasse + '\'' +
-            ", plz='" + plz + '\'' +
-            ", ort='" + ort + '\'' +
-            ", land='" + land + '\'' +
-            '}';
-  }*/
 
   @Override
   public String toString() {

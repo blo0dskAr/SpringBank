@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
 <!--        <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>Dashboard - SB Admin</title>
+    <title>Banking Index</title>
     <link rel="stylesheet" th:href="@{/css/kunde/styles.css}" type="text/css" />
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
@@ -24,6 +24,12 @@
                         Ihr Antrag wurde gespeichert. Der Status kann nun in Ihren Anträgen eingesehen werden.
                     </div>
                 </div>
+                <div th:if="${persDatenGespeichert}">
+                    <div class="alert alert-info ">
+                        Ihre Daten wurden aktualisiert.
+                    </div>
+                </div>
+
                 <div class="row border justify-content-md-center ">
                     <div class="col">
                         <div class="accordion" id="accordion1"  >
@@ -96,8 +102,12 @@
                                                 <label for="emailAdresse">Email-Adresse</label>
                                                 <input type="text" class="form-control" id="emailAdresse" name="emailAdresse" th:value="${kunde.emailAdresse}" readonly>
                                             </div>
+                                            <div class="form-group col-md-6">
+                                                <label for="connectedGiro">Verbundenes Giro:</label>
+                                                <input type="text" class="form-control" id="connectedGiro" name="connectedGiro" th:value="${kunde.connectedGiro}" readonly>
+                                            </div>
                                             <div class="form-group col-md-12">
-                                                <a th:href="@{/kunde/banking/kundeDetails}"
+                                                <a th:href="@{/kunde/banking/kunde-detailpage}"
                                                    class="btn btn-info btn-sm">
                                                     Ihre Daten bearbeiten
                                                 </a>

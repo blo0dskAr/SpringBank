@@ -4,14 +4,13 @@ import at.blo0dy.SpringBank.Bank;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
-import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
-import at.blo0dy.SpringBank.model.enums.BuchungsArtEnum;
-import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
+import at.blo0dy.SpringBank.model.enums.*;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
+import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
@@ -27,6 +26,7 @@ import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
+import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
 import org.springframework.boot.CommandLineRunner;
@@ -58,11 +58,13 @@ public class BootStrap1 implements CommandLineRunner {
   private final GiroKontoAntragService giroKontoAntragService;
   private final GiroService giroService;
   private final KontoBuchungService kontoBuchungService;
+  private final ZahlungsAuftragService zahlungsAuftragService;
 
 
   public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
                     BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService, KreditKontoAntragService kreditKontoAntragService,
-                    KreditService kreditService, GiroKontoAntragService giroKontoAntragService, GiroService giroService, KontoBuchungService kontoBuchungService) {
+                    KreditService kreditService, GiroKontoAntragService giroKontoAntragService, GiroService giroService, KontoBuchungService kontoBuchungService,
+                    ZahlungsAuftragService zahlungsAuftragService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
@@ -76,6 +78,7 @@ public class BootStrap1 implements CommandLineRunner {
     this.giroKontoAntragService = giroKontoAntragService;
     this.giroService = giroService;
     this.kontoBuchungService = kontoBuchungService;
+    this.zahlungsAuftragService = zahlungsAuftragService;
   }
 
   @Override
@@ -326,7 +329,7 @@ private void loadData() {
   SparKonto sparKonto2 = new SparKonto();
   sparKonto2.setKontoname("tralala2");
   sparKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKonto2.setAktSaldo(BigDecimal.valueOf(5000));
+  sparKonto2.setAktSaldo(BigDecimal.valueOf(0));
   sparKonto2.setKontonummer(123002L);
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto2.setKunde(kunde1);
@@ -408,6 +411,21 @@ private void loadData() {
   konto1Buchung1.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung1);
 
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde1
+  ZahlungsAuftrag zahlungsAuftrag1 = new ZahlungsAuftrag();
+  zahlungsAuftrag1.setId(1L);
+  zahlungsAuftrag1.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag1.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag1.setKonto(sparKonto1);
+  zahlungsAuftrag1.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag1.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag1.setKontonummer(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag1.setBetrag(BigDecimal.valueOf(5000));
+  zahlungsAuftrag1.setEmpfaengerKonto(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag1.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag1);
+
   // kunde 1
   KontoBuchung konto1Buchung2 = new KontoBuchung();
   konto1Buchung2.setId(2L);
@@ -419,6 +437,21 @@ private void loadData() {
   konto1Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(5250.00));
   konto1Buchung2.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung2);
+
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde1
+  ZahlungsAuftrag zahlungsAuftrag2 = new ZahlungsAuftrag();
+  zahlungsAuftrag2.setId(2L);
+  zahlungsAuftrag2.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag2.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag2.setKonto(sparKonto1);
+  zahlungsAuftrag2.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag2.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag2.setKontonummer(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag2.setBetrag(BigDecimal.valueOf(250));
+  zahlungsAuftrag2.setEmpfaengerKonto(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag2.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag2);
 
   // kunde 1
   KontoBuchung konto1Buchung3 = new KontoBuchung();
@@ -432,6 +465,21 @@ private void loadData() {
   konto1Buchung3.setKonto(sparKonto1);
   kontoBuchungService.save(konto1Buchung3);
 
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde1
+  ZahlungsAuftrag zahlungsAuftrag3 = new ZahlungsAuftrag();
+  zahlungsAuftrag3.setId(3L);
+  zahlungsAuftrag3.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag3.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag3.setKonto(sparKonto1);
+  zahlungsAuftrag3.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag3.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag3.setKontonummer(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag3.setBetrag(BigDecimal.valueOf(250));
+  zahlungsAuftrag3.setSenderKonto(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag3.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag3);
+
   // Paar Sparkonto2 Buchungen
   // kunde 2
   KontoBuchung konto2Buchung1 = new KontoBuchung();
@@ -442,8 +490,23 @@ private void loadData() {
   konto2Buchung1.setDatAnlage(LocalDateTime.now());
   konto2Buchung1.setBuchungsText("5k");
   konto2Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(5000.00));
-  konto2Buchung1.setKonto(sparKonto1);
+  konto2Buchung1.setKonto(sparKonto3);
   kontoBuchungService.save(konto2Buchung1);
+
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde2
+  ZahlungsAuftrag zahlungsAuftrag4 = new ZahlungsAuftrag();
+  zahlungsAuftrag4.setId(4L);
+  zahlungsAuftrag4.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag4.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag4.setKonto(sparKonto3);
+  zahlungsAuftrag4.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag4.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag4.setKontonummer(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag4.setBetrag(BigDecimal.valueOf(5000));
+  zahlungsAuftrag4.setEmpfaengerKonto(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag4.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag4);
 
   // kunde 2
   KontoBuchung konto2Buchung2 = new KontoBuchung();
@@ -457,6 +520,21 @@ private void loadData() {
   konto2Buchung2.setKonto(sparKonto3);
   kontoBuchungService.save(konto2Buchung2);
 
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde2
+  ZahlungsAuftrag zahlungsAuftrag5 = new ZahlungsAuftrag();
+  zahlungsAuftrag5.setId(5L);
+  zahlungsAuftrag5.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag5.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag5.setKonto(sparKonto3);
+  zahlungsAuftrag5.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag5.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag5.setKontonummer(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag5.setBetrag(BigDecimal.valueOf(250));
+  zahlungsAuftrag5.setEmpfaengerKonto(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag5.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag5);
+
   // kunde 2
   KontoBuchung konto2Buchung3 = new KontoBuchung();
   konto2Buchung3.setId(14L);
@@ -468,6 +546,21 @@ private void loadData() {
   konto2Buchung3.setSaldoNachBuchung(BigDecimal.valueOf(4750.00));
   konto2Buchung3.setKonto(sparKonto3);
   kontoBuchungService.save(konto2Buchung3);
+
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde2
+  ZahlungsAuftrag zahlungsAuftrag6 = new ZahlungsAuftrag();
+  zahlungsAuftrag6.setId(6L);
+  zahlungsAuftrag6.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag6.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag6.setKonto(sparKonto3);
+  zahlungsAuftrag6.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag6.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag6.setKontonummer(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag6.setBetrag(BigDecimal.valueOf(500));
+  zahlungsAuftrag6.setSenderKonto(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag6.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag6);
 
   // Paar kreditkonto1 Buchungen
   // kunde 1
@@ -482,6 +575,21 @@ private void loadData() {
   kreditkonto1Buchung1.setKonto(kreditKonto1);
   kontoBuchungService.save(kreditkonto1Buchung1);
 
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 1
+  ZahlungsAuftrag zahlungsAuftrag7 = new ZahlungsAuftrag();
+  zahlungsAuftrag7.setId(7L);
+  zahlungsAuftrag7.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag7.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag7.setKonto(kreditKonto1);
+  zahlungsAuftrag7.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag7.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag7.setKontonummer(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag7.setBetrag(BigDecimal.valueOf(15000));
+  zahlungsAuftrag7.setSenderKonto(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag7.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag7);
+
   // kunde 1
   KontoBuchung kreditkonto1Buchung2 = new KontoBuchung();
   kreditkonto1Buchung2.setId(5L);
@@ -494,7 +602,22 @@ private void loadData() {
   kreditkonto1Buchung2.setKonto(kreditKonto1);
   kontoBuchungService.save(kreditkonto1Buchung2);
 
-  // kunde 1
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 1
+  ZahlungsAuftrag zahlungsAuftrag8 = new ZahlungsAuftrag();
+  zahlungsAuftrag8.setId(8L);
+  zahlungsAuftrag8.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag8.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag8.setKonto(kreditKonto1);
+  zahlungsAuftrag8.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag8.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag8.setKontonummer(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag8.setBetrag(BigDecimal.valueOf(250));
+  zahlungsAuftrag8.setEmpfaengerKonto(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag8.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag8);
+
+  // kunde 2
   KontoBuchung kreditkonto2Buchung1 = new KontoBuchung();
   kreditkonto2Buchung1.setId(10L);
   kreditkonto2Buchung1.setBuchungsArt(BuchungsArtEnum.SOLL);
@@ -506,7 +629,22 @@ private void loadData() {
   kreditkonto2Buchung1.setKonto(kreditKonto2);
   kontoBuchungService.save(kreditkonto2Buchung1);
 
-  // kunde 1
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 2
+  ZahlungsAuftrag zahlungsAuftrag9 = new ZahlungsAuftrag();
+  zahlungsAuftrag9.setId(9L);
+  zahlungsAuftrag9.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag9.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag9.setKonto(kreditKonto2);
+  zahlungsAuftrag9.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag9.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag9.setKontonummer(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag9.setBetrag(BigDecimal.valueOf(15000));
+  zahlungsAuftrag9.setSenderKonto(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag9.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag9);
+
+  // kunde 2
   KontoBuchung kreditkonto2Buchung2 = new KontoBuchung();
   kreditkonto2Buchung2.setId(11L);
   kreditkonto2Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
@@ -517,6 +655,21 @@ private void loadData() {
   kreditkonto2Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(14750.00));
   kreditkonto2Buchung2.setKonto(kreditKonto2);
   kontoBuchungService.save(kreditkonto2Buchung2);
+
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 2
+  ZahlungsAuftrag zahlungsAuftrag10 = new ZahlungsAuftrag();
+  zahlungsAuftrag10.setId(10L);
+  zahlungsAuftrag10.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag10.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag10.setKonto(kreditKonto2);
+  zahlungsAuftrag10.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag10.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag10.setKontonummer(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag10.setBetrag(BigDecimal.valueOf(250));
+  zahlungsAuftrag10.setEmpfaengerKonto(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag10.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag10);
 
   // Paar Girokonto1 Buchungen
   // kunde 1
@@ -531,6 +684,21 @@ private void loadData() {
   girokonto1buchung1.setKonto(giroKonto1);
   kontoBuchungService.save(girokonto1buchung1);
 
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 1
+  ZahlungsAuftrag zahlungsAuftrag11 = new ZahlungsAuftrag();
+  zahlungsAuftrag11.setId(11L);
+  zahlungsAuftrag11.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag11.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag11.setKonto(giroKonto1);
+  zahlungsAuftrag11.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag11.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag11.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag11.setBetrag(BigDecimal.valueOf(2500));
+  zahlungsAuftrag11.setEmpfaengerKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag11.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag11);
+
   // kunde 1
   KontoBuchung girokonto1buchung2 = new KontoBuchung();
   girokonto1buchung2.setId(7L);
@@ -542,6 +710,21 @@ private void loadData() {
   girokonto1buchung2.setSaldoNachBuchung(BigDecimal.valueOf(2250));
   girokonto1buchung2.setKonto(giroKonto1);
   kontoBuchungService.save(girokonto1buchung2);
+
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 1
+  ZahlungsAuftrag zahlungsAuftrag12 = new ZahlungsAuftrag();
+  zahlungsAuftrag12.setId(12L);
+  zahlungsAuftrag12.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag12.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag12.setKonto(giroKonto1);
+  zahlungsAuftrag12.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag12.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag12.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag12.setBetrag(BigDecimal.valueOf(250));
+  zahlungsAuftrag12.setSenderKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag12.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag12);
 
   // kunde 2
   KontoBuchung girokonto2buchung1 = new KontoBuchung();
@@ -555,6 +738,21 @@ private void loadData() {
   girokonto2buchung1.setKonto(giroKonto2);
   kontoBuchungService.save(girokonto2buchung1);
 
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 2
+  ZahlungsAuftrag zahlungsAuftrag13 = new ZahlungsAuftrag();
+  zahlungsAuftrag13.setId(13L);
+  zahlungsAuftrag13.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag13.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag13.setKonto(giroKonto2);
+  zahlungsAuftrag13.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag13.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag13.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag13.setBetrag(BigDecimal.valueOf(1600));
+  zahlungsAuftrag13.setEmpfaengerKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag13.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag13);
+
   // kunde 2
   KontoBuchung girokonto2buchung2 = new KontoBuchung();
   girokonto2buchung2.setId(9L);
@@ -566,6 +764,49 @@ private void loadData() {
   girokonto2buchung2.setSaldoNachBuchung(BigDecimal.valueOf(1500));
   girokonto2buchung2.setKonto(giroKonto2);
   kontoBuchungService.save(girokonto2buchung2);
+
+  // Zahlungsauftrag zur jeweiligen Buchung
+  // Kunde 2
+  ZahlungsAuftrag zahlungsAuftrag14 = new ZahlungsAuftrag();
+  zahlungsAuftrag14.setId(14L);
+  zahlungsAuftrag14.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+  zahlungsAuftrag14.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag14.setKonto(giroKonto2);
+  zahlungsAuftrag14.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag14.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag14.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag14.setBetrag(BigDecimal.valueOf(100));
+  zahlungsAuftrag14.setSenderKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag14.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag14);
+
+  // Stornierte und Wartende Auszahlungen
+  ZahlungsAuftrag zahlungsAuftrag15 = new ZahlungsAuftrag();
+  zahlungsAuftrag15.setId(15L);
+  zahlungsAuftrag15.setAuftragsStatus(ZahlungAuftragStatusEnum.STORNIERT);
+  zahlungsAuftrag15.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag15.setKonto(giroKonto1);
+  zahlungsAuftrag15.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag15.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag15.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag15.setBetrag(BigDecimal.valueOf(100));
+  zahlungsAuftrag15.setEmpfaengerKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag15.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag15);
+
+  ZahlungsAuftrag zahlungsAuftrag16 = new ZahlungsAuftrag();
+  zahlungsAuftrag16.setId(16L);
+  zahlungsAuftrag16.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+  zahlungsAuftrag16.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag16.setKonto(giroKonto1);
+  zahlungsAuftrag16.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag16.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag16.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag16.setBetrag(BigDecimal.valueOf(100));
+  zahlungsAuftrag16.setEmpfaengerKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag16.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag16);
+
 
 }
 }

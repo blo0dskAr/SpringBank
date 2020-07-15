@@ -30,4 +30,10 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     return zahlungsAuftragRepository.findZahlungsAuftraegeByKontonummer(kontonummer);
   }
 
+  @Override
+  @Transactional
+  public Long countOffeneZahlungsAuftraegeByKontoId(Long kontoId) {
+    return zahlungsAuftragRepository.countOffeneZahlungsAuftraegeByKontoId(kontoId);
+  }
+
 }

@@ -73,7 +73,7 @@
                             </td>
                             <td th:class="${konto.aktSaldo < 0} ? 'text-danger' : 'text-success'" th:text="${#numbers.formatDecimal(konto.aktSaldo, 1, 'POINT', 2, 'COMMA')}">Aktueller Saldo</td>
                             <td>
-                                <a th:href="@{/mitarbeiter/kunde/sparen/showSparKontoDetailPage(kontoId=${konto.id})}"
+                                <a th:href="@{/mitarbeiter/kunde/sparen/showSparKontoDetailPage(sparKontoId=${konto.id})}"
                                    class="btn btn-info btn-sm">
                                     Details
                                 </a>

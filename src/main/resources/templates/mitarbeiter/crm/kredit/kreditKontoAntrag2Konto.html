@@ -16,7 +16,6 @@
                    <form action="#" th:action="@{/mitarbeiter/kunde/kredit/antrag/saveKreditAntrag2KontoForm}" method="POST" >
                        <input type="hidden" th:field="${kreditKontoAntrag.id}" />
                        <input type="hidden" th:field="${kreditKontoAntrag.antragDatum}" />
-<!--                       <input type="hidden" th:field="*{kunde}" />-->
                        <span th:if ="${kreditMussNeuBerechnetWerden}">
                            <div class="alert alert-danger">
                                Achtung: Kreditdaten wurden verändert, muss neu berechnet werden!

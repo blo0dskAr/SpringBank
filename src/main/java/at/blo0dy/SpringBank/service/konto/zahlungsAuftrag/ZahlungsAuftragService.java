@@ -10,4 +10,6 @@ public interface ZahlungsAuftragService {
 
   List<ZahlungsAuftrag> findZahlungsAuftraegeByKontonummer(String kontonummer);
 
+  Long countOffeneZahlungsAuftraegeByKontoId(Long kontoId);
+
 }

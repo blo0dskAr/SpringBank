@@ -28,9 +28,18 @@
                                 <div class="row">
                                     <div class="col-3 pl-0">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-outline-dark text-left float-left" data-target="#collapseKonto", aria-controls="collapseKonto" type="button" data-toggle="collapse" aria-expanded="true">
-                                                Buchungen einsehen.
-                                            </button>
+                                            <div class="btn-group dropdown">
+                                                <button class="btn btn-outline-dark text-left float-left" data-target="#collapseKonto" aria-controls="collapseKonto" type="button" data-toggle="collapse" aria-expanded="true">
+                                                    Buchungen einsehen.
+                                                </button>
+                                                <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                </button>
+                                                <div class="dropdown-menu">
+                                                    <a class="dropdown-item" href="#">Buchung Anlegen</a>
+                                                    <div role="separator" class="dropdown-divider"></div>
+                                                    <a class="dropdown-item" href="#">Separated Action</a>
+                                                </div>
+                                            </div>
                                         </h2>
                                     </div>
                                     <div class="col-6">
@@ -114,9 +123,18 @@
                             <div class="row">
                                 <div class="col-3 pl-0">
                                     <h2 class="mb-0">
+                                        <div class="btn-group dropdown">
                                         <button class="btn btn-outline-dark text-left float-left" data-target="#collapseZahlungsAuftrag", aria-controls="collapseZahlungsAuftrag" type="button" data-toggle="collapse" aria-expanded="true">
                                             ZahlungsAufträge einsehen.
                                         </button>
+                                            <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
+                                            <div class="dropdown-menu">
+                                                <a class="dropdown-item" href="#">Neue Einzahlung</a>
+                                                <a class="dropdown-item" href="#">Neue Auszahlung</a>
+                                                <div role="separator" class="dropdown-divider"></div>
+                                                <a class="dropdown-item" href="#">Separated Action</a>
+                                            </div>
+                                        </div>
                                     </h2>
                                 </div>
                                 <div class="col-6">

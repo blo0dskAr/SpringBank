@@ -73,6 +73,10 @@ body {
   outline: 0 !important;
 }
 
+.accordion .card {
+    overflow: inherit;
+}
+
 hr {
   box-sizing: content-box;
   height: 0;

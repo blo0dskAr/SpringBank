@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.dao.konto;
 
 import at.blo0dy.SpringBank.model.konto.Konto;
+import org.springframework.data.domain.Example;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -28,5 +29,12 @@ public interface KontoRepository extends JpaRepository<Konto, Long> {
   @Query(value = "select ko.kontonummer from konto ko " +
                  " where ko.id = ?1 ", nativeQuery = true)
   String findKontonummerById(Long kontoId);
+
+  Konto findByKontonummer(Long kontonummer);
+
+  // soll man scheinbar gar ned, nimmt er eh aus dem JpaRepo (vermutlich mit Repo und RepoImpl)
+//  List<Konto> findAll(Example<Konto> konto);
+
+
 
 }

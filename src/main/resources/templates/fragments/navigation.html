@@ -12,8 +12,6 @@
 
         <a class="navbar-brand" th:href="@{~/mitarbeiter/index}">MyEck Logo</a>
         <button class="btn btn-link btn-sm order-1 order-lg-0" id="sidebarToggle" href="#"><i class="fas fa-bars"></i></button>
-            <span class="navbar-toggler-icon"></span>
-        </button>
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
                 <a th:class="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">Home <span class="sr-only">(current)</span></a>

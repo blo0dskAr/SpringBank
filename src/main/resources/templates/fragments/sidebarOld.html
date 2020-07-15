@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Doesnt Matter</title>
+</head>
+<body>
+
+<div th:fragment="sideNavigation">
+    <link rel="stylesheet" th:href="@{/css/dashboard.css}" type="text/css" />
+<!--<div class="container-fluid">-->
+    <div class="row">
+        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+            <div class="sidebar-sticky pt-3">
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a th:class="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">
+                            Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Integrations
+                        </a>
+                    </li>
+                    <div sec:authorize="hasAuthority('admin')"  >
+                        <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''">Admin</a>
+                        <div id="collapse" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')} ? 'show' : ''" >
+                            <ul class="list-group">
+                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/mitarbeiterAdministration/list}">
+                                    Mitarbeiter
+                                </a>
+                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/rolle')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/rollen/index}">
+                                    Rollen
+                                    </a>
+                                <li class="list-group-item">Three</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div sec:authorize="hasAuthority('mitarbeiter')"  >
+                        <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKunde" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')}  ? 'active' : ''">Kunde</a>
+                        <div id="collapseKunde" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')} ? 'show' : ''" >
+                            <ul class="list-group">
+                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/index')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/index}">
+                                    Übersicht
+                                </a>
+                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeSparen" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')}  ? 'active' : ''">Sparen</a>
+                                <div id="collapseKundeSparen" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'show' : ''" >
+                                    <ul class="list-group">
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/sparen/antrag}">
+                                            AntragsBearbeitung
+                                        </a>
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/sparen/konto}">
+                                            KontoBearbeitung
+                                        </a>
+                                    </ul>
+                                </div>
+                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeKredit" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')}  ? 'active' : ''">Kredit</a>
+                                <div id="collapseKundeKredit" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'show' : ''" >
+                                    <ul class="list-group">
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/kredit/antrag}">
+                                            AntragsBearbeitung
+                                        </a>
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/kredit/konto}">
+                                            KontoBearbeitung
+                                        </a>
+                                    </ul>
+                                </div>
+                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeGiro" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')}  ? 'active' : ''">Giro</a>
+                                <div id="collapseKundeGiro" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'show' : ''" >
+                                    <ul class="list-group">
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/giro/antrag}">
+                                            AntragsBearbeitung
+                                        </a>
+                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/giro/konto}">
+                                            KontoBearbeitung
+                                        </a>
+                                    </ul>
+                                </div>
+                                <li class="list-group-item">Item#3</li>
+                            </ul>
+                        </div>
+                    </div>
+                </ul>
+
+                <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
+                    <span>Saved reports</span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Current month
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Last quarter
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Social engagement
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            Year-end sale
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</div>
+
+</body>
+</html>

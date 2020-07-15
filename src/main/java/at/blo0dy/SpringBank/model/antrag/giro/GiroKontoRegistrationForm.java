@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.model.antrag.giro;
 
 
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -20,7 +21,7 @@ public class GiroKontoRegistrationForm {
 
   public GiroKontoAntrag toGiroKontoAntrag() {
     log.debug("GiroFormToGiroKontoAntrag wird aufgerufen: " + this.toString());
-    return new GiroKontoAntrag(antragDatum,  AntragStatusEnum.EINGEREICHT, ueberziehungsrahmenGewuenscht, kundennummer);
+    return new GiroKontoAntrag(antragDatum,  AntragStatusEnum.EINGEREICHT, ueberziehungsrahmenGewuenscht, kundennummer, KontoProduktEnum.GIRO);
 
   }
 }

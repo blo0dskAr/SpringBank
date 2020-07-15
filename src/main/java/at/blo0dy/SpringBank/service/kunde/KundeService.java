@@ -3,6 +3,7 @@ package at.blo0dy.SpringBank.service.kunde;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -35,6 +36,7 @@ public interface KundeService   {
 
   void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
 
+  List<Kunde> findAll(Kunde kunde, ExampleMatcher matcher);
 
 
 }

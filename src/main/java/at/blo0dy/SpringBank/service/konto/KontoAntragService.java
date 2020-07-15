@@ -1,6 +1,10 @@
 package at.blo0dy.SpringBank.service.konto;
 
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
+
+import java.util.List;
+
 public interface KontoAntragService {
 
   Long countAntraegeGesamtByKundennummer(String kundennummer);
@@ -10,6 +14,8 @@ public interface KontoAntragService {
   Long countAbgelehnteAntraegeByKundennummer(String kundennummer);
 
   Long countDurchgefuehrteAntraegeByKundennummer(String kundennummer);
+
+  List<KontoAntrag> findAll(KontoAntrag kontoAntrag);
 
 
 }

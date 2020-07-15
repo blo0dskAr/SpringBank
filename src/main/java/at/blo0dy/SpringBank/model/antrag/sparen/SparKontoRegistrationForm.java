@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.model.antrag.sparen;
 
 
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -34,7 +35,7 @@ public class SparKontoRegistrationForm {
 
   public SparKontoAntrag toSparKontoAntrag() {
     log.debug("SparFormtoSparKontoAntrag wird aufgerufen: " + antragDatum + " " + erstAuftrag + " " + dauerAuftrag + " " + kundennummer);
-    return new SparKontoAntrag(antragDatum,  AntragStatusEnum.EINGEREICHT, erstAuftrag, dauerAuftrag, kundennummer);
+    return new SparKontoAntrag(antragDatum,  AntragStatusEnum.EINGEREICHT, erstAuftrag, dauerAuftrag, kundennummer, KontoProduktEnum.SPAREN);
 
   }
 }

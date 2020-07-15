@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.model.antrag.giro;
 
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,8 +22,8 @@ public class GiroKontoAntrag extends KontoAntrag {
   private boolean ueberziehungsrahmenGewuenscht;
 
   // Custom Constructor for  GirokontoRegistrationForm
-  public GiroKontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, boolean ueberziehungsrahmenGewuenscht , Long kundennummer) {
-    super(antragDatum,antragStatus,kundennummer);
+  public GiroKontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, boolean ueberziehungsrahmenGewuenscht , Long kundennummer, KontoProduktEnum produkt) {
+    super(antragDatum,antragStatus,kundennummer, produkt);
     this.ueberziehungsrahmenGewuenscht = ueberziehungsrahmenGewuenscht;
   }
 }

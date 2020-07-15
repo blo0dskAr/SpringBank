@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.sparen;
 
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
@@ -52,7 +53,7 @@ public class CrmSparAntragController {
   }
 
   @GetMapping("/antrag/showSparAntragForKontoForm")
-  public String showSparAntragForKontoForm(@RequestParam("sparKontoAntragId") Long sparKontoAntragId, Model model) {
+  public String showSparAntrag2KontoForm(@RequestParam("sparKontoAntragId") Long sparKontoAntragId, Model model) {
 
     SparKontoAntrag sparKontoAntrag = sparKontoAntragService.findById(sparKontoAntragId);
     Kunde kunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
@@ -81,7 +82,8 @@ public class CrmSparAntragController {
 
     if (sparKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT))  {
       log.debug("Sparkonto wurde genehmigt, Sparkonto wird erstellt");
-      SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, sparKontoAntrag, new ArrayList<KontoBuchung>(), "");
+      SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
+                                          kontoStatusAufgrundKundenStatus, sparKontoAntrag, new ArrayList<KontoBuchung>(), "", KontoProduktEnum.SPAREN);
       log.debug(" --> SparkontoDaten: " + sparKonto) ;
       sparService.save(sparKonto);
     }

@@ -5,6 +5,8 @@ import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -147,5 +149,12 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   @Transactional
   public void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro) {
     kundeRepository.updateChangeableDataByKundennummer(kundennummer, email, tel, connectedGiro);
+  }
+
+  @Override
+  @Transactional
+  public List<Kunde> findAll(Kunde kunde, ExampleMatcher matcher) {
+
+    return kundeRepository.findAll(Example.of(kunde, matcher));
   }
 }

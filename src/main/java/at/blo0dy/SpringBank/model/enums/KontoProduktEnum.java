@@ -3,7 +3,7 @@ package at.blo0dy.SpringBank.model.enums;
 public enum KontoProduktEnum {
   SPAREN("Sparen"),
   KREDIT("Kredit"),
-  GIRO("Giro"); 
+  GIRO("Giro");
 
   private final String displayName;
 

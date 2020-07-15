@@ -118,8 +118,6 @@ public class KreditKontoAntragRegistrationController {
     model.addAttribute("kundennummer", kundennummer);
 
     log.debug("KreditAntrag mit folgenden Daten wird erstellt:");
-    log.debug("KE ------------------> " + ke);
-    log.debug("KV ------------------> " + kv);
 
     log.debug("KreditAntrag soll gespeichert werden für Kunde: " + kundennummer);
 

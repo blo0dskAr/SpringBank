@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.model.konto.giro;
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
@@ -23,8 +24,8 @@ public class GiroKonto extends Konto {
 
   private BigDecimal ueberziehungsRahmen;
 
-  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal ueberziehungsRahmen, List<KontoBuchung> kontoBuchungList) {
-    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList);
+  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal ueberziehungsRahmen, List<KontoBuchung> kontoBuchungList, KontoProduktEnum produkt) {
+    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList, KontoProduktEnum.GIRO);
     this.ueberziehungsRahmen = ueberziehungsRahmen;
   }
 

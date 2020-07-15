@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.model.antrag;
 
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,10 +32,15 @@ public class KontoAntrag {
   @Column(name = "kundennummer")
   private Long kundennummer;
 
-  public KontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, Long kundennummer) {
+  @Column(name = "produkt")
+  @Enumerated(EnumType.STRING)
+  private KontoProduktEnum produkt;
+
+  public KontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, Long kundennummer, KontoProduktEnum produkt) {
     this.antragDatum = antragDatum;
     this.antragStatus = antragStatus;
     this.kundennummer = kundennummer;
+    this.produkt = produkt;
   }
 
 }

@@ -1,9 +1,13 @@
 package at.blo0dy.SpringBank.service.konto;
 
 import at.blo0dy.SpringBank.dao.konto.KontoAntragRepository;
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Service
 public class KontoAntragServiceImpl implements KontoAntragService {
@@ -38,6 +42,12 @@ public class KontoAntragServiceImpl implements KontoAntragService {
   @Transactional
   public Long countDurchgefuehrteAntraegeByKundennummer(String kundennummer) {
     return kontoAntragRepository.countDurchgefuehrteAntraegeByKundennummer(kundennummer);
+  }
+
+  @Override
+  @Transactional
+  public List<KontoAntrag> findAll(KontoAntrag kontoAntrag) {
+    return kontoAntragRepository.findAll(Example.of(kontoAntrag));
   }
 
 

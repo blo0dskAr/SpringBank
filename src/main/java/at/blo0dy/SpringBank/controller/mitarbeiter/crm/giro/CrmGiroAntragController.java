@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.giro;
 
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
@@ -77,7 +78,8 @@ public class CrmGiroAntragController {
         ueberziehungsrahmen = BigDecimal.ZERO;
       }
       log.debug("CrmGirorAntragController: Girokonto wurde genehmigt, Girokonto wird erstellt");
-      GiroKonto giroKonto = new GiroKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO, kontoStatusAufgrundKundenStatus, giroKontoAntrag, ueberziehungsrahmen, new ArrayList<KontoBuchung>());
+      GiroKonto giroKonto = new GiroKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
+                                          kontoStatusAufgrundKundenStatus, giroKontoAntrag, ueberziehungsrahmen, new ArrayList<KontoBuchung>(), KontoProduktEnum.SPAREN);
       log.debug("CrmGiroAntragController: --> GirokontoDaten: " + giroKonto.toString()) ;
       giroService.save(giroKonto);
     }

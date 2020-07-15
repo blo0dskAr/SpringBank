@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 
 public interface KundeRepository extends JpaRepository<Kunde, Long> {
 
@@ -42,5 +44,9 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
                 " ku.connected_giro = ?4 " +
           "where ku.kundennummer = ?1 " , nativeQuery = true)
   void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
+
+//  List<Kunde> findAll(Kunde kunde);
+
+
 
 }

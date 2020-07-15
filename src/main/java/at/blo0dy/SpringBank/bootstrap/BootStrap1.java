@@ -5,7 +5,6 @@ import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.*;
-import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
@@ -234,6 +233,7 @@ private void loadData() {
   sparKontoAntrag.setErstAuftrag(BigDecimal.valueOf(5000));
   sparKontoAntrag.setDauerAuftrag(BigDecimal.valueOf(250));
   sparKontoAntrag.setKundennummer(124L);
+  sparKontoAntrag.setProdukt(KontoProduktEnum.SPAREN);
   sparKontoAntragService.save(sparKontoAntrag);
 
   SparKontoAntrag sparKontoAntrag1 = new SparKontoAntrag();
@@ -241,6 +241,7 @@ private void loadData() {
   sparKontoAntrag1.setAntragStatus(AntragStatusEnum.EINGEREICHT);
   sparKontoAntrag1.setId(2L);
   sparKontoAntrag1.setKundennummer(123L);
+  sparKontoAntrag1.setProdukt(KontoProduktEnum.SPAREN);
   sparKontoAntragService.save(sparKontoAntrag1);
 
   SparKontoAntrag sparKontoAntrag2 = new SparKontoAntrag();
@@ -248,6 +249,7 @@ private void loadData() {
   sparKontoAntrag2.setAntragStatus(AntragStatusEnum.ABGELEHNT);
   sparKontoAntrag2.setId(3L);
   sparKontoAntrag2.setKundennummer(123L);
+  sparKontoAntrag2.setProdukt(KontoProduktEnum.SPAREN);
   sparKontoAntragService.save(sparKontoAntrag2);
 
   // kunde 1
@@ -256,6 +258,7 @@ private void loadData() {
   sparKontoAntrag3.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   sparKontoAntrag3.setId(4L);
   sparKontoAntrag3.setKundennummer(123L);
+  sparKontoAntrag3.setProdukt(KontoProduktEnum.SPAREN);
   sparKontoAntragService.save(sparKontoAntrag3);
 
   // kunde 1
@@ -264,6 +267,7 @@ private void loadData() {
   sparKontoAntrag4.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   sparKontoAntrag4.setId(5L);
   sparKontoAntrag4.setKundennummer(123L);
+  sparKontoAntrag4.setProdukt(KontoProduktEnum.SPAREN);
   sparKontoAntragService.save(sparKontoAntrag4);
 
   // kunde 2
@@ -276,6 +280,7 @@ private void loadData() {
   kreditKontoAntrag1.setLaufzeit(BigInteger.valueOf(120));
   kreditKontoAntrag1.setZinssatz(BigDecimal.valueOf(8.00));
   kreditKontoAntrag1.setRate(BigDecimal.valueOf(181.99));
+  kreditKontoAntrag1.setProdukt(KontoProduktEnum.KREDIT);
   kreditKontoAntrag1.setGesamtBelastung(BigDecimal.valueOf(21838.80));
   kreditKontoAntragService.save(kreditKontoAntrag1);
 
@@ -290,6 +295,7 @@ private void loadData() {
   kreditKontoAntrag2.setZinssatz(BigDecimal.valueOf(8.00));
   kreditKontoAntrag2.setRate(BigDecimal.valueOf(181.99));
   kreditKontoAntrag2.setGesamtBelastung(BigDecimal.valueOf(21838.80));
+  kreditKontoAntrag2.setProdukt(KontoProduktEnum.KREDIT);
   kreditKontoAntragService.save(kreditKontoAntrag2);
 
   GiroKontoAntrag giroKontoAntrag1 = new GiroKontoAntrag();
@@ -298,6 +304,7 @@ private void loadData() {
   giroKontoAntrag1.setAntragStatus(AntragStatusEnum.EINGEREICHT);
   giroKontoAntrag1.setUeberziehungsrahmenGewuenscht(true);
   giroKontoAntrag1.setKundennummer(123L);
+  giroKontoAntrag1.setProdukt(KontoProduktEnum.GIRO);
   giroKontoAntragService.save(giroKontoAntrag1);
 
   // kunde 2
@@ -307,6 +314,7 @@ private void loadData() {
   giroKontoAntrag2.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   giroKontoAntrag2.setUeberziehungsrahmenGewuenscht(false);
   giroKontoAntrag2.setKundennummer(124L);
+  giroKontoAntrag2.setProdukt(KontoProduktEnum.GIRO);
   giroKontoAntragService.save(giroKontoAntrag2);
 
   // kunde 1
@@ -316,6 +324,7 @@ private void loadData() {
   giroKontoAntrag3.setAntragStatus(AntragStatusEnum.GENEHMIGT);
   giroKontoAntrag3.setUeberziehungsrahmenGewuenscht(false);
   giroKontoAntrag3.setKundennummer(123L);
+  giroKontoAntrag3.setProdukt(KontoProduktEnum.GIRO);
   giroKontoAntragService.save(giroKontoAntrag3);
 
 
@@ -328,6 +337,7 @@ private void loadData() {
   sparKonto1.setKontonummer(123001L);
   sparKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto1.setKunde(kunde1);
+  sparKonto1.setProdukt(KontoProduktEnum.SPAREN);
   sparKonto1.setKontoAntrag(sparKontoAntrag3);
 
   // kunde 1
@@ -338,6 +348,7 @@ private void loadData() {
   sparKonto2.setKontonummer(123002L);
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto2.setKunde(kunde1);
+  sparKonto2.setProdukt(KontoProduktEnum.SPAREN);
   sparKonto2.setKontoAntrag(sparKontoAntrag4);
 
   // kunde 2
@@ -348,6 +359,7 @@ private void loadData() {
   sparKonto3.setKontonummer(124001L);
   sparKonto3.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto3.setKunde(kunde2);
+  sparKonto3.setProdukt(KontoProduktEnum.SPAREN);
   sparKonto3.setKontoAntrag(sparKontoAntrag);
 
   sparService.save(sparKonto1);
@@ -363,6 +375,7 @@ private void loadData() {
   giroKonto1.setKunde(kunde1);
   giroKonto1.setKontoAntrag(giroKontoAntrag3);
   giroKonto1.setUeberziehungsRahmen(BigDecimal.valueOf(500));
+  giroKonto1.setProdukt(KontoProduktEnum.GIRO);
   giroService.save(giroKonto1);
 
   // kunde 2
@@ -373,6 +386,7 @@ private void loadData() {
   giroKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   giroKonto2.setKunde(kunde2);
   giroKonto2.setKontoAntrag(giroKontoAntrag2);
+  giroKonto2.setProdukt(KontoProduktEnum.GIRO);
   giroKonto2.setUeberziehungsRahmen(BigDecimal.valueOf(500));
   giroService.save(giroKonto2);
 
@@ -387,6 +401,7 @@ private void loadData() {
   kreditKonto1.setKreditBetrag(kreditKontoAntrag2.getKreditBetrag());
   kreditKonto1.setLaufzeit(kreditKontoAntrag2.getLaufzeit());
   kreditKonto1.setRate(kreditKontoAntrag2.getRate());
+  kreditKonto1.setProdukt(KontoProduktEnum.KREDIT);
   kreditService.save(kreditKonto1);
 
   // kunde 2
@@ -400,6 +415,7 @@ private void loadData() {
   kreditKonto2.setKreditBetrag(kreditKontoAntrag1.getKreditBetrag());
   kreditKonto2.setLaufzeit(kreditKontoAntrag1.getLaufzeit());
   kreditKonto2.setRate(kreditKontoAntrag1.getRate());
+  kreditKonto2.setProdukt(KontoProduktEnum.KREDIT);
   kreditService.save(kreditKonto2);
 
 

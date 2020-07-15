@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kredit;
 
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
@@ -106,7 +107,7 @@ public class CrmKreditAntragController {
       Kunde mykunde = kundeService.findByKundennummer(tmpKundenNummer);
       KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
       KreditKonto kreditKonto = new KreditKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
-              kontoStatusAufgrundKundenStatus, kreditKontoAntrag, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), new ArrayList<KontoBuchung>());
+              kontoStatusAufgrundKundenStatus, kreditKontoAntrag, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), new ArrayList<KontoBuchung>(), KontoProduktEnum.KREDIT);
       log.debug("KreditAntrag wurde genehmigt, neues KreditKonto wird gespeichert. Kunde: " + tmpKundenNummer);
       kreditService.save(kreditKonto);
     }
@@ -138,7 +139,7 @@ public class CrmKreditAntragController {
     model.addAttribute("kunde", kunde);
 
     KreditKontoAntrag neuBerechneterAntrag = new KreditKontoAntrag(LocalDateTime.now(), AntragStatusEnum.EINGEREICHT,ke.getKreditBetrag(),kreditKontoAntrag.getZinssatz(),
-                                                                    ke.getMonatlicheRate(),kreditKontoAntrag.getLaufzeit(),ke.getGesamtBelastung(),kreditKontoAntrag.getKundennummer());
+                                                                    ke.getMonatlicheRate(),kreditKontoAntrag.getLaufzeit(),ke.getGesamtBelastung(),kreditKontoAntrag.getKundennummer(), KontoProduktEnum.KREDIT);
 
     kreditKontoAntrag.setGesamtBelastung(ke.getGesamtBelastung());;
     kreditKontoAntrag.setKreditBetrag(ke.getKreditBetrag());

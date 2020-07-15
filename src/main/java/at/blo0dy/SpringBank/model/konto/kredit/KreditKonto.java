@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.model.konto.kredit;
 
 
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
@@ -33,8 +34,9 @@ public class KreditKonto extends Konto {
   @Column(name = "laufzeit")
   private BigInteger laufzeit;
 
-  public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit, List<KontoBuchung> kontoBuchungList) {
-    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList);
+  public KreditKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag,
+                     BigDecimal kreditBetrag, BigDecimal rate, BigInteger laufzeit, List<KontoBuchung> kontoBuchungList, KontoProduktEnum produkt) {
+    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList, KontoProduktEnum.KREDIT);
     this.kreditBetrag = kreditBetrag;
     this.rate = rate;
     this.laufzeit = laufzeit;

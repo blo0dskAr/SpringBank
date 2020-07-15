@@ -2,8 +2,9 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm;
 
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.service.konto.KontoService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @Controller
 @RequestMapping("/mitarbeiter/kunde/")
 public class KontoSucheController {
@@ -23,50 +25,30 @@ public class KontoSucheController {
   }
 
 
-
-
-
   @GetMapping("/kontosuche")
-  public String showKontoSucheForm(Model model) {
+  public String showKontoSucheForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
     Konto konto = new Konto();
 
     model.addAttribute("konto",konto);
 
+    log.debug("Showing KontoSuche Page for Mitarbeiter: " + authentication.getName());
     return "mitarbeiter/crm/kontosuche";
   }
-
-
-/*  @PostMapping("/kontosuche")
-  public String showKontoSucheFormWithErgebnis(@ModelAttribute Konto konto,  Model model) {
-
-    System.out.println(konto);
-
-//    Konto konto = kontoService.findByKontonummer(Long.valueOf(theSearchField));
-
-//    model.addAttribute("suchErgebnis", konto);
-
-    return "mitarbeiter/crm/kontosuche";
-  }*/
-
 
 
 @PostMapping("/kontosuche")
-  public String showKonto(@ModelAttribute Konto konto,  Model model) {
+  public String processKontoSucheForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                      @ModelAttribute Konto konto, Model model) {
 
+  log.debug("Loading Results on KontoSuche Page for Mitarbeiter: " + authentication.getName());
   List<Konto> ergebnis = kontoService.findAll(konto);
-
-  System.out.println("KONTO -....................--------->: " + konto);
-  System.out.println("ERGEBNIS _-------------------------->: " + ergebnis);
 
   model.addAttribute("ergebnis", ergebnis);
 
+  log.debug("Showing Results on KontoSuche Page for Mitarbeiter: " + authentication.getName() + " " + ergebnis.size() + " results returned.");
   return "mitarbeiter/crm/kontosuche";
   }
-
-
-
-
 
 
 }

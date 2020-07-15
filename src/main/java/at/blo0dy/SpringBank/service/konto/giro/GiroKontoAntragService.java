@@ -23,6 +23,6 @@ public interface GiroKontoAntragService {
 
   List<GiroKontoAntrag> findGiroAntraegeByKundennummer(String kundennummer);
 
-
+  GiroKontoAntrag findGiroAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
 }

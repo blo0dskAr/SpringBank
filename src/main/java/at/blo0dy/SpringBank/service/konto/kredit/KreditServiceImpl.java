@@ -70,4 +70,16 @@ public class KreditServiceImpl implements KreditService {
     return kreditKontoRepository.findKreditKontenByKundennummer(kundennummer);
   }
 
+  @Override
+  @Transactional
+  public List<String> findKontoNummerOffenerKreditKontenByKundennummer(String kundennummer) {
+    return kreditKontoRepository.findKontoNummerOffenerKreditKontenByKundennummer(kundennummer);
+  }
+
+  @Override
+  @Transactional
+  public KreditKonto findKreditKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer) {
+    return kreditKontoRepository.findKreditKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
+  }
+
 }

@@ -34,10 +34,13 @@ public class KundeRegistrationForm {
   @NotBlank(message = "EmailAdresse must be defined.")
   private String emailAdresse;
 
+  @NotBlank(message = "Darf nicht leer sein")
+  private String connectedGiro;
+
 
   public Kunde toUser(PasswordEncoder passwordEncoder, String kundennummer) {
 
-    return new Kunde(vorname,  nachname, new Adresse(adresse.getStrasse(), adresse.getPlz(), adresse.getOrt(), adresse.getLand()), kundennummer,  telefonNummer,  emailAdresse, passwordEncoder.encode(password), true, true, true, true );
+    return new Kunde(vorname,  nachname, new Adresse(adresse.getStrasse(), adresse.getPlz(), adresse.getOrt(), adresse.getLand()), kundennummer,  telefonNummer,  emailAdresse, passwordEncoder.encode(password), true, true, true, true, connectedGiro );
 
   }
 }

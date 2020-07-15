@@ -55,4 +55,16 @@ public class GiroServiceImpl implements GiroService {
     return giroKontoRepository.findGiroKontenByKundennummer(kundennummer);
   }
 
+  @Override
+  @Transactional
+  public List<String> findKontoNummerOffenerGiroKontenByKundennummer(String kundennummer) {
+    return giroKontoRepository.findKontoNummerOffenerGiroKontenByKundennummer(kundennummer) ;
+  }
+
+  @Override
+  @Transactional
+  public GiroKonto findGiroKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer) {
+    return giroKontoRepository.findGiroKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
+  }
+
 }

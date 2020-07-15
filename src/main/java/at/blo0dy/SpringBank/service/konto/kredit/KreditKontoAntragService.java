@@ -29,4 +29,6 @@ public interface KreditKontoAntragService {
 
   List<KreditKontoAntrag> findKreditAntraegeByKundennummer(String kundennummer);
 
+  KreditKontoAntrag findKreditAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
+
 }

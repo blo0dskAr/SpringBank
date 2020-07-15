@@ -31,5 +31,10 @@ public interface KundeService   {
 
   Long getLatestKundennummerPlusOne();
 
+  String getConnectedGiroByKundennummer(String kundenummer);
+
+  void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
+
+
 
 }

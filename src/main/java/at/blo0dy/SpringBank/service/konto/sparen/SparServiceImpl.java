@@ -57,7 +57,6 @@ public class SparServiceImpl implements SparService {
   }
 
   @Override
-  @Transactional
   public double getZinssatz() {
     return SparenUtility.getZinssatz();
   }
@@ -75,12 +74,26 @@ public class SparServiceImpl implements SparService {
   @Override
   public List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage) {
     return sparZinsRechnerRepository.getAdvancedSparZinsRechnerErgebnis(sparZinsRechnerVorlage);
-  };
+  }
+
+  @Override
+  @Transactional
+  public SparKonto findSparKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer) {
+    return sparKontoRepository.findSparKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
+  }
+
 
   @Override
   @Transactional
   public List<SparKonto> findSparKontoByKundennummer(String kundennummer) {
     return sparKontoRepository.findSparKontoByKundennummer(kundennummer);
   }
+
+  @Override
+  @Transactional
+  public List<String> findKontoNummerOffenerSparKontenByKundennummer(String kundennummer) {
+    return sparKontoRepository.findKontoNummerOffenerSparKontenByKundennummer(kundennummer);
+  }
+
 
 }

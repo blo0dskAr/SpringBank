@@ -29,9 +29,16 @@ public class KontoServiceImpl implements KontoService {
     return kontoRepository.countOffeneKontenGesamtByKundennummer(kundennummer);
   }
 
+  @Override
+  @Transactional
   public BigDecimal getGesamtSaldoOffenerKontenByKundennummer(String kundennummer) {
     return kontoRepository.getGesamtSaldoOffenerKontenByKundennummer(kundennummer);
   }
 
+  @Override
+  @Transactional
+  public String findKontonummerById(Long kontoId) {
+    return kontoRepository.findKontonummerById(kontoId);
+  }
 
 }

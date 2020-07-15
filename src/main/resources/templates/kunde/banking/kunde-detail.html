@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+
+      layout:decorate="~{kunde/mainlayout.html}">
+<head>
+    <meta charset="UTF-8">
+    <title>Kunde Detail Page</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid mt-4">
+            <h1 class="mt-4">Persönliche Daten Page</h1>
+<!--            <div th:if="${antragGespeichert}">-->
+<!--                <div class="alert alert-info ">-->
+<!--                    Ihr Antrag wurde gespeichert. Der Status kann nun in Ihren Anträgen eingesehen werden.-->
+<!--                </div>-->
+<!--            </div>-->
+            <div class="row border justify-content-md-center ">
+                <div class="col-10">
+                    <form method="POST" th:action="@{/kunde/banking/kunde-detailpage}" th:object="${kunde}" id="registerForm">
+                        <input type="hidden" th:field="*{id}" />
+                        <input type="hidden" th:field="*{adresse.id}" />
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <h4>Kunden-Daten</h4>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                              <span class="text-danger"
+                                      th:if="${#fields.hasErrors('vorname')}"
+                                     th:errors="*{vorname}">vorname Error
+                              </span>
+                                <label for="vorname">Vorname</label>
+                                <input type="text" class="form-control" id="vorname" name="vorname" placeholder="Vorname" th:field="*{vorname}" readonly>
+                        </div>
+                        <div class="form-group col-md-5">
+                            <span class="text-danger"
+                                  th:if="${#fields.hasErrors('nachname')}"
+                                  th:errors="*{nachname}">nachname Error</span>
+                                <label for="nachname">Nachname</label>
+                                <input type="text" class="form-control" id="nachname" name="nachname" placeholder="Nachname" th:field="*{nachname}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('adresse.strasse')}"
+                                      th:errors="*{adresse.strasse}">strasse Error</span>
+                                <label for="strasse">Straße</label>
+                                <input type="text" class="form-control" id="strasse" name="strasse" placeholder="Tralastraße 15/5" th:field="*{adresse.strasse}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('adresse.ort')}"
+                                      th:errors="*{adresse.ort}">ort Error</span>
+                                <label for="ort">Ort</label>
+                                <input type="text" class="form-control" id="ort" name="ort" th:field="*{adresse.ort}">
+                            </div>
+                            <div class="form-group col-md-5">
+                            <span class="text-danger"
+                                  th:if="${#fields.hasErrors('adresse.land')}"
+                                  th:errors="*{adresse.land}">land Error</span>
+                                <label for="land">Land</label>
+                                <input type="text" class="form-control" id="land" name="land" th:field="*{adresse.land}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('adresse.plz')}"
+                                      th:errors="*{adresse.plz}">plz Error</span>
+                                <label for="plz">PLZ</label>
+                                <input type="text" class="form-control" id="plz" name="plz" th:field="*{adresse.plz}">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('kundennummer')}"
+                                      th:errors="*{kundennummer}">kundennummer Error</span>
+                                <label for="kundennummer">Kundennummer</label>
+                                <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:field="*{kundennummer}" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('telefonNummer')}"
+                                      th:errors="*{telefonNummer}">telefonNummer Error</span>
+                                <label for="telefonnummer">Telefonnummer</label>
+                                <input type="text" class="form-control" id="telefonnummer" name="telefonnummer" th:field="*{telefonNummer}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('emailAdresse')}"
+                                      th:errors="*{emailAdresse}">emailAdresse Error</span>
+                                <label for="emailAdresse">Email-Adresse</label>
+                                <input type="text" class="form-control" id="emailAdresse" name="emailAdresse" th:field="*{emailAdresse}">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('connectedGiro')}"
+                                      th:errors="*{connectedGiro}">connectedGiro Error</span>
+                                <label for="connectedGiro">Verbundenes Giro:</label>
+                                <input type="text" class="form-control" id="connectedGiro" name="connectedGiro" th:field="*{connectedGiro}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <button type="submit" class="btn btn-info">Daten speichern</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

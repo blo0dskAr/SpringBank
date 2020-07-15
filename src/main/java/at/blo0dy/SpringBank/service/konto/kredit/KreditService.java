@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.service.konto.kredit;
 
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
 
@@ -23,6 +24,10 @@ public interface KreditService {
   KreditRechnerErgebnis getKreditRechnerErgebnis(KreditRechnerVorlage kreditRechnerVorlage);
 
   List<KreditKonto> findKreditKontenByKundennummer(String kundennummer);
+
+  List<String> findKontoNummerOffenerKreditKontenByKundennummer(String kundennummer);
+
+  KreditKonto findKreditKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
 
 }

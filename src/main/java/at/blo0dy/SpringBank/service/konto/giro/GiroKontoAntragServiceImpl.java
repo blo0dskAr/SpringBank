@@ -75,4 +75,10 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
 
   }
 
+  @Override
+  @Transactional
+  public GiroKontoAntrag findGiroAntragByAntragIdAndKundennummer(Long antragId, String kundennummer) {
+    return giroKontoAntragRepository.findGiroAntragByAntragIdAndKundennummer(antragId, kundennummer);
+  }
+
 }

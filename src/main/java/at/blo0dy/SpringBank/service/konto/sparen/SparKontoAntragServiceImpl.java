@@ -76,4 +76,9 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
     return sparKontoAntragRepository.findSparAntraegeByKundennummer(kundennummer);
   }
 
+  @Override
+  public SparKontoAntrag findSparAntragByAntragIdAndKundennummer(Long antragId, String authKundennummer) {
+    return sparKontoAntragRepository.findSparAntragByAntragIdAndKundennummer(antragId, authKundennummer);
+  }
+
 }

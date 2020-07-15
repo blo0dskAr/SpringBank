@@ -14,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -25,17 +26,19 @@ import java.util.List;
 public class Kunde extends Person implements UserDetails {
 
   @Column(name = "kundennummer", nullable = false, unique = true)
-  @NotBlank(message = "kundennummer must be defined.")
+  @NotBlank(message = "kundennummer darf nicht leer sein.")
   private String kundennummer;
 
   @Column(name = "password")
-  @NotBlank(message = "password must be defined.")
+//  @NotBlank(message = "password must be defined.")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
-  @NotBlank(message = "Telefonnummer must be defined.")
+  @NotBlank(message = "Telefonnummer darf nicht leer sein.")
+  @Pattern(regexp = "^[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   private String telefonNummer;
-  @NotBlank(message = "emailAdresse must be defined.")
+  @NotBlank(message = "emailAdresse darf nicht leer sein.")
+  @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", message = "Email im Format <name>@<domain>.<land> angeben.", flags = Pattern.Flag.CASE_INSENSITIVE)
   private String emailAdresse;
 
   private String rolle = "customer";
@@ -55,10 +58,14 @@ public class Kunde extends Person implements UserDetails {
   private boolean isActive = true;
   private boolean firstLoginDone = true;
 
+  @Column(name = "connected_giro")
+  @Pattern(regexp = "^AT[0-9a-zA-Z]{18}$", message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")
+  private String connectedGiro;
+
 
   public Kunde() { }
 
-  public Kunde(String vorname, String nachname, Adresse adresse, String kundennummer, String telefonNummer, String emailAdresse, String password, boolean isLegi, boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone) {
+  public Kunde(String vorname, String nachname, Adresse adresse, String kundennummer, String telefonNummer, String emailAdresse, String password, boolean isLegi, boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone, String connectedGiro) {
     super(vorname, nachname, adresse);
     this.kundennummer = kundennummer;
     this.telefonNummer = telefonNummer;
@@ -69,6 +76,7 @@ public class Kunde extends Person implements UserDetails {
     this.isActive = isActive;
     this.firstLoginDone = firstLoginDone;
     this.rolle = "customer";
+    this.connectedGiro = connectedGiro;
   }
 
 

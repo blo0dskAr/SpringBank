@@ -17,4 +17,10 @@ public interface GiroKontoAntragRepository extends JpaRepository<GiroKontoAntrag
   @Query(value = "select * from girokontoantrag gka, kontoantrag ka where ka.kundennummer = ?1 and ka.id = gka.id", nativeQuery = true)
   List<GiroKontoAntrag> findGiroAntraegeByKundennummer(String kundennummer);
 
+  @Query(value = "select * from girokontoantrag gka, kontoantrag ka " +
+          " where gka.id = ka.id" +
+          "   and gka.id = ?1 " +
+          "   and ka.kundennummer = ?2", nativeQuery = true)
+  GiroKontoAntrag findGiroAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
+
 }

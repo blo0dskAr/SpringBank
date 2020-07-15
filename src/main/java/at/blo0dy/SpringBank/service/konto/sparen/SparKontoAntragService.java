@@ -23,6 +23,6 @@ public interface SparKontoAntragService {
 
   List<SparKontoAntrag> findSparAntraegeByKundennummer(String kundennummer);
 
-
+  SparKontoAntrag findSparAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
 }

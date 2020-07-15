@@ -114,7 +114,8 @@
                                 </label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary" th:classappend="${sparKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT} ? 'disabled' : ''"
+                        <button type="submit" class="btn btn-primary"
+                                th:classappend="${sparKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT} ? 'disabled' : ''"
                                 th:disabled="${sparKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}">
                             Speichern
                         </button>

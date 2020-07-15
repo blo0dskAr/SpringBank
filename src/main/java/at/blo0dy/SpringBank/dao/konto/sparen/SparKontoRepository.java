@@ -34,4 +34,6 @@ public interface SparKontoRepository extends JpaRepository<SparKonto, Long> {
           "   and ko.id = sko.id", nativeQuery = true)
   SparKonto findSparKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  SparKonto findByKontonummer(Long kontonummer);
+
 }

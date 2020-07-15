@@ -33,9 +33,12 @@ public interface SparService {
 
   SparKonto findSparKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  SparKonto findByKontonummer(String kontonummer);
+
 
   // Zinsenrechner
   SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage);
 
   List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage);
+
 }

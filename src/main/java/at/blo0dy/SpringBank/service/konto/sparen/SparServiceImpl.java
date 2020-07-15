@@ -82,6 +82,12 @@ public class SparServiceImpl implements SparService {
     return sparKontoRepository.findSparKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
   }
 
+  @Override
+  @Transactional
+  public SparKonto findByKontonummer(String kontonummer) {
+    return sparKontoRepository.findByKontonummer(Long.valueOf(kontonummer));
+  }
+
 
   @Override
   @Transactional

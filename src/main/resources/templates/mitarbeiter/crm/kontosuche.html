@@ -73,7 +73,15 @@
                             </td>
                             <td th:class="${konto.aktSaldo < 0} ? 'text-danger' : 'text-success'" th:text="${#numbers.formatDecimal(konto.aktSaldo, 1, 'POINT', 2, 'COMMA')}">Aktueller Saldo</td>
                             <td>
-                                <a th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}"
+                                <a th:if="${konto.getClass().getSimpleName() == 'SparKonto'}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}"
+                                   class="btn btn-info btn-sm">
+                                    Details
+                                </a>
+                                <a th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}"
+                                   class="btn btn-info btn-sm">
+                                    Details
+                                </a>
+                                <a th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}" th:href="@{/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}"
                                    class="btn btn-info btn-sm">
                                     Details
                                 </a>

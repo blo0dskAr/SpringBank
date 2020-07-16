@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+
+      layout:decorate="~{mainlayout.html}">
+
+<title>SparKontoDetail Page</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid px-0">
+            <h1> Persönliche Daten </h1>
+            <div th:if="${personDatenGespeichert}">
+                <div class="alert alert-info ">
+                    Persönliche Daten wurden gespeichert.
+                </div>
+            </div>
+            <div class="row justify-content-md-center">
+                <div class="col-10 pt-4">
+
+                    <form method="POST" th:action="@{/mitarbeiter/kunde/person/saveKundeDetailPage}" id="registerForm" th:object="${kunde}">
+                        <input type="hidden" th:field="${kunde.id}" />
+                        <input type="hidden" th:field="${kunde.adresse.id}" />
+
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('kundennummer')}"
+                                      th:errors="*{kundennummer}">kundennummer Error</span>
+                                <label for="kundennummer">Kundennummer: </label>
+                                <input type="text" id="kundennummer" class="form-control" name="kundennummer" th:field="*{kundennummer}" readonly/>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                     <span class="text-danger"
+                                           th:if="${#fields.hasErrors('vorname')}"
+                                           th:errors="*{vorname}">Vorname Error</span>
+                                <label for="vorname">Vorname: </label>
+                                <input type="text" id="vorname" class="form-control" name="vorname" th:field="*{vorname}"/>
+                            </div>
+
+                            <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('nachname')}"
+                                          th:errors="*{nachname}">Nachname Error</span>
+                                <label for="nachname">Nachname: </label>
+                                <input type="text" id="nachname" class="form-control" name="nachname" th:field="*{nachname}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.strasse')}"
+                                          th:errors="*{adresse.strasse}">Strasse Error</span>
+                                <label for="strasse">Straße: </label>
+                                <input type="text" id="strasse" class="form-control" name="strasse" th:field="*{adresse.strasse}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.plz')}"
+                                          th:errors="*{adresse.plz}">PLZ Error</span>
+                                <label for="plz">plz: </label>
+                                <input type="text" id="plz" class="form-control" name="plz" th:field="*{adresse.plz}" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.ort')}"
+                                          th:errors="*{adresse.ort}">Ort Error</span>
+                                <label for="ort">Ort: </label>
+                                <input type="text" id="ort" class="form-control" name="ort" th:field="*{adresse.ort}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.land')}"
+                                          th:errors="*{adresse.land}">Land Error</span>
+                                <label for="land">Land: </label>
+                                <input type="text" id="land" class="form-control" name="land" th:field="*{adresse.land}" />
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('telefonNummer')}"
+                                          th:errors="*{telefonNummer}">PLZ Error</span>
+                                <label for="telefonNummer">TelefonNummer: </label>
+                                <input type="text" id="telefonNummer" class="form-control" name="telefonNummer" th:field="*{telefonNummer}" />
+                            </div>
+                            <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('emailAdresse')}"
+                                          th:errors="*{emailAdresse}">PLZ Error</span>
+                                <label for="emailAdresse">Email: </label>
+                                <input type="text" id="emailAdresse" class="form-control" name="emailAdresse" th:field="*{emailAdresse}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('connectedGiro')}"
+                                          th:errors="*{connectedGiro}">PLZ Error</span>
+                                <label for="connectedGiro">Verbundenes GiroKonto: </label>
+                                <input type="text" id="connectedGiro" class="form-control" name="connectedGiro" th:field="*{connectedGiro}"/>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="legiCheckbox" name="legi" th:field="*{legi}" th:checked="${kunde.Legi}" onclick="return false;" readonly>
+                                    <label class="form-check-label" for="legiCheckbox">
+                                        ist Legitimiert
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="active" id="aktivCheckbox" th:field="*{active}" th:checked="${kunde.active}" onclick="return false;" readonly>
+                                    <label class="form-check-label" for="aktivCheckbox">
+                                        ist Aktiv
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="hasAcceptedAGB" id="AGBCheckbox"  th:field="*{hasAcceptedAGB}" th:checked="${kunde.hasAcceptedAGB}" onclick="return false;" readonly>
+                                    <label class="form-check-label" for="AGBCheckbox">
+                                        hat AGB akzeptiert
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="loginDoneCheckbox" name="firstLoginDone"  th:field="*{firstLoginDone}" th:checked="${kunde.firstLoginDone}" onclick="return false;" readonly>
+                                    <label class="form-check-label" for="loginDoneCheckbox">
+                                        ErstLogin erledigt
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <input type="submit" class="btn btn-primary" value="Speichern" />
+                                    <a class="btn btn-success" th:href="@{/mitarbeiter/kunde/kundensuche}">
+                                        Zurück zur Kundensuche
+                                    </a>
+                                </div>
+                            </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+
+</body>
+</html>

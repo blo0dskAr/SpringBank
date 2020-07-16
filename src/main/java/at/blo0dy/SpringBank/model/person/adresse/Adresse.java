@@ -16,7 +16,7 @@ public class Adresse {
 
   @Column(name = "strasse")
   @NotBlank(message = "Straße darf nicht leer sein.")
-  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -.,]{2,45}[0-9 -/a-zA-Z]+$", message = "Straße muss mindestens Adresse und Hausnummer enthalten (zB. Teststraße 5/D/7")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -.,]{2,40}[0-9]{1,5}[0-9 -/a-zA-Z]{0,15}$", message = "Straße muss mindestens Adresse und Hausnummer enthalten (zB. Teststraße 5/D/7)")
   private String strasse;
 
   @Column(name = "plz")

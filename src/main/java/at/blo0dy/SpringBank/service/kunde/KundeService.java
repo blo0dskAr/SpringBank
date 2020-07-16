@@ -38,5 +38,7 @@ public interface KundeService   {
 
   List<Kunde> findAll(Kunde kunde, ExampleMatcher matcher);
 
+  void saveWithoutPassword(Kunde kunde);
+
 
 }

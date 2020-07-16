@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class KontoServiceImpl implements KontoService {
@@ -57,5 +58,22 @@ public class KontoServiceImpl implements KontoService {
   public List<Konto> findAll(Konto konto) {
     return kontoRepository.findAll(Example.of(konto));
   }
+
+  @Override
+  @Transactional
+  public Konto findById(Long kontoId) {
+    Optional<Konto> tmpKonto = kontoRepository.findById(kontoId);
+    Konto konto = tmpKonto.get();
+
+    return konto ;
+  }
+
+  @Override
+  @Transactional
+  public void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo) {
+    kontoRepository.UpdateKontoSaldoById(kontoId, neuerSaldo);
+
+  }
+
 
 }

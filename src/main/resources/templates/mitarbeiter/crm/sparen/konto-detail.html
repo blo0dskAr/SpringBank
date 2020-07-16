@@ -14,7 +14,12 @@
             <h1> KontoDetail - SparKonto </h1>
             <div th:if="${zahlungsAuftragGespeichert}">
                 <div class="alert alert-info ">
-                    Der Zahlungsauftrag wurde gespeichert.
+                    Der Zahlungsauftrag wurde erfolgreich gespeichert.
+                </div>
+            </div>
+            <div th:if="${kontoBuchungDurchgefuehrt}">
+                <div class="alert alert-info ">
+                    Die KontoBuchung wurde erfolgreich durchgeführt.
                 </div>
             </div>
             <div class="row justify-content-md-center">
@@ -35,7 +40,7 @@
                                                 <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 </button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" href="#">Buchung Anlegen</a>
+                                                    <a class="dropdown-item" th:href="@{/mitarbeiter/kunde/konto/showKontoBuchungForm(kontoId=${sparkonto.id})}">Buchung Anlegen</a>
                                                     <div role="separator" class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="#">Separated Action</a>
                                                 </div>

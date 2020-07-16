@@ -1,17 +1,12 @@
 package at.blo0dy.SpringBank.model.person.kunde;
 
-import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.konto.Konto;
-import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -35,7 +30,7 @@ public class Kunde extends Person implements UserDetails {
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
   @NotBlank(message = "Telefonnummer darf nicht leer sein.")
-  @Pattern(regexp = "^[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
+  @Pattern(regexp = "^[+]?[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   private String telefonNummer;
   @NotBlank(message = "emailAdresse darf nicht leer sein.")
   @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", message = "Email im Format <name>@<domain>.<land> angeben.", flags = Pattern.Flag.CASE_INSENSITIVE)
@@ -46,11 +41,6 @@ public class Kunde extends Person implements UserDetails {
   @OneToMany(mappedBy = "kunde",
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
   private List<Konto> kontenListe;
-
-//  @OneToMany(mappedBy = "kunde",
-////          cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
-//              cascade = {CascadeType.ALL})
-//  private List<SparKontoAntrag> sparKontoAntragsListe;
 
   // TODO: mit false initialisieren sobald der komplette weg für legi & AGB ready ist.
   private boolean isLegi = true;

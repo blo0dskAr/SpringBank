@@ -5,6 +5,7 @@ import at.blo0dy.SpringBank.model.konto.Konto;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 public interface KontoService {
 
@@ -19,4 +20,8 @@ public interface KontoService {
   Konto findByKontonummer(Long kontonummer);
 
   List<Konto> findAll(Konto konto);
+
+  Konto findById(Long kontoId);
+
+  void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo);
 }

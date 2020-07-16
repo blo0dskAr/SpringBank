@@ -44,7 +44,6 @@ public class AntragSucheController {
     log.debug("Loading Results on AntragSuche Page for Mitarbeiter: " + authentication.getName());
 
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
-    System.out.println("ERGEBNIS ----------------------->: " + ergebnis);
 
     model.addAttribute("ergebnis", ergebnis);
     log.debug("Showing Results on AntragSuche Page for Mitarbeiter: " + authentication.getName() + " " + ergebnis.size() + " results returned.");

@@ -157,4 +157,16 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
     return kundeRepository.findAll(Example.of(kunde, matcher));
   }
+
+  @Override
+  @Transactional
+  public void saveWithoutPassword(Kunde kunde) {
+
+    Optional<Kunde> tmpKunde = kundeRepository.findById(kunde.getId());
+
+    kunde.setPassword(tmpKunde.get().getPassword());
+
+    kundeRepository.save(kunde);
+
+  }
 }

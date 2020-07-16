@@ -23,4 +23,5 @@ public interface GiroKontoAntragRepository extends JpaRepository<GiroKontoAntrag
           "   and ka.kundennummer = ?2", nativeQuery = true)
   GiroKontoAntrag findGiroAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
+
 }

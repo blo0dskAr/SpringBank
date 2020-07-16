@@ -31,4 +31,5 @@ public interface GiroKontoRepository extends JpaRepository<GiroKonto, Long> {
           "   and ko.id = gko.id", nativeQuery = true)
   GiroKonto findGiroKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  GiroKonto findByKontonummer(long kontonummer);
 }

@@ -32,4 +32,6 @@ public interface KreditKontoRepository extends JpaRepository<KreditKonto, Long> 
           "   and ko.id = kko.id", nativeQuery = true)
   KreditKonto findKreditKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  KreditKonto findByKontonummer(Long tmpKontonummer);
+
 }

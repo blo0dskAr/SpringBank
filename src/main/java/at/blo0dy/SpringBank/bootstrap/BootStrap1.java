@@ -344,7 +344,7 @@ private void loadData() {
   SparKonto sparKonto2 = new SparKonto();
   sparKonto2.setKontoname("tralala2");
   sparKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKonto2.setAktSaldo(BigDecimal.valueOf(0));
+  sparKonto2.setAktSaldo(BigDecimal.valueOf(4750.00));
   sparKonto2.setKontonummer(123002L);
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto2.setKunde(kunde1);
@@ -369,7 +369,7 @@ private void loadData() {
   // kunde 1
   GiroKonto giroKonto1 = new GiroKonto();
   giroKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  giroKonto1.setAktSaldo(BigDecimal.valueOf(12345.67));
+  giroKonto1.setAktSaldo(BigDecimal.valueOf(2250));
   giroKonto1.setKontonummer(123003L);
   giroKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   giroKonto1.setKunde(kunde1);
@@ -381,7 +381,7 @@ private void loadData() {
   // kunde 2
   GiroKonto giroKonto2 = new GiroKonto();
   giroKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  giroKonto2.setAktSaldo(BigDecimal.valueOf(12345.67));
+  giroKonto2.setAktSaldo(BigDecimal.valueOf(1500));
   giroKonto2.setKontonummer(124003L);
   giroKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   giroKonto2.setKunde(kunde2);
@@ -592,7 +592,7 @@ private void loadData() {
   kreditkonto1Buchung1.setBuchungsDatum(LocalDate.now());
   kreditkonto1Buchung1.setDatAnlage(LocalDateTime.now());
   kreditkonto1Buchung1.setBuchungsText("KreditAuszahlung");
-  kreditkonto1Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(15000.00));
+  kreditkonto1Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(-15000.00));
   kreditkonto1Buchung1.setKonto(kreditKonto1);
   kontoBuchungService.save(kreditkonto1Buchung1);
 
@@ -619,7 +619,7 @@ private void loadData() {
   kreditkonto1Buchung2.setBuchungsDatum(LocalDate.now());
   kreditkonto1Buchung2.setDatAnlage(LocalDateTime.now());
   kreditkonto1Buchung2.setBuchungsText("Rate");
-  kreditkonto1Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(14750.00));
+  kreditkonto1Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(-14750.00));
   kreditkonto1Buchung2.setKonto(kreditKonto1);
   kontoBuchungService.save(kreditkonto1Buchung2);
 
@@ -646,7 +646,7 @@ private void loadData() {
   kreditkonto2Buchung1.setBuchungsDatum(LocalDate.now());
   kreditkonto2Buchung1.setDatAnlage(LocalDateTime.now());
   kreditkonto2Buchung1.setBuchungsText("KreditAuszahlung");
-  kreditkonto2Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(15000.00));
+  kreditkonto2Buchung1.setSaldoNachBuchung(BigDecimal.valueOf(-15000.00));
   kreditkonto2Buchung1.setKonto(kreditKonto2);
   kontoBuchungService.save(kreditkonto2Buchung1);
 
@@ -673,7 +673,7 @@ private void loadData() {
   kreditkonto2Buchung2.setBuchungsDatum(LocalDate.now());
   kreditkonto2Buchung2.setDatAnlage(LocalDateTime.now());
   kreditkonto2Buchung2.setBuchungsText("Rate");
-  kreditkonto2Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(14750.00));
+  kreditkonto2Buchung2.setSaldoNachBuchung(BigDecimal.valueOf(-14750.00));
   kreditkonto2Buchung2.setKonto(kreditKonto2);
   kontoBuchungService.save(kreditkonto2Buchung2);
 

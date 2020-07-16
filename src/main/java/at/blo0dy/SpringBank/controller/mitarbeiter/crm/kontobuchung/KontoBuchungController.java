@@ -4,7 +4,6 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kontobuchung;
 import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
-import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
 import lombok.extern.slf4j.Slf4j;

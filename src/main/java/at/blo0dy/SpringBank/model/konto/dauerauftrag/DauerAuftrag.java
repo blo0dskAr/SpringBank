@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.model.konto.zahlungsAuftrag;
+package at.blo0dy.SpringBank.model.konto.dauerauftrag;
 
 import at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
@@ -46,6 +46,10 @@ public class DauerAuftrag {
   @NotBlank
   @Column(name = "kontonummer")
   private String kontonummer;
+
+  @Column(name = "text")
+  @NotBlank
+  private String text;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "auftrags_status")

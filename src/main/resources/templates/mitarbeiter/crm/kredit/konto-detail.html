@@ -17,6 +17,11 @@
                     Der Zahlungsauftrag wurde gespeichert.
                 </div>
             </div>
+            <div th:if="${dauerAuftragGespeichert}">
+                <div class="alert alert-info ">
+                    Der Dauerauftrag wurde erfolgreich gespeichert.
+                </div>
+            </div>
             <div th:if="${kontoBuchungDurchgefuehrt}">
                 <div class="alert alert-info ">
                     Die KontoBuchung wurde erfolgreich durchgeführt.
@@ -201,7 +206,7 @@
                                                 </button>
                                                 <button type="button" class="btn btn-outline-dark dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"></button>
                                                 <div class="dropdown-menu">
-                                                    <a class="dropdown-item" th:href="@{/mitarbeiter/kunde/kredit/konto/showDauerAuftragsForm(kreditKontoId=${kreditkonto.id})}">Neuer Dauerauftrag</a>
+                                                    <a class="dropdown-item" th:href="@{/mitarbeiter/kunde/konto/showDauerAuftragForm(kontoId=${kreditkonto.id})}">Neuer Dauerauftrag</a>
                                                     <div role="separator" class="dropdown-divider"></div>
                                                     <a class="dropdown-item" href="#">Separated Action</a>
                                                 </div>
@@ -243,14 +248,14 @@
                                                 <tbody>
                                                 <tr th:each="dauerAuftrag : ${kreditkonto.dauerAuftragList}">
                                                     <td th:text="${#temporals.format(dauerAuftrag.datAnlage, 'dd.MM.yyyy HH:mm:ss')}">Datum</td>
-                                                    <td th:text="${#temporals.format(dauerAuftrag.tagImMonat, 'dd.') + 'des Monats'}">TagImMonat</td>
-                                                    <td th:text="${dauerAuftrag.auftragsArt}">Art</td>
+                                                    <td th:text="${dauerAuftrag.tagImMonat + '. dM'}">TagImMonat</td>
+                                                    <td th:text="${dauerAuftrag.auftragsArt.getDisplayName()}">Art</td>
                                                     <td th:switch="${dauerAuftrag.auftragsStatus}">
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).ANGELEGT}" class="status text-success" >&bull;</span>
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}" class="status text-danger">&bull;</span>
-                                                        <span th:text="${dauerAuftrag.auftragsStatus}">Status</span>
+                                                        <span th:text="${dauerAuftrag.auftragsStatus.getDisplayName()}">Status</span>
                                                     </td>
-                                                    <td th:text="${#numbers.formatDecimal(dauerAuftrag.betrag, 0, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(zahlungsAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
+                                                    <td th:text="${#numbers.formatDecimal(dauerAuftrag.betrag, 1, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(dauerAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
                                                 </tr>
                                                 </tbody>
                                             </table>

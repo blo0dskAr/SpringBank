@@ -60,7 +60,7 @@ public class Konto {
   private List<ZahlungsAuftrag> kontoZahlungsAuftragList;
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "konto")
-  private List<DauerAuftrag> dauerAuftragsListe;
+  private List<DauerAuftrag> dauerAuftragList;
 
   @Enumerated(value = EnumType.STRING)
   private KontoProduktEnum produkt;

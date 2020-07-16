@@ -1,11 +1,14 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.sparen;
 
+import at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.DauerAuftrag;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
+import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
@@ -31,12 +34,14 @@ public class CrmSparKontoController {
   SparService sparService;
   KundeService kundeService;
   ZahlungsAuftragService zahlungsAuftragService;
+  DauerAuftragService dauerAuftragService;
 
   @Autowired
-  public CrmSparKontoController(KundeService kundeService, SparService sparService, ZahlungsAuftragService zahlungsAuftragService) {
+  public CrmSparKontoController(KundeService kundeService, SparService sparService, ZahlungsAuftragService zahlungsAuftragService, DauerAuftragService dauerAuftragService) {
     this.kundeService = kundeService;
     this.sparService = sparService;
     this.zahlungsAuftragService = zahlungsAuftragService;
+    this.dauerAuftragService = dauerAuftragService;
   }
 
 

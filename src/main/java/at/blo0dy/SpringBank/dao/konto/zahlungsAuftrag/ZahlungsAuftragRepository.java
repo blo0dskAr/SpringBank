@@ -15,11 +15,11 @@ public interface ZahlungsAuftragRepository extends JpaRepository<ZahlungsAuftrag
   List<ZahlungsAuftrag> findZahlungsAuftraegeByKontonummer(String kontonummer);
 
   @Query(value ="select count(*) from zahlungs_auftrag za " +
-                " where za.id = ?1 " +
+                " where za.konto_id = ?1 " +
                 "  and za.auftrags_status='ANGELEGT' ", nativeQuery = true)
   Long countOffeneZahlungsAuftraegeByKontoId(Long kontoId);
 
-  @Query(value = "select * from zahlungs_auftrag za " +
+  @Query(value = "select * from zahlungs_auftrag za, konto k " +
           " where za.konto_id = ?1 " +
           " and za.auftrags_status = 'ANGELEGT' ", nativeQuery = true)
   List<ZahlungsAuftrag> findAktiveZahlungsAuftraegeByKontoId(Long kontoId);

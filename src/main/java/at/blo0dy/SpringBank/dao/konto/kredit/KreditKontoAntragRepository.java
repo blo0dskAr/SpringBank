@@ -34,9 +34,9 @@ public interface KreditKontoAntragRepository extends JpaRepository<KreditKontoAn
           "   and ka.kundennummer = ?2", nativeQuery = true)
   KreditKontoAntrag findKreditAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
-  @Query(value = "select * from kreditkontoantrag kka, kontoantrag ka " +
+  @Query( value = "select * from kreditkontoantrag kka, kontoantrag ka" +
           " where kka.id = ka.id" +
-          "  and ka.konto_id = ?1",nativeQuery = true)
+          "   and exists (select 1 from konto k where k.konto_antrag_id = ka.id and k.id = ?1)", nativeQuery = true)
   KreditKontoAntrag findByKontoId(Long kontoId);
 
 }

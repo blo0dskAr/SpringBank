@@ -7,6 +7,7 @@ import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -29,12 +31,14 @@ public class CrmGiroAntragController {
   GiroKontoAntragService giroKontoAntragService;
   GiroService giroService;
   KundeService kundeService;
+  KontoService kontoService;
 
   @Autowired
-  public CrmGiroAntragController(GiroKontoAntragService giroKontoAntragService, GiroService giroService, KundeService kundeService) {
+  public CrmGiroAntragController(GiroKontoAntragService giroKontoAntragService, GiroService giroService, KundeService kundeService, KontoService kontoService) {
     this.giroKontoAntragService = giroKontoAntragService;
     this.giroService = giroService;
     this.kundeService = kundeService;
+    this.kontoService = kontoService;
   }
 
   @GetMapping("/antrag")
@@ -65,27 +69,54 @@ public class CrmGiroAntragController {
 
   @PostMapping("/antrag/saveGiroAntrag2KontoForm")
   public String saveGiroAntrag2KontoForm(@Valid @ModelAttribute("giroKontoAntrag") GiroKontoAntrag giroKontoAntrag,
-                                         @ModelAttribute("kunde") Kunde kunde, Model model) {
+                                         @ModelAttribute("kunde") Kunde kunde, Model model, RedirectAttributes redirectAttrs) {
+
+    log.debug("GiroKontoAntrag id=" + giroKontoAntrag.getId() + ", KundeNr:" + giroKontoAntrag.getKundennummer() + " soll gespeichert werden" );
+
+
+
+
 
     final Kunde mykunde = kundeService.findByKundennummer(giroKontoAntrag.getKundennummer().toString());
-    final KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+    final KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
     if (giroKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT))  {
+      log.debug("GiroKontoAntrag wurde genehmigt, GiroKonto wird erstellt");
       BigDecimal ueberziehungsrahmen;
-      if (giroKontoAntrag.isUeberziehungsrahmenGewuenscht()) {
-        ueberziehungsrahmen = BigDecimal.valueOf(500);
-      } else {
-        ueberziehungsrahmen = BigDecimal.ZERO;
-      }
-      log.debug("CrmGirorAntragController: Girokonto wurde genehmigt, Girokonto wird erstellt");
+//      if (giroKontoAntrag.isUeberziehungsrahmenGewuenscht()) {
+//        ueberziehungsrahmen = BigDecimal.valueOf(500);
+//      } else {
+//        ueberziehungsrahmen = BigDecimal.ZERO;
+//      }
       GiroKonto giroKonto = new GiroKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
-                                          kontoStatusAufgrundKundenStatus, giroKontoAntrag, ueberziehungsrahmen, new ArrayList<KontoBuchung>(), KontoProduktEnum.SPAREN);
-      log.debug("CrmGiroAntragController: --> GirokontoDaten: " + giroKonto.toString()) ;
+                                          KontoStatusEnum.IN_EROEFFNUNG, giroKontoAntrag, BigDecimal.ZERO, new ArrayList<KontoBuchung>(), KontoProduktEnum.SPAREN);
+      log.debug("Girokonto wurde erstellt, Girokonto wird gespeichert.)");
       giroService.save(giroKonto);
-    }
+      log.debug("Girokonto wurde erfolgreich gespeichert. (id=" + giroKonto.getId() + ")");
 
-    log.debug("CrmGiroAntragController: " + "GiroKontoAntrag wird gespeichert");
-    giroKontoAntragService.save(giroKontoAntrag);
+      log.debug("GiroKontoAntrag wird gespeichert");
+      giroKontoAntragService.save(giroKontoAntrag);
+      log.debug("GiroKontoAntrag wurde erfolgreich gespeichert");
+
+      if (bestMoeglicherStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
+        log.debug("Sparkonto mit der ID=" + giroKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
+      } else {
+        log.debug("Gespeichertes Sparkonto mit der ID=" + giroKonto.getId() + " wird auf Mögliche KontoEröffnung geprüft:");
+        String processErgebnis = kontoService.processKontoStatusById(giroKonto.getId(), bestMoeglicherStatus, bestMoeglicherStatus);
+
+        switch(processErgebnis) {
+          case "NO_CHANGES":
+            redirectAttrs.addFlashAttribute("noChanges", true);
+            break;
+          case "TRANSITION_NOT_POSSIBLE":
+            redirectAttrs.addFlashAttribute("transitionNotPossible", true);
+            break;
+          case "KONTO_NOW_OPEN":
+            redirectAttrs.addFlashAttribute("kontoOpened", true);
+            break;
+        }
+      }
+    }
 
     return "redirect:/mitarbeiter/kunde/giro/antrag";
   }

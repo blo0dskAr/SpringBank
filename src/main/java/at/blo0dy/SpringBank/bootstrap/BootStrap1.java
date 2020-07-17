@@ -390,6 +390,20 @@ private void loadData() {
   kreditKontoAntrag2.setProdukt(KontoProduktEnum.KREDIT);
   kreditKontoAntragService.save(kreditKontoAntrag2);
 
+  // kunde 2
+  KreditKontoAntrag kreditKontoAntrag3 = new KreditKontoAntrag();
+  kreditKontoAntrag3.setId(11L);
+  kreditKontoAntrag3.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKontoAntrag3.setKreditBetrag(BigDecimal.valueOf(15000));
+  kreditKontoAntrag3.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  kreditKontoAntrag3.setKundennummer(124L);
+  kreditKontoAntrag3.setLaufzeit(BigInteger.valueOf(120));
+  kreditKontoAntrag3.setZinssatz(BigDecimal.valueOf(8.00));
+  kreditKontoAntrag3.setRate(BigDecimal.valueOf(181.99));
+  kreditKontoAntrag3.setGesamtBelastung(BigDecimal.valueOf(21838.80));
+  kreditKontoAntrag3.setProdukt(KontoProduktEnum.KREDIT);
+  kreditKontoAntragService.save(kreditKontoAntrag3);
+
   GiroKontoAntrag giroKontoAntrag1 = new GiroKontoAntrag();
   giroKontoAntrag1.setId(8L);
   giroKontoAntrag1.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));

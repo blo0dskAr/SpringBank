@@ -25,9 +25,9 @@ public interface SparKontoAntragRepository extends JpaRepository<SparKontoAntrag
                  "   and ka.kundennummer = ?2", nativeQuery = true)
   SparKontoAntrag findSparAntragByAntragIdAndKundennummer(Long antragId, String authKundennummer);
 
-  @Query(value = "select * from sparkontoantrag ska, kontoantrag ka " +
+  @Query( value = "select * from sparkontoantrag ska, kontoantrag ka" +
           " where ska.id = ka.id" +
-          "  and ka.konto_id = ?1",nativeQuery = true)
+          "   and exists (select 1 from konto k where k.konto_antrag_id = ka.id and k.id = ?1)", nativeQuery = true)
   SparKontoAntrag findByKontoId(Long kontoId);
 
 }

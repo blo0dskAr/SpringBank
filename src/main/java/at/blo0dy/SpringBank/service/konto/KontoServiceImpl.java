@@ -7,7 +7,6 @@ import at.blo0dy.SpringBank.dao.konto.giro.GiroKontoRepository;
 import at.blo0dy.SpringBank.dao.konto.kredit.KreditKontoAntragRepository;
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoAntragRepository;
 import at.blo0dy.SpringBank.dao.konto.zahlungsAuftrag.ZahlungsAuftragRepository;
-import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
@@ -27,6 +26,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -199,7 +199,8 @@ public class KontoServiceImpl implements KontoService {
           tmpZahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
           tmpZahlungsAuftrag.setSenderKonto(konto.getKunde().getConnectedGiro());
           tmpZahlungsAuftrag.setEmpfaengerKonto(konto.getKontonummer().toString());
-          // TODO in den zahlungsauftrag muss auch noch mal text rein
+          // TODO in den zahlungsauftrag muss auch noch mal text rein und auch ein gscheites auftragsdatum
+          tmpZahlungsAuftrag.setAuftragsDatum(LocalDate.now());
 //          tmpZahlungsAuftrag.setText("ErstAuftrag");
           zahlungsAuftragRepository.save(tmpZahlungsAuftrag);
         }
@@ -219,6 +220,7 @@ public class KontoServiceImpl implements KontoService {
         tmpZahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
         tmpZahlungsAuftrag.setEmpfaengerKonto(konto.getKunde().getConnectedGiro());
         tmpZahlungsAuftrag.setSenderKonto(konto.getKontonummer().toString());
+        tmpZahlungsAuftrag.setAuftragsDatum(LocalDate.now());
         zahlungsAuftragRepository.save(tmpZahlungsAuftrag);
 
         DauerAuftrag tmpDauerAuftrag =  new DauerAuftrag();

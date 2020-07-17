@@ -69,7 +69,6 @@ public class Kunde extends Person implements UserDetails {
     this.connectedGiro = connectedGiro;
   }
 
-
   public void checkActive() {
     if (this.isLegi == true && this.hasAcceptedAGB == true) {
       setActive(true);
@@ -91,22 +90,22 @@ public class Kunde extends Person implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return isActive;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return isActive;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return isActive;
+    return true;
   }
 
   @Override
   public boolean isEnabled() {
-    return isActive;
+    return true;
   }
 
 

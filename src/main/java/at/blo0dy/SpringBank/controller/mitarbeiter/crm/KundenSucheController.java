@@ -48,9 +48,11 @@ public class KundenSucheController {
     log.debug("Loading Results on KundeSuche Page for Mitarbeiter: " + authentication.getName());
 
     ExampleMatcher matcher = ExampleMatcher.matching()
+            .withIgnoreNullValues()
             .withMatcher("kundennummer", match -> match.contains().ignoreCase())
             .withMatcher("vorname", match -> match.contains().ignoreCase())
-            .withMatcher("nachname", match -> match.contains().ignoreCase());
+            .withMatcher("nachname", match -> match.contains().ignoreCase())
+            .withIgnorePaths("isLegi","hasAcceptedAGB","isActive","firstLoginDone");
 
     List<Kunde> ergebnis = kundeService.findAll(kunde, matcher);
 

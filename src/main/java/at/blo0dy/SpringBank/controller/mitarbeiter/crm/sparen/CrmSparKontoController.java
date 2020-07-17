@@ -1,10 +1,14 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.sparen;
 
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.konto.dauerauftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
@@ -16,7 +20,6 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,20 +37,33 @@ public class CrmSparKontoController {
   KundeService kundeService;
   ZahlungsAuftragService zahlungsAuftragService;
   DauerAuftragService dauerAuftragService;
+  KontoService kontoService;
 
   @Autowired
-  public CrmSparKontoController(KundeService kundeService, SparService sparService, ZahlungsAuftragService zahlungsAuftragService, DauerAuftragService dauerAuftragService) {
+  public CrmSparKontoController(KundeService kundeService, SparService sparService, ZahlungsAuftragService zahlungsAuftragService, DauerAuftragService dauerAuftragService, KontoService kontoService) {
     this.kundeService = kundeService;
     this.sparService = sparService;
     this.zahlungsAuftragService = zahlungsAuftragService;
     this.dauerAuftragService = dauerAuftragService;
+    this.kontoService = kontoService;
   }
 
 
   @GetMapping("/konto")
-  public String showSparKontoPage() {
+  public String showSparKontoBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
-    return "mitarbeiter/crm/sparen/sparKonto";
+    Konto konto = new SparKonto();
+    konto.setProdukt(KontoProduktEnum.SPAREN);
+    konto.setKontoStatus(KontoStatusEnum.IN_EROEFFNUNG);
+
+    model.addAttribute("konto",konto);
+
+    List<Konto> ergebnis = kontoService.findAll(konto);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing KontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/kontosuche";
   }
 
 

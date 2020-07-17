@@ -13,15 +13,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.TransactionScoped;
-import javax.validation.constraints.Null;
-import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
-//public class KundeServiceImpl implements KundeService {
 public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   private KundeRepository kundeRepository;

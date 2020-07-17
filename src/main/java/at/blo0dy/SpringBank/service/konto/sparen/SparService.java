@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.service.konto.sparen;
 
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoRepository;
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;

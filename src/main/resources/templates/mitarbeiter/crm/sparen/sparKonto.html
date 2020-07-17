@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
@@ -10,31 +11,91 @@
 <body>
 <div layout:fragment="content">
 
-    <h1> hier könnte mal eine SparKonto-Bearbeitungsseite für mitarbeiter auftauchen. </h1>
-
-    <div sec:authorize="isAuthenticated()">
-        Authenticated as <span sec:authentication="name"></span></div>
-    <br>
-
-
-    <div sec:authorize="hasAuthority('admin')">
-        This content is only shown to administrators.
+    <div layout:fragment="content">
+        <main>
+            <div class="container-fluid">
+                <form method="POST" th:action="@{/mitarbeiter/kunde/kontosuche}" th:object="${konto}" id="registerForm">
+                    <h1> KontoBearbeitung - Sparen </h1>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="kontonummer">Kontonummer:</label>
+                            <input type="text" class="form-control" th:field="*{kontonummer}" name="kontonummer" id="kontonummer" th:text="*{kontonummer}" placeholder="zB. 123001">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="kontoStatus">KontoStatus:</label>
+                            <select id="kontoStatus" class="form-control" th:field="*{kontoStatus}">
+                                <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
+                                <option th:each="statusOption : ${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).values()}"
+                                        th:value="${{statusOption}}"
+                                        th:text="${statusOption.getDisplayName()}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-4">
+                            <label for="kontoAntrag">KontoAntragId:</label>
+                            <input type="text" class="form-control" th:field="*{kontoAntrag}" name="kontoAntrag" id="kontoAntrag" th:text="*{kontoAntrag}" placeholder="zB. 2">
+                        </div>
+                        <div class="form-group col-4">
+                            <label for="produkt">Produkt:</label>
+                            <select id="produkt" class="form-control" th:field="*{produkt}">
+                                <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
+                                <option th:each="produktOption : ${T(at.blo0dy.SpringBank.model.enums.KontoProduktEnum).values()}"
+                                        th:value="${{produktOption}}"
+                                        th:text="${produktOption.getDisplayName()}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
+                </form>
+            </div>
+            <div class="container-fluid mt-5">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>Produkt</th>
+                        <th>Kontonummer</th>
+                        <th>Eröffnungs-Datum</th>
+                        <th>Konto-Status</th>
+                        <th>Saldo</th>
+                        <th>Details</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="konto : ${ergebnis}">
+                        <td th:text="${konto.getClass().getSimpleName()}">Produkt</td>
+                        <td th:text="${konto.kontonummer}">Kontonummer</td>
+                        <td th:text="${#temporals.format(konto.eroeffnungsDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
+                        <td th:switch="${konto.kontoStatus}" >
+                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).OFFEN}" class="status text-success" >&bull;</span>
+                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).GESCHLOSSEN}" class="status text-danger">&bull;</span>
+                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).IN_EROEFFNUNG}" class="status text-warning">&bull;</span>
+                            <span th:text="${konto.kontoStatus}">Konto-Status</span>
+                        </td>
+                        <td th:class="${konto.aktSaldo < 0} ? 'text-danger' : 'text-success'" th:text="${#numbers.formatDecimal(konto.aktSaldo, 1, 'POINT', 2, 'COMMA')}">Aktueller Saldo</td>
+                        <td>
+                            <a th:if="${konto.getClass().getSimpleName() == 'SparKonto'}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}"
+                               class="btn btn-info btn-sm">
+                                Details
+                            </a>
+                            <a th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}"
+                               class="btn btn-info btn-sm">
+                                Details
+                            </a>
+                            <a th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}" th:href="@{/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}"
+                               class="btn btn-info btn-sm">
+                                Details
+                            </a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
     </div>
-    <br>
-    <div sec:authorize="hasAuthority('mitarbeiter')">
-        This content is only shown to Mitarbeiters.
-    </div>
-    <br>
-
-    Logged user: <span sec:authentication="name">Bob</span>
-    <br>
-    Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
-
-    <br><br>
-
-    <p th:text="'requestURI: ' + ${requestURI}" />
-
 
 </div>
 </body>
-</html>
+</html>-->

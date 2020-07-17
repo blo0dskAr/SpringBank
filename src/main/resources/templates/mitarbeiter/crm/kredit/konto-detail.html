@@ -27,11 +27,115 @@
                     Die KontoBuchung wurde erfolgreich durchgeführt.
                 </div>
             </div>
+            <div th:if="${noChanges}">
+                <div class="alert alert-info">
+                    Keine Änderungen durchgeführt.
+                </div>
+            </div>
+            <div th:if="${transitionNotPossible}">
+                <div class="alert alert-danger">
+                    Status konnte nicht umgestellt werden.
+                </div>
+            </div>
+            <div th:if="${saldoNotZero}">
+                <div class="alert alert-danger">
+                    Saldo muss zuerst auf 0,00 €.
+                </div>
+            </div>
+            <div th:if="${kontoClosed}">
+                <div class="alert alert-success">
+                    Die Kontoschließung wurde erfolgreich durchgeführt. Aktive Aufträge werden ggf. storniert.
+                </div>
+            </div>
+            <div th:if="${kontoOpened}">
+                <div class="alert alert-info">
+                    Die KontoEröffnung wurde erfolgreich durchgeführt. Aufträge wurden ggf. bearbeitet.
+                </div>
+            </div>
             <div class="row justify-content-md-center">
                 <div class="col-10 pt-4">
 
 
 
+
+                    <div class="accordion" id="accordionKontoBearbeitung"  >
+                        <div class="card">
+                            <div class="card-header" id="headingKontoBearbeitung" >
+                                <div class="row">
+                                    <div class="col-3 pl-0">
+                                        <h2 class="mb-0">
+                                            <button class="btn btn-outline-dark text-left float-left" data-target="#collapseKontoBearbeitung", aria-controls="collapseKontoBearbeitung" type="button" data-toggle="collapse" aria-expanded="true">
+                                                Status Bearbeiten.
+                                            </button>
+                                        </h2>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="text-right text-secondary mp-0 small" th:text="${'Name: ' + kunde.nachname + ', ' + kunde.vorname}"> Name: Der Herr mim Gwehr </div>
+                                        <div class="text-right text-secondary mp-0 small">
+                                            <span th:text="'Status: '"></span>
+                                            <span th:classappend="${kunde.Active ? 'text-success' : 'text-danger'}" th:text="${kunde.Active ? 'Aktiv, ' : 'Inaktiv, '}"></span>
+                                            <span th:classappend="${kunde.legi ? 'text-success' : 'text-danger'}" th:text="${kunde.legi ? 'Legitimiert, ' : 'nicht Legitimiert, '}"></span>
+                                            <span th:classappend="${kunde.hasAcceptedAGB ? 'text-success' : 'text-danger'}" th:text="${kunde.hasAcceptedAGB ? 'AGB' : 'AGB fehlt'}"></span>
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+                                        <div class="text-right text-secondary mp-0 small" th:text="${'Adresse: ' + kunde.adresse.strasse}"></div>
+                                        <div class="text-right text-secondary mp-0 small" th:text="${kunde.adresse.plz + ' ' + kunde.adresse.ort + ', ' + kunde.adresse.land}"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="collapse" data-parent="#accordionKontoBearbeitung" id="collapseKontoBearbeitung" aria-labelledby="headingKontoBearbeitung" >
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-sm-5">
+                                            <h2>Status Übersicht</h2>
+                                        </div>
+                                    </div>
+                                    <form method="POST" th:action="@{/mitarbeiter/kunde/kredit/konto/saveKreditKontoDetailPage}" th:object="${kreditkonto}">
+                                        <input type="hidden" th:field="*{id}">
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="kontonummer">Kontonummer: </label>
+                                                <input type="text" id="kontonummer" class="form-control" name="kontonummer" th:field="*{kontonummer}" readonly/>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="eroeffnungsDatum">Eröffnungs Datum: </label>
+                                                <input type="text" id="eroeffnungsDatum" class="form-control" name="eroeffnungsDatum" th:field="*{eroeffnungsDatum}" readonly/>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-4">
+                                                <label for="aktSaldo">Aktueller Saldo: </label>
+                                                <input type="text" id="aktSaldo" class="form-control" name="aktSaldo" th:field="*{aktSaldo}" readonly/>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label for="kontoStatus">Konto Status: </label>
+                                                <select id="kontoStatus" class="form-control" th:field="*{kontoStatus}">
+                                                    <option th:each="statusOption : ${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).values()}"
+                                                            th:value="${{statusOption}}"
+                                                            th:selected="${statusOption == T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum)}"
+                                                            th:text="${statusOption.getDisplayName()}">
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form row">
+                                            <div class="form-group col-8">
+                                                <button type="submit" class="btn btn-info">Speichern</button>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="col-10 pt-4">
                     <div class="accordion" id="accordionKonto"  >
                         <div class="card">
                             <div class="card-header" id="headingKonto" >

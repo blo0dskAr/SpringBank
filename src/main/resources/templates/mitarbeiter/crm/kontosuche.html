@@ -11,7 +11,7 @@
     <div layout:fragment="content">
         <main>
             <div class="container-fluid">
-                <form method="POST" th:action="@{/mitarbeiter/kunde/kontosuche}" th:object="${konto}" id="registerForm">
+                <form method="POST" th:action="${requestURI}" th:object="${konto}" id="registerForm">
                     <h1> Kontosuche </h1>
                     <div class="form-row">
                         <div class="form-group col-4">
@@ -36,13 +36,18 @@
                         </div>
                         <div class="form-group col-4">
                             <label for="produkt">Produkt:</label>
-                            <select id="produkt" class="form-control" th:field="*{produkt}">
-                                <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
-                                <option th:each="produktOption : ${T(at.blo0dy.SpringBank.model.enums.KontoProduktEnum).values()}"
-                                        th:value="${{produktOption}}"
-                                        th:text="${produktOption.getDisplayName()}">
-                                </option>
-                            </select>
+                            <th:block th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kontosuche')}">
+                                <select id="produkt" class="form-control" th:field="*{produkt}">
+                                    <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
+                                    <option th:each="produktOption : ${T(at.blo0dy.SpringBank.model.enums.KontoProduktEnum).values()}"
+                                            th:value="${{produktOption}}"
+                                            th:text="${produktOption.getDisplayName()}">
+                                    </option>
+                                </select>
+                            </th:block>
+                            <input type="text" th:if="${#strings.endsWith(requestURI, 'sparen/kontoBearbeitung')}" class="form-control" th:field="*{produkt}" th:value="${produkt}" readonly>
+                            <input type="text" th:if="${#strings.endsWith(requestURI, 'kredit/kontoBearbeitung')}" class="form-control" th:field="*{produkt}" th:value="${produkt}" readonly>
+                            <input type="text" th:if="${#strings.endsWith(requestURI, 'giro/kontoBearbeitung')}" class="form-control" th:field="*{produkt}" th:value="${produkt}" readonly>
                         </div>
                     </div>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>

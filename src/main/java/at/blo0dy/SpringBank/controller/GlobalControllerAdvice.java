@@ -16,12 +16,14 @@ public class GlobalControllerAdvice {
     String contextPath = request.getContextPath();
     String pathInfo = request.getPathInfo();
     String queryString = request.getQueryString();
+    String referer = request.getHeader("referer");
 
 
     model.addAttribute("requestURI", requestURI);
     model.addAttribute("contextPath", contextPath);
     model.addAttribute("pathInfo", pathInfo);
     model.addAttribute("queryString", queryString);
+    model.addAttribute("referer",referer);
 
 
 

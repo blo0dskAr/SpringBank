@@ -1,11 +1,16 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.giro;
 
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoService;
+import at.blo0dy.SpringBank.service.konto.dauerauftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -32,19 +37,45 @@ public class CrmGiroKontoController {
   GiroService giroService;
   KundeService kundeService;
   ZahlungsAuftragService zahlungsAuftragService;
+  KontoService kontoService;
+  DauerAuftragService dauerAuftragService;
 
   @Autowired
-  public CrmGiroKontoController(KundeService kundeService, GiroService giroService, ZahlungsAuftragService zahlungsAuftragService) {
+  public CrmGiroKontoController(KundeService kundeService, GiroService giroService, ZahlungsAuftragService zahlungsAuftragService, KontoService kontoService, DauerAuftragService dauerAuftragService) {
     this.kundeService = kundeService;
     this.giroService = giroService;
     this.zahlungsAuftragService = zahlungsAuftragService;
+    this.kontoService = kontoService;
+    this.dauerAuftragService = dauerAuftragService;
   }
 
 
-  @GetMapping("/konto")
-  public String showGiroKontoPage() {
+  @GetMapping("/kontoBearbeitung")
+  public String showGiroKontoBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
-    return "mitarbeiter/crm/giro/giroKonto";
+    Konto konto = new GiroKonto();
+    konto.setProdukt(KontoProduktEnum.GIRO);
+    konto.setKontoStatus(KontoStatusEnum.IN_EROEFFNUNG);
+
+    model.addAttribute("konto",konto);
+
+    List<Konto> ergebnis = kontoService.findAll(konto);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing GiroKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/kontosuche";
+  }
+
+  @PostMapping("/kontoBearbeitung")
+  public String showSparKontoBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                                 @ModelAttribute Konto konto) {
+    List<Konto> ergebnis = kontoService.findAll(konto);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/kontosuche";
   }
 
 
@@ -60,8 +91,45 @@ public class CrmGiroKontoController {
     model.addAttribute("girokonto", girokonto);
     model.addAttribute("kunde", kunde);
     model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(giroKontoId));
+    model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(girokonto.getKontonummer()));
 
     return "mitarbeiter/crm/giro/konto-detail";
+
+  }
+
+
+  @PostMapping("/konto/saveGiroKontoDetailPage")
+  public String saveGiroKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                        @ModelAttribute Konto konto, RedirectAttributes redirectAttrs ) {
+
+    log.debug("Speichern der GiroKontoDetailPage for Mitarbeiter: " + authentication.getName() + " und KontoId: " + konto.getId() + " angefordert");
+    Konto tmpKonto = kontoService.findById(konto.getId());
+    KontoStatusEnum neuerStatus = konto.getKontoStatus();
+
+    Kunde kunde = tmpKonto.getKunde();
+
+    KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+    String processErgebnis = kontoService.processKontoStatusById(tmpKonto.getId(),neuerStatus, bestMoeglicherStatus);
+
+    switch(processErgebnis) {
+      case "NO_CHANGES":
+        redirectAttrs.addFlashAttribute("noChanges", true);
+        break;
+      case "TRANSITION_NOT_POSSIBLE":
+        redirectAttrs.addFlashAttribute("transitionNotPossible", true);
+        break;
+      case "SALDO_NOT_ZERO":
+        redirectAttrs.addFlashAttribute("saldoNotZero", true);
+        break;
+      case "KONTO_NOW_CLOSED":
+        redirectAttrs.addFlashAttribute("kontoClosed", true);
+        break;
+      case "KONTO_NOW_OPEN":
+        redirectAttrs.addFlashAttribute("kontoOpened", true);
+        break;
+    }
+
+    return "redirect:/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage?giroKontoId=" + tmpKonto.getId();
 
   }
 

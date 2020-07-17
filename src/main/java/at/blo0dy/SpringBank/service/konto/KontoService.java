@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.service.konto;
 
 
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 
 import java.math.BigDecimal;
@@ -24,4 +25,7 @@ public interface KontoService {
   Konto findById(Long kontoId);
 
   void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo);
+
+  String processKontoStatusById(Long kontoId, KontoStatusEnum neuerKontoStatus, KontoStatusEnum bestMoeglicherStatus);
+
 }

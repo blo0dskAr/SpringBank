@@ -1,10 +1,16 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kredit;
 
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoService;
+import at.blo0dy.SpringBank.service.konto.dauerauftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -31,19 +37,45 @@ public class CrmKreditKontoController {
   KreditService kreditService;
   KundeService kundeService;
   ZahlungsAuftragService zahlungsAuftragService;
+  DauerAuftragService dauerAuftragService;
+  KontoService kontoService;
 
   @Autowired
-  public CrmKreditKontoController(KundeService kundeService, KreditService kreditService, ZahlungsAuftragService zahlungsAuftragService) {
+  public CrmKreditKontoController(KundeService kundeService, KreditService kreditService, ZahlungsAuftragService zahlungsAuftragService, KontoService kontoService, DauerAuftragService dauerAuftragService) {
     this.kundeService = kundeService;
     this.kreditService = kreditService;
     this.zahlungsAuftragService = zahlungsAuftragService;
+    this.kontoService = kontoService;
+    this.dauerAuftragService = dauerAuftragService;
   }
 
 
-  @GetMapping("/konto")
-  public String showKreditKontoPage() {
+  @GetMapping("/kontoBearbeitung")
+  public String showKreditKontoBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
-    return "mitarbeiter/crm/kredit/kreditKonto";
+    Konto konto = new KreditKonto();
+    konto.setProdukt(KontoProduktEnum.KREDIT);
+    konto.setKontoStatus(KontoStatusEnum.IN_EROEFFNUNG);
+
+    model.addAttribute("konto",konto);
+
+    List<Konto> ergebnis = kontoService.findAll(konto);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing KreditKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/kontosuche";
+  }
+
+  @PostMapping("/kontoBearbeitung")
+  public String showSparKontoBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                                 @ModelAttribute Konto konto) {
+    List<Konto> ergebnis = kontoService.findAll(konto);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/kontosuche";
   }
 
 
@@ -59,9 +91,44 @@ public class CrmKreditKontoController {
     model.addAttribute("kreditkonto", kreditkonto);
     model.addAttribute("kunde", kunde);
     model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(kreditKontoId));
+    model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(kreditkonto.getKontonummer()));
 
     return "mitarbeiter/crm/kredit/konto-detail";
+  }
 
+
+  @PostMapping("/konto/saveKreditKontoDetailPage")
+  public String saveKreditKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                          @ModelAttribute Konto konto, RedirectAttributes redirectAttrs ) {
+
+    log.debug("Speichern der KreditKontoDetailPage for Mitarbeiter: " + authentication.getName() + " und KontoId: " + konto.getId() + " angefordert");
+    Konto tmpKonto = kontoService.findById(konto.getId());
+    KontoStatusEnum neuerStatus = konto.getKontoStatus();
+
+    Kunde kunde = tmpKonto.getKunde();
+
+    KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+    String processErgebnis = kontoService.processKontoStatusById(tmpKonto.getId(),neuerStatus, bestMoeglicherStatus);
+
+    switch(processErgebnis) {
+      case "NO_CHANGES":
+        redirectAttrs.addFlashAttribute("noChanges", true);
+        break;
+      case "TRANSITION_NOT_POSSIBLE":
+        redirectAttrs.addFlashAttribute("transitionNotPossible", true);
+        break;
+      case "SALDO_NOT_ZERO":
+        redirectAttrs.addFlashAttribute("saldoNotZero", true);
+        break;
+      case "KONTO_NOW_CLOSED":
+        redirectAttrs.addFlashAttribute("kontoClosed", true);
+        break;
+      case "KONTO_NOW_OPEN":
+        redirectAttrs.addFlashAttribute("kontoOpened", true);
+        break;
+    }
+
+    return "redirect:/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage?kreditKontoId=" + tmpKonto.getId();
   }
 
 

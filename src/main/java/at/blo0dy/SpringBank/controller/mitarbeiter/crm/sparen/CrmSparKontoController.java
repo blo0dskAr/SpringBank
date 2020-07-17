@@ -25,6 +25,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -49,7 +50,7 @@ public class CrmSparKontoController {
   }
 
 
-  @GetMapping("/konto")
+  @GetMapping("/kontoBearbeitung")
   public String showSparKontoBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
     Konto konto = new SparKonto();
@@ -61,7 +62,18 @@ public class CrmSparKontoController {
     List<Konto> ergebnis = kontoService.findAll(konto);
 
     model.addAttribute("ergebnis", ergebnis);
-    log.debug("Showing KontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/kontosuche";
+  }
+
+  @PostMapping("/kontoBearbeitung")
+  public String showSparKontoBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                                 @ModelAttribute Konto konto) {
+    List<Konto> ergebnis = kontoService.findAll(konto);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/kontosuche";
   }
@@ -84,6 +96,43 @@ public class CrmSparKontoController {
     return "mitarbeiter/crm/sparen/konto-detail";
 
   }
+
+  @PostMapping("/konto/saveSparKontoDetailPage")
+  public String saveSparKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                        @ModelAttribute Konto konto, RedirectAttributes redirectAttrs ) {
+
+    log.debug("Speichern der SparKontoDetailPage for Mitarbeiter: " + authentication.getName() + " und KontoId: " + konto.getId() + " angefordert");
+    Konto tmpKonto = kontoService.findById(konto.getId());
+    KontoStatusEnum neuerStatus = konto.getKontoStatus();
+
+    Kunde kunde = tmpKonto.getKunde();
+
+    KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+    String processErgebnis = kontoService.processKontoStatusById(tmpKonto.getId(),neuerStatus, bestMoeglicherStatus);
+
+    switch(processErgebnis) {
+      case "NO_CHANGES":
+        redirectAttrs.addFlashAttribute("noChanges", true);
+        break;
+      case "TRANSITION_NOT_POSSIBLE":
+        redirectAttrs.addFlashAttribute("transitionNotPossible", true);
+        break;
+      case "SALDO_NOT_ZERO":
+        redirectAttrs.addFlashAttribute("saldoNotZero", true);
+        break;
+      case "KONTO_NOW_CLOSED":
+        redirectAttrs.addFlashAttribute("kontoClosed", true);
+        break;
+      case "KONTO_NOW_OPEN":
+        redirectAttrs.addFlashAttribute("kontoOpened", true);
+        break;
+    }
+
+    return "redirect:/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage?sparKontoId=" + tmpKonto.getId();
+
+  }
+
+
 
 
   @GetMapping({"/konto/showEinzahlungsForm", "/konto/showAuszahlungsForm"})
@@ -153,9 +202,6 @@ public class CrmSparKontoController {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
       zahlungsAuftrag.setEmpfaengerKonto(sparkonto.getKontonummer().toString());
     }
-
-
-
 
     log.debug("SparKontoEinzahlungsForm wird gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
     zahlungsAuftragService.save(zahlungsAuftrag);

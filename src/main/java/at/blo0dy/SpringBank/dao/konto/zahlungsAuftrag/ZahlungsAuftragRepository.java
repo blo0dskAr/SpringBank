@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.dao.konto.zahlungsAuftrag;
 
+import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -17,5 +18,10 @@ public interface ZahlungsAuftragRepository extends JpaRepository<ZahlungsAuftrag
                 " where za.id = ?1 " +
                 "  and za.auftrags_status='ANGELEGT' ", nativeQuery = true)
   Long countOffeneZahlungsAuftraegeByKontoId(Long kontoId);
+
+  @Query(value = "select * from zahlungs_auftrag za " +
+          " where za.konto_id = ?1 " +
+          " and za.auftrags_status = 'ANGELEGT' ", nativeQuery = true)
+  List<ZahlungsAuftrag> findAktiveZahlungsAuftraegeByKontoId(Long kontoId);
 
 }

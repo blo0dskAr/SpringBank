@@ -316,6 +316,8 @@ private void loadData() {
   sparKontoAntrag.setDauerAuftrag(BigDecimal.valueOf(250));
   sparKontoAntrag.setKundennummer(124L);
   sparKontoAntrag.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag.setDauerAuftrag(BigDecimal.ZERO);
+  sparKontoAntrag.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag);
 
   SparKontoAntrag sparKontoAntrag1 = new SparKontoAntrag();
@@ -324,6 +326,8 @@ private void loadData() {
   sparKontoAntrag1.setId(2L);
   sparKontoAntrag1.setKundennummer(123L);
   sparKontoAntrag1.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag1.setDauerAuftrag(BigDecimal.ZERO);
+  sparKontoAntrag1.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag1);
 
   SparKontoAntrag sparKontoAntrag2 = new SparKontoAntrag();
@@ -332,6 +336,8 @@ private void loadData() {
   sparKontoAntrag2.setId(3L);
   sparKontoAntrag2.setKundennummer(123L);
   sparKontoAntrag2.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag2.setDauerAuftrag(BigDecimal.ZERO);
+  sparKontoAntrag2.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag2);
 
   // kunde 1
@@ -341,6 +347,8 @@ private void loadData() {
   sparKontoAntrag3.setId(4L);
   sparKontoAntrag3.setKundennummer(123L);
   sparKontoAntrag3.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag3.setDauerAuftrag(BigDecimal.ZERO);
+  sparKontoAntrag3.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag3);
 
   // kunde 1
@@ -350,6 +358,8 @@ private void loadData() {
   sparKontoAntrag4.setId(5L);
   sparKontoAntrag4.setKundennummer(123L);
   sparKontoAntrag4.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag4.setDauerAuftrag(BigDecimal.ZERO);
+  sparKontoAntrag4.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag4);
 
   // kunde 2

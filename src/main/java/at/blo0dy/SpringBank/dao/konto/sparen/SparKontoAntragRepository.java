@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.dao.konto.sparen;
 
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,5 +24,10 @@ public interface SparKontoAntragRepository extends JpaRepository<SparKontoAntrag
                  "   and ska.id = ?1 " +
                  "   and ka.kundennummer = ?2", nativeQuery = true)
   SparKontoAntrag findSparAntragByAntragIdAndKundennummer(Long antragId, String authKundennummer);
+
+  @Query(value = "select * from sparkontoantrag ska, kontoantrag ka " +
+          " where ska.id = ka.id" +
+          "  and ka.konto_id = ?1",nativeQuery = true)
+  SparKontoAntrag findByKontoId(Long kontoId);
 
 }

@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.dao.konto.kredit;
 
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -32,6 +33,11 @@ public interface KreditKontoAntragRepository extends JpaRepository<KreditKontoAn
           "   and kka.id = ?1 " +
           "   and ka.kundennummer = ?2", nativeQuery = true)
   KreditKontoAntrag findKreditAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
+
+  @Query(value = "select * from kreditkontoantrag kka, kontoantrag ka " +
+          " where kka.id = ka.id" +
+          "  and ka.konto_id = ?1",nativeQuery = true)
+  KreditKontoAntrag findByKontoId(Long kontoId);
 
 }
 

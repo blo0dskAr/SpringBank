@@ -19,11 +19,11 @@ import java.time.LocalDateTime;
 public class GiroKontoAntrag extends KontoAntrag {
 
   @Column(name = "ueberziehungsrahmen_gewuenscht")
-  private boolean ueberziehungsrahmenGewuenscht;
+  private boolean isUeberziehungsrahmenGewuenscht;
 
   // Custom Constructor for  GirokontoRegistrationForm
-  public GiroKontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, boolean ueberziehungsrahmenGewuenscht , Long kundennummer, KontoProduktEnum produkt) {
+  public GiroKontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, boolean isUeberziehungsrahmenGewuenscht , Long kundennummer, KontoProduktEnum produkt) {
     super(antragDatum,antragStatus,kundennummer, produkt);
-    this.ueberziehungsrahmenGewuenscht = ueberziehungsrahmenGewuenscht;
+    this.isUeberziehungsrahmenGewuenscht = isUeberziehungsrahmenGewuenscht;
   }
 }

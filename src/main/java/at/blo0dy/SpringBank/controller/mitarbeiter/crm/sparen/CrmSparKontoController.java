@@ -16,6 +16,7 @@ import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -109,6 +110,12 @@ public class CrmSparKontoController {
 
     log.debug("SparKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
 
+    // SaldoPrüfung
+    if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
+      result = zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(result, sparkonto.getAktSaldo(), zahlungsAuftrag.getBetrag() );
+    }
+
+    // Form Validation Errors
     if(result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(sparkonto.getKunde().getKundennummer());
@@ -130,6 +137,10 @@ public class CrmSparKontoController {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
       zahlungsAuftrag.setEmpfaengerKonto(sparkonto.getKontonummer().toString());
     }
+
+
+
+
     log.debug("SparKontoEinzahlungsForm wird gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
     zahlungsAuftragService.save(zahlungsAuftrag);
     log.debug("SparKontoEinzahlungsForm wurde erfolgreich gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);

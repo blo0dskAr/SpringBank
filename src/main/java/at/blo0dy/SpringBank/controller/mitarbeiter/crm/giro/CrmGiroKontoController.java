@@ -3,6 +3,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.giro;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
@@ -101,10 +102,15 @@ public class CrmGiroKontoController {
 
     String tmpKontonummer = zahlungsAuftrag.getKontonummer();
     String tmpMitarbeiter = authentication.getName();
-    Konto girokonto = giroService.findByKontonummer(Long.valueOf(tmpKontonummer));
+    GiroKonto girokonto = giroService.findByKontonummer(Long.valueOf(tmpKontonummer));
     String tmpKundennummer = girokonto.getKunde().getKundennummer();
 
     log.debug("GiroKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
+
+    // SaldoPrüfung
+    if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
+      result = zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(result, girokonto.getAktSaldo().add(girokonto.getUeberziehungsRahmen()), zahlungsAuftrag.getBetrag() );
+    }
 
     if(result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");

@@ -40,7 +40,7 @@ public class KundeRegistrationForm {
 
   public Kunde toUser(PasswordEncoder passwordEncoder, String kundennummer) {
 
-    return new Kunde(vorname,  nachname, new Adresse(adresse.getStrasse(), adresse.getPlz(), adresse.getOrt(), adresse.getLand()), kundennummer,  telefonNummer,  emailAdresse, passwordEncoder.encode(password), true, true, true, true, connectedGiro );
+    return new Kunde(vorname,  nachname, new Adresse(adresse.getStrasse(), adresse.getPlz(), adresse.getOrt(), adresse.getLand()), kundennummer,  telefonNummer,  emailAdresse, passwordEncoder.encode(password), false, false, false, false, connectedGiro );
 
   }
 }

@@ -181,6 +181,7 @@ private void loadData() {
   adresseService.save(adresse4);
 
   // Kunde erstellen
+  // Kunde 1  hat paar Konten und zahlungsaufträge und buchungen
   Kunde kunde1 = new Kunde();
   kunde1.setKundennummer("123");
   kunde1.setAdresse(adresse3);
@@ -192,7 +193,12 @@ private void loadData() {
   kunde1.setTelefonNummer("1234156");
   kunde1.setEmailAdresse("test@test.at");
   kunde1.setConnectedGiro("AT123451234567890123");
+  kunde1.setLegi(true);
+  kunde1.setActive(true);
+  kunde1.setHasAcceptedAGB(true);
+  kunde1.setFirstLoginDone(true);
 
+  // Kunde 2 hat paar konten und zahlungsaufträge und buchungen
   Kunde kunde2 = new Kunde();
   kunde2.setKundennummer("124");
   kunde2.setAdresse(adresse4);
@@ -204,10 +210,86 @@ private void loadData() {
   kunde2.setTelefonNummer("12345345");
   kunde2.setEmailAdresse("test@test.at");
   kunde2.setConnectedGiro("AT123451234567890123");
+  kunde2.setLegi(true);
+  kunde2.setActive(true);
+  kunde2.setHasAcceptedAGB(true);
+  kunde2.setFirstLoginDone(false);
+
+  // Kunde 3 (hat alles false)
+  Kunde kunde3 = new Kunde();
+  kunde3.setKundennummer("125");
+  kunde3.setAdresse(adresse4);
+  kunde3.setId(5L);
+  kunde3.setNachname("HatAllesFalse");
+  kunde3.setVorname("Testy");
+  kunde3.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde3.setRolle("customer");
+  kunde3.setTelefonNummer("12345345");
+  kunde3.setEmailAdresse("test@test.at");
+  kunde3.setConnectedGiro("AT123451234567890123");
+  kunde3.setLegi(false);
+  kunde3.setActive(false);
+  kunde3.setHasAcceptedAGB(false);
+  kunde3.setFirstLoginDone(false);
+
+  // Kunde 4 (hat alles nur active false)
+  Kunde kunde4 = new Kunde();
+  kunde4.setKundennummer("126");
+  kunde4.setAdresse(adresse4);
+  kunde4.setId(6L);
+  kunde4.setNachname("HatAllesFalse");
+  kunde4.setVorname("Testy");
+  kunde4.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde4.setRolle("customer");
+  kunde4.setTelefonNummer("12345345");
+  kunde4.setEmailAdresse("test@test.at");
+  kunde4.setConnectedGiro("AT123451234567890123");
+  kunde4.setLegi(true);
+  kunde4.setActive(false);
+  kunde4.setHasAcceptedAGB(true);
+  kunde4.setFirstLoginDone(true);
+
+  // Kunde 5 (legi und active false)
+  Kunde kunde5 = new Kunde();
+  kunde5.setKundennummer("127");
+  kunde5.setAdresse(adresse4);
+  kunde5.setId(7L);
+  kunde5.setNachname("HatLegiFalse");
+  kunde5.setVorname("Testy");
+  kunde5.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde5.setRolle("customer");
+  kunde5.setTelefonNummer("12345345");
+  kunde5.setEmailAdresse("test@test.at");
+  kunde5.setConnectedGiro("AT123451234567890123");
+  kunde5.setLegi(false);
+  kunde5.setActive(false);
+  kunde5.setHasAcceptedAGB(true);
+  kunde5.setFirstLoginDone(true);
+
+  // Kunde 6 ( agb und active false)
+  Kunde kunde6 = new Kunde();
+  kunde6.setKundennummer("128");
+  kunde6.setAdresse(adresse4);
+  kunde6.setId(8L);
+  kunde6.setNachname("hatAgbFalse");
+  kunde6.setVorname("Testy");
+  kunde6.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde6.setRolle("customer");
+  kunde6.setTelefonNummer("12345345");
+  kunde6.setEmailAdresse("test@test.at");
+  kunde6.setConnectedGiro("AT123451234567890123");
+  kunde6.setLegi(true);
+  kunde6.setActive(false);
+  kunde6.setHasAcceptedAGB(false);
+  kunde6.setFirstLoginDone(true);
 
   // kunde persistieren
   kundeService.save(kunde1);
   kundeService.save(kunde2);
+  kundeService.save(kunde3);
+  kundeService.save(kunde4);
+  kundeService.save(kunde5);
+  kundeService.save(kunde6);
 
   // LoginCredentials erstellen
   LoginCredentials lc1 = new LoginCredentials();

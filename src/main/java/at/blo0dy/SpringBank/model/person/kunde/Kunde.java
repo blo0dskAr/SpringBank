@@ -43,10 +43,10 @@ public class Kunde extends Person implements UserDetails {
   private List<Konto> kontenListe;
 
   // TODO: mit false initialisieren sobald der komplette weg für legi & AGB ready ist.
-  private boolean isLegi = true;
-  private boolean hasAcceptedAGB = true;
-  private boolean isActive = true;
-  private boolean firstLoginDone = true;
+  private boolean isLegi;
+  private boolean hasAcceptedAGB ;
+  private boolean isActive;
+  private boolean firstLoginDone ;
 
   @Column(name = "connected_giro")
   @Pattern(regexp = "^AT[0-9a-zA-Z]{18}$", message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")

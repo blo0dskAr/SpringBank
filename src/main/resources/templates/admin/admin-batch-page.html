@@ -14,6 +14,9 @@
             <div th:if="${ergebnis}">
                 <div class="alert alert-success " th:text="${'Batch wurde erfolgreich durchgeführt: ' + ergebnis}"></div>
             </div>
+            <div th:if="${fehlerAufgetreten}">
+                <div class="alert alert-danger " th:text="${'Fehler aufgetreten:'}"></div>
+            </div>
             <form method="POST" th:action="@{/mitarbeiter/admin/operations/batchAdministration/processZahlungsAuftrag}" th:object="${zahlungsAuftrag}">
                 <input type="hidden" th:field="*{kontonummer}">
                 <input type="hidden" th:field="*{betrag}">
@@ -54,7 +57,7 @@
                 <div class="form-row">
                     <span class="form-group col-md-3">
                         <label for="method2">Start:</label>
-                        <button class="form-control btn btn-danger" type="submit" name="method" id="method2">ProcessZahlungAuftrag</button>
+                        <button class="form-control btn btn-danger" type="submit" name="method" id="method2">ProcessDauerAuftrag</button>
                     </span>
                     <span class="form-group col-md-3">
                         <label for="dauerAuftragsArt">AuftragsArt:</label>

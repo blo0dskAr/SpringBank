@@ -11,7 +11,6 @@ import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.zv.Datentraeger;
-import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -116,19 +114,23 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
   @Transactional
   public String processZahlungsAuftragsBatch(ZahlungsAuftrag zahlungsAuftragsSample) {
 
-    List<ZahlungsAuftrag> zahlungsAuftragsList = findAllAngelegteZahlungsAuftraegeByDateAndType(zahlungsAuftragsSample.getAuftragsDatum(),zahlungsAuftragsSample.getAuftragsArt().toString());
+    List<ZahlungsAuftrag> zahlungsAuftragsList = findAllAngelegteZahlungsAuftraegeByDateAndType(zahlungsAuftragsSample.getAuftragsDatum(), zahlungsAuftragsSample.getAuftragsArt().toString());
 
-    Datentraeger datentraeger = new Datentraeger(0,BigDecimal.ZERO, LocalDateTime.now(),null,zahlungsAuftragsSample.getAuftragsArt());
+    Datentraeger datentraeger = new Datentraeger(0, BigDecimal.ZERO, LocalDateTime.now(), null, zahlungsAuftragsSample.getAuftragsArt());
     datenTraegerRepository.save(datentraeger);
 
-    zahlungsAuftragsList.forEach(za ->  processSingleZahlungsAuftrag(za, datentraeger)) ;
+    zahlungsAuftragsList.forEach(za -> processSingleZahlungsAuftrag(za, datentraeger));
 
     int anzahlZahlungsAuftraege = zahlungsAuftragRepository.countByDatentraeger(datentraeger);
     BigDecimal summeZahlungsAuftraege = zahlungsAuftragRepository.sumByDatentraeger(datentraeger);
 
     datentraeger.setAnzahl(anzahlZahlungsAuftraege);
     datentraeger.setSumme(summeZahlungsAuftraege);
-    datenTraegerRepository.save(datentraeger);
+    if (datentraeger.getAnzahl() > 0) {
+      datenTraegerRepository.save(datentraeger);
+    } else {
+      datenTraegerRepository.delete(datentraeger);
+    }
 
     return "DatenträgerId=" + datentraeger.getId() + "  Art=" + zahlungsAuftragsSample.getAuftragsArt().getDisplayName() + "  Anzahl=" + anzahlZahlungsAuftraege + "Summe=" + summeZahlungsAuftraege;
   }

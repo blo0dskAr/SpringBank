@@ -71,8 +71,9 @@ public class AdminOperationsController {
     if (result.hasErrors()) {
       log.debug("Fehler beim Durchführen des ZahlungsAuftragsBatches Mitarbeiter: " + authentication.getName() + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       log.debug("ERRORS: " + result.getAllErrors());
+      redirectAttrs.addFlashAttribute("fehlerAufgetreten", "Fehler aufgetreten");
 
-      return "admin/admin-batch-page";
+      return "redirect:/mitarbeiter/admin/operations/batchAdministration";
     }
 
     log.debug("Requesting processZahlungsAuftragsBatch");
@@ -94,8 +95,9 @@ public class AdminOperationsController {
     if (result.hasErrors()) {
       log.debug("Fehler beim Durchführen des DauerAuftragsBatches Mitarbeiter: " + authentication.getName() + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       log.debug("ERRORS: " + result.getAllErrors());
+      redirectAttrs.addFlashAttribute("fehlerAufgetreten", "Fehler aufgetreten");
 
-      return "admin/admin-batch-page";
+      return "redirect:/mitarbeiter/admin/operations/batchAdministration";
     }
 
     dauerAuftrag.setText(dauerAuftrag.getAuftragsArt().getDisplayName());

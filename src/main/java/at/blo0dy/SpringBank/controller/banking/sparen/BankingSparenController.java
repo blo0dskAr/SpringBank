@@ -129,7 +129,9 @@ public class BankingSparenController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      result = zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(result, sparKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() );
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(sparKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+        result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
+      }
     }
 
     if (result.hasErrors()) {

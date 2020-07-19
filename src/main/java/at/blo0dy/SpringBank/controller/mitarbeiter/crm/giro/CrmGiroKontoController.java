@@ -177,7 +177,9 @@ public class CrmGiroKontoController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      result = zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(result, girokonto.getAktSaldo().add(girokonto.getUeberziehungsRahmen()), zahlungsAuftrag.getBetrag() );
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(girokonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+        result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
+      }
     }
 
     if(result.hasErrors()) {

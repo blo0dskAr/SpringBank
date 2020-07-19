@@ -127,7 +127,9 @@ public class BankingGiroController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      result = zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(result, giroKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() );
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(giroKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+        result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
+      }
     }
 
 

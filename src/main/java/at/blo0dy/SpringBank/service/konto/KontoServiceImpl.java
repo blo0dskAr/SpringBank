@@ -137,7 +137,7 @@ public class KontoServiceImpl implements KontoService {
           return "SALDO_NOT_ZERO";
           // Konto kann geschlossen werden
         } else {
-                    List<DauerAuftrag> dauerAuftragList = dauerAuftragRepository.findAktiveDauerAuftraegeByKontoId(konto.getId());
+          List<DauerAuftrag> dauerAuftragList = dauerAuftragRepository.findAktiveDauerAuftraegeByKontoId(konto.getId());
           List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragRepository.findAktiveZahlungsAuftraegeByKontoId(konto.getId());
 
           // ggf. Daueraufträge löschen

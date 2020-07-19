@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mainlayout.html}">
+<head>
+    <title>Batch Overview</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid">
+            <h1> Batch Overview </h1>
+            <form method="POST" th:action="@{/mitarbeiter/admin/operations/batchAdministration/processZahlungsAuftrag}" th:object="${zahlungsAuftrag}">
+                <input type="hidden" th:field="*{kontonummer}">
+                <input type="hidden" th:field="*{betrag}">
+                <div class="form-row">
+                    <span class="form-group col-md-3">
+                        <label for="method">Start:</label>
+                        <button class="form-control btn btn-danger" type="submit" name="method" id="method">ProcessZahlungAuftrag</button>
+                    </span>
+                    <span class="form-group col-md-3">
+                        <label for="auftragsDatum">AuftragsDatum:</label>
+                        <span class="text-danger"
+                              th:if="${#fields.hasErrors('auftragsDatum')}"
+                              th:errors="*{auftragsDatum}">auftragsDatum Error</span>
+                        <input type="date" th:field="*{auftragsDatum}"
+                               class="form-control" id ="auftragsDatum">
+                    </span>
+                    <span class="form-group col-md-3">
+                        <label for="auftragsArt">AuftragsArt:</label>
+                        <select id="auftragsArt" class="form-control" th:field="*{auftragsArt}">
+                            <Option value="" text="'Keine Einschränkung'" disabled>Bitte Auswählen</Option>
+                            <option th:each="zahlungsAuftragArtOption : ${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum).values()}"
+                                    th:value="${{zahlungsAuftragArtOption}}"
+                                    th:text="${zahlungsAuftragArtOption.getDisplayName()}">
+                            </option>
+                        </select>
+                    </span>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+
+</body>
+</html>

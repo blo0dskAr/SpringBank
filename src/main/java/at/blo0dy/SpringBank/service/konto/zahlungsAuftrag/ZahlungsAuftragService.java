@@ -1,9 +1,11 @@
 package at.blo0dy.SpringBank.service.konto.zahlungsAuftrag;
 
+import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 public interface ZahlungsAuftragService {
@@ -14,6 +16,12 @@ public interface ZahlungsAuftragService {
 
   Long countOffeneZahlungsAuftraegeByKontoId(Long kontoId);
 
-  BindingResult checkAuszahlungWithVerfuegbarerSaldo(BindingResult result, BigDecimal saldoKonto, BigDecimal auszahlungsBetrag);
+  boolean checkAuszahlungWithVerfuegbarerSaldo(BigDecimal saldoKonto, BigDecimal auszahlungsBetrag);
+
+  List<ZahlungsAuftrag> findAllAngelegteZahlungsAuftraegeByDateAndType(LocalDate auftragsdatum, String type);
+
+  String processSingleZahlungsAuftrag(ZahlungsAuftrag zahlungsAuftrag);
+
+  String processZahlungsAuftragsBatch(ZahlungsAuftrag zahlungAuftrag);
 
 }

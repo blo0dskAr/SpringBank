@@ -177,7 +177,9 @@ public class CrmSparKontoController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      result = zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(result, sparkonto.getAktSaldo(), zahlungsAuftrag.getBetrag() );
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(sparkonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+        result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
+      }
     }
 
     // Form Validation Errors

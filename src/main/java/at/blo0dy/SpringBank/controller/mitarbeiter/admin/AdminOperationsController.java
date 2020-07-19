@@ -60,7 +60,6 @@ public class AdminOperationsController {
 
     if (result.hasErrors()) {
       log.debug("Fehler beim Durchführen des ZahlungsAuftragsBatches Mitarbeiter: " + authentication.getName() + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
-      log.debug(String.valueOf(result.getAllErrors()));
 
       return "admin/admin-batch-page";
     }

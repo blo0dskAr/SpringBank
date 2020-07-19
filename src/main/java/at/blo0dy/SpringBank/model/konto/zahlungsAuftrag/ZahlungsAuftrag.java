@@ -4,6 +4,7 @@ package at.blo0dy.SpringBank.model.konto.zahlungsAuftrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.zv.Datentraeger;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -63,5 +65,9 @@ public class ZahlungsAuftrag {
 
   @Column(name = "senderKonto")
   private String senderKonto;
+
+  @ManyToOne
+  @JoinColumn(name = "datentraeger_id")
+  private Datentraeger datentraeger;
 
 }

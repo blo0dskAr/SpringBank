@@ -1,23 +1,25 @@
 package at.blo0dy.SpringBank.service.konto.zahlungsAuftrag;
 
+import at.blo0dy.SpringBank.dao.DatenTraegerRepository;
 import at.blo0dy.SpringBank.dao.konto.KontoRepository;
 import at.blo0dy.SpringBank.dao.konto.kontoBuchung.KontoBuchungRepository;
 import at.blo0dy.SpringBank.dao.konto.zahlungsAuftrag.ZahlungsAuftragRepository;
 import at.blo0dy.SpringBank.model.enums.BuchungsArtEnum;
-import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
+import at.blo0dy.SpringBank.model.zv.Datentraeger;
+import org.apache.tomcat.jni.Local;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -26,12 +28,14 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
   ZahlungsAuftragRepository zahlungsAuftragRepository;
   KontoRepository kontoRepository;
   KontoBuchungRepository kontoBuchungRepository;
+  DatenTraegerRepository datenTraegerRepository;
 
   @Autowired
-  public ZahlungsAuftragServiceImpl(ZahlungsAuftragRepository zahlungsAuftragRepository, KontoRepository kontoRepository, KontoBuchungRepository kontoBuchungRepository) {
+  public ZahlungsAuftragServiceImpl(ZahlungsAuftragRepository zahlungsAuftragRepository, KontoRepository kontoRepository, KontoBuchungRepository kontoBuchungRepository, DatenTraegerRepository datenTraegerRepository) {
     this.zahlungsAuftragRepository = zahlungsAuftragRepository;
     this.kontoRepository = kontoRepository;
     this.kontoBuchungRepository = kontoBuchungRepository;
+    this.datenTraegerRepository = datenTraegerRepository;
   }
 
   @Override
@@ -70,7 +74,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
   @Override
   @Transactional
-  public String processSingleZahlungsAuftrag(ZahlungsAuftrag zahlungsAuftrag) {
+  public String processSingleZahlungsAuftrag(ZahlungsAuftrag zahlungsAuftrag, Datentraeger datentraeger) {
 
     Konto tmpKonto = zahlungsAuftrag.getKonto();
     BigDecimal neuerSaldo;
@@ -104,7 +108,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     kontoRepository.UpdateKontoSaldoById(tmpKonto.getId(),neuerSaldo);
 
     // Update ZahlungsAuftrag
-    zahlungsAuftragRepository.UpdateZahlungsAuftragById(zahlungsAuftrag.getId(), LocalDateTime.now(), ZahlungAuftragStatusEnum.DURCHGEFUEHRT.toString());
+    zahlungsAuftragRepository.UpdateZahlungsAuftragById(zahlungsAuftrag.getId(), LocalDateTime.now(), ZahlungAuftragStatusEnum.DURCHGEFUEHRT.toString(), datentraeger);
     return "DURCHGEFUEHRT";
   }
 
@@ -113,12 +117,18 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
   public String processZahlungsAuftragsBatch(ZahlungsAuftrag zahlungsAuftragsSample) {
 
     List<ZahlungsAuftrag> zahlungsAuftragsList = findAllAngelegteZahlungsAuftraegeByDateAndType(zahlungsAuftragsSample.getAuftragsDatum(),zahlungsAuftragsSample.getAuftragsArt().toString());
-    int storniertCounter;
-    int durchgefuehrtCounter;
 
-    System.out.println("ZAHLUNGSAUFTRAGSLISTE VORHER: " + zahlungsAuftragsList);
-    zahlungsAuftragsList.forEach(za ->  processSingleZahlungsAuftrag(za) );
-    System.out.println("ZAHLUNGSAUFTRAGSLISTE NACHHER: " + zahlungsAuftragsList);
+    Datentraeger datentraeger = new Datentraeger(0,BigDecimal.ZERO, LocalDateTime.now(),null,zahlungsAuftragsSample.getAuftragsArt());
+    datenTraegerRepository.save(datentraeger);
+
+    zahlungsAuftragsList.forEach(za ->  processSingleZahlungsAuftrag(za, datentraeger)) ;
+
+    int anzahlZahlungsAuftraege = zahlungsAuftragRepository.countByDatentraeger(datentraeger);
+    BigDecimal summeZahlungsAuftraege = zahlungsAuftragRepository.sumByDatentraeger(datentraeger);
+
+    datentraeger.setAnzahl(anzahlZahlungsAuftraege);
+    datentraeger.setSumme(summeZahlungsAuftraege);
+    datenTraegerRepository.save(datentraeger);
 
     return "myFakeCounter";
   }

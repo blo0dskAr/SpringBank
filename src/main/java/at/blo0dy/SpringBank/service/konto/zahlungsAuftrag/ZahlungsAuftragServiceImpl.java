@@ -116,6 +116,10 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
     List<ZahlungsAuftrag> zahlungsAuftragsList = findAllAngelegteZahlungsAuftraegeByDateAndType(zahlungsAuftragsSample.getAuftragsDatum(), zahlungsAuftragsSample.getAuftragsArt().toString());
 
+    if (zahlungsAuftragsList.isEmpty()) {
+      return "Keine Daten zum verarbeiten gefunden";
+    }
+
     Datentraeger datentraeger = new Datentraeger(0, BigDecimal.ZERO, LocalDateTime.now(), null, zahlungsAuftragsSample.getAuftragsArt());
     datenTraegerRepository.save(datentraeger);
 

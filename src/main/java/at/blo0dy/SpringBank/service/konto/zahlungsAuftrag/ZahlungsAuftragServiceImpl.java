@@ -130,11 +130,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
     datentraeger.setAnzahl(anzahlZahlungsAuftraege);
     datentraeger.setSumme(summeZahlungsAuftraege);
-    if (datentraeger.getAnzahl() > 0) {
-      datenTraegerRepository.save(datentraeger);
-    } else {
-      datenTraegerRepository.delete(datentraeger);
-    }
+    datenTraegerRepository.save(datentraeger);
 
     return "DatenträgerId=" + datentraeger.getId() + "  Art=" + zahlungsAuftragsSample.getAuftragsArt().getDisplayName() + "  Anzahl=" + anzahlZahlungsAuftraege + "Summe=" + summeZahlungsAuftraege;
   }

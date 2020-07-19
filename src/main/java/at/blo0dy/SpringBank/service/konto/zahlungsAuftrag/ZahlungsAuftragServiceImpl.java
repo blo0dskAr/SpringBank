@@ -130,7 +130,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     datentraeger.setSumme(summeZahlungsAuftraege);
     datenTraegerRepository.save(datentraeger);
 
-    return "myFakeCounter";
+    return "DatenträgerId=" + datentraeger.getId() + "  Art=" + zahlungsAuftragsSample.getAuftragsArt().getDisplayName() + "  Anzahl=" + anzahlZahlungsAuftraege + "Summe=" + summeZahlungsAuftraege;
   }
 
 

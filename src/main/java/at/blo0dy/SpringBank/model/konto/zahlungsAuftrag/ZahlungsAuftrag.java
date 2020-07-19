@@ -70,4 +70,17 @@ public class ZahlungsAuftrag {
   @JoinColumn(name = "datentraeger_id")
   private Datentraeger datentraeger;
 
+
+  public ZahlungsAuftrag(@FutureOrPresent @NotNull LocalDate auftragsDatum, LocalDateTime datAnlage, LocalDateTime datAend, @DecimalMin(value = "0.01", message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.") @DecimalMax(value = "50000", message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.") @Digits(integer = 5, fraction = 2, message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen. maximal 2 Nachkommastellen") @NotNull(message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.") BigDecimal betrag, Konto konto, @NotBlank String kontonummer, ZahlungAuftragStatusEnum auftragsStatus, ZahlungAuftragArtEnum auftragsArt, String empfaengerKonto, String senderKonto) {
+    this.auftragsDatum = auftragsDatum;
+    this.datAnlage = datAnlage;
+    this.datAend = datAend;
+    this.betrag = betrag;
+    this.konto = konto;
+    this.kontonummer = kontonummer;
+    this.auftragsStatus = auftragsStatus;
+    this.auftragsArt = auftragsArt;
+    this.empfaengerKonto = empfaengerKonto;
+    this.senderKonto = senderKonto;
+  }
 }

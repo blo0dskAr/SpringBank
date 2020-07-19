@@ -921,18 +921,71 @@ private void loadData() {
   zahlungsAuftrag15.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag15);
 
+  // Zahlungen die auf VerbuchungsBatch warten
   ZahlungsAuftrag zahlungsAuftrag16 = new ZahlungsAuftrag();
   zahlungsAuftrag16.setId(16L);
   zahlungsAuftrag16.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
   zahlungsAuftrag16.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
-  zahlungsAuftrag16.setKonto(giroKonto1);
+  zahlungsAuftrag16.setKonto(giroKonto2);
   zahlungsAuftrag16.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag16.setAuftragsDatum(LocalDate.now());
   zahlungsAuftrag16.setKontonummer(giroKonto1.getKontonummer().toString());
-  zahlungsAuftrag16.setBetrag(BigDecimal.valueOf(100));
+  zahlungsAuftrag16.setBetrag(BigDecimal.valueOf(1500));
   zahlungsAuftrag16.setEmpfaengerKonto(giroKonto1.getKontonummer().toString());
   zahlungsAuftrag16.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag16);
+
+  ZahlungsAuftrag zahlungsAuftrag17 = new ZahlungsAuftrag();
+  zahlungsAuftrag17.setId(17L);
+  zahlungsAuftrag17.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+  zahlungsAuftrag17.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag17.setKonto(giroKonto2);
+  zahlungsAuftrag17.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag17.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag17.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag17.setBetrag(BigDecimal.valueOf(400));
+  zahlungsAuftrag17.setSenderKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag17.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag17);
+
+  ZahlungsAuftrag zahlungsAuftrag18 = new ZahlungsAuftrag();
+  zahlungsAuftrag18.setId(18L);
+  zahlungsAuftrag18.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+  zahlungsAuftrag18.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+  zahlungsAuftrag18.setKonto(giroKonto2);
+  zahlungsAuftrag18.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag18.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag18.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag18.setBetrag(BigDecimal.valueOf(100));
+  zahlungsAuftrag18.setEmpfaengerKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag18.setSenderKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag18);
+
+  ZahlungsAuftrag zahlungsAuftrag19 = new ZahlungsAuftrag();
+  zahlungsAuftrag19.setId(19L);
+  zahlungsAuftrag19.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+  zahlungsAuftrag19.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag19.setKonto(giroKonto1);
+  zahlungsAuftrag19.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag19.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag19.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag19.setBetrag(BigDecimal.valueOf(230));
+  zahlungsAuftrag19.setSenderKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag19.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag19);
+
+  ZahlungsAuftrag zahlungsAuftrag20 = new ZahlungsAuftrag();
+  zahlungsAuftrag20.setId(20L);
+  zahlungsAuftrag20.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
+  zahlungsAuftrag20.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+  zahlungsAuftrag20.setKonto(giroKonto1);
+  zahlungsAuftrag20.setDatAnlage(LocalDateTime.now());
+  zahlungsAuftrag20.setAuftragsDatum(LocalDate.now());
+  zahlungsAuftrag20.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag20.setBetrag(BigDecimal.valueOf(360));
+  zahlungsAuftrag20.setSenderKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag20.setEmpfaengerKonto("1234566788912");
+  zahlungsAuftragService.save(zahlungsAuftrag20);
 
 
 }

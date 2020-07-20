@@ -1,7 +1,10 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kunde;
 
+import at.blo0dy.SpringBank.model.enums.LegiDokumentStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
+import at.blo0dy.SpringBank.service.legidoc.LegiDokumentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -22,12 +26,13 @@ import javax.validation.Valid;
 public class CrmKundeController {
 
   KundeService kundeService;
+  LegiDokumentService legiDokumentService;
 
   @Autowired
-  public CrmKundeController(KundeService kundeService) {
+  public CrmKundeController(KundeService kundeService, LegiDokumentService legiDokumentService) {
     this.kundeService = kundeService;
+    this.legiDokumentService = legiDokumentService;
   }
-
 
   @GetMapping("showKundeDetailPage")
   public String showKundeDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
@@ -65,6 +70,21 @@ public class CrmKundeController {
     redirectAttrs.addFlashAttribute("personDatenGespeichert", true);
 
     return "redirect:/mitarbeiter/kunde/person/showKundeDetailPage?kundeId=" + kunde.getId() ;
+  }
+
+
+  @GetMapping("/neueDokumente")
+  public String showNeueDokumentePage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                      Model model) {
+
+    List<LegiDokument> legiDokumentList = legiDokumentService.getNewFiles();
+
+    model.addAttribute("ergebnis", legiDokumentList);
+    model.addAttribute("legiDokument", new LegiDokument(null, null, null, null, LegiDokumentStatusEnum.NEU));
+
+
+    return "mitarbeiter/crm/person/neueDokumente";
+
   }
 
 

@@ -10,4 +10,6 @@ public interface LegiDokumentRepository extends JpaRepository<LegiDokument, Long
   @Query(value ="select * from legi_dokument doc " +
                   " where doc.kunde_id = ?1 ", nativeQuery = true)
   LegiDokument findByKunde(Long kundeId);
+
+
 }

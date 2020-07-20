@@ -17,6 +17,8 @@ public interface LegiDokumentService {
 
   List<LegiDokument> getFiles();
 
+  List<LegiDokument> getNewFiles();
+
 
 
 }

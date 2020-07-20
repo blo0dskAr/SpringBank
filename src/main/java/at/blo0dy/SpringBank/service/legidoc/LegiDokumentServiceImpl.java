@@ -6,6 +6,8 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,6 +61,23 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   @Transactional
   public List<LegiDokument> getFiles() {
     return legiDokumentRepository.findAll();
+  }
+
+
+  @Override
+  @Transactional
+  public List<LegiDokument> getNewFiles() {
+
+
+    LegiDokument legiDokument = new LegiDokument(null,null,null,null,LegiDokumentStatusEnum.NEU);
+
+    ExampleMatcher matcher = ExampleMatcher.matching()
+            .withIgnoreNullValues()
+            .withMatcher("status", match -> match.contains().ignoreCase())
+            .withMatcher("docName", match -> match.contains().ignoreCase())
+            .withIgnorePaths("docType","kunde","data");
+
+    return legiDokumentRepository.findAll(Example.of(legiDokument, matcher));
   }
 
 }

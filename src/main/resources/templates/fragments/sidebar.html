@@ -49,13 +49,39 @@
                                 <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                             </a>
                             <div class="collapse" id="collapsekunde" aria-labelledby="headingTwo" data-parent="#sidenavAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')} ? 'show' : ''" >
-                                <nav class="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages2">
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseAuth2" aria-expanded="false" aria-controls="pagesCollapseAuth2"
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="kundeAccordion">
+
+
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sucheCollapse" aria-expanded="false" aria-controls="sucheCollapse"
+                                       th:classappend="${#strings.endsWith(requestURI, 'suche')} ? 'active' : ''">
+                                        Suche
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="sucheCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.endsWith(requestURI, 'suche')} ? 'show' : ''">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" th:href="@{/mitarbeiter/kunde/kundensuche}">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                suche Kunde
+                                            </a>
+                                            <a class="nav-link" th:href="@{/mitarbeiter/kunde/kontosuche}">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                suche Konto
+                                            </a>
+                                            <a class="nav-link" th:href="@{/mitarbeiter/kunde/antragsuche}">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                suche Antrag
+                                            </a>
+                                        </nav>
+                                    </div>
+
+
+
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#SparenCollapse" aria-expanded="false" aria-controls="SparenCollapse"
                                        th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'active' : ''">
                                         Sparen
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
-                                    <div class="collapse" id="pagesCollapseAuth2" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages2" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'show' : ''">
+                                    <div class="collapse" id="SparenCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'show' : ''">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/sparen/antrag}">
                                                 AntragsBearbeitung
@@ -65,12 +91,12 @@
                                             </a>
                                         </nav>
                                     </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError2" aria-expanded="false" aria-controls="pagesCollapseError2"
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kreditCollapse" aria-expanded="false" aria-controls="kreditCollapse"
                                        th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'active' : ''">
                                         Kredit
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
-                                    <div class="collapse" id="pagesCollapseError2" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages2" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'show' : ''">
+                                    <div class="collapse" id="kreditCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'show' : ''">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/kredit/antrag}">
                                                 AntragsBearbeitung
@@ -80,12 +106,12 @@
                                             </a>
                                         </nav>
                                     </div>
-                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#pagesCollapseError3" aria-expanded="false" aria-controls="pagesCollapseError3"
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#giroCollapse" aria-expanded="false" aria-controls="giroCollapse"
                                        th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'active' : ''">
                                         Giro
                                         <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
                                     </a>
-                                    <div class="collapse" id="pagesCollapseError3" aria-labelledby="headingOne" data-parent="#sidenavAccordionPages2" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'show' : ''">
+                                    <div class="collapse" id="giroCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'show' : ''">
                                         <nav class="sb-sidenav-menu-nested nav">
                                             <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/giro/antrag}">
                                                 AntragsBearbeitung
@@ -95,18 +121,6 @@
                                             </a>
                                         </nav>
                                     </div>
-                                    <a class="nav-link" th:href="@{/mitarbeiter/kunde/kundensuche}">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                        suche Kunde
-                                    </a>
-                                    <a class="nav-link" th:href="@{/mitarbeiter/kunde/kontosuche}">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                        suche Konto
-                                    </a>
-                                    <a class="nav-link" th:href="@{/mitarbeiter/kunde/antragsuche}">
-                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
-                                        suche Antrag
-                                    </a>
                                 </nav>
                             </div>
                         </div>

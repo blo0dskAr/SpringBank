@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.model.person.legidoc;
 
 
+import at.blo0dy.SpringBank.model.enums.LegiDokumentStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,10 +29,15 @@ public class LegiDokument {
   @Lob
   private byte[] data;
 
-  public LegiDokument(String docName, String docType, Kunde kunde, byte[] data) {
+  @Enumerated(EnumType.STRING)
+  private LegiDokumentStatusEnum status;
+
+
+  public LegiDokument(String docName, String docType, Kunde kunde, byte[] data, LegiDokumentStatusEnum status) {
     this.docName = docName;
     this.docType = docType;
     this.kunde = kunde;
     this.data = data;
+    this.status = status;
   }
 }

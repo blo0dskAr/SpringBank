@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.service.legidoc;
 
 import at.blo0dy.SpringBank.dao.LegiDokumentRepository;
+import at.blo0dy.SpringBank.model.enums.LegiDokumentStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import lombok.extern.slf4j.Slf4j;
@@ -40,7 +41,7 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
         legidoc = findByKunde(kunde.getId());
       } else {
         try {
-          legidoc = new LegiDokument(docname, file.getContentType(), kunde, file.getBytes());
+          legidoc = new LegiDokument(docname, file.getContentType(), kunde, file.getBytes(), LegiDokumentStatusEnum.NEU);
         } catch (Exception e) {
           e.getMessage();
         }

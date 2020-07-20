@@ -21,6 +21,10 @@ import at.blo0dy.SpringBank.service.kunde.KundeService;
 import at.blo0dy.SpringBank.service.legidoc.LegiDokumentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
@@ -31,6 +35,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.lang.reflect.Member;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -123,8 +128,13 @@ public class KundeBankingController {
     Kunde kunde = kundeService.findByKundennummer(authKundennummer);
     log.debug("Showing viewKundeDetailPage for Kunde: " + authKundennummer);
 
+    LegiDokument legiDokument = legiDokumentService.findByKunde(kunde.getId());
+    if (legiDokument == null) {
+      legiDokument = new LegiDokument();
+    }
+
     model.addAttribute("kunde", kunde);
-    model.addAttribute("legiDokument", new LegiDokument());
+    model.addAttribute("legiDokument", legiDokument);
 
 
     return "kunde/banking/kunde-detail";
@@ -168,9 +178,17 @@ public class KundeBankingController {
     redirectAttrs.addFlashAttribute("uploadSuccessful", true);
 
     return "redirect:/kunde/banking/kunde-detailpage";
-
   }
 
+  @GetMapping("/kunde-detailpage/downloadLegi/{legiDokumentId}")
+  public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Long legiDokumentId) {
+
+    LegiDokument legiDokument = legiDokumentService.getFile(legiDokumentId).get();
+    return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(legiDokument.getDocType()))
+            .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename="+legiDokument.getDocName())
+            .body(new ByteArrayResource(legiDokument.getData()));
+  }
 
 
 

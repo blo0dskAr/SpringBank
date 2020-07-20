@@ -129,13 +129,21 @@
                 <div class="col-10">
                     <form method="POST" th:action="@{/kunde/banking/kunde-detailpage/uploadLegi}" th:object="${legiDokument}" encType="multipart/form-data" id="uploadForm">
                         <div class="form row">
-                            <div class="form-group col-md-10">
-                                <input type="file" name="legiDokument" required />
+                            <div class="form-group col-md-4">
+                                <input class="form-control-file" type="file" name="legiDokument"  th:disabled="${legiDokument.docName != '' && legiDokument.docName != null}" required/>
                             </div>
+                            <th:block th:if= "${legiDokument.docName != '' && legiDokument.docName != null}">
+                                <div class="form-group col-md-4">
+                                    <a th:href="@{'/kunde/banking/kunde-detailpage/downloadLegi/'+${legiDokument.id}}"
+                                       class="text">
+                                        View LegiDokument
+                                    </a>
+                                </div>
+                            </th:block>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-10">
-                                <button type="submit" class="btn btn-info">File Uploaden</button>
+                            <div class="form-group col-md-4">
+                                <button type="submit" class="btn btn-info" th:disabled="${legiDokument.docName != '' && legiDokument.docName != null}" >File Uploaden</button>
                             </div>
                         </div>
                     </form>

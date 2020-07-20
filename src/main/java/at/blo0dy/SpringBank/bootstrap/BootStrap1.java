@@ -986,7 +986,5 @@ private void loadData() {
   zahlungsAuftrag20.setSenderKonto(giroKonto1.getKontonummer().toString());
   zahlungsAuftrag20.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag20);
-
-
 }
 }

@@ -6,6 +6,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -39,6 +40,5 @@ public interface KundeService   {
   List<Kunde> findAll(Kunde kunde, ExampleMatcher matcher);
 
   void saveWithoutPassword(Kunde kunde);
-
 
 }

@@ -1,14 +1,13 @@
 package at.blo0dy.SpringBank.controller.banking;
 
-import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
-import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.konto.KontoAntragService;
 import at.blo0dy.SpringBank.service.konto.KontoService;
@@ -19,20 +18,17 @@ import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
+import at.blo0dy.SpringBank.service.legidoc.LegiDokumentService;
 import lombok.extern.slf4j.Slf4j;
-import org.dom4j.rule.Mode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.unbescape.properties.PropertiesKeyEscapeLevel;
 
 import javax.validation.Valid;
 import java.math.BigDecimal;
@@ -53,12 +49,13 @@ public class KundeBankingController {
   SparKontoAntragService sparKontoAntragService;
   KundeService kundeService;
   AdresseService adresseService;
+  LegiDokumentService legiDokumentService;
 
 
   @Autowired
   public KundeBankingController(KontoService kontoService, GiroService giroService, KreditService kreditService, SparService sparService, KontoAntragService kontoAntragService,
                                 GiroKontoAntragService giroKontoAntragService, KreditKontoAntragService kreditKontoAntragService, SparKontoAntragService sparKontoAntragService,
-                                KundeService kundeService, AdresseService adresseService) {
+                                KundeService kundeService, AdresseService adresseService, LegiDokumentService legiDokumentService) {
     this.kontoService = kontoService;
     this.giroService = giroService;
     this.kreditService = kreditService;
@@ -69,6 +66,7 @@ public class KundeBankingController {
     this.sparKontoAntragService = sparKontoAntragService;
     this.kundeService = kundeService;
     this.adresseService = adresseService;
+    this.legiDokumentService = legiDokumentService;
   }
 
   @RequestMapping({"", "/", "/index"})
@@ -100,6 +98,7 @@ public class KundeBankingController {
     model.addAttribute("kreditkontenliste", kreditKontenListe);
     model.addAttribute("girokontenliste", giroKontenListe);
 
+
     // TODO: Ich möcht zwar gern eine seite wo viel passiert (wie man performance spürt), aber trotzdem sollten die untrigen mal gruppiert in listen oder ähnliches durchgeführt werden
     // TODO: Damit nicht zu viele einzelrequest in die Datenbank notwendig sind.
     model.addAttribute("antraegeGesamt", kontoAntragService.countAntraegeGesamtByKundennummer(authKundennummer));
@@ -125,6 +124,8 @@ public class KundeBankingController {
     log.debug("Showing viewKundeDetailPage for Kunde: " + authKundennummer);
 
     model.addAttribute("kunde", kunde);
+    model.addAttribute("legiDokument", new LegiDokument());
+
 
     return "kunde/banking/kunde-detail";
   }
@@ -134,15 +135,15 @@ public class KundeBankingController {
   public String saveKundeDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                     @Valid @ModelAttribute Kunde kunde, BindingResult result,
                                     Model model, RedirectAttributes redirectAttrs) {
+    String authKundennummer = authentication.getName();
 
     if (result.hasErrors()) {
       model.addAttribute("kunde", kunde);
-      System.out.println("ICH HAB ERRORS");
+      log.debug("Fehler beim Speichern der saveKundeDetailPage for Kunde: " + authKundennummer);
 
        return "kunde/banking/kunde-detail";
     }
 
-    String authKundennummer = authentication.getName();
     log.debug("Saving viewKundeDetailPage for Kunde: " + authKundennummer);
 
     adresseService.save(kunde.getAdresse());
@@ -153,6 +154,21 @@ public class KundeBankingController {
     redirectAttrs.addFlashAttribute("persDatenGespeichert",true);
 
     return "redirect:/kunde/banking/index";
+  }
+
+  @PostMapping("/kunde-detailpage/uploadLegi")
+  public String processLegiUpload(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                  @RequestParam("legiDokument") MultipartFile file,
+                                  Model model, RedirectAttributes redirectAttrs) {
+
+    String authKundennummer = authentication.getName();
+    Kunde kunde = kundeService.findByKundennummer(authKundennummer);
+
+    legiDokumentService.saveFile(file, kunde);
+    redirectAttrs.addFlashAttribute("uploadSuccessful", true);
+
+    return "redirect:/kunde/banking/kunde-detailpage";
+
   }
 
 

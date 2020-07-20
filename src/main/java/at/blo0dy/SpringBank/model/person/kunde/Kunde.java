@@ -3,6 +3,7 @@ package at.blo0dy.SpringBank.model.person.kunde;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
+import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -25,7 +26,6 @@ public class Kunde extends Person implements UserDetails {
   private String kundennummer;
 
   @Column(name = "password")
-//  @NotBlank(message = "password must be defined.")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
@@ -47,6 +47,9 @@ public class Kunde extends Person implements UserDetails {
   private boolean hasAcceptedAGB ;
   private boolean isActive;
   private boolean firstLoginDone ;
+
+//  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//  private LegiDokument legiDokument;
 
   @Column(name = "connected_giro")
   @Pattern(regexp = "^AT[0-9a-zA-Z]{18}$", message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")

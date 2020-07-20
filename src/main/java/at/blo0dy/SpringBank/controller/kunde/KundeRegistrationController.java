@@ -52,6 +52,7 @@ public class KundeRegistrationController {
     log.debug("KundeRegistrationForm wird gespeichert");
     if (errors.hasErrors()) {
       log.debug("KundeRegistrationController: Fehler beim speichern von Kunde erhalten. Anzahl:" + errors.getErrorCount());
+      log.warn("Errors: " + errors.getAllErrors());
       model.addAttribute("kunde",form);
       return "kunde/registration";
     } else {

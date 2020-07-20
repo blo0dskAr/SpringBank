@@ -32,12 +32,15 @@ public class LegiDokument {
   @Enumerated(EnumType.STRING)
   private LegiDokumentStatusEnum status;
 
+  private String kundennummer;
 
-  public LegiDokument(String docName, String docType, Kunde kunde, byte[] data, LegiDokumentStatusEnum status) {
+
+  public LegiDokument(String docName, String docType, Kunde kunde, byte[] data, LegiDokumentStatusEnum status, String kundennummer) {
     this.docName = docName;
     this.docType = docType;
     this.kunde = kunde;
     this.data = data;
     this.status = status;
+    this.kundennummer = kundennummer;
   }
 }

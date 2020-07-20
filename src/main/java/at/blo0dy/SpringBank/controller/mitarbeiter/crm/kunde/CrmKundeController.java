@@ -7,6 +7,10 @@ import at.blo0dy.SpringBank.service.kunde.KundeService;
 import at.blo0dy.SpringBank.service.legidoc.LegiDokumentService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
@@ -18,6 +22,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -73,18 +78,68 @@ public class CrmKundeController {
   }
 
 
-  @GetMapping("/neueDokumente")
+  @GetMapping("/sucheDokumente")
   public String showNeueDokumentePage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                       Model model) {
 
     List<LegiDokument> legiDokumentList = legiDokumentService.getNewFiles();
 
     model.addAttribute("ergebnis", legiDokumentList);
-    model.addAttribute("legiDokument", new LegiDokument(null, null, null, null, LegiDokumentStatusEnum.NEU));
+    model.addAttribute("legiDokument", new LegiDokument(null, null, null, null, LegiDokumentStatusEnum.NEU, null));
 
 
-    return "mitarbeiter/crm/person/neueDokumente";
+    return "mitarbeiter/crm/person/sucheDokumente";
+  }
 
+
+  @PostMapping("/sucheDokumente")
+  public String searchNeueDokumentePage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                        @ModelAttribute LegiDokument legiDokument, Model model) {
+
+    List<LegiDokument> legiDokumentList = legiDokumentService.getSearchedFiles(legiDokument);
+
+    model.addAttribute("ergebnis", legiDokumentList);
+//    model.addAttribute("legiDokument", legiDokument);
+
+    return "mitarbeiter/crm/person/sucheDokumente";
+
+  }
+
+  @GetMapping("/showDokument")
+  public ResponseEntity<ByteArrayResource> downloadFile(@RequestParam Long legiDokumentId) {
+
+    LegiDokument legiDokument = legiDokumentService.getFile(legiDokumentId).get();
+    return ResponseEntity.ok()
+            .contentType(MediaType.parseMediaType(legiDokument.getDocType()))
+            .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename="+legiDokument.getDocName())
+            .body(new ByteArrayResource(legiDokument.getData()));
+  }
+
+
+  @GetMapping("/rejectDokument")
+  public String rejectFile(@RequestParam Long legiDokumentId, RedirectAttributes redirectAttrs) {
+
+    Optional<LegiDokument> legiDokument = legiDokumentService.getFile(legiDokumentId);
+    LegiDokument tmpLegiDokument = legiDokument.get();
+
+    String actionErgebnis = legiDokumentService.delete(tmpLegiDokument);
+
+    redirectAttrs.addFlashAttribute("actionErgebnis", actionErgebnis);
+
+    return "redirect:/mitarbeiter/kunde/person/sucheDokumente";
+  }
+
+
+  @GetMapping("/acceptDokument")
+  public String acceptFile(@RequestParam Long legiDokumentId, RedirectAttributes redirectAttrs) {
+
+    Optional<LegiDokument> legiDokument = legiDokumentService.getFile(legiDokumentId);
+    LegiDokument tmpLegiDokument = legiDokument.get();
+
+    legiDokumentService.acceptLegiDokumentById(legiDokumentId);
+    redirectAttrs.addFlashAttribute("actionErgebnis", "successfullyAccepted");
+
+    return "redirect:/mitarbeiter/kunde/person/sucheDokumente";
   }
 
 

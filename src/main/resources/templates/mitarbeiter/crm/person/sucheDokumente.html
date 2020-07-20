@@ -13,10 +13,13 @@
         <div class="container-fluid">
             <form method="POST" th:action="${requestURI}" th:object="${legiDokument}" id="registerForm">
                 <h1> Neue Dokumente </h1>
+                <div th:if="${actionErgebnis}">
+                    <div class="alert alert-success" th:text="${'Aktion erfolgreich: ' + actionErgebnis}"></div>
+                </div>
                 <div class="form-row">
                     <div class="form-group col-4">
                         <label for="docName">Dokument Name:</label>
-                        <input type="text" class="form-control" th:field="*{docName}" name="docName" id="docName" th:text="*{docName}" placeholder="zB. reisepass.pdf">
+                        <input type="text" class="form-control" th:field="*{docName}" name="docName" id="docName" placeholder="zB. reisepass.pdf">
                     </div>
                     <div class="form-group col-4">
                         <label for="status">Status:</label>
@@ -32,7 +35,7 @@
                 <div class="form-row">
                     <div class="form-group col-4">
                         <label for="kundennummer">Kundennummer:</label>
-                        <input type="text" class="form-control" th:field="*{kunde.kundennummer}" name="kundennummer" id="kundennummer" placeholder="zB. 2">
+                        <input type="text" class="form-control" th:field="*{kundennummer}" name="kundennummer" id="kundennummer" placeholder="zB. 2">
                     </div>
                 </div>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
@@ -58,9 +61,19 @@
                         <span th:text="${dokument.status}">Status</span>
                     </td>
                     <td>
-                        <a th:href="@{/mitarbeiter/kunde/person/showDokumentBearbeitungPage(legiDokumentId=${dokument.id})}"
+                        <a th:href="@{/mitarbeiter/kunde/person/showDokument(legiDokumentId=${dokument.id})}"
                            class="btn btn-info btn-sm">
-                            Bearbeiten
+                            View
+                        </a>
+                        |
+                        <a th:href="@{/mitarbeiter/kunde/person/acceptDokument(legiDokumentId=${dokument.id})}"
+                           class="btn btn-success btn-sm">
+                            Accept
+                        </a>
+                        |
+                        <a th:href="@{/mitarbeiter/kunde/person/rejectDokument(legiDokumentId=${dokument.id})}"
+                           class="btn btn-danger btn-sm">
+                            Reject
                         </a>
                     </td>
                 </tr>

@@ -43,7 +43,7 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
         legidoc = findByKunde(kunde.getId());
       } else {
         try {
-          legidoc = new LegiDokument(docname, file.getContentType(), kunde, file.getBytes(), LegiDokumentStatusEnum.NEU);
+          legidoc = new LegiDokument(docname, file.getContentType(), kunde, file.getBytes(), LegiDokumentStatusEnum.NEU, kunde.getKundennummer());
         } catch (Exception e) {
           e.getMessage();
         }
@@ -69,7 +69,7 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   public List<LegiDokument> getNewFiles() {
 
 
-    LegiDokument legiDokument = new LegiDokument(null,null,null,null,LegiDokumentStatusEnum.NEU);
+    LegiDokument legiDokument = new LegiDokument(null,null,null,null,LegiDokumentStatusEnum.NEU, null);
 
     ExampleMatcher matcher = ExampleMatcher.matching()
             .withIgnoreNullValues()
@@ -78,6 +78,37 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
             .withIgnorePaths("docType","kunde","data");
 
     return legiDokumentRepository.findAll(Example.of(legiDokument, matcher));
+  }
+
+  @Override
+  @Transactional
+  public List<LegiDokument> getSearchedFiles(LegiDokument legiDokument) {
+
+    ExampleMatcher matcher = ExampleMatcher.matching()
+            .withIgnoreNullValues()
+            .withMatcher("status", match -> match.contains().ignoreCase())
+            .withMatcher("docName", match -> match.contains().ignoreCase())
+            .withMatcher("kundennummer", match -> match.contains())
+            .withIgnorePaths("docType","data","kunde");
+
+    return legiDokumentRepository.findAll(Example.of(legiDokument,matcher)) ;
+  }
+
+  @Override
+  @Transactional
+  public String delete(LegiDokument legiDokument) {
+
+    legiDokumentRepository.delete(legiDokument);
+
+    return "successfully deleted";
+  }
+
+  @Override
+  @Transactional
+  public String acceptLegiDokumentById(Long legiDokumentId) {
+
+    legiDokumentRepository.acceptLegiDokumentById(legiDokumentId);
+    return "successfully accepted" ;
   }
 
 }

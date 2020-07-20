@@ -19,6 +19,10 @@ public interface LegiDokumentService {
 
   List<LegiDokument> getNewFiles();
 
+  List<LegiDokument> getSearchedFiles(LegiDokument legiDokument);
 
+  String delete(LegiDokument legiDokument);
+
+  String acceptLegiDokumentById(Long legiDokumentId);
 
 }

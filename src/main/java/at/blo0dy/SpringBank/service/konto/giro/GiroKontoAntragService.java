@@ -25,4 +25,5 @@ public interface GiroKontoAntragService {
 
   GiroKontoAntrag findGiroAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
+  int countEingereichteGiroAntraegeByKundennummer(String kundennummer);
 }

@@ -70,6 +70,9 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     throw new UsernameNotFoundException("User + " + kunde.getKundennummer() + " not found");
   }
 
+
+  @Override
+  @Transactional
   public void setKundeActiveIfRequirementsMetByKundennummer(String kundennummer) {
 
     log.debug("KundeServiceImpl: setKundeActiveIfRequirementsMetByKundennummer -> Suche kunde mit Kundennummer: " + kundennummer);
@@ -83,15 +86,15 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
           log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Legi oder AGB fehlt, Aktiv-Status entfernt");
           neuerStatus = false;
         }
-        if (!kunde.isActive()) {
-          if (kunde.isHasAcceptedAGB() && kunde.isLegi()) {
-            log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Legi und AGB zwischenzeitlich erhalten: Status aktiv gesetzt.");
-            neuerStatus = true;
-          } else {
-            log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Keine Änderung durchgeführt. (warte auf AGB oder Legi)");
-          }
+      } else {
+        if (kunde.isHasAcceptedAGB() && kunde.isLegi()) {
+          log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Legi und AGB zwischenzeitlich erhalten: Status aktiv gesetzt.");
+          neuerStatus = true;
+        } else {
+          log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Keine Änderung durchgeführt. (warte auf AGB oder Legi)");
         }
-    }
+      }
+
         // TODO: da  braucht man ned speichern wenn der status ned verändert wird. hab die methode aber erst um 1 uhr gfunden :D wusste ned dass ich die schon gmacht hab -.- ...
         // TODO: Ausserdem is die obige if abfrage definitv übertrieben .. und methode umbenennnen ;) und von kundennummer auf kundeId wechseln :D
       log.debug("Status von Kunde: " + kundennummer + " Status=" + neuerStatus + "  wird gespeichert");
@@ -154,8 +157,8 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   @Override
   @Transactional
-  public void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro) {
-    kundeRepository.updateChangeableDataByKundennummer(kundennummer, email, tel, connectedGiro);
+  public void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro, boolean hasAcceptedAGB) {
+    kundeRepository.updateChangeableDataByKundennummer(kundennummer, email, tel, connectedGiro, hasAcceptedAGB);
   }
 
   @Override

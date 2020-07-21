@@ -3,12 +3,8 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.admin;
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
-import at.blo0dy.SpringBank.service.bank.BankService;
-import javassist.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -23,12 +19,10 @@ import java.util.List;
 public class AdminMitarbeiterController {
 
   private MitarbeiterService mitarbeiterService;
-  private BankService bankservice;
 
   @Autowired
-  public AdminMitarbeiterController(MitarbeiterService mitarbeiterService, BankService bankservice) {
+  public AdminMitarbeiterController(MitarbeiterService mitarbeiterService) {
     this.mitarbeiterService = mitarbeiterService;
-    this.bankservice = bankservice;
   }
 
   @RequestMapping({"", "/", "/index"})

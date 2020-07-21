@@ -25,4 +25,5 @@ public interface SparKontoAntragService {
 
   SparKontoAntrag findSparAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
+  int countEingereichteSparAntraegeByKundennummer(String kundennummer);
 }

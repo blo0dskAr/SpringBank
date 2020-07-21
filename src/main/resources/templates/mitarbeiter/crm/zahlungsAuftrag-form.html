@@ -12,11 +12,6 @@
         <div class="container-fluid">
             <form th:action="${konto.getClass().getSimpleName() == 'SparKonto'} ? @{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm} : (${konto.getClass().getSimpleName() == 'KreditKonto'} ? @{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm} : @{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm})"
                   method="POST" th:object="${zahlungsAuftrag}">
-                <!--            <form th:action="${konto.getClass().getSimpleName()} == 'SparKonto' ? (${konto.getClass().getSimpleName()} == 'KreditKonto' ? '@{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm}' : '@{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm}') : '@{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm}'"-->
-<!--                  method="POST" th:object="${zahlungsAuftrag}">-->
-<!--            <form th:action="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')}? (${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')}? @{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm} : @{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm}) : @{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm}"-->
-<!--                  method="POST" th:object="${zahlungsAuftrag}">-->
-<!--            <form action="#" th:action="@{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm}" th:object="${zahlungsAuftrag}" method="POST">-->
                 <h1> Kontosuche </h1>
                 <div class="form-row">
                     <div class="form-group col-4">

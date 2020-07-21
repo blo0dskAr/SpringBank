@@ -91,7 +91,7 @@ public class BankingKreditController {
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
 
-    return "kunde/banking/kredit/zahlungsAuftrag-form";
+    return "kunde/banking/zahlungsAuftrag-form";
   }
 
 
@@ -112,7 +112,7 @@ public class BankingKreditController {
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
 
-      return "kunde/banking/kredit/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
@@ -123,7 +123,7 @@ public class BankingKreditController {
       log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       model.addAttribute("errorObj", "errorObj");
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      return "kunde/banking/kredit/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
 
     log.debug("Prüfungen für Kontonummer " + zahlungsAuftrag.getKontonummer() + " bei Kunde: " + authKundennummer + " erfolgreich abgeschlossen.");

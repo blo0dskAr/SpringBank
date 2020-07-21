@@ -71,7 +71,7 @@ public class BankingGiroController {
     return "kunde/banking/kontouebersicht";
   }
 
-  @GetMapping("/showEinzahlungsFormWithKonto")
+  @GetMapping({"/showEinzahlungsFormWithKonto", "showAuszahlungsFormWithKonto"})
   public String showEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId,
                                     HttpServletRequest request) {
 
@@ -82,9 +82,9 @@ public class BankingGiroController {
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
-    if (request.getRequestURI().equals("/kunde/banking/sparen/showAuszahlungsForm")) {
+    if (request.getRequestURI().equals("/kunde/banking/giro/showAuszahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
-    } else if (request.getRequestURI().equals("/kunde/banking/sparen/showEinzahlungsForm")) {
+    } else if (request.getRequestURI().equals("/kunde/banking/giro/showEinzahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     } else {
       // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske)
@@ -99,7 +99,7 @@ public class BankingGiroController {
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
 
 
-    return "kunde/banking/giro/zahlungsAuftrag-form";
+    return "kunde/banking/zahlungsAuftrag-form";
   }
 
 
@@ -111,6 +111,16 @@ public class BankingGiroController {
     String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
+    if (result.hasErrors()) {
+      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(authKundennummer);
+
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+
+      return "kunde/banking/zahlungsAuftrag-form";
+    }
+
     GiroKonto giroKonto;
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
@@ -121,7 +131,7 @@ public class BankingGiroController {
       log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       model.addAttribute("errorObj", "errorObj");
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      return "kunde/banking/giro/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
 
     // SaldoPrüfung
@@ -131,7 +141,7 @@ public class BankingGiroController {
       }
     }
 
-
+    // TODO: hab hier nochmal die fehlerprüfung einbauen müssen, weil mir sonst entweder ne nullpointer exception fliegt, oder die saldoprüfung zwar durchgeführt, aber der fehler nicht im result gespeichert wird ...
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(authKundennummer);
@@ -139,7 +149,7 @@ public class BankingGiroController {
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
 
-      return "kunde/banking/giro/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
 
     log.debug("Prüfungen für Kontonummer " + zahlungsAuftrag.getKontonummer() + " bei Kunde: " + authKundennummer + " erfolgreich abgeschlossen.");

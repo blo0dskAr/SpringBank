@@ -83,6 +83,8 @@ public class BankingSparenController {
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
+    System.out.println(request.getRequestURI());
+    System.out.println(request.getRequestURL());
     if (request.getRequestURI().equals("/kunde/banking/sparen/showAuszahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
     } else if (request.getRequestURI().equals("/kunde/banking/sparen/showEinzahlungsFormWithKonto")) {
@@ -100,7 +102,7 @@ public class BankingSparenController {
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
 
 
-    return "kunde/banking/sparen/zahlungsAuftrag-form";
+    return "kunde/banking/zahlungsAuftrag-form";
   }
 
   @PostMapping("/saveEinzahlungsFormWithKonto")
@@ -108,10 +110,20 @@ public class BankingSparenController {
                                     @Valid @ModelAttribute(name = "zahlungsAuftrag") ZahlungsAuftrag zahlungsAuftrag, BindingResult result,
                                     Model model, RedirectAttributes redirectAttrs) {
 
-    String authKundennummer = authentication.getName();
+      String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
     SparKonto sparKonto;
+
+    if (result.hasErrors()) {
+      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+
+      return "kunde/banking/zahlungsAuftrag-form";
+    }
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
     // TODO den TryCatchBlock brauch ich wahrscheinlich gar nicht, weil sparkonto=null nicht als exception kommt, sondern einfach als leeres ergebnis, das mit nem if zu checken is.
@@ -122,7 +134,7 @@ public class BankingSparenController {
       log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       model.addAttribute("errorObj", "errorObj");
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      return "kunde/banking/sparen/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
 
     // SaldoPrüfung
@@ -131,7 +143,7 @@ public class BankingSparenController {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }
-
+    // TODO: hab hier nochmal die fehlerprüfung einbauen müssen, weil mir sonst entweder ne nullpointer exception fliegt, oder die saldoprüfung zwar durchgeführt, aber der fehler nicht im result gespeichert wird ...
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
@@ -139,8 +151,10 @@ public class BankingSparenController {
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
 
-      return "kunde/banking/sparen/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
+
+
 
     log.debug("Prüfungen für Kontonummer " + zahlungsAuftrag.getKontonummer() + " bei Kunde: " + authKundennummer + " erfolgreich abgeschlossen.");
     zahlungsAuftrag.setKonto(sparKonto);

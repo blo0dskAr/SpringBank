@@ -28,7 +28,7 @@ public interface KundeService   {
 
   String getConnectedGiroByKundennummer(String kundenummer);
 
-  void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
+  void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro, boolean hasAcceptedAGB);
 
   List<Kunde> findAll(Kunde kunde, ExampleMatcher matcher);
 

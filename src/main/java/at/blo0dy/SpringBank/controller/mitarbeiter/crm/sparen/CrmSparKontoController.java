@@ -88,12 +88,12 @@ public class CrmSparKontoController {
     Konto sparkonto = sparService.findById(sparKontoId);
     Kunde kunde = sparkonto.getKunde();
 
-    model.addAttribute("sparkonto", sparkonto);
+    model.addAttribute("konto", sparkonto);
     model.addAttribute("kunde", kunde);
     model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(sparKontoId));
     model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(sparkonto.getKontonummer()));
 
-    return "mitarbeiter/crm/sparen/konto-detail";
+    return "mitarbeiter/crm/konto-detail";
 
   }
 
@@ -155,11 +155,11 @@ public class CrmSparKontoController {
     List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(sparkonto.getKunde().getKundennummer());
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-    model.addAttribute("sparkonto", sparkonto);
+    model.addAttribute("konto", sparkonto);
     model.addAttribute("requestedKontonummer", sparkonto.getKontonummer().toString());
     model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
 
-    return "mitarbeiter/crm/sparen/zahlungsAuftrag-form";
+    return "mitarbeiter/crm/zahlungsAuftrag-form";
   }
 
 
@@ -175,6 +175,18 @@ public class CrmSparKontoController {
 
     log.debug("SparKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
 
+    // Form Validation Errors
+    if(result.hasErrors()) {
+      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(sparkonto.getKunde().getKundennummer());
+      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      model.addAttribute("konto", sparkonto);
+      model.addAttribute("requestedKontonummer", sparkonto.getKontonummer().toString());
+
+      return "mitarbeiter/crm/zahlungsAuftrag-form";
+    }
+
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
       if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(sparkonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
@@ -182,17 +194,18 @@ public class CrmSparKontoController {
       }
     }
 
-    // Form Validation Errors
+    // TODO: Auch hier muss ich 2 mal auf errors checken, das sollte sich irgendfwie vermeiden lassen
     if(result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(sparkonto.getKunde().getKundennummer());
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      model.addAttribute("sparkonto", sparkonto);
+      model.addAttribute("konto", sparkonto);
       model.addAttribute("requestedKontonummer", sparkonto.getKontonummer().toString());
 
-      return "mitarbeiter/crm/sparen/zahlungsAuftrag-form";
+      return "mitarbeiter/crm/zahlungsAuftrag-form";
     }
+
 
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
     zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
@@ -204,6 +217,7 @@ public class CrmSparKontoController {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
       zahlungsAuftrag.setEmpfaengerKonto(sparkonto.getKontonummer().toString());
     }
+
 
     log.debug("SparKontoEinzahlungsForm wird gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
     zahlungsAuftragService.save(zahlungsAuftrag);

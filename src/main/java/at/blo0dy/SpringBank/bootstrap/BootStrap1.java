@@ -593,7 +593,7 @@ private void loadData() {
   SparKonto sparKonto2 = new SparKonto();
   sparKonto2.setKontoname("tralala2");
   sparKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKonto2.setAktSaldo(BigDecimal.valueOf(4750.00));
+  sparKonto2.setAktSaldo(BigDecimal.valueOf(0.00));
   sparKonto2.setKontonummer(123002L);
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto2.setKunde(kunde1);
@@ -604,7 +604,7 @@ private void loadData() {
   SparKonto sparKonto3 = new SparKonto();
   sparKonto3.setKontoname("tralala3");
   sparKonto3.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
-  sparKonto3.setAktSaldo(BigDecimal.valueOf(5000));
+  sparKonto3.setAktSaldo(BigDecimal.valueOf(4750.00));
   sparKonto3.setKontonummer(124001L);
   sparKonto3.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto3.setKunde(kunde2);
@@ -753,7 +753,7 @@ private void loadData() {
   // Paar Sparkonto2 Buchungen
   // kunde 2
   KontoBuchung konto2Buchung1 = new KontoBuchung();
-  konto2Buchung1.setId(12L);
+  konto2Buchung1.setId(4L);
   konto2Buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
   konto2Buchung1.setBuchungsBetrag(BigDecimal.valueOf(5000.00));
   konto2Buchung1.setBuchungsDatum(LocalDate.now());
@@ -780,7 +780,7 @@ private void loadData() {
 
   // kunde 2
   KontoBuchung konto2Buchung2 = new KontoBuchung();
-  konto2Buchung2.setId(13L);
+  konto2Buchung2.setId(5L);
   konto2Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
   konto2Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
   konto2Buchung2.setBuchungsDatum(LocalDate.now());
@@ -807,7 +807,7 @@ private void loadData() {
 
   // kunde 2
   KontoBuchung konto2Buchung3 = new KontoBuchung();
-  konto2Buchung3.setId(14L);
+  konto2Buchung3.setId(6L);
   konto2Buchung3.setBuchungsArt(BuchungsArtEnum.SOLL);
   konto2Buchung3.setBuchungsBetrag(BigDecimal.valueOf(500.00));
   konto2Buchung3.setBuchungsDatum(LocalDate.now());
@@ -835,7 +835,7 @@ private void loadData() {
   // Paar kreditkonto1 Buchungen
   // kunde 1
   KontoBuchung kreditkonto1Buchung1 = new KontoBuchung();
-  kreditkonto1Buchung1.setId(4L);
+  kreditkonto1Buchung1.setId(7L);
   kreditkonto1Buchung1.setBuchungsArt(BuchungsArtEnum.SOLL);
   kreditkonto1Buchung1.setBuchungsBetrag(BigDecimal.valueOf(15000.00));
   kreditkonto1Buchung1.setBuchungsDatum(LocalDate.now());
@@ -862,7 +862,7 @@ private void loadData() {
 
   // kunde 1
   KontoBuchung kreditkonto1Buchung2 = new KontoBuchung();
-  kreditkonto1Buchung2.setId(5L);
+  kreditkonto1Buchung2.setId(8L);
   kreditkonto1Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
   kreditkonto1Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
   kreditkonto1Buchung2.setBuchungsDatum(LocalDate.now());
@@ -889,7 +889,7 @@ private void loadData() {
 
   // kunde 2
   KontoBuchung kreditkonto2Buchung1 = new KontoBuchung();
-  kreditkonto2Buchung1.setId(10L);
+  kreditkonto2Buchung1.setId(9L);
   kreditkonto2Buchung1.setBuchungsArt(BuchungsArtEnum.SOLL);
   kreditkonto2Buchung1.setBuchungsBetrag(BigDecimal.valueOf(15000.00));
   kreditkonto2Buchung1.setBuchungsDatum(LocalDate.now());
@@ -916,7 +916,7 @@ private void loadData() {
 
   // kunde 2
   KontoBuchung kreditkonto2Buchung2 = new KontoBuchung();
-  kreditkonto2Buchung2.setId(11L);
+  kreditkonto2Buchung2.setId(10L);
   kreditkonto2Buchung2.setBuchungsArt(BuchungsArtEnum.HABEN);
   kreditkonto2Buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
   kreditkonto2Buchung2.setBuchungsDatum(LocalDate.now());
@@ -944,7 +944,7 @@ private void loadData() {
   // Paar Girokonto1 Buchungen
   // kunde 1
   KontoBuchung girokonto1buchung1 = new KontoBuchung();
-  girokonto1buchung1.setId(6L);
+  girokonto1buchung1.setId(11L);
   girokonto1buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
   girokonto1buchung1.setBuchungsBetrag(BigDecimal.valueOf(2500));
   girokonto1buchung1.setBuchungsDatum(LocalDate.now());
@@ -971,7 +971,7 @@ private void loadData() {
 
   // kunde 1
   KontoBuchung girokonto1buchung2 = new KontoBuchung();
-  girokonto1buchung2.setId(7L);
+  girokonto1buchung2.setId(12L);
   girokonto1buchung2.setBuchungsArt(BuchungsArtEnum.SOLL);
   girokonto1buchung2.setBuchungsBetrag(BigDecimal.valueOf(250));
   girokonto1buchung2.setBuchungsDatum(LocalDate.now());
@@ -998,7 +998,7 @@ private void loadData() {
 
   // kunde 2
   KontoBuchung girokonto2buchung1 = new KontoBuchung();
-  girokonto2buchung1.setId(8L);
+  girokonto2buchung1.setId(13L);
   girokonto2buchung1.setBuchungsArt(BuchungsArtEnum.HABEN);
   girokonto2buchung1.setBuchungsBetrag(BigDecimal.valueOf(1600));
   girokonto2buchung1.setBuchungsDatum(LocalDate.now());
@@ -1025,7 +1025,7 @@ private void loadData() {
 
   // kunde 2
   KontoBuchung girokonto2buchung2 = new KontoBuchung();
-  girokonto2buchung2.setId(9L);
+  girokonto2buchung2.setId(14L);
   girokonto2buchung2.setBuchungsArt(BuchungsArtEnum.SOLL);
   girokonto2buchung2.setBuchungsBetrag(BigDecimal.valueOf(100));
   girokonto2buchung2.setBuchungsDatum(LocalDate.now());

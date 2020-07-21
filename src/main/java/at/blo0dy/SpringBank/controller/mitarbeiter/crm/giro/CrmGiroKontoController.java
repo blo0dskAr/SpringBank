@@ -88,13 +88,12 @@ public class CrmGiroKontoController {
     Konto girokonto = giroService.findById(giroKontoId);
     Kunde kunde = girokonto.getKunde();
 
-    model.addAttribute("girokonto", girokonto);
+    model.addAttribute("konto", girokonto);
     model.addAttribute("kunde", kunde);
     model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(giroKontoId));
     model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(girokonto.getKontonummer()));
 
-    return "mitarbeiter/crm/giro/konto-detail";
-
+    return "mitarbeiter/crm/konto-detail";
   }
 
 
@@ -155,11 +154,11 @@ public class CrmGiroKontoController {
     List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(girokonto.getKunde().getKundennummer());
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-    model.addAttribute("girokonto", girokonto);
+    model.addAttribute("konto", girokonto);
     model.addAttribute("requestedKontonummer", girokonto.getKontonummer().toString());
     model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
 
-    return "mitarbeiter/crm/giro/zahlungsAuftrag-form";
+    return "mitarbeiter/crm/zahlungsAuftrag-form";
   }
 
 
@@ -175,6 +174,17 @@ public class CrmGiroKontoController {
 
     log.debug("GiroKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
 
+    if(result.hasErrors()) {
+      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(girokonto.getKunde().getKundennummer());
+      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      model.addAttribute("konto", girokonto);
+      model.addAttribute("requestedKontonummer", girokonto.getKontonummer().toString());
+
+      return "mitarbeiter/crm/zahlungsAuftrag-form";
+    }
+
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
       if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(girokonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
@@ -182,16 +192,14 @@ public class CrmGiroKontoController {
       }
     }
 
+    // TODO: Auch hier muss ich 2 mal auf errors checken, das sollte sich irgendfwie vermeiden lassen
     if(result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(girokonto.getKunde().getKundennummer());
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      model.addAttribute("girokonto", girokonto);
+      model.addAttribute("konto", girokonto);
       model.addAttribute("requestedKontonummer", girokonto.getKontonummer().toString());
-
-      return "mitarbeiter/crm/giro/zahlungsAuftrag-form";
-    }
 
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
     zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
@@ -206,6 +214,12 @@ public class CrmGiroKontoController {
     log.debug("GiroKontoEinzahlungsForm wird gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
     zahlungsAuftragService.save(zahlungsAuftrag);
     log.debug("GiroKontoEinzahlungsForm wurde erfolgreich gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
+
+
+      return "mitarbeiter/crm/zahlungsAuftrag-form";
+    }
+
+
 
     redirectAttrs.addFlashAttribute("zahlungsAuftragGespeichert", true);
     return "redirect:/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage?giroKontoId=" + girokonto.getId();

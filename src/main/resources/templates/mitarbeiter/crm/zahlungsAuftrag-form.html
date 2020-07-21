@@ -10,7 +10,8 @@
 <div layout:fragment="content">
     <main>
         <div class="container-fluid">
-            <form action="#" th:action="@{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm}" th:object="${zahlungsAuftrag}" method="POST">
+            <form th:action="${konto.getClass().getSimpleName() == 'SparKonto'} ? @{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm} : (${konto.getClass().getSimpleName() == 'KreditKonto'} ? @{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm} : @{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm})"
+                  method="POST" th:object="${zahlungsAuftrag}">
                 <h1> Kontosuche </h1>
                 <div class="form-row">
                     <div class="form-group col-4">
@@ -18,7 +19,7 @@
                         <span class="text-danger"
                               th:if="${#fields.hasErrors('kontonummer')}"
                               th:errors="*{kontonummer}">kontonummer Error</span>
-                        <label for="kontonummer">Kreditkonto:</label>
+                        <label for="kontonummer">Sparkonto:</label>
                         <select th:field="*{kontonummer}" class="form-control mb-4 col-8" id="kontonummer">
                             <option value="" th:selected="${requestedKontonummer == null}" disabled>Konto auswählen... </option>
                             <th:block th:each="kontonummer : ${kontonummerAuswahl}">
@@ -60,7 +61,9 @@
                         </div>
                     </div>
             </form>
-            <a th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${kreditkonto.id})}">Zurück zur Kreditkonto-Übersicht</a>
+            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-Übersicht</a>
+            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-Übersicht</a>
+            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-Übersicht</a>
         </div>
     </main>
 </div>

@@ -35,7 +35,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.lang.reflect.Member;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -162,11 +161,12 @@ public class KundeBankingController {
     log.debug("Saving viewKundeDetailPage for Kunde: " + authKundennummer);
 
     adresseService.save(kunde.getAdresse());
-    System.out.println(kunde);
-    kundeService.updateChangeableDataByKundennummer(authKundennummer, kunde.getEmailAdresse(), kunde.getTelefonNummer(), kunde.getConnectedGiro());
+    kundeService.updateChangeableDataByKundennummer(authKundennummer, kunde.getEmailAdresse(), kunde.getTelefonNummer(), kunde.getConnectedGiro(), kunde.isHasAcceptedAGB());
 
     model.addAttribute("kunde", kunde);
     redirectAttrs.addFlashAttribute("persDatenGespeichert",true);
+
+    kundeService.setKundeActiveIfRequirementsMetByKundennummer(authKundennummer);
 
     return "redirect:/kunde/banking/index";
   }

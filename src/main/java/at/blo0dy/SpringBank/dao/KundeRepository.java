@@ -31,9 +31,10 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
   @Query(value ="update kunde ku set" +
                 " ku.email_adresse = ?2, " +
                 " ku.telefon_nummer = ?3, " +
-                " ku.connected_giro = ?4 " +
+                " ku.connected_giro = ?4, " +
+                " ku.has_acceptedagb = ?5 " +
           "where ku.kundennummer = ?1 " , nativeQuery = true)
-  void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
+  void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro, boolean hasAcceptedAGB);
 
 
   @Modifying

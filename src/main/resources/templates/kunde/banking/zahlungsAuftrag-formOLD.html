@@ -26,16 +26,11 @@
                     <form action="#" th:action="@{/kunde/banking/sparen/saveEinzahlungsFormWithKonto}"
                           th:object="${zahlungsAuftrag}" method="POST">
 
-                        <!-- Add hidden form Field to handle update -->
-                <!--        <input type="hidden" th:field="*{id}" />
-                        <input type="hidden" th:field="*{adresse.id}" />-->
-
-
                         <div class="form-group">
                                <span class="text-danger"
                                      th:if="${#fields.hasErrors('kontonummer')}"
                                      th:errors="*{kontonummer}">kontonummer Error</span>
-                            <label for="kontonummer">Sparkonto:</label>
+                            <label for="kontonummer">Kontonummer:</label>
                             <select th:field="*{kontonummer}" class="form-control mb-4 col-8" id="kontonummer">
                                 <option value="" th:selected="${requestedKontonummer == null}" disabled>Konto auswählen... </option>
                                 <th:block th:each="kontonummer : ${kontonummerAuswahl}">
@@ -71,7 +66,7 @@
                     </form>
 
                     <hr>
-                    <a th:href="@{/kunde/banking/sparen/sparkontouebersicht}">Zurück zur Sparkonto-Übersicht</a>
+                    <a th:href="@{/kunde/banking/index}">Back to Overview</a>
                 </div>
             </div>
         </div>

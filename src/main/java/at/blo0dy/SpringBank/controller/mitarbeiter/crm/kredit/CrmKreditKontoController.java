@@ -88,12 +88,12 @@ public class CrmKreditKontoController {
     Konto kreditkonto = kreditService.findById(kreditKontoId);
     Kunde kunde = kreditkonto.getKunde();
 
-    model.addAttribute("kreditkonto", kreditkonto);
+    model.addAttribute("konto", kreditkonto);
     model.addAttribute("kunde", kunde);
     model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(kreditKontoId));
     model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(kreditkonto.getKontonummer()));
 
-    return "mitarbeiter/crm/kredit/konto-detail";
+    return "mitarbeiter/crm/konto-detail";
   }
 
 
@@ -147,11 +147,11 @@ public class CrmKreditKontoController {
     List<String> kontonummerAuswahlList = kreditService.findKontoNummerOffenerKreditKontenByKundennummer(kreditkonto.getKunde().getKundennummer());
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-    model.addAttribute("kreditkonto", kreditkonto);
+    model.addAttribute("konto", kreditkonto);
     model.addAttribute("requestedKontonummer", kreditkonto.getKontonummer().toString());
     model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
 
-    return "mitarbeiter/crm/kredit/zahlungsAuftrag-form";
+    return "mitarbeiter/crm/zahlungsAuftrag-form";
   }
 
 
@@ -172,10 +172,10 @@ public class CrmKreditKontoController {
       List<String> kontonummerAuswahlList = kreditService.findKontoNummerOffenerKreditKontenByKundennummer(kreditkonto.getKunde().getKundennummer());
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      model.addAttribute("kreditkonto", kreditkonto);
+      model.addAttribute("konto", kreditkonto);
       model.addAttribute("requestedKontonummer", kreditkonto.getKontonummer().toString());
 
-      return "mitarbeiter/crm/kredit/zahlungsAuftrag-form";
+      return "mitarbeiter/crm/zahlungsAuftrag-form";
     }
 
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());

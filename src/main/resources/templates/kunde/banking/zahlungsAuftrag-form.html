@@ -14,28 +14,20 @@
                 <div class="col-10">
                     <h3>Neue Einzahlung</h3>
                     <hr>
-
                     <p class="h4 mb-4">Neue Einzahlung</p>
-
+<!--                    das sollt ich mal rausrefactoren, funkt eh nur so halbert -->
                     <div th:if="${errorObj}">
                         <div class="alert alert-danger">
                             Schwerer Fehler: gewählte Kontonummer nicht beim Kunden verfügbar... Anzeige is raus!
                         </div>
                     </div>
-
-                    <form action="#" th:action="@{/kunde/banking/sparen/saveEinzahlungsFormWithKonto}"
+                    <form th:action="${#strings.startsWith(requestURI, '/kunde/banking/sparen')} ? @{/kunde/banking/sparen/saveEinzahlungsFormWithKonto} : (${#strings.startsWith(requestURI, '/kunde/banking/kredit')} ? @{/kunde/banking/kredit/saveEinzahlungsFormWithKonto} : @{/kunde/banking/giro/saveEinzahlungsFormWithKonto})"
                           th:object="${zahlungsAuftrag}" method="POST">
-
-                        <!-- Add hidden form Field to handle update -->
-                <!--        <input type="hidden" th:field="*{id}" />
-                        <input type="hidden" th:field="*{adresse.id}" />-->
-
-
                         <div class="form-group">
                                <span class="text-danger"
                                      th:if="${#fields.hasErrors('kontonummer')}"
                                      th:errors="*{kontonummer}">kontonummer Error</span>
-                            <label for="kontonummer">Kontonummer:</label>
+                            <label for="kontonummer">Sparkonto:</label>
                             <select th:field="*{kontonummer}" class="form-control mb-4 col-8" id="kontonummer">
                                 <option value="" th:selected="${requestedKontonummer == null}" disabled>Konto auswählen... </option>
                                 <th:block th:each="kontonummer : ${kontonummerAuswahl}">
@@ -65,16 +57,16 @@
                         <input type="text" th:field="*{auftragsArt}"
                                class="form-control mb-4 col-8" id="auftragsArt" placeholder ="Einzahlung/Auszahlung" readonly>
 
-
                         <button type="submit" class="btn btn-info col-8">Save</button>
-
                     </form>
-
+                    </div>
                     <hr>
-                    <a th:href="@{/kunde/banking/index}">Back to Overview</a>
+                    <a th:if="${#strings.startsWith(requestURI, '/kunde/banking/sparen')}" th:href="@{/kunde/banking/sparen/sparkontouebersicht}">Zurück zur Sparkonto-Übersicht</a>
+                    <a th:if="${#strings.startsWith(requestURI, '/kunde/banking/kredit')}" th:href="@{/kunde/banking/kredit/kreditkontouebersicht}">Zurück zur Kreditkonto-Übersicht</a>
+                    <a th:if="${#strings.startsWith(requestURI, '/kunde/banking/giro')}" th:href="@{/kunde/banking/giro/girokontouebersicht}">Zurück zur Girokonto-Übersicht</a>
+
                 </div>
             </div>
-        </div>
     </main>
 </div>
 </body>

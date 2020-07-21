@@ -4,14 +4,16 @@
 
       layout:decorate="~{kunde/mainlayout.html}">
 
-    <title>GiroKontoDetail Page</title>
+    <title>KontoDetail Page</title>
 </head>
 
 <body>
 <div layout:fragment="content">
     <main>
         <div class="container-fluid px-0">
-            <h1> KontoDetail - GiroKonto </h1>
+            <h1 th:if="${#strings.startsWith(requestURI, '/kunde/banking/giro')}"> KontoDetail - GiroKonto </h1>
+            <h1 th:if="${#strings.startsWith(requestURI, '/kunde/banking/kredit')}"> KontoDetail - KreditKonto </h1>
+            <h1 th:if="${#strings.startsWith(requestURI, '/kunde/banking/spar')}"> KontoDetail - SparKonto </h1>
             <div th:if="${zahlungsAuftragGespeichert}">
                 <div class="alert alert-info ">
                     Ihr Zahlungsauftrag wurde gespeichert. Der Status kann nun in Ihren Aufträgen eingesehen werden.
@@ -30,7 +32,7 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr th:each="kontobuchung : ${girokonto.kontoBuchungList}">
+                        <tr th:each="kontobuchung : ${konto.kontoBuchungList}">
                             <td th:text="${kontobuchung.buchungsDatum}">1</td>
                             <td th:text="${kontobuchung.buchungsText}">Mark</td>
                             <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">Otto</span></div></td>
@@ -41,18 +43,44 @@
                     </table>
                     <hr class="my-1">
                     <div class="row mt-3 justify-content-around align-items-center">
-                        <a th:href="@{/kunde/banking/giro/girokontouebersicht}"
-                           class = "btn btn-success" >
-                            Zurück
-                        </a>
-                        <a th:href="@{/kunde/banking/giro/showEinzahlungsFormWithKonto(kontoId=${girokonto.id})}"
-                           class = "btn btn-info" >
-                            Neue Einzahlung
-                        </a>
-                        <a th:href="@{/kunde/banking/giro/showAuszahlungsFormWithKonto(kontoId=${girokonto.id})}"
-                           class = "btn btn-info" >
-                            Neue Auszahlung
-                        </a>
+                        <th:block th:if="${konto.getClass().getSimpleName() == 'SparKonto'}">
+                            <a th:href="@{/kunde/banking/sparen/sparkontouebersicht}"
+                               class = "btn btn-success" >
+                                Zurück
+                            </a>
+                            <a th:href="@{/kunde/banking/sparen/showEinzahlungsFormWithKonto(kontoId=${konto.id})}"
+                               class = "btn btn-info" >
+                                Neue Einzahlung
+                            </a>
+                            <a th:href="@{/kunde/banking/sparen/showAuszahlungsFormWithKonto(kontoId=${konto.id})}"
+                               class = "btn btn-info" >
+                                Neue Auszahlung
+                            </a>
+                        </th:block>
+                        <th:block th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}">
+                            <a th:href="@{/kunde/banking/kredit/kreditkontouebersicht}"
+                               class = "btn btn-success" >
+                                Zurück
+                            </a>
+                            <a th:href="@{/kunde/banking/kredit/showEinzahlungsFormWithKonto(kontoId=${konto.id})}"
+                               class = "btn btn-info" >
+                                Neue Einzahlung
+                            </a>
+                        </th:block>
+                        <th:block th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}">
+                            <a th:href="@{/kunde/banking/giro/girokontouebersicht}"
+                               class = "btn btn-success" >
+                                Zurück
+                            </a>
+                            <a th:href="@{/kunde/banking/giro/showEinzahlungsFormWithKonto(kontoId=${konto.id})}"
+                               class = "btn btn-info" >
+                                Neue Einzahlung
+                            </a>
+                            <a th:href="@{/kunde/banking/giro/showAuszahlungsFormWithKonto(kontoId=${konto.id})}"
+                               class = "btn btn-info" >
+                                Neue Auszahlung
+                            </a>
+                        </th:block>
                     </div>
                     <p class="mb-2">Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.</p>
                 </div>
@@ -81,7 +109,7 @@
                                 <span th:case="${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum).STORNIERT}" class="status text-danger">&bull;</span>
                                 <span th:text="${zahlungsAuftrag.auftragsStatus}">Status</span>
                             </td>
-                            <td th:text="${#numbers.formatDecimal(zahlungsAuftrag.betrag, 0, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(zahlungsAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
+                            <td th:text="${#numbers.formatDecimal(zahlungsAuftrag.betrag, 1, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(zahlungsAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
                             <td th:text="${zahlungsAuftrag.senderKonto}">Datum</td>
                             <td th:text="${zahlungsAuftrag.empfaengerKonto}">Art</td>
                         </tr>

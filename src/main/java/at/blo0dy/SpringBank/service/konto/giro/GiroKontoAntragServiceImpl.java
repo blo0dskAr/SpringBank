@@ -81,4 +81,10 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
     return giroKontoAntragRepository.findGiroAntragByAntragIdAndKundennummer(antragId, kundennummer);
   }
 
+  @Override
+  @Transactional
+  public int countEingereichteGiroAntraegeByKundennummer(String kundennummer) {
+    return giroKontoAntragRepository.countEingereichteGiroAntraegeByKundennummer(kundennummer);
+  }
+
 }

@@ -6,7 +6,9 @@ import at.blo0dy.SpringBank.dao.konto.giro.GiroKontoAntragRepository;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoRegistrationForm;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
+import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -27,16 +29,16 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/kunde/banking/giro")
 public class GiroKontoAntragRegistrationController {
 
-  private GiroKontoAntragRepository giroKontoAntragRepository;
+  private GiroKontoAntragService giroKontoAntragService;
   private GiroService giroService;
-  private KundeRepository kundeRepository ;
+  private KundeService kundeService ;
 
 
   @Autowired
-  public GiroKontoAntragRegistrationController(GiroKontoAntragRepository giroKontoAntragRepository, GiroService giroService, KundeRepository kundeRepository) {
-    this.giroKontoAntragRepository = giroKontoAntragRepository;
+  public GiroKontoAntragRegistrationController(GiroKontoAntragService giroKontoAntragService, GiroService giroService, KundeService kundeService) {
+    this.giroKontoAntragService = giroKontoAntragService;
     this.giroService = giroService;
-    this.kundeRepository = kundeRepository;
+    this.kundeService = kundeService;
   }
 
   @GetMapping("/register")
@@ -57,7 +59,7 @@ public class GiroKontoAntragRegistrationController {
   public String processRegistration(@ModelAttribute("girokontoantrag") GiroKontoRegistrationForm form, RedirectAttributes redirectAttrs) {
 
     log.debug("GiroKontoRegistrationForm erhalten: " + form);
-    Kunde tmpKunde = kundeRepository.findByKundennummer(form.getKundennummer().toString());
+    Kunde tmpKunde = kundeService.findByKundennummer(form.getKundennummer().toString());
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     form.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
@@ -66,13 +68,13 @@ public class GiroKontoAntragRegistrationController {
 
     // Anzahl der Konten und Anträge prüfen
     int anzahlAktiveGiroKonten = giroService.countAktiveKontenByKundeId(tmpKunde.getId());
-    int anzahlEingereichtGiroAntraege = giroKontoAntragRepository.countEingereichteGiroAntraegeByKundennummer(tmpKunde.getKundennummer());
+    int anzahlEingereichtGiroAntraege = giroKontoAntragService.countEingereichteGiroAntraegeByKundennummer(tmpKunde.getKundennummer());
 
     if (anzahlAktiveGiroKonten + anzahlEingereichtGiroAntraege >= 2) {
       redirectAttrs.addFlashAttribute("zuVieleAktive", true);
       log.debug("GiroKontoRegistrationForm Konnte nicht gespeichert werden, bereits zu viele Aktive Aäntrge");
     } else {
-      giroKontoAntragRepository.save(form.toGiroKontoAntrag());
+      giroKontoAntragService.save(form.toGiroKontoAntrag());
       log.debug("GiroKontoRegistrationForm wurde erfolgreich als GirokontoAntrag gespeichert");
       redirectAttrs.addFlashAttribute("antragGespeichert", true);
     }

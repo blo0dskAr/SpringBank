@@ -7,6 +7,7 @@ import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoRegistrationForm;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
+import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -30,15 +31,15 @@ import java.time.format.DateTimeFormatter;
 public class SparKontoAntragRegistrationController {
 
   // TODO: da sollt ich das repository rausrefactoren, und den service dazwischen geben
-  private SparKontoAntragRepository sparKontoAntragRepository;
+  private SparKontoAntragService sparKontoAntragService;
   private SparService sparService;
-  private KundeRepository kundeRepository ;
+  private KundeService kundeService ;
 
   @Autowired
-  public SparKontoAntragRegistrationController(SparKontoAntragRepository sparKontoAntragRepository, SparService sparService, KundeRepository kundeRepository) {
-    this.sparKontoAntragRepository = sparKontoAntragRepository;
+  public SparKontoAntragRegistrationController(SparKontoAntragService sparKontoAntragService, SparService sparService, KundeService kundeService) {
+    this.sparKontoAntragService = sparKontoAntragService;
     this.sparService = sparService;
-    this.kundeRepository = kundeRepository;
+    this.kundeService = kundeService;
   }
 
   @GetMapping("/register")
@@ -62,7 +63,7 @@ public class SparKontoAntragRegistrationController {
                                     Model model, RedirectAttributes redirectAttrs) {
 
     log.debug("SparKontoRegistrationForm erhalten: " + form);
-    Kunde tmpKunde = kundeRepository.findByKundennummer(form.getKundennummer().toString());
+    Kunde tmpKunde = kundeService.findByKundennummer(form.getKundennummer().toString());
 
     if (result.hasErrors()) {
       log.debug("Fehler beim speichern Der SparkontoRegistrationForm erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -80,13 +81,13 @@ public class SparKontoAntragRegistrationController {
 
     // Anzahl der Konten und Anträge prüfen
     int anzahlAktiveSparKonten = sparService.countAktiveKontenByKundeId(tmpKunde.getId());
-    int anzahlEingereichtSparAntraege = sparKontoAntragRepository.countEingereichteSparAntraegeByKundennummer(tmpKunde.getKundennummer());
+    int anzahlEingereichtSparAntraege = sparKontoAntragService.countEingereichteSparAntraegeByKundennummer(tmpKunde.getKundennummer());
 
     if (anzahlAktiveSparKonten + anzahlEingereichtSparAntraege >= 5) {
       redirectAttrs.addFlashAttribute("zuVieleAktive", true);
       log.debug("SparKontoRegistrationForm Konnte nicht gespeichert werden, bereits zu viele Aktive Aäntrge");
     } else {
-      sparKontoAntragRepository.save(form.toSparKontoAntrag());
+      sparKontoAntragService.save(form.toSparKontoAntrag());
       log.debug("SparKontoRegistrationForm wurde erfolgreich als SparkontoAntrag gespeichert");
       redirectAttrs.addFlashAttribute("antragGespeichert", true);
     }

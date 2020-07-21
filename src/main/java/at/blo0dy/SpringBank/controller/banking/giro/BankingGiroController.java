@@ -65,14 +65,13 @@ public class BankingGiroController {
     log.debug("loaded Kunde: " + kunde.getKundennummer() + "(auth=" + authKundennummer + ")");
 
     model.addAttribute("kunde", kunde);
-    model.addAttribute("giroKontenListe",giroKontenListe);
+    model.addAttribute("kontenListe",giroKontenListe);
     model.addAttribute("activeLink", "kundeBankingGiroUebersicht");
 
-    return "kunde/banking/giro/girokontouebersicht";
+    return "kunde/banking/kontouebersicht";
   }
 
-
-  @GetMapping("/showEinzahlungsFormWithKonto")
+  @GetMapping({"/showEinzahlungsFormWithKonto", "showAuszahlungsFormWithKonto"})
   public String showEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId,
                                     HttpServletRequest request) {
 
@@ -83,9 +82,9 @@ public class BankingGiroController {
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
-    if (request.getRequestURI().equals("/kunde/banking/sparen/showAuszahlungsForm")) {
+    if (request.getRequestURI().equals("/kunde/banking/giro/showAuszahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
-    } else if (request.getRequestURI().equals("/kunde/banking/sparen/showEinzahlungsForm")) {
+    } else if (request.getRequestURI().equals("/kunde/banking/giro/showEinzahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     } else {
       // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske)
@@ -100,7 +99,7 @@ public class BankingGiroController {
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
 
 
-    return "kunde/banking/giro/zahlungsAuftrag-form";
+    return "kunde/banking/zahlungsAuftrag-form";
   }
 
 
@@ -112,6 +111,16 @@ public class BankingGiroController {
     String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
+    if (result.hasErrors()) {
+      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(authKundennummer);
+
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+
+      return "kunde/banking/zahlungsAuftrag-form";
+    }
+
     GiroKonto giroKonto;
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
@@ -122,7 +131,7 @@ public class BankingGiroController {
       log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       model.addAttribute("errorObj", "errorObj");
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      return "kunde/banking/giro/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
 
     // SaldoPrüfung
@@ -132,7 +141,7 @@ public class BankingGiroController {
       }
     }
 
-
+    // TODO: hab hier nochmal die fehlerprüfung einbauen müssen, weil mir sonst entweder ne nullpointer exception fliegt, oder die saldoprüfung zwar durchgeführt, aber der fehler nicht im result gespeichert wird ...
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(authKundennummer);
@@ -140,7 +149,7 @@ public class BankingGiroController {
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
 
-      return "kunde/banking/giro/zahlungsAuftrag-form";
+      return "kunde/banking/zahlungsAuftrag-form";
     }
 
     log.debug("Prüfungen für Kontonummer " + zahlungsAuftrag.getKontonummer() + " bei Kunde: " + authKundennummer + " erfolgreich abgeschlossen.");
@@ -164,35 +173,6 @@ public class BankingGiroController {
     redirectAttrs.addFlashAttribute("zahlungsAuftragGespeichert", true);
     return "redirect:/kunde/banking/giro/girokontouebersicht";
   }
-
-
-//  // TODO: Das muss besser gehn als die GetMappings zu duplizieren, nur wegen des AUSZAHLUNG/EINZAHLUNG Enums.. params hat aber ned gepasst...
-  // TODO SOLLTE ERLEDIGT SEIN
-//  @GetMapping("/showAuszahlungsFormWithKonto")
-//  public String showAuszahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
-//
-//    String authKundennummer = authentication.getName();
-//    log.debug("Showing showAddAuszahlungForm for Kunde: " + authKundennummer);
-//
-//    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
-//
-//    ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
-//    zahlungsAuftrag.setId(0L);
-//    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
-//    zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
-//    zahlungsAuftrag.setKontonummer(requestedKontonummer);
-//
-//
-//    List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(authKundennummer);
-//
-//    model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-//    model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
-//
-//
-//    return "kunde/banking/giro/zahlungsAuftrag-form";
-//  }
-
-
 
   @GetMapping("/showKontoDetailPage")
   public String showGiroKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
@@ -218,10 +198,10 @@ public class BankingGiroController {
 
       List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragService.findZahlungsAuftraegeByKontonummer(requestedGiroKontonummer);
 
-      model.addAttribute("girokonto", giroKonto);
+      model.addAttribute("konto", giroKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
 
-      return "kunde/banking/giro/konto-detail";
+      return "kunde/banking/konto-detail";
     }
   }
 

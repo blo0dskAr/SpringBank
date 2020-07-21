@@ -72,13 +72,6 @@ public class Kunde extends Person implements UserDetails {
     this.connectedGiro = connectedGiro;
   }
 
-  public void checkActive() {
-    if (this.isLegi == true && this.hasAcceptedAGB == true) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  }
 
   // Stuff den ich implementieren soll aufgrund des Userdetail Implementierung.
   @Override

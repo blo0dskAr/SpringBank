@@ -98,11 +98,13 @@ public class CrmSparAntragController {
 
       if (bestMoeglicherStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
         log.debug("Sparkonto mit der ID=" + sparKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
+        redirectAttrs.addFlashAttribute("noChanges", true);
       } else {
         log.debug("Gespeichertes Sparkonto mit der ID=" + sparKonto.getId() + " wird auf Mögliche KontoEröffnung geprüft:");
         String processErgebnis = kontoService.processKontoStatusById(sparKonto.getId(), bestMoeglicherStatus, bestMoeglicherStatus);
 
         switch(processErgebnis) {
+          // TODO: habs NoChanges nun oben eingebaut. ich schätz das wird hier rauskommen
           case "NO_CHANGES":
             redirectAttrs.addFlashAttribute("noChanges", true);
             break;
@@ -115,9 +117,6 @@ public class CrmSparAntragController {
         }
       }
     }
-
-    // TODO: wenn ihr hier speicher, wird mirs datum in der Datenbank abgeschnitten, weiß aber noch nicht warum nur hier ..
-
 
     return "redirect:/mitarbeiter/kunde/sparen/antrag";
   }

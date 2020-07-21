@@ -34,4 +34,8 @@ public interface KundeService   {
 
   void saveWithoutPassword(Kunde kunde);
 
+  void updateLegiStatusById(Long kundeId, boolean status);
+
+  void updateActiveStatusById(Long kundeId, boolean status);
+
 }

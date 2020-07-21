@@ -15,7 +15,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -124,6 +123,9 @@ public class CrmKundeController {
 
     String actionErgebnis = legiDokumentService.delete(tmpLegiDokument);
 
+    // TODO: Mal evtl. irgendwann sowas wie ein Nachrichten system einführen ? :) Sonst kriegt der Kunde das Rejecten ned mit: und wär auch so ein nettes gimmick was ned sooo schwer sein sollt? (Nachrichten, und text jeweils appenden
+    //  vielleicht das Textstream BloB ? =) )
+
     redirectAttrs.addFlashAttribute("actionErgebnis", actionErgebnis);
 
     return "redirect:/mitarbeiter/kunde/person/sucheDokumente";
@@ -139,11 +141,10 @@ public class CrmKundeController {
     legiDokumentService.acceptLegiDokumentById(legiDokumentId);
     redirectAttrs.addFlashAttribute("actionErgebnis", "successfullyAccepted");
 
+    Kunde kunde = kundeService.findById(tmpLegiDokument.getKunde().getId());
+
+    kundeService.updateLegiStatusById(kunde.getId(), true);
+
     return "redirect:/mitarbeiter/kunde/person/sucheDokumente";
   }
-
-
-
-
-
 }

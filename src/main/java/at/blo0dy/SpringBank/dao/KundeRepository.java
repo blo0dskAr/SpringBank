@@ -35,4 +35,16 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
           "where ku.kundennummer = ?1 " , nativeQuery = true)
   void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
 
+
+  @Modifying
+  @Query(value = "update kunde ku set " +
+                 "       ku.is_legi = ?2" +
+                "  where ku.id = ?1 ", nativeQuery = true)
+  void updateLegiStatusById(Long kundeId, boolean status);
+
+  @Modifying
+  @Query(value = "update kunde ku set " +
+                " ku.is_active = ?2" +
+                "  where ku.id = ?1 ", nativeQuery = true)
+  void updateActiveStatusById(Long kundeId, boolean status);
 }

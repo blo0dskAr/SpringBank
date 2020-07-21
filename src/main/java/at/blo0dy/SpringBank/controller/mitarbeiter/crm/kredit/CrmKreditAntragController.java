@@ -153,6 +153,9 @@ public class CrmKreditAntragController {
 
     Long tmpKredAntrId = kreditKontoAntrag.getId();
     String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
+    AntragStatusEnum alterStatus = kreditKontoAntragService.findById(kreditKontoAntrag.getId()).getAntragStatus();
+
+
 
     if (bindingResult.hasErrors()) {
       kunde = kundeService.findByKundennummer(tmpKundenNummer);
@@ -170,9 +173,11 @@ public class CrmKreditAntragController {
     KreditKontoAntrag neuBerechneterAntrag = new KreditKontoAntrag(LocalDateTime.now(), AntragStatusEnum.EINGEREICHT,ke.getKreditBetrag(),kreditKontoAntrag.getZinssatz(),
                                                                     ke.getMonatlicheRate(),kreditKontoAntrag.getLaufzeit(),ke.getGesamtBelastung(),kreditKontoAntrag.getKundennummer(), KontoProduktEnum.KREDIT);
 
-    kreditKontoAntrag.setGesamtBelastung(ke.getGesamtBelastung());;
+    kreditKontoAntrag.setGesamtBelastung(ke.getGesamtBelastung());
     kreditKontoAntrag.setKreditBetrag(ke.getKreditBetrag());
     kreditKontoAntrag.setRate(ke.getMonatlicheRate());
+    // Beim Neu Kalkulieren Soll der Status nicht veraendert werden
+    kreditKontoAntrag.setAntragStatus(alterStatus);
     kreditKontoAntragService.save(kreditKontoAntrag);
     log.debug("Neuberechnung für KreditAntragId=" + tmpKredAntrId + " wurde durchgeführt, Änderungen gespeichert");
 

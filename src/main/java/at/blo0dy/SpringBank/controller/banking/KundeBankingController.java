@@ -149,9 +149,14 @@ public class KundeBankingController {
 
     if (result.hasErrors()) {
       model.addAttribute("kunde", kunde);
-      log.debug("Fehler beim Speichern der saveKundeDetailPage for Kunde: " + authKundennummer);
+      LegiDokument legiDokument = legiDokumentService.findByKunde(kunde.getId());
+      if (legiDokument == null) {
+        legiDokument = new LegiDokument();
+      }
+      model.addAttribute("legiDokument", legiDokument);
 
-       return "kunde/banking/kunde-detail";
+      log.debug("Fehler beim Speichern der saveKundeDetailPage for Kunde: " + authKundennummer);
+      return "kunde/banking/kunde-detail";
     }
 
     log.debug("Saving viewKundeDetailPage for Kunde: " + authKundennummer);

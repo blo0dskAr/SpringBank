@@ -320,6 +320,7 @@ private void loadData() {
   sparKontoAntrag.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag);
 
+  // Kunde 1
   SparKontoAntrag sparKontoAntrag1 = new SparKontoAntrag();
   sparKontoAntrag1.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   sparKontoAntrag1.setAntragStatus(AntragStatusEnum.EINGEREICHT);
@@ -330,6 +331,7 @@ private void loadData() {
   sparKontoAntrag1.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag1);
 
+  // Kunde 1
   SparKontoAntrag sparKontoAntrag2 = new SparKontoAntrag();
   sparKontoAntrag2.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   sparKontoAntrag2.setAntragStatus(AntragStatusEnum.ABGELEHNT);
@@ -361,6 +363,50 @@ private void loadData() {
   sparKontoAntrag4.setDauerAuftrag(BigDecimal.ZERO);
   sparKontoAntrag4.setErstAuftrag(BigDecimal.ZERO);
   sparKontoAntragService.save(sparKontoAntrag4);
+
+  // kunde 3
+  SparKontoAntrag sparKontoAntrag5 = new SparKontoAntrag();
+  sparKontoAntrag5.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag5.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  sparKontoAntrag5.setId(12L);
+  sparKontoAntrag5.setKundennummer(125L);
+  sparKontoAntrag5.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag5.setDauerAuftrag(BigDecimal.valueOf(500));
+  sparKontoAntrag5.setErstAuftrag(BigDecimal.valueOf(5000));
+  sparKontoAntragService.save(sparKontoAntrag5);
+
+  // kunde 4
+  SparKontoAntrag sparKontoAntrag6 = new SparKontoAntrag();
+  sparKontoAntrag6.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag6.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  sparKontoAntrag6.setId(13L);
+  sparKontoAntrag6.setKundennummer(126L);
+  sparKontoAntrag6.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag6.setDauerAuftrag(BigDecimal.valueOf(400));
+  sparKontoAntrag6.setErstAuftrag(BigDecimal.valueOf(4000));
+  sparKontoAntragService.save(sparKontoAntrag6);
+
+  // kunde 5
+  SparKontoAntrag sparKontoAntrag7 = new SparKontoAntrag();
+  sparKontoAntrag7.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag7.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  sparKontoAntrag7.setId(14L);
+  sparKontoAntrag7.setKundennummer(127L);
+  sparKontoAntrag7.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag7.setDauerAuftrag(BigDecimal.valueOf(300));
+  sparKontoAntrag7.setErstAuftrag(BigDecimal.valueOf(3000));
+  sparKontoAntragService.save(sparKontoAntrag7);
+
+  // kunde 6
+  SparKontoAntrag sparKontoAntrag8 = new SparKontoAntrag();
+  sparKontoAntrag8.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  sparKontoAntrag8.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  sparKontoAntrag8.setId(15L);
+  sparKontoAntrag8.setKundennummer(128L);
+  sparKontoAntrag8.setProdukt(KontoProduktEnum.SPAREN);
+  sparKontoAntrag8.setDauerAuftrag(BigDecimal.valueOf(200));
+  sparKontoAntrag8.setErstAuftrag(BigDecimal.valueOf(2000));
+  sparKontoAntragService.save(sparKontoAntrag8);
 
   // kunde 2
   KreditKontoAntrag kreditKontoAntrag1 = new KreditKontoAntrag();
@@ -404,6 +450,63 @@ private void loadData() {
   kreditKontoAntrag3.setProdukt(KontoProduktEnum.KREDIT);
   kreditKontoAntragService.save(kreditKontoAntrag3);
 
+  // kunde 3
+  KreditKontoAntrag kreditKontoAntrag4 = new KreditKontoAntrag();
+  kreditKontoAntrag4.setId(16L);
+  kreditKontoAntrag4.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKontoAntrag4.setKreditBetrag(BigDecimal.valueOf(15000));
+  kreditKontoAntrag4.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  kreditKontoAntrag4.setKundennummer(125L);
+  kreditKontoAntrag4.setLaufzeit(BigInteger.valueOf(120));
+  kreditKontoAntrag4.setZinssatz(BigDecimal.valueOf(8.00));
+  kreditKontoAntrag4.setRate(BigDecimal.valueOf(181.99));
+  kreditKontoAntrag4.setGesamtBelastung(BigDecimal.valueOf(21838.80));
+  kreditKontoAntrag4.setProdukt(KontoProduktEnum.KREDIT);
+  kreditKontoAntragService.save(kreditKontoAntrag4);
+
+  // kunde 4
+  KreditKontoAntrag kreditKontoAntrag5 = new KreditKontoAntrag();
+  kreditKontoAntrag5.setId(17L);
+  kreditKontoAntrag5.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKontoAntrag5.setKreditBetrag(BigDecimal.valueOf(15000));
+  kreditKontoAntrag5.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  kreditKontoAntrag5.setKundennummer(126L);
+  kreditKontoAntrag5.setLaufzeit(BigInteger.valueOf(120));
+  kreditKontoAntrag5.setZinssatz(BigDecimal.valueOf(8.00));
+  kreditKontoAntrag5.setRate(BigDecimal.valueOf(181.99));
+  kreditKontoAntrag5.setGesamtBelastung(BigDecimal.valueOf(21838.80));
+  kreditKontoAntrag5.setProdukt(KontoProduktEnum.KREDIT);
+  kreditKontoAntragService.save(kreditKontoAntrag5);
+
+  // kunde 5
+  KreditKontoAntrag kreditKontoAntrag6 = new KreditKontoAntrag();
+  kreditKontoAntrag6.setId(18L);
+  kreditKontoAntrag6.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKontoAntrag6.setKreditBetrag(BigDecimal.valueOf(15000));
+  kreditKontoAntrag6.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  kreditKontoAntrag6.setKundennummer(127L);
+  kreditKontoAntrag6.setLaufzeit(BigInteger.valueOf(120));
+  kreditKontoAntrag6.setZinssatz(BigDecimal.valueOf(8.00));
+  kreditKontoAntrag6.setRate(BigDecimal.valueOf(181.99));
+  kreditKontoAntrag6.setGesamtBelastung(BigDecimal.valueOf(21838.80));
+  kreditKontoAntrag6.setProdukt(KontoProduktEnum.KREDIT);
+  kreditKontoAntragService.save(kreditKontoAntrag6);
+
+  // kunde 6
+  KreditKontoAntrag kreditKontoAntrag7 = new KreditKontoAntrag();
+  kreditKontoAntrag7.setId(19L);
+  kreditKontoAntrag7.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  kreditKontoAntrag7.setKreditBetrag(BigDecimal.valueOf(15000));
+  kreditKontoAntrag7.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  kreditKontoAntrag7.setKundennummer(128L);
+  kreditKontoAntrag7.setLaufzeit(BigInteger.valueOf(120));
+  kreditKontoAntrag7.setZinssatz(BigDecimal.valueOf(8.00));
+  kreditKontoAntrag7.setRate(BigDecimal.valueOf(181.99));
+  kreditKontoAntrag7.setGesamtBelastung(BigDecimal.valueOf(21838.80));
+  kreditKontoAntrag7.setProdukt(KontoProduktEnum.KREDIT);
+  kreditKontoAntragService.save(kreditKontoAntrag7);
+
+  // Kunde 1
   GiroKontoAntrag giroKontoAntrag1 = new GiroKontoAntrag();
   giroKontoAntrag1.setId(8L);
   giroKontoAntrag1.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
@@ -432,6 +535,46 @@ private void loadData() {
   giroKontoAntrag3.setKundennummer(123L);
   giroKontoAntrag3.setProdukt(KontoProduktEnum.GIRO);
   giroKontoAntragService.save(giroKontoAntrag3);
+
+  // kunde 3
+  GiroKontoAntrag giroKontoAntrag4 = new GiroKontoAntrag();
+  giroKontoAntrag4.setId(20L);
+  giroKontoAntrag4.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKontoAntrag4.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  giroKontoAntrag4.setUeberziehungsrahmenGewuenscht(false);
+  giroKontoAntrag4.setKundennummer(125L);
+  giroKontoAntrag4.setProdukt(KontoProduktEnum.GIRO);
+  giroKontoAntragService.save(giroKontoAntrag4);
+
+  // kunde 4
+  GiroKontoAntrag giroKontoAntrag5 = new GiroKontoAntrag();
+  giroKontoAntrag5.setId(21L);
+  giroKontoAntrag5.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKontoAntrag5.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  giroKontoAntrag5.setUeberziehungsrahmenGewuenscht(false);
+  giroKontoAntrag5.setKundennummer(126L);
+  giroKontoAntrag5.setProdukt(KontoProduktEnum.GIRO);
+  giroKontoAntragService.save(giroKontoAntrag5);
+
+  // kunde 5
+  GiroKontoAntrag giroKontoAntrag6 = new GiroKontoAntrag();
+  giroKontoAntrag6.setId(22L);
+  giroKontoAntrag6.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKontoAntrag6.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  giroKontoAntrag6.setUeberziehungsrahmenGewuenscht(true);
+  giroKontoAntrag6.setKundennummer(127L);
+  giroKontoAntrag6.setProdukt(KontoProduktEnum.GIRO);
+  giroKontoAntragService.save(giroKontoAntrag6);
+
+  // kunde 6
+  GiroKontoAntrag giroKontoAntrag7 = new GiroKontoAntrag();
+  giroKontoAntrag7.setId(23L);
+  giroKontoAntrag7.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
+  giroKontoAntrag7.setAntragStatus(AntragStatusEnum.EINGEREICHT);
+  giroKontoAntrag7.setUeberziehungsrahmenGewuenscht(true);
+  giroKontoAntrag7.setKundennummer(128L);
+  giroKontoAntrag7.setProdukt(KontoProduktEnum.GIRO);
+  giroKontoAntragService.save(giroKontoAntrag7);
 
 
   // SparKonto anlegen

@@ -30,4 +30,9 @@ public interface SparKontoAntragRepository extends JpaRepository<SparKontoAntrag
           "   and exists (select 1 from konto k where k.konto_antrag_id = ka.id and k.id = ?1)", nativeQuery = true)
   SparKontoAntrag findByKontoId(Long kontoId);
 
+  @Query(value = "select count(*) from sparkontoantrag ska, kontoantrag ka " +
+                "  where ska.id = ka.id" +
+                  "  and ka.antrag_status = 'EINGEREICHT'" +
+                  "  and ka.kundennummer = ?1 ", nativeQuery = true)
+  int countEingereichteSparAntraegeByKundennummer(String kundennummer);
 }

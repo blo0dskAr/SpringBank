@@ -29,6 +29,12 @@
                             Der Antrag wurde genehmigt und das Konto konnte bereits eröffnet werden.
                         </div>
                     </div>
+                    <div th:if="${antragAbgelehnt}">
+                        <div class="alert alert-info">
+                            Der Antrag wurde erfolgreich abgelehnt.
+                        </div>
+                    </div>
+
 
                     Logged user: <span sec:authentication="name">Bob</span>
                     <br>

@@ -4,6 +4,9 @@ package at.blo0dy.SpringBank.controller.banking.sparen;
 import at.blo0dy.SpringBank.dao.KundeRepository;
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoAntragRepository;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoRegistrationForm;
+import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
+import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -26,12 +29,15 @@ import java.time.format.DateTimeFormatter;
 @RequestMapping("/kunde/banking/sparen")
 public class SparKontoAntragRegistrationController {
 
+  // TODO: da sollt ich das repository rausrefactoren, und den service dazwischen geben
   private SparKontoAntragRepository sparKontoAntragRepository;
+  private SparService sparService;
   private KundeRepository kundeRepository ;
 
   @Autowired
-  public SparKontoAntragRegistrationController(SparKontoAntragRepository sparKontoAntragRepository, KundeRepository kundeRepository) {
+  public SparKontoAntragRegistrationController(SparKontoAntragRepository sparKontoAntragRepository, SparService sparService, KundeRepository kundeRepository) {
     this.sparKontoAntragRepository = sparKontoAntragRepository;
+    this.sparService = sparService;
     this.kundeRepository = kundeRepository;
   }
 
@@ -55,6 +61,9 @@ public class SparKontoAntragRegistrationController {
                                     @Valid @ModelAttribute("sparkontoantrag") SparKontoRegistrationForm form, BindingResult result,
                                     Model model, RedirectAttributes redirectAttrs) {
 
+    log.debug("SparKontoRegistrationForm erhalten: " + form);
+    Kunde tmpKunde = kundeRepository.findByKundennummer(form.getKundennummer().toString());
+
     if (result.hasErrors()) {
       log.debug("Fehler beim speichern Der SparkontoRegistrationForm erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       model.addAttribute("kundennummer", authentication.getName());
@@ -67,12 +76,21 @@ public class SparKontoAntragRegistrationController {
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     form.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
 
-    log.debug("SparKontoRegistrationForm erhalten: " + form);
     log.debug("SparKontoRegistrationForm wird als SparkontoAntrag gespeichert");
-    sparKontoAntragRepository.save(form.toSparKontoAntrag());
-    log.debug("SparKontoRegistrationForm wurde erfolgreich als SparkontoAntrag gespeichert");
 
-    redirectAttrs.addFlashAttribute("antragGespeichert", true);
+    // Anzahl der Konten und Anträge prüfen
+    int anzahlAktiveSparKonten = sparService.countAktiveKontenByKundeId(tmpKunde.getId());
+    int anzahlEingereichtSparAntraege = sparKontoAntragRepository.countEingereichteSparAntraegeByKundennummer(tmpKunde.getKundennummer());
+
+    if (anzahlAktiveSparKonten + anzahlEingereichtSparAntraege >= 5) {
+      redirectAttrs.addFlashAttribute("zuVieleAktive", true);
+      log.debug("SparKontoRegistrationForm Konnte nicht gespeichert werden, bereits zu viele Aktive Aäntrge");
+    } else {
+      sparKontoAntragRepository.save(form.toSparKontoAntrag());
+      log.debug("SparKontoRegistrationForm wurde erfolgreich als SparkontoAntrag gespeichert");
+      redirectAttrs.addFlashAttribute("antragGespeichert", true);
+    }
+
     return "redirect:/kunde/banking/index";
   }
 

@@ -1,17 +1,10 @@
 package at.blo0dy.SpringBank.controller.banking.kredit;
 
 
-import at.blo0dy.SpringBank.dao.KundeRepository;
-import at.blo0dy.SpringBank.dao.konto.kredit.KreditKontoAntragRepository;
-import at.blo0dy.SpringBank.dao.konto.kredit.KreditKontoRepository;
-import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoRegistrationForm;
-import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoRegistrationForm;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
-import at.blo0dy.SpringBank.model.person.kunde.KundeRegistrationForm;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
-import at.blo0dy.SpringBank.model.produkt.kredit.KreditUtility;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -30,14 +23,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.validation.Valid;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 import java.math.BigInteger;
-import java.security.cert.PKIXReason;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -69,7 +56,7 @@ public class KreditKontoAntragRegistrationController {
 
     String kundennummer = authentication.getName();
     model.addAttribute("kundennummer", kundennummer);
-    log.debug("Kunde " + kundennummer + " ruft die SparKontoRegistrierungsSeite auf. Standardvorlage wurde erstellt.");
+    log.debug("Kunde " + kundennummer + " ruft die KreditKontoRegistrierungsSeite auf. Standardvorlage wurde erstellt.");
 
     return "kunde/banking/kredit/registration";
 }
@@ -78,6 +65,8 @@ public class KreditKontoAntragRegistrationController {
   public String processKreditRegistration(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                           @Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv,
                                           BindingResult bindingResult, Model model) {
+    log.debug("KreditKontoRegistrationForm zur Neuberechnung erhalten:");
+
       if (bindingResult.hasErrors()) {
         log.debug("Fehler beim speichern Der KreditRechnerVorlage erhalten. Wird mit Fehler neu geladen. (count=" + bindingResult.getErrorCount() + ")");
         kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
@@ -107,6 +96,12 @@ public class KreditKontoAntragRegistrationController {
                                        @Validated @ModelAttribute("ergebnis") KreditRechnerErgebnis ke, Errors errors2,
                                        Model model, RedirectAttributes redirectAttrs) {
 
+    log.debug("KreditKontoRegistrationForm zum speichern erhalten:");
+    String kundennummer = authentication.getName();
+    model.addAttribute("kundennummer", kundennummer);
+
+    Kunde tmpKunde = kundeService.findByKundennummer(kundennummer);
+
     if (errors1.hasErrors() || errors2.hasErrors()) {
       kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
@@ -114,22 +109,26 @@ public class KreditKontoAntragRegistrationController {
     }
     ke = kreditService.getKreditRechnerErgebnis(kv);
 
-    String kundennummer = authentication.getName();
-    model.addAttribute("kundennummer", kundennummer);
-
-    log.debug("KreditAntrag mit folgenden Daten wird erstellt:");
-
     log.debug("KreditAntrag soll gespeichert werden für Kunde: " + kundennummer);
 
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
-
     KreditKontoRegistrationForm kreditKontoRegistrationForm = new KreditKontoRegistrationForm(LocalDateTime.parse(LocalDateTime.now().format(formatter)), kv.getKreditBetrag(), ke.getMonatlicheRate(), kv.getLaufzeit(), kv.getZinssatz(), ke.getGesamtBelastung(), Long.valueOf(kundennummer) );
     log.debug("KreditKontoRegistrationForm wurde erstellt: " + kreditKontoRegistrationForm.toString());
-    kreditKontoAntragService.save(kreditKontoRegistrationForm.toKreditKontoAntrag());
-    log.debug("Kreditantrag wurde erfolgreich gespeichert.");
 
-    redirectAttrs.addFlashAttribute("antragGespeichert", true);
-//    return "kunde/banking/index";
+    // Anzahl der Konten und Anträge prüfen
+    int anzahlAktiveKreditKonten = kreditService.countAktiveKontenByKundeId(tmpKunde.getId());
+    int anzahlEingereichtKreditAntraege = kreditKontoAntragService.countEingereichteKreditAntraegeByKundennummer(tmpKunde.getKundennummer());
+
+    if (anzahlAktiveKreditKonten + anzahlEingereichtKreditAntraege >= 2) {
+      redirectAttrs.addFlashAttribute("zuVieleAktive", true);
+      log.debug("KreditKontoRegistrationForm Konnte nicht gespeichert werden, bereits zu viele Aktive Aäntrge");
+    } else {
+      kreditKontoAntragService.save(kreditKontoRegistrationForm.toKreditKontoAntrag());
+      log.debug("KreditKontoRegistrationForm wurde erfolgreich als KreditkontoAntrag gespeichert");
+      redirectAttrs.addFlashAttribute("antragGespeichert", true);
+    }
+
+
     return "redirect:/kunde/banking/index" ;
   }
 }

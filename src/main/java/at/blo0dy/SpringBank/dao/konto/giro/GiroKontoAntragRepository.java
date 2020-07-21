@@ -36,4 +36,9 @@ public interface GiroKontoAntragRepository extends JpaRepository<GiroKontoAntrag
   GiroKontoAntrag findByKontoId(Long kontoId);
 
 
+  @Query(value = "select count(*) from girokontoantrag gka, kontoantrag ka " +
+          "  where gka.id = ka.id" +
+          "  and ka.antrag_status = 'EINGEREICHT'" +
+          "  and ka.kundennummer = ?1 ", nativeQuery = true)
+  int countEingereichteGiroAntraegeByKundennummer(String kundennummer);
 }

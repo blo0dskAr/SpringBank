@@ -16,6 +16,7 @@
                    <form action="#" th:action="@{/mitarbeiter/kunde/sparen/antrag/saveSparAntrag2KontoForm}" method="POST" >
                        <input type="hidden" th:field="${sparKontoAntrag.id}" />
                        <input type="hidden" th:field="${sparKontoAntrag.antragDatum}" />
+                       <input type="hidden" th:field="${sparKontoAntrag.produkt}" />
                        <div class="form-row">
                            <div class="form-group col-md-12">
                                <h4>Antrags-Daten</h4>

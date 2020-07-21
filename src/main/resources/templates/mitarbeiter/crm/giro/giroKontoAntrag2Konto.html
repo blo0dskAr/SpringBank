@@ -16,6 +16,7 @@
                    <form action="#" th:action="@{/mitarbeiter/kunde/giro/antrag/saveGiroAntrag2KontoForm}" method="POST" >
                        <input type="hidden" th:field="${giroKontoAntrag.id}" />
                        <input type="hidden" th:field="${giroKontoAntrag.antragDatum}" />
+                       <input type="hidden" th:field="${giroKontoAntrag.produkt}" />
                        <div class="form-row">
                            <div class="form-group col-md-12">
                                <h4>Antrags-Daten</h4>

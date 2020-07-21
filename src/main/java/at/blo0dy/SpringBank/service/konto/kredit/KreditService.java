@@ -32,4 +32,5 @@ public interface KreditService {
   KreditKonto findByKontonummer(Long kontonummer);
 
 
+  int countAktiveKontenByKundeId(Long id);
 }

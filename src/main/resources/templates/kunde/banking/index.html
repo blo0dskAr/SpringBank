@@ -29,6 +29,11 @@
                         Ihre Daten wurden aktualisiert.
                     </div>
                 </div>
+                <div th:if="${zuVieleAktive}">
+                    <div class="alert alert-danger">
+                        Sie dürfen nicht mehr als 5 Konten haben und dementsprechend nicht mehr Anträge erstellen.
+                    </div>
+                </div>
 
                 <div class="row border justify-content-md-center ">
                     <div class="col">

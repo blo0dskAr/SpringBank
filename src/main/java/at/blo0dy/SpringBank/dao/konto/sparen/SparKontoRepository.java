@@ -37,4 +37,9 @@ public interface SparKontoRepository extends JpaRepository<SparKonto, Long> {
 
   SparKonto findByKontonummer(Long kontonummer);
 
+  @Query(value = "select count(*) from sparkonto sko, konto ko " +
+                 " where sko.id = ko.id" +
+                 "   and ko.kunde_id = ?1" +
+                  "  and ko.konto_status = 'OFFEN' ", nativeQuery = true)
+  int countAktiveKontenByKundeId(Long kundeId);
 }

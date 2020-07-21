@@ -42,4 +42,5 @@ public interface SparService {
 
   List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage);
 
+  int countAktiveKontenByKundeId(Long kundeId);
 }

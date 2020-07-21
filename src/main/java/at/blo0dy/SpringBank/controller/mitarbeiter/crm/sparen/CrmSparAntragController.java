@@ -62,7 +62,7 @@ public class CrmSparAntragController {
     SparKontoAntrag sparKontoAntrag = sparKontoAntragService.findById(sparKontoAntragId);
     Kunde kunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
     log.debug("showSparAntragForKontoForm für id=" + sparKontoAntragId + ", KundeNr= " + kunde.getKundennummer() + " wird angezeigt");
-    sparKontoAntrag.setId(sparKontoAntragId);
+//    sparKontoAntrag.setId(sparKontoAntragId);
 
     model.addAttribute("sparKontoAntrag", sparKontoAntrag);
     model.addAttribute("kunde", kunde);
@@ -84,6 +84,11 @@ public class CrmSparAntragController {
     final Kunde mykunde = kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString());
     final KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
+
+    if (sparKontoAntrag.getAntragStatus().equals(AntragStatusEnum.ABGELEHNT) || sparKontoAntrag.getAntragStatus().equals(AntragStatusEnum.ABGELEHNT_WEIL_NEU_BERECHNET)) {
+      redirectAttrs.addFlashAttribute("antragAbgelehnt", true);
+    }
+
     if (sparKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT))  {
       log.debug("SparkontoAntrag wurde genehmigt, Sparkonto wird erstellt");
       SparKonto sparKonto = new SparKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
@@ -91,10 +96,6 @@ public class CrmSparAntragController {
       log.debug("Sparkonto wurde erstellt, Sparkonto wird gespeichert.)");
       sparService.save(sparKonto);
       log.debug("Sparkonto wurde erfolgreich gespeichert. (id=" + sparKonto.getId() + ")");
-
-      log.debug("SparKontoAntrag wird gespeichert");
-      sparKontoAntragService.save(sparKontoAntrag);
-      log.debug("SparKontoAntrag wurde erfolgreich gespeichert");
 
       if (bestMoeglicherStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
         log.debug("Sparkonto mit der ID=" + sparKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
@@ -117,6 +118,11 @@ public class CrmSparAntragController {
         }
       }
     }
+
+    log.debug("SparKontoAntrag wird gespeichert");
+    sparKontoAntragService.save(sparKontoAntrag);
+    log.debug("SparKontoAntrag wurde erfolgreich gespeichert");
+
 
     return "redirect:/mitarbeiter/kunde/sparen/antrag";
   }

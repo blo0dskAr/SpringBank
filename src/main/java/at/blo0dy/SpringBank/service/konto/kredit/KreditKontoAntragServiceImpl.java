@@ -103,5 +103,11 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
     return kreditKontoAntragRepository.findKreditAntragByAntragIdAndKundennummer(antragId, kundennummer);
   }
 
+  @Override
+  @Transactional
+  public int countEingereichteKreditAntraegeByKundennummer(String kundennummer) {
+    return kreditKontoAntragRepository.countEingereichteKreditAntraegeByKundennummer(kundennummer);
+  }
+
 
 }

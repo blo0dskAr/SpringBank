@@ -123,6 +123,7 @@ public class KontoServiceImpl implements KontoService {
 
     // Änderung nicht möglich
     if ((alterKontoStatus.equals(KontoStatusEnum.GESCHLOSSEN))
+            // TODO:  werd ich auch nicht brauchen  glaub ich =)
             || ((neuerKontoStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)))) {
       return "TRANSITION_NOT_POSSIBLE";
     }

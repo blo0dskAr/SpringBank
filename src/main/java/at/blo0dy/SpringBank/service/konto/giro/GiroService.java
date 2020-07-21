@@ -25,4 +25,5 @@ public interface GiroService {
 
   GiroKonto findByKontonummer(Long kontonummer);
 
+  int countAktiveKontenByKundeId(Long id);
 }

@@ -88,4 +88,9 @@ public class KreditServiceImpl implements KreditService {
     return kreditKontoRepository.findByKontonummer(kontonummer);
   }
 
+  @Override
+  public int countAktiveKontenByKundeId(Long kundeId) {
+    return kreditKontoRepository.countAktiveKontenByKundeId(kundeId);
+  }
+
 }

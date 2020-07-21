@@ -40,4 +40,10 @@ public interface GiroKontoRepository extends JpaRepository<GiroKonto, Long> {
           " gko.ueberziehungs_rahmen = ?2 " +
           "  where gko.id = ?1", nativeQuery = true)
   void UpdateUeberziehungsRahmenByKontoId(Long kontoId, BigDecimal rahmen);
+
+  @Query(value = "select count(*) from girokonto gko, konto ko " +
+          " where gko.id = ko.id" +
+          "   and ko.kunde_id = ?1" +
+          "  and ko.konto_status = 'OFFEN' ", nativeQuery = true)
+  int countAktiveKontenByKundeId(Long kundeId);
 }

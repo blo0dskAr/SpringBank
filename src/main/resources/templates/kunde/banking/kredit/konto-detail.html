@@ -35,7 +35,7 @@
                             <td th:text="${kontobuchung.buchungsText}">Mark</td>
                             <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">Otto</span></div></td>
                             <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).HABEN}"><span class="text-success" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">@mdo</span></div></td>
-                            <td th:text="${#numbers.formatDecimal(kontobuchung.saldoNachBuchung, 0, 'POINT', 2, 'COMMA')}"></td>
+                            <td th:text="${#numbers.formatDecimal(kontobuchung.saldoNachBuchung, 1, 'POINT', 2, 'COMMA')}"></td>
                         </tr>
                         </tbody>
                     </table>

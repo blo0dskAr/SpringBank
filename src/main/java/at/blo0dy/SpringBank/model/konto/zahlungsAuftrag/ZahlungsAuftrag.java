@@ -4,6 +4,7 @@ package at.blo0dy.SpringBank.model.konto.zahlungsAuftrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.zv.Datentraeger;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,7 @@ import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -64,4 +66,21 @@ public class ZahlungsAuftrag {
   @Column(name = "senderKonto")
   private String senderKonto;
 
+  @ManyToOne
+  @JoinColumn(name = "datentraeger_id")
+  private Datentraeger datentraeger;
+
+
+  public ZahlungsAuftrag(@FutureOrPresent @NotNull LocalDate auftragsDatum, LocalDateTime datAnlage, LocalDateTime datAend, @DecimalMin(value = "0.01", message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.") @DecimalMax(value = "50000", message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.") @Digits(integer = 5, fraction = 2, message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen. maximal 2 Nachkommastellen") @NotNull(message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.") BigDecimal betrag, Konto konto, @NotBlank String kontonummer, ZahlungAuftragStatusEnum auftragsStatus, ZahlungAuftragArtEnum auftragsArt, String empfaengerKonto, String senderKonto) {
+    this.auftragsDatum = auftragsDatum;
+    this.datAnlage = datAnlage;
+    this.datAend = datAend;
+    this.betrag = betrag;
+    this.konto = konto;
+    this.kontonummer = kontonummer;
+    this.auftragsStatus = auftragsStatus;
+    this.auftragsArt = auftragsArt;
+    this.empfaengerKonto = empfaengerKonto;
+    this.senderKonto = senderKonto;
+  }
 }

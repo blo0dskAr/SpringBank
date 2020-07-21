@@ -14,11 +14,6 @@ public class KundeRegistrationForm {
   @NotBlank(message = "Vorname must be defined.")
   private String vorname;
 
-/*  // TODO:: das wird man rausnehmne können, und unten dann frisch generieren.
-  @Min(124)
-  @Max(99999999)
-  @NotNull(message = "Kundennummer must be defined.")
-  private String kundennummer;*/
   @NotBlank(message = "Nachname must be defined.")
   private String nachname;
 
@@ -34,13 +29,18 @@ public class KundeRegistrationForm {
   @NotBlank(message = "EmailAdresse must be defined.")
   private String emailAdresse;
 
-  @NotBlank(message = "Darf nicht leer sein")
+  @NotBlank(message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")
+  @Column(name = "connected_giro")
+  @Pattern(regexp = "^AT[0-9a-zA-Z]{18}$", message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")
   private String connectedGiro;
+
+
+  private boolean hasAcceptedAGB ;
 
 
   public Kunde toUser(PasswordEncoder passwordEncoder, String kundennummer) {
 
-    return new Kunde(vorname,  nachname, new Adresse(adresse.getStrasse(), adresse.getPlz(), adresse.getOrt(), adresse.getLand()), kundennummer,  telefonNummer,  emailAdresse, passwordEncoder.encode(password), true, true, true, true, connectedGiro );
+    return new Kunde(vorname,  nachname, new Adresse(adresse.getStrasse(), adresse.getPlz(), adresse.getOrt(), adresse.getLand()), kundennummer,  telefonNummer,  emailAdresse, passwordEncoder.encode(password), false, hasAcceptedAGB, false, false, connectedGiro );
 
   }
 }

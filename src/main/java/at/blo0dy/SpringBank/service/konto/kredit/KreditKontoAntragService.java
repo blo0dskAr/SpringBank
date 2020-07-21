@@ -31,4 +31,5 @@ public interface KreditKontoAntragService {
 
   KreditKontoAntrag findKreditAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
+  int countEingereichteKreditAntraegeByKundennummer(String kundennummer);
 }

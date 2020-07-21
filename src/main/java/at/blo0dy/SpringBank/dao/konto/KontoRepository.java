@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.dao.konto;
 
 import at.blo0dy.SpringBank.model.konto.Konto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
@@ -28,5 +29,19 @@ public interface KontoRepository extends JpaRepository<Konto, Long> {
   @Query(value = "select ko.kontonummer from konto ko " +
                  " where ko.id = ?1 ", nativeQuery = true)
   String findKontonummerById(Long kontoId);
+
+  Konto findByKontonummer(Long kontonummer);
+
+  @Modifying
+  @Query(value = "update konto ko set " +
+                  "  ko.akt_saldo = ?2 " +
+                  " where ko.id = ?1", nativeQuery = true)
+  void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo);
+
+  @Modifying
+  @Query(value = "update konto ko set " +
+                  " ko.konto_status = ?2 " +
+                  "  where ko.id = ?1", nativeQuery = true)
+  void updateKontoStatusByIdAndStatus(Long kontoId, String kontoStatus);
 
 }

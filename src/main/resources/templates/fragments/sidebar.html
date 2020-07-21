@@ -5,113 +5,133 @@
     <title>Doesnt Matter</title>
 </head>
 <body>
-
-<div th:fragment="sideNavigation">
-    <link rel="stylesheet" th:href="@{/css/dashboard.css}" type="text/css" />
-<!--<div class="container-fluid">-->
-    <div class="row">
-        <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-            <div class="sidebar-sticky pt-3">
-                <ul class="nav flex-column">
-                    <li class="nav-item">
+    <div th:fragment="sideNavigation" id="layoutSidenav">
+        <div id="layoutSidenav_nav">
+            <nav class="sb-sidenav accordion sb-sidenav-dark" id="sidenavAccordion">
+                <div class="sb-sidenav-menu">
+                    <div class="nav">
+                        <div class="sb-sidenav-menu-heading">Core</div>
                         <a th:class="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                             Home
                         </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Integrations
-                        </a>
-                    </li>
-                    <div sec:authorize="hasAuthority('admin')"  >
-                        <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''">Admin</a>
-                        <div id="collapse" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')} ? 'show' : ''" >
-                            <ul class="list-group">
-                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/mitarbeiterAdministration/list}">
-                                    Mitarbeiter
-                                </a>
-                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/rolle')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/admin/rollen/index}">
-                                    Rollen
+                        <div sec:authorize="hasAuthority('admin')">
+                            <a class="nav-link collapsed" href="#" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''"
+                               data-toggle="collapse" data-target="#admincollapse" aria-expanded="false" aria-controls="admincollapse">
+                                <div class="sb-nav-link-icon"><i class="fas fa-coins"></i></div>
+                                Admin
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')} ? 'show' : ''"
+                                 id="admincollapse" aria-labelledby="heading1" data-parent="#sidenavAccordion">
+                                <nav class="sb-sidenav-menu-nested nav">
+                                    <a class="nav-link" th:href="@{~/mitarbeiter/admin/mitarbeiterAdministration/list}" >
+                                        <div class="sb-nav-link-icon"><i class="fas fa-question-circle"></i></div>
+                                        Mitarbeiter
                                     </a>
-                                <li class="list-group-item">Three</li>
-                            </ul>
+                                    <a class="nav-link" th:href="@{~/mitarbeiter/admin/rollen/index}">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-calculator"></i></div>
+                                        Rollen
+                                    </a>
+                                    <a class="nav-link" th:href="@{~/mitarbeiter/admin/operations/batchAdministration}">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-calculator"></i></div>
+                                        Ops Tools
+                                    </a>
+                                </nav>
+                            </div>
                         </div>
-                    </div>
-                    <div sec:authorize="hasAuthority('mitarbeiter')"  >
-                        <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKunde" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')}  ? 'active' : ''">Kunde</a>
-                        <div id="collapseKunde" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')} ? 'show' : ''" >
-                            <ul class="list-group">
-                                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/index')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/index}">
-                                    Übersicht
-                                </a>
-                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeSparen" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')}  ? 'active' : ''">Sparen</a>
-                                <div id="collapseKundeSparen" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'show' : ''" >
-                                    <ul class="list-group">
-                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/sparen/antrag}">
-                                            AntragsBearbeitung
-                                        </a>
-                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/sparen/konto}">
-                                            KontoBearbeitung
-                                        </a>
-                                    </ul>
-                                </div>
-                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeKredit" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')}  ? 'active' : ''">Kredit</a>
-                                <div id="collapseKundeKredit" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'show' : ''" >
-                                    <ul class="list-group">
-                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/kredit/antrag}">
-                                            AntragsBearbeitung
-                                        </a>
-                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/kredit/konto}">
-                                            KontoBearbeitung
-                                        </a>
-                                    </ul>
-                                </div>
-                                <a class="nav-link dropdown-toggle" data-toggle="collapse" href="#collapseKundeGiro" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')}  ? 'active' : ''">Giro</a>
-                                <div id="collapseKundeGiro" class="panel-collapse collapse " th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'show' : ''" >
-                                    <ul class="list-group">
-                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/antrag')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/giro/antrag}">
-                                            AntragsBearbeitung
-                                        </a>
-                                        <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')} ? 'list-group-item list-group-item-action active' : 'list-group-item list-group-item-action'" th:href="@{~/mitarbeiter/kunde/giro/konto}">
-                                            KontoBearbeitung
-                                        </a>
-                                    </ul>
-                                </div>
-                                <li class="list-group-item">Item#3</li>
-                            </ul>
-                        </div>
-                    </div>
-                </ul>
 
-                <h6 class="sidebar-heading px-3 mt-4 mb-1 text-muted">
-                    <span>Saved reports</span>
-                </h6>
-                <ul class="nav flex-column mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Current month
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Last quarter
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Social engagement
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Year-end sale
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
+                        <div sec:authorize="hasAuthority('mitarbeiter')">
+                            <a class="nav-link collapsed" href="#" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')}  ? 'active' : ''"
+                               data-toggle="collapse" data-target="#collapsekunde" aria-expanded="false" aria-controls="collapsekunde">
+                                <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
+                                Kunde
+                                <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                            </a>
+                            <div class="collapse" id="collapsekunde" aria-labelledby="headingTwo" data-parent="#sidenavAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde')} ? 'show' : ''" >
+                                <nav class="sb-sidenav-menu-nested nav accordion" id="kundeAccordion">
+
+
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#sucheCollapse" aria-expanded="false" aria-controls="sucheCollapse"
+                                       th:classappend="${#strings.endsWith(requestURI, 'suche')} ? 'active' : ''">
+                                        Suche
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="sucheCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.endsWith(requestURI, 'suche')} ? 'show' : ''">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a class="nav-link" th:href="@{/mitarbeiter/kunde/kundensuche}">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                suche Kunde
+                                            </a>
+                                            <a class="nav-link" th:href="@{/mitarbeiter/kunde/kontosuche}">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                suche Konto
+                                            </a>
+                                            <a class="nav-link" th:href="@{/mitarbeiter/kunde/antragsuche}">
+                                                <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                                suche Antrag
+                                            </a>
+                                        </nav>
+                                    </div>
+
+
+
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#SparenCollapse" aria-expanded="false" aria-controls="SparenCollapse"
+                                       th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'active' : ''">
+                                        Sparen
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="SparenCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'show' : ''">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/sparen/antrag}">
+                                                AntragsBearbeitung
+                                            </a>
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/sparen/kontoBearbeitung}">
+                                                KontoBearbeitung
+                                            </a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#kreditCollapse" aria-expanded="false" aria-controls="kreditCollapse"
+                                       th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'active' : ''">
+                                        Kredit
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="kreditCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'show' : ''">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/kredit/antrag}">
+                                                AntragsBearbeitung
+                                            </a>
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/kredit/kontoBearbeitung}">
+                                                KontoBearbeitung
+                                            </a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#giroCollapse" aria-expanded="false" aria-controls="giroCollapse"
+                                       th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'active' : ''">
+                                        Giro
+                                        <div class="sb-sidenav-collapse-arrow"><i class="fas fa-angle-down"></i></div>
+                                    </a>
+                                    <div class="collapse" id="giroCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'show' : ''">
+                                        <nav class="sb-sidenav-menu-nested nav">
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/giro/antrag}">
+                                                AntragsBearbeitung
+                                            </a>
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/giro/kontoBearbeitung}">
+                                                KontoBearbeitung
+                                            </a>
+                                        </nav>
+                                    </div>
+                                    <a class="nav-link" th:href="@{/mitarbeiter/kunde/person/sucheDokumente}">
+                                        <div class="sb-nav-link-icon"><i class="fas fa-chart-area"></i></div>
+                                        Neue Dokumente
+                                    </a>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
     </div>
-</div>
-
 </body>
 </html>

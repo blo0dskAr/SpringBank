@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{mainlayout.html}">
+<head>
+    <title>Neue Einzahlung</title>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid">
+            <form action="#" th:action="@{/mitarbeiter/kunde/konto/saveKontoBuchungForm}" th:object="${kontoBuchung}" method="POST">
+                <h1> KontoBuchung erstellen </h1>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <input type="hidden" th:field="${kontoBuchung.id}" />
+                        <input type="hidden" th:field="${kontoBuchung.konto}" />
+                        <input type="hidden" th:field="${kontoBuchung.konto.id}" />
+                        <span class="text-danger"
+                              th:if="${#fields.hasErrors('konto.kontonummer')}"
+                              th:errors="*{konto.kontonummer}">kontonummer Error</span>
+                        <label for="kontonummer">Kontonummer:</label>
+                        <input type="text" id="kontonummer" name="kontonummer" th:field="${konto.kontonummer}"
+                               class="form-control mb-2 col-8" readonly>
+                    </div>
+                    <div class="form-group col-4">
+                        <span class="text-danger"
+                              th:if="${#fields.hasErrors('buchungsDatum')}"
+                              th:errors="*{buchungsDatum}">buchungsDatum Error</span>
+                        <label for="buchungsDatum">Auftrags Datum:</label>
+                        <input type="date" th:field="*{buchungsDatum}"
+                               class="form-control mb-4 col-8" id ="buchungsDatum" placeholder ="buchungsDatum">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <span class="text-danger"
+                              th:if="${#fields.hasErrors('buchungsBetrag')}"
+                              th:errors="*{buchungsBetrag}">betrag Error</span>
+                        <label for="buchungsBetrag">Betrag:</label>
+                        <input type="text" th:field="*{buchungsBetrag}"
+                               class="form-control mb-4 col-8" id="buchungsBetrag" name="buchungsBetrag" placeholder ="12.345,12 €">
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="buchungsArt">Buchungs Art:</label>
+                        <select id="buchungsArt" class="form-control" th:field="*{buchungsArt}">
+                            <Option value="" text="'Keine Einschränkung'" disabled>Bitte Auswählen</Option>
+                            <option class="form-control mb-4 col-4"
+                                    th:each="buchungsArtOption : ${T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).values()}"
+                                    th:value="${{buchungsArtOption}}"
+                                    th:text="${buchungsArtOption.getDisplayName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-8">
+                        <span class="text-danger"
+                              th:if="${#fields.hasErrors('buchungsText')}"
+                              th:errors="*{buchungsText}">buchungsText Error</span>
+                            <label for="buchungsText">BuchungsText:</label>
+                            <input type="text" th:field="*{buchungsText}"
+                                   class="form-control mb-4 col-4" id="buchungsText" name="buchungsText" placeholder ="zB. PrämienBuchung - TidePod-Challenge">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-8">
+                        <button type="submit" class="btn btn-info">Speichern</button>
+                        <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'SparKonto'}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-DetailPage</a>
+                        <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-DetailPage</a>
+                        <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}" th:href="@{/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-DetailPage</a>
+
+                    </div>
+                </div>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

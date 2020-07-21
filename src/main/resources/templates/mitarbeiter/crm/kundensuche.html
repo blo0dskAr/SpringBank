@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+
+      layout:decorate="~{mainlayout.html}">
+
+<head>
+    <title>Layout</title>
+</head>
+<body>
+    <div layout:fragment="content">
+        <main>
+            <div class="container-fluid">
+                <form method="POST" th:action="@{/mitarbeiter/kunde/kundensuche}" th:object="${kunde}" id="registerForm">
+                    <h1> Kundensuche </h1>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label for="kundennummer">Kundennummer:</label>
+                            <input type="text" class="form-control" th:field="*{kundennummer}" name="kundennummer" id="kundennummer" placeholder="zB. 123">
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="vorname">Vorname:</label>
+                            <input type="text" class="form-control" th:field="*{vorname}" name="vorname" id="vorname" placeholder="zB. Hans">
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="nachname">Nachname:</label>
+                            <input type="text" class="form-control" th:field="*{nachname}" name="nachname" id="nachname" placeholder="zB. Wurst">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="container-fluid mt-5">
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>Kundennummer</th>
+                            <th>Vorname</th>
+                            <th>NachName</th>
+                            <th>GeburtsdatumFake</th>
+                            <th>Adresse</th>
+                            <th>Status</th>
+                            <th>Details</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="kunde : ${ergebnis}">
+                            <td th:text="${kunde.kundennummer}">kundennummer</td>
+                            <td th:text="${kunde.vorname}">vorname</td>
+                            <td th:text="${kunde.nachname}">nachname</td>
+                            <td th:text="'01.01.1970'">FakeGebDatum</td>
+                            <td th:text="${kunde.adresse}">Adresse</td>
+                            <td>
+                                <small>
+                                    <span th:classappend="${kunde.Active ? 'text-success' : 'text-danger'}" th:text="${kunde.Active ? 'Aktiv, ' : 'Inaktiv, '}"></span>
+                                    <span th:classappend="${kunde.legi ? 'text-success' : 'text-danger'}" th:text="${kunde.legi ? 'Legi, ' : 'Legi, '}"></span>
+                                    <span th:classappend="${kunde.hasAcceptedAGB ? 'text-success' : 'text-danger'}" th:text="${kunde.hasAcceptedAGB ? 'AGB, ' : 'AGB, '}"></span>
+                                    <span th:classappend="${kunde.firstLoginDone ? 'text-success' : 'text-danger'}" th:text="${kunde.firstLoginDone ? 'Log' : 'Log'}"></span>
+                                </small>
+                            </td>
+                            <td>
+                                <a th:href="@{/mitarbeiter/kunde/person/showKundeDetailPage(kundeId=${kunde.id})}"
+                                   class="btn btn-info btn-sm">
+                                    Details
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

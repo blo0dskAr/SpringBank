@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.dao.konto.sparen;
 
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
@@ -34,4 +35,11 @@ public interface SparKontoRepository extends JpaRepository<SparKonto, Long> {
           "   and ko.id = sko.id", nativeQuery = true)
   SparKonto findSparKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  SparKonto findByKontonummer(Long kontonummer);
+
+  @Query(value = "select count(*) from sparkonto sko, konto ko " +
+                 " where sko.id = ko.id" +
+                 "   and ko.kunde_id = ?1" +
+                  "  and ko.konto_status = 'OFFEN' ", nativeQuery = true)
+  int countAktiveKontenByKundeId(Long kundeId);
 }

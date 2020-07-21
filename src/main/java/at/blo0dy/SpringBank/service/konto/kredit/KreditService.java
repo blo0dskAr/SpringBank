@@ -29,5 +29,8 @@ public interface KreditService {
 
   KreditKonto findKreditKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  KreditKonto findByKontonummer(Long kontonummer);
 
+
+  int countAktiveKontenByKundeId(Long id);
 }

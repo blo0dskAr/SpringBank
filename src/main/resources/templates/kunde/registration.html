@@ -4,13 +4,6 @@
       layout:decorate="~{kunde/mainlayout.html}">
 <head>
     <title>Home</title>
-<!--    <meta name="keywords" content="Home" />-->
-<!--    <meta name="viewport"-->
-<!--          content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
-
-<!--    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">-->
-<!--    <link rel="stylesheet" th:href="@{/css/kunde/styles.css}" type="text/css" />-->
-<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>-->
 </head>
 
 <body>
@@ -37,6 +30,8 @@
                                     <label for="nachname">Nachname: </label>
                                     <input type="text" id="nachname" class="form-control" name="nachname" th:field="*{nachname}"/>
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('password')}"
@@ -47,7 +42,8 @@
 
                         <!--        <label for="confirm">Confirm Password: </label>
                                 <input type="password" id="confirm" name="confirm"/><br>-->
-
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('adresse.strasse')}"
@@ -55,6 +51,8 @@
                                     <label for="strasse">Straße: </label>
                                     <input type="text" id="strasse" class="form-control" name="strasse" th:field="*{adresse.strasse}" />
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('adresse.plz')}"
@@ -69,31 +67,60 @@
                                     <label for="ort">Ort: </label>
                                     <input type="text" id="ort" class="form-control" name="ort" th:field="*{adresse.ort}" />
                                 </div>
-                                <div class="form-group col-md-12">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('adresse.land')}"
                                           th:errors="*{adresse.land}">Land Error</span>
                                     <label for="land">Land: </label>
                                     <input type="text" id="land" class="form-control" name="land" th:field="*{adresse.land}" />
                                 </div>
-
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('connectedGiro')}"
+                                          th:errors="*{connectedGiro}">connectedGiro Error</span>
+                                    <label for="connectedGiro">Verbundes Girokonto: </label>
+                                    <input type="text" id="connectedGiro" class="form-control" name="connectedGiro" th:field="*{connectedGiro}" />
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('telefonNummer')}"
                                           th:errors="*{telefonNummer}">PLZ Error</span>
                                     <label for="telefonNummer">TelefonNummer: </label>
                                     <input type="text" id="telefonNummer" class="form-control" name="telefonNummer" th:field="*{telefonNummer}" />
                                 </div>
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-md-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('emailAdresse')}"
                                           th:errors="*{emailAdresse}">PLZ Error</span>
                                     <label for="emailAdresse">Email: </label>
                                     <input type="text" id="emailAdresse" class="form-control" name="emailAdresse" th:field="*{emailAdresse}"/>
                                 </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-md-12">
-                                    <input type="submit" class="btn btn-primary" value="Register" />
+                                    <div class="pt-4 pb-2" id="accordion">
+                                        <div class="checkbox">
+                                            <label data-toggle="collapse" data-target="#collapseOne">
+                                                <input type="checkbox" th:checked="*{hasAcceptedAGB}" th:field="*{hasAcceptedAGB}"/> Ich bin mit den AGB's einverstanden.
+                                            </label>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse in">
+                                            <div class="card-body">
+                                                <div class="alert alert-primary" role="alert">
+                                                    <a>(*) Hiermit erteilen Sie Zustimmung zu unseren Allgemeinen Geschäftsbedingungen. Solange Sie unsere Geschäftsbedingungen nicht Zustimmen können Sie zwar den Login nutzen, jedoch aber kein Konto eröffnen. Die Kosten die uns durch Sie entstehen, wird durch die Erlöse durch den Verkauf Ihrer Daten wieder reingebracht. Und nun los, verkaufen Sie uns auch Ihre Seele... </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+                            <div class="form-group col-md-12">
+                                <input type="submit" class="btn btn-primary" value="Register" />
                             </div>
                         </form>
                     </div>

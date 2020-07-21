@@ -21,4 +21,7 @@ public interface KontoAntragRepository extends JpaRepository<KontoAntrag, Long> 
                   "  and ka.antrag_status like 'GENEHMIGT%'", nativeQuery = true)
   Long countDurchgefuehrteAntraegeByKundennummer(String kundennummer);
 
+//  @Query(value = "select * from kontoantrag ka where ka.kundennummer")
+//  KontoAntrag findByKontoId(Long kontoId);
+
 }

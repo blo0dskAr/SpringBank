@@ -16,7 +16,7 @@
                    <form action="#" th:action="@{/mitarbeiter/kunde/sparen/antrag/saveSparAntrag2KontoForm}" method="POST" >
                        <input type="hidden" th:field="${sparKontoAntrag.id}" />
                        <input type="hidden" th:field="${sparKontoAntrag.antragDatum}" />
-<!--                       <input type="hidden" th:field="*{kunde}" />-->
+                       <input type="hidden" th:field="${sparKontoAntrag.produkt}" />
                        <div class="form-row">
                            <div class="form-group col-md-12">
                                <h4>Antrags-Daten</h4>
@@ -26,24 +26,25 @@
                                     th:if="${#fields.hasErrors('sparKontoAntrag.erstAuftrag')}"
                                     th:errors="*{sparKontoAntrag.erstAuftrag}">erstAuftrag Error</div>
                                <label for="erstAuftrag">Erst-Auftrag</label>
-<!--                               <input type="text" class="form-control" id="erstAuftrag" name="erstAuftrag" placeholder="1.000.000,00 €" th:value="${sparKontoAntrag.erstAuftrag}">-->
-                               <input type="text" class="form-control" id="erstAuftrag" name="erstAuftrag" placeholder="1.000.000,00 €" th:value="${#numbers.formatDecimal(sparKontoAntrag.erstAuftrag, 0, 'POINT', 2, 'COMMA')}">
+                               <input type="text" class="form-control" id="erstAuftrag" name="erstAuftrag" placeholder="1.000.000,00 €" th:value="${#numbers.formatDecimal(sparKontoAntrag.erstAuftrag, 1, 'POINT', 2, 'COMMA')}"
+                                      th:readonly="(${sparKontoAntrag.antragStatus} == ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT})">
                            </div>
                            <div class="text-danger"
                                 th:if="${#fields.hasErrors('sparKontoAntrag.dauerAuftrag')}"
                                 th:errors="*{sparKontoAntrag.dauerAuftrag}">dauerAuftrag Error</div>
                            <div class="form-group col-md-6">
                                <label for="dauerAuftrag">Dauer-Auftrag</label>
-                               <input type="text" class="form-control" id="dauerAuftrag" name="dauerAuftrag" placeholder="5.000,00 €" th:value="${#numbers.formatDecimal(sparKontoAntrag.dauerAuftrag, 0, 'POINT', 2, 'COMMA')}">
+                               <input type="text" class="form-control" id="dauerAuftrag" name="dauerAuftrag" placeholder="5.000,00 €" th:value="${#numbers.formatDecimal(sparKontoAntrag.dauerAuftrag, 1, 'POINT', 2, 'COMMA')}"
+                                      th:readonly="(${sparKontoAntrag.antragStatus} == ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT})">
                            </div>
                        </div>
                        <div class="form-group">
                            <label for="antragKundennummer">Kundennummer</label>
-                           <input type="text" class="form-control" id="antragKundennummer" name="antragKundennummer" placeholder="12345678" th:value="${sparKontoAntrag.kundennummer}">
+                           <input type="text" class="form-control" id="antragKundennummer" name="antragKundennummer" placeholder="12345678" th:value="${sparKontoAntrag.kundennummer}" readonly>
                        </div>
                        <div class="form-group">
                            <label for="antragStatus">Status</label>
-                           <select id="antragStatus" class="form-control" th:field="*{sparKontoAntrag.antragStatus}">
+                           <select id="antragStatus" class="form-control" th:field="*{sparKontoAntrag.antragStatus}" th:disabled="(${sparKontoAntrag.antragStatus} == ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT})">
                                <option th:each="antragStatusOpt : ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).values()}"
                                        th:value="${{antragStatusOpt}}"
                                        th:selected="${antragStatusOpt == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum)}"
@@ -51,7 +52,6 @@
 
                                </option>
                            </select>
-<!--                           <input type="text" class="form-control" id="status" placeholder="Apartment, studio, or floor">-->
                        </div>
                        <hr class="mt-5">
                         <div class="form-row">
@@ -91,31 +91,38 @@
                         </div>
                         <div class="form-group">
                             <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="legiCheckbox" name="legi" th:checked="${kunde.Legi}" readonly>
+                            <input class="form-check-input" type="checkbox" id="legiCheckbox" name="legi" th:checked="${kunde.Legi}" onclick="return false;">
                             <label class="form-check-label" for="legiCheckbox">
                                 ist Legitimiert
                             </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="active" id="aktivCheckbox" th:checked="${kunde.active}" readonly>
+                                <input class="form-check-input" type="checkbox" name="active" id="aktivCheckbox" th:checked="${kunde.active}" onclick="return false;">
                                 <label class="form-check-label" for="aktivCheckbox">
                                     ist Aktiv
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="hasAcceptedAGB" id="AGBCheckbox"  th:checked="${kunde.hasAcceptedAGB}" readonly>
+                                <input class="form-check-input" type="checkbox" name="hasAcceptedAGB" id="AGBCheckbox"  th:checked="${kunde.hasAcceptedAGB}" onclick="return false;">
                                 <label class="form-check-label" for="AGBCheckbox">
                                     hat AGB akzeptiert
                                 </label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="loginDoneCheckbox" name="firstLoginDone"  th:checked="${kunde.firstLoginDone}" readonly>
+                                <input class="form-check-input" type="checkbox" id="loginDoneCheckbox" name="firstLoginDone"  th:checked="${kunde.firstLoginDone}" onclick="return false;">
                                 <label class="form-check-label" for="loginDoneCheckbox">
                                     hat AGB akzeptiert
                                 </label>
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Speichern</button>
+                        <button type="submit" class="btn btn-primary"
+                                th:classappend="${sparKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT} ? 'disabled' : ''"
+                                th:disabled="${sparKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}">
+                            Speichern
+                        </button>
+                       <a class="btn btn-success ml-2" th:href="@{/mitarbeiter/kunde/sparen/antrag}">
+                           Zurück zu Neue Anträge
+                       </a>
                    </form>
                </div>
             </div>

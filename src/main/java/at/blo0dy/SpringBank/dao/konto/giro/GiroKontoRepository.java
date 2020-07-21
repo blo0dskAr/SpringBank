@@ -2,8 +2,10 @@ package at.blo0dy.SpringBank.dao.konto.giro;
 
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -31,4 +33,17 @@ public interface GiroKontoRepository extends JpaRepository<GiroKonto, Long> {
           "   and ko.id = gko.id", nativeQuery = true)
   GiroKonto findGiroKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  GiroKonto findByKontonummer(long kontonummer);
+
+  @Modifying
+  @Query(value = "update girokonto gko set " +
+          " gko.ueberziehungs_rahmen = ?2 " +
+          "  where gko.id = ?1", nativeQuery = true)
+  void UpdateUeberziehungsRahmenByKontoId(Long kontoId, BigDecimal rahmen);
+
+  @Query(value = "select count(*) from girokonto gko, konto ko " +
+          " where gko.id = ko.id" +
+          "   and ko.kunde_id = ?1" +
+          "  and ko.konto_status = 'OFFEN' ", nativeQuery = true)
+  int countAktiveKontenByKundeId(Long kundeId);
 }

@@ -1,6 +1,8 @@
 package at.blo0dy.SpringBank.dao.konto.giro;
 
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
+import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,4 +25,20 @@ public interface GiroKontoAntragRepository extends JpaRepository<GiroKontoAntrag
           "   and ka.kundennummer = ?2", nativeQuery = true)
   GiroKontoAntrag findGiroAntragByAntragIdAndKundennummer(Long antragId, String kundennummer);
 
+
+//  @Query(value = "select * from girokontoantrag gka, kontoantrag ka " +
+//                  " where gka.id = ka.id" +
+//                  "  and ka.konto_id = ?1" ,nativeQuery = true)
+
+  @Query( value = "select * from girokontoantrag gka, kontoantrag ka" +
+                  " where gka.id = ka.id" +
+                  "   and exists (select 1 from konto k where k.konto_antrag_id = ka.id and k.id = ?1)", nativeQuery = true)
+  GiroKontoAntrag findByKontoId(Long kontoId);
+
+
+  @Query(value = "select count(*) from girokontoantrag gka, kontoantrag ka " +
+          "  where gka.id = ka.id" +
+          "  and ka.antrag_status = 'EINGEREICHT'" +
+          "  and ka.kundennummer = ?1 ", nativeQuery = true)
+  int countEingereichteGiroAntraegeByKundennummer(String kundennummer);
 }

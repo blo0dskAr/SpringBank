@@ -1,12 +1,9 @@
 package at.blo0dy.SpringBank.service.kunde;
 
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
-import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.data.domain.ExampleMatcher;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 public interface KundeService   {
@@ -18,8 +15,6 @@ public interface KundeService   {
   void save(Kunde kunde);
 
   void deleteById(Long theId);
-
-  //UserDetails loadUserByUsername(String kundennummer);
 
   Kunde findByKundennummer(String kundennummer);
 
@@ -35,6 +30,12 @@ public interface KundeService   {
 
   void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro);
 
+  List<Kunde> findAll(Kunde kunde, ExampleMatcher matcher);
 
+  void saveWithoutPassword(Kunde kunde);
+
+  void updateLegiStatusById(Long kundeId, boolean status);
+
+  void updateActiveStatusById(Long kundeId, boolean status);
 
 }

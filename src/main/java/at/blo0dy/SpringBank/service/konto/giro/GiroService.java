@@ -23,4 +23,7 @@ public interface GiroService {
 
   GiroKonto findGiroKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  GiroKonto findByKontonummer(Long kontonummer);
+
+  int countAktiveKontenByKundeId(Long id);
 }

@@ -1,17 +1,13 @@
 package at.blo0dy.SpringBank.model.person.kunde;
 
-import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.konto.Konto;
-import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
+import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
@@ -30,12 +26,11 @@ public class Kunde extends Person implements UserDetails {
   private String kundennummer;
 
   @Column(name = "password")
-//  @NotBlank(message = "password must be defined.")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
   @NotBlank(message = "Telefonnummer darf nicht leer sein.")
-  @Pattern(regexp = "^[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
+  @Pattern(regexp = "^[+]?[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   private String telefonNummer;
   @NotBlank(message = "emailAdresse darf nicht leer sein.")
   @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", message = "Email im Format <name>@<domain>.<land> angeben.", flags = Pattern.Flag.CASE_INSENSITIVE)
@@ -47,16 +42,14 @@ public class Kunde extends Person implements UserDetails {
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
   private List<Konto> kontenListe;
 
-//  @OneToMany(mappedBy = "kunde",
-////          cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
-//              cascade = {CascadeType.ALL})
-//  private List<SparKontoAntrag> sparKontoAntragsListe;
-
   // TODO: mit false initialisieren sobald der komplette weg für legi & AGB ready ist.
-  private boolean isLegi = true;
-  private boolean hasAcceptedAGB = true;
-  private boolean isActive = true;
-  private boolean firstLoginDone = true;
+  private boolean isLegi;
+  private boolean hasAcceptedAGB ;
+  private boolean isActive;
+  private boolean firstLoginDone ;
+
+//  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+//  private LegiDokument legiDokument;
 
   @Column(name = "connected_giro")
   @Pattern(regexp = "^AT[0-9a-zA-Z]{18}$", message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")
@@ -80,14 +73,6 @@ public class Kunde extends Person implements UserDetails {
   }
 
 
-  public void checkActive() {
-    if (this.isLegi == true && this.hasAcceptedAGB == true) {
-      setActive(true);
-    } else {
-      setActive(false);
-    }
-  }
-
   // Stuff den ich implementieren soll aufgrund des Userdetail Implementierung.
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -101,22 +86,22 @@ public class Kunde extends Person implements UserDetails {
 
   @Override
   public boolean isAccountNonExpired() {
-    return isActive;
+    return true;
   }
 
   @Override
   public boolean isAccountNonLocked() {
-    return isActive;
+    return true;
   }
 
   @Override
   public boolean isCredentialsNonExpired() {
-    return isActive;
+    return true;
   }
 
   @Override
   public boolean isEnabled() {
-    return isActive;
+    return true;
   }
 
 

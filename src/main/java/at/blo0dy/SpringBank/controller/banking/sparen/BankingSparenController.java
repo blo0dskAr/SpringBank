@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.controller.banking.sparen;
 
 
-import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoAntragRepository;
+
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.naming.Binding;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -73,8 +74,9 @@ public class BankingSparenController {
     return "kunde/banking/sparen/sparkontouebersicht";
   }
 
-  @GetMapping("/showEinzahlungsFormWithKonto")
-  public String showEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
+  @GetMapping({"/showEinzahlungsFormWithKonto", "showAuszahlungsFormWithKonto"})
+  public String showEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId,
+                                    HttpServletRequest request) {
 
     String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
@@ -83,7 +85,13 @@ public class BankingSparenController {
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
-    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+    if (request.getRequestURI().equals("/kunde/banking/sparen/showAuszahlungsFormWithKonto")) {
+      zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+    } else if (request.getRequestURI().equals("/kunde/banking/sparen/showEinzahlungsFormWithKonto")) {
+      zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+    } else {
+      // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske)
+    }
     zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
     // TODO: Glaub da ist theoretisch beschiss möglich - hier schon prüfen?
     zahlungsAuftrag.setKontonummer(requestedKontonummer);
@@ -107,16 +115,6 @@ public class BankingSparenController {
 
     SparKonto sparKonto;
 
-    if (result.hasErrors()) {
-      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
-      List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
-
-      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
-      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-
-      return "kunde/banking/sparen/zahlungsAuftrag-form";
-    }
-
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
     // TODO den TryCatchBlock brauch ich wahrscheinlich gar nicht, weil sparkonto=null nicht als exception kommt, sondern einfach als leeres ergebnis, das mit nem if zu checken is.
     try {
@@ -126,6 +124,23 @@ public class BankingSparenController {
       log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       model.addAttribute("errorObj", "errorObj");
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      return "kunde/banking/sparen/zahlungsAuftrag-form";
+    }
+
+    // SaldoPrüfung
+    if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(sparKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+        result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
+      }
+    }
+
+    if (result.hasErrors()) {
+      log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+
+      model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
+      model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+
       return "kunde/banking/sparen/zahlungsAuftrag-form";
     }
 
@@ -152,30 +167,30 @@ public class BankingSparenController {
   }
 
 
-  // TODO: Das muss besser gehn als die GetMappings zu duplizieren, nur wegen des AUSZAHLUNG/EINZAHLUNG Enums.. params hat aber ned gepasst...
-  @GetMapping("/showAuszahlungsFormWithKonto")
-  public String showAuszahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
-
-    String authKundennummer = authentication.getName();
-    log.debug("Showing showAddAuszahlungForm for Kunde: " + authKundennummer);
-
-    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
-
-    ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
-    zahlungsAuftrag.setId(0L);
-    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
-    zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
-    zahlungsAuftrag.setKontonummer(requestedKontonummer);
-
-
-    List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
-
-    model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-    model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
-
-
-    return "kunde/banking/sparen/zahlungsAuftrag-form";
-  }
+//  // TODO: Das muss besser gehn als die GetMappings zu duplizieren, nur wegen des AUSZAHLUNG/EINZAHLUNG Enums.. params hat aber ned gepasst...
+  // TODO: ERLEDIGT, sollte nimma benötigt werden, sollte aber eventuell noch enger, produktunabhänger gestaltet werden
+//  @GetMapping("/showAuszahlungsFormWithKonto")
+//  public String showAuszahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
+//
+//    String authKundennummer = authentication.getName();
+//    log.debug("Showing showAddAuszahlungForm for Kunde: " + authKundennummer);
+//
+//    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
+//
+//    ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
+//    zahlungsAuftrag.setId(0L);
+//    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
+//    zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
+//    zahlungsAuftrag.setKontonummer(requestedKontonummer);
+//
+//
+//    List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+//
+//    model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+//    model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
+//
+//    return "kunde/banking/sparen/zahlungsAuftrag-form";
+//  }
 
 
 

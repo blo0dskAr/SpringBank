@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+
+      layout:decorate="~{mainlayout.html}">
+
+<head>
+    <title>Layout</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <main>
+        <div class="container-fluid">
+            <form method="POST" th:action="${requestURI}" th:object="${legiDokument}" id="registerForm">
+                <h1> Neue Dokumente </h1>
+                <div th:if="${actionErgebnis}">
+                    <div class="alert alert-success" th:text="${'Aktion erfolgreich: ' + actionErgebnis}"></div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <label for="docName">Dokument Name:</label>
+                        <input type="text" class="form-control" th:field="*{docName}" name="docName" id="docName" placeholder="zB. reisepass.pdf">
+                    </div>
+                    <div class="form-group col-4">
+                        <label for="status">Status:</label>
+                        <select id="status" class="form-control" th:field="*{status}">
+                            <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
+                            <option th:each="statusOption : ${T(at.blo0dy.SpringBank.model.enums.LegiDokumentStatusEnum).values()}"
+                                    th:value="${{statusOption}}"
+                                    th:text="${statusOption.getDisplayName()}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-4">
+                        <label for="kundennummer">Kundennummer:</label>
+                        <input type="text" class="form-control" th:field="*{kundennummer}" name="kundennummer" id="kundennummer" placeholder="zB. 2">
+                    </div>
+                </div>
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>
+            </form>
+        </div>
+        <div class="container-fluid mt-5">
+            <table class="table table-striped table-hover">
+                <thead>
+                <tr>
+                    <th>Kundennummer</th>
+                    <th>Dokument Name</th>
+                    <th>Status</th>
+                    <th>Aktion</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dokument : ${ergebnis}">
+                    <td th:text="${dokument.getKunde().getKundennummer()}">Kundennummer</td>
+                    <td th:text="${dokument.docName}">Dokument Name</td>
+                    <td th:switch="${dokument.status}" >
+                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.LegiDokumentStatusEnum).NEU}" class="status text-success" >&bull;</span>
+                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.LegiDokumentStatusEnum).BEARBEITET}" class="status text-warning">&bull;</span>
+                        <span th:text="${dokument.status}">Status</span>
+                    </td>
+                    <td>
+                        <a th:href="@{/mitarbeiter/kunde/person/showDokument(legiDokumentId=${dokument.id})}"
+                           class="btn btn-info btn-sm">
+                            View
+                        </a>
+                        |
+                        <a th:href="@{/mitarbeiter/kunde/person/acceptDokument(legiDokumentId=${dokument.id})}"
+                           class="btn btn-success btn-sm">
+                            Accept
+                        </a>
+                        |
+                        <a th:href="@{/mitarbeiter/kunde/person/rejectDokument(legiDokumentId=${dokument.id})}"
+                           class="btn btn-danger btn-sm">
+                            Reject
+                        </a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

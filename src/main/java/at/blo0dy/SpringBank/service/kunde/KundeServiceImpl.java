@@ -5,21 +5,20 @@ import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.TransactionScoped;
-import javax.validation.constraints.Null;
-import java.math.BigDecimal;
+
 import java.util.List;
 import java.util.Optional;
 
 @Slf4j
 @Service
-//public class KundeServiceImpl implements KundeService {
 public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   private KundeRepository kundeRepository;
@@ -75,25 +74,29 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
     log.debug("KundeServiceImpl: setKundeActiveIfRequirementsMetByKundennummer -> Suche kunde mit Kundennummer: " + kundennummer);
       Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
+      boolean neuerStatus = kunde.isActive();
 
       if (kunde.isActive()) {
         if (kunde.isHasAcceptedAGB() && kunde.isLegi()) {
           log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Keine Änderung durchgeführt (bereits aktiv)");
         } else {
           log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Legi oder AGB fehlt, Aktiv-Status entfernt");
-          kunde.setActive(false);
+          neuerStatus = false;
         }
         if (!kunde.isActive()) {
           if (kunde.isHasAcceptedAGB() && kunde.isLegi()) {
             log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Legi und AGB zwischenzeitlich erhalten: Status aktiv gesetzt.");
-            kunde.setActive(true);
+            neuerStatus = true;
           } else {
             log.debug("KundeServiceImpl: KundenStatusCheck durchgeführt für " + kundennummer + ": Keine Änderung durchgeführt. (warte auf AGB oder Legi)");
           }
         }
     }
-      log.debug("Kunde " + kundennummer + " wird gespeichert.");
-      kundeRepository.save(kunde);
+        // TODO: da  braucht man ned speichern wenn der status ned verändert wird. hab die methode aber erst um 1 uhr gfunden :D wusste ned dass ich die schon gmacht hab -.- ...
+        // TODO: Ausserdem is die obige if abfrage definitv übertrieben .. und methode umbenennnen ;) und von kundennummer auf kundeId wechseln :D
+      log.debug("Status von Kunde: " + kundennummer + " Status=" + neuerStatus + "  wird gespeichert");
+      kundeRepository.updateActiveStatusById(kunde.getId(), neuerStatus);
+
   }
 
   @Override
@@ -123,17 +126,23 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   @Override
   @Transactional
   public Long generateNewKontonummerByKundennummer(String kundennummer) {
-    log.debug("KundeServiceImpl: Neue Kontonummer für Kunde " + kundennummer + " wird generiert");
-    Long newKontonummer = kundeRepository.getLatestKontonummerByKundennummer(kundennummer)+1 ;
+    log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert");
+    Long newKontonummer;
+    try {
+      newKontonummer = kundeRepository.getLatestKontonummerByKundennummer(kundennummer) + 1;
+    } catch (NullPointerException npe) {
+      log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert: Ist erstes Konto: 001");
+      newKontonummer = Long.valueOf(kundennummer + "001");
+    }
 
-    log.debug("KundeServiceImpl: Neue Kontonummer für Kunde " + kundennummer + " lautet:" + newKontonummer);
+    log.debug("Neue Kontonummer für Kunde " + kundennummer + " lautet:" + newKontonummer);
     return newKontonummer;
   }
 
   @Override
   @Transactional
   public Long getLatestKundennummerPlusOne() {
-    log.debug("KundeServiceImpl: Neue Kundennummer wird generiert");
+    log.debug("Neue Kundennummer wird generiert");
     return kundeRepository.getLatestKundennummerPlusOne();
   }
 
@@ -148,4 +157,37 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   public void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro) {
     kundeRepository.updateChangeableDataByKundennummer(kundennummer, email, tel, connectedGiro);
   }
+
+  @Override
+  @Transactional
+  public List<Kunde> findAll(Kunde kunde, ExampleMatcher matcher) {
+
+    return kundeRepository.findAll(Example.of(kunde, matcher));
+  }
+
+  @Override
+  @Transactional
+  public void saveWithoutPassword(Kunde kunde) {
+
+    Optional<Kunde> tmpKunde = kundeRepository.findById(kunde.getId());
+    kunde.setPassword(tmpKunde.get().getPassword());
+
+    kundeRepository.save(kunde);
+  }
+
+  @Override
+  @Transactional
+  public void updateLegiStatusById(Long kundeId, boolean status) {
+    kundeRepository.updateLegiStatusById(kundeId, status);
+    Optional<Kunde> tmpKunde = kundeRepository.findById(kundeId);
+    Kunde kunde = tmpKunde.get();
+    setKundeActiveIfRequirementsMetByKundennummer(kunde.getKundennummer());
+  }
+
+  @Override
+  @Transactional
+  public void updateActiveStatusById(Long kundeId, boolean status) {
+    kundeRepository.updateActiveStatusById(kundeId, status);
+  }
+
 }

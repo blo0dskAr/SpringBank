@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kredit;
 
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
@@ -9,6 +10,7 @@ import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
+import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
@@ -18,6 +20,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -33,12 +36,14 @@ public class CrmKreditAntragController {
   KreditKontoAntragService kreditKontoAntragService;
   KreditService kreditService;
   KundeService kundeService;
+  KontoService kontoService;
 
   @Autowired
-  public CrmKreditAntragController(KreditKontoAntragService kreditKontoAntragService, KundeService kundeService, KreditService kreditService) {
+  public CrmKreditAntragController(KreditKontoAntragService kreditKontoAntragService, KreditService kreditService, KundeService kundeService, KontoService kontoService) {
     this.kreditKontoAntragService = kreditKontoAntragService;
-    this.kundeService = kundeService;
     this.kreditService = kreditService;
+    this.kundeService = kundeService;
+    this.kontoService = kontoService;
   }
 
   @GetMapping("/antrag")
@@ -70,7 +75,7 @@ public class CrmKreditAntragController {
 
   @PostMapping(value = "/antrag/saveKreditAntrag2KontoForm", params = {"saveKreditKonto"})
   public String saveKreditAntrag2KontoForm(@Valid @ModelAttribute("kreditKontoAntrag") KreditKontoAntrag kreditKontoAntrag, BindingResult bindingResult,
-                                           @ModelAttribute("kunde") Kunde kunde, Model model) {
+                                           @ModelAttribute("kunde") Kunde kunde, Model model, RedirectAttributes redirectAttrs) {
 
     Long tmpKredAntrId = kreditKontoAntrag.getId();
     String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
@@ -101,18 +106,43 @@ public class CrmKreditAntragController {
       return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto";
     }
 
+    Kunde mykunde = kundeService.findByKundennummer(tmpKundenNummer);
+    KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+
     // Wenn auf genehmigt gestellt wird, wird ein neues Kreditkonto gespeichert
     if (kreditKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT)) {
-      Kunde mykunde = kundeService.findByKundennummer(tmpKundenNummer);
-      KontoStatusEnum kontoStatusAufgrundKundenStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
+      log.debug("KreditKontoAntrag wurde genehmigt, KreditKonto wird erstellt");
       KreditKonto kreditKonto = new KreditKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
-              kontoStatusAufgrundKundenStatus, kreditKontoAntrag, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(), new ArrayList<KontoBuchung>());
-      log.debug("KreditAntrag wurde genehmigt, neues KreditKonto wird gespeichert. Kunde: " + tmpKundenNummer);
+                                                KontoStatusEnum.IN_EROEFFNUNG, kreditKontoAntrag, kreditKontoAntrag.getKreditBetrag(), kreditKontoAntrag.getRate(), kreditKontoAntrag.getLaufzeit(),
+                                                new ArrayList<KontoBuchung>(), KontoProduktEnum.KREDIT);
+      log.debug("KreditKonto wurde erstellt, KreditKonto wird gespeichert. Kunde: " + tmpKundenNummer);
       kreditService.save(kreditKonto);
+      log.debug("KreditKonto wurde erfolgreich gespeichert Kunde: " + tmpKundenNummer);
+
+      log.debug("Änderungen an KreditAntragId=" + tmpKredAntrId + " werden gespeichert");
+      kreditKontoAntragService.save(kreditKontoAntrag);
+      log.debug("Änderungen an KreditAntragId=" + tmpKredAntrId + " wurden erfolgreich gespeichert");
+
+      if (bestMoeglicherStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
+        log.debug("KreditKonto mit der ID=" + kreditKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
+      } else {
+        log.debug("Gespeichertes KreditKonto mit der ID=" + kreditKonto.getId() + " wird auf Mögliche KontoEröffnung geprüft:");
+        String processErgebnis = kontoService.processKontoStatusById(kreditKonto.getId(), bestMoeglicherStatus, bestMoeglicherStatus);
+
+        switch(processErgebnis) {
+          case "NO_CHANGES":
+            redirectAttrs.addFlashAttribute("noChanges", true);
+            break;
+          case "TRANSITION_NOT_POSSIBLE":
+            redirectAttrs.addFlashAttribute("transitionNotPossible", true);
+            break;
+          case "KONTO_NOW_OPEN":
+            redirectAttrs.addFlashAttribute("kontoOpened", true);
+            break;
+        }
+      }
     }
 
-    log.debug("Änderungen an KreditAntragId=" + tmpKredAntrId + " werden gespeichert");
-    kreditKontoAntragService.save(kreditKontoAntrag);
     return "redirect:/mitarbeiter/kunde/kredit/antrag";
   }
 
@@ -123,6 +153,9 @@ public class CrmKreditAntragController {
 
     Long tmpKredAntrId = kreditKontoAntrag.getId();
     String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
+    AntragStatusEnum alterStatus = kreditKontoAntragService.findById(kreditKontoAntrag.getId()).getAntragStatus();
+
+
 
     if (bindingResult.hasErrors()) {
       kunde = kundeService.findByKundennummer(tmpKundenNummer);
@@ -138,11 +171,13 @@ public class CrmKreditAntragController {
     model.addAttribute("kunde", kunde);
 
     KreditKontoAntrag neuBerechneterAntrag = new KreditKontoAntrag(LocalDateTime.now(), AntragStatusEnum.EINGEREICHT,ke.getKreditBetrag(),kreditKontoAntrag.getZinssatz(),
-                                                                    ke.getMonatlicheRate(),kreditKontoAntrag.getLaufzeit(),ke.getGesamtBelastung(),kreditKontoAntrag.getKundennummer());
+                                                                    ke.getMonatlicheRate(),kreditKontoAntrag.getLaufzeit(),ke.getGesamtBelastung(),kreditKontoAntrag.getKundennummer(), KontoProduktEnum.KREDIT);
 
-    kreditKontoAntrag.setGesamtBelastung(ke.getGesamtBelastung());;
+    kreditKontoAntrag.setGesamtBelastung(ke.getGesamtBelastung());
     kreditKontoAntrag.setKreditBetrag(ke.getKreditBetrag());
     kreditKontoAntrag.setRate(ke.getMonatlicheRate());
+    // Beim Neu Kalkulieren Soll der Status nicht veraendert werden
+    kreditKontoAntrag.setAntragStatus(alterStatus);
     kreditKontoAntragService.save(kreditKontoAntrag);
     log.debug("Neuberechnung für KreditAntragId=" + tmpKredAntrId + " wurde durchgeführt, Änderungen gespeichert");
 

@@ -32,4 +32,11 @@ public interface KreditKontoRepository extends JpaRepository<KreditKonto, Long> 
           "   and ko.id = kko.id", nativeQuery = true)
   KreditKonto findKreditKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  KreditKonto findByKontonummer(Long tmpKontonummer);
+
+  @Query(value = "select count(*) from kreditkonto kko, konto ko " +
+          " where kko.id = ko.id" +
+          "   and ko.kunde_id = ?1" +
+          "  and ko.konto_status = 'OFFEN' ", nativeQuery = true)
+  int countAktiveKontenByKundeId(Long kundeId);
 }

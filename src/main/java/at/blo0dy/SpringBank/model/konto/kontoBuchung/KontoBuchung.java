@@ -6,13 +6,11 @@ import at.blo0dy.SpringBank.model.konto.Konto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.DecimalMax;
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.Digits;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -29,6 +27,7 @@ public class KontoBuchung {
   @Column(name = "id")
   private Long id;
 
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
   private LocalDate buchungsDatum;
   private LocalDateTime datAnlage;
   private LocalDateTime datAend;
@@ -40,14 +39,14 @@ public class KontoBuchung {
   @Digits(integer = 12,fraction = 2)
   private BigDecimal buchungsBetrag;
 
-  @DecimalMin(value = "0.01", message = "Bitte nicht mehr als 999.999.999,99 € angeben. Max. 2 Nachkommastellen. Minus beachten!")
+  @DecimalMin(value = "-999999999.99", message = "Bitte nicht mehr als 999.999.999,99 € angeben. Max. 2 Nachkommastellen. Minus beachten!")
   @DecimalMax(value = "999999999.99", message = "Bitte nicht mehr als 999.999.999,99 € angeben. Max. 2 Nachkommastellen. Minus beachten!")
   @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
-  @NotNull(message = "Da hats was ")
   @Digits(integer = 12,fraction = 2)
   private BigDecimal saldoNachBuchung;
 
   @Column(name = "buchungs_text")
+  @NotBlank(message = "Text darf nicht leer sein")
   private String buchungsText;
 
   @ManyToOne
@@ -56,7 +55,7 @@ public class KontoBuchung {
 
   @Enumerated(EnumType.STRING)
   @Column(name = "buchungs_art")
+  @NotNull(message = "Buchungsart darf nicht leer sein")
   private BuchungsArtEnum buchungsArt;
-
 
 }

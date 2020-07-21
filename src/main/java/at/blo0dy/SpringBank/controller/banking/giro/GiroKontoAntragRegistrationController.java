@@ -3,17 +3,16 @@ package at.blo0dy.SpringBank.controller.banking.giro;
 
 import at.blo0dy.SpringBank.dao.KundeRepository;
 import at.blo0dy.SpringBank.dao.konto.giro.GiroKontoAntragRepository;
-import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoAntragRepository;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoRegistrationForm;
-import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoRegistrationForm;
+import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.giro.GiroService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,14 +28,16 @@ import java.time.format.DateTimeFormatter;
 public class GiroKontoAntragRegistrationController {
 
   private GiroKontoAntragRepository giroKontoAntragRepository;
+  private GiroService giroService;
   private KundeRepository kundeRepository ;
 
+
   @Autowired
-  public GiroKontoAntragRegistrationController(GiroKontoAntragRepository giroKontoAntragRepository, KundeRepository kundeRepository) {
+  public GiroKontoAntragRegistrationController(GiroKontoAntragRepository giroKontoAntragRepository, GiroService giroService, KundeRepository kundeRepository) {
     this.giroKontoAntragRepository = giroKontoAntragRepository;
+    this.giroService = giroService;
     this.kundeRepository = kundeRepository;
   }
-
 
   @GetMapping("/register")
   public String registerForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication , Model model) {
@@ -55,15 +56,27 @@ public class GiroKontoAntragRegistrationController {
   @PostMapping("/register")
   public String processRegistration(@ModelAttribute("girokontoantrag") GiroKontoRegistrationForm form, RedirectAttributes redirectAttrs) {
 
+    log.debug("GiroKontoRegistrationForm erhalten: " + form);
+    Kunde tmpKunde = kundeRepository.findByKundennummer(form.getKundennummer().toString());
+
     DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
     form.setAntragDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
 
-    log.debug("GiroKontoRegistrationForm erhalten: " + form);
     log.debug("GiroKontoAntragRegistrationController: GiroKontoRegistrationForm wird als GirokontoAntrag gespeichert");
-    giroKontoAntragRepository.save(form.toGiroKontoAntrag());
-    log.debug("GiroKontoRegistrationForm wurde erfolgreich als GirokontoAntrag gespeichert");
 
-    redirectAttrs.addFlashAttribute("antragGespeichert", true);
+    // Anzahl der Konten und Anträge prüfen
+    int anzahlAktiveGiroKonten = giroService.countAktiveKontenByKundeId(tmpKunde.getId());
+    int anzahlEingereichtGiroAntraege = giroKontoAntragRepository.countEingereichteGiroAntraegeByKundennummer(tmpKunde.getKundennummer());
+
+    if (anzahlAktiveGiroKonten + anzahlEingereichtGiroAntraege >= 2) {
+      redirectAttrs.addFlashAttribute("zuVieleAktive", true);
+      log.debug("GiroKontoRegistrationForm Konnte nicht gespeichert werden, bereits zu viele Aktive Aäntrge");
+    } else {
+      giroKontoAntragRepository.save(form.toGiroKontoAntrag());
+      log.debug("GiroKontoRegistrationForm wurde erfolgreich als GirokontoAntrag gespeichert");
+      redirectAttrs.addFlashAttribute("antragGespeichert", true);
+    }
+
     return "redirect:/kunde/banking/index";
   }
 

@@ -33,7 +33,6 @@
                 </div>
             </li>
             <li class="nav-item dropdown">
-<!--                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'nav-link active' : 'nav-link'" th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Mitarbeiter</a>-->
                 <a class="nav-link dropdown-toggle" th:classappend="${(#strings.startsWith(requestURI, '/kunde/sparen') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/sparen') ? 'active' : '')}"
                    id="sparenDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sparen</a>
                 <div class="dropdown-menu animated--fade-in" aria-labelledby="sparenDropdown">

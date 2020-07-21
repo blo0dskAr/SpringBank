@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.service.konto.sparen;
 
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoRepository;
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
@@ -33,9 +34,13 @@ public interface SparService {
 
   SparKonto findSparKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
+  SparKonto findByKontonummer(String kontonummer);
+
 
   // Zinsenrechner
   SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage);
 
   List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage);
+
+  int countAktiveKontenByKundeId(Long kundeId);
 }

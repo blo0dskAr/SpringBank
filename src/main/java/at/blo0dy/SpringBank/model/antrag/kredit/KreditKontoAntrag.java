@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.model.antrag.kredit;
 
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -56,8 +57,8 @@ public class KreditKontoAntrag extends KontoAntrag {
 
 
 //   Custom Constructor for KreditkontoRegistrationForm
-  public KreditKontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, BigDecimal kreditBetrag, BigDecimal zinssatz, BigDecimal rate, BigInteger laufzeit, BigDecimal gesamtBelastung, Long kundennummer) {
-    super(antragDatum, antragStatus,kundennummer);
+  public KreditKontoAntrag(LocalDateTime antragDatum, AntragStatusEnum antragStatus, BigDecimal kreditBetrag, BigDecimal zinssatz, BigDecimal rate, BigInteger laufzeit, BigDecimal gesamtBelastung, Long kundennummer, KontoProduktEnum produkt) {
+    super(antragDatum, antragStatus,kundennummer, produkt);
     this.kreditBetrag = kreditBetrag;
     this.zinssatz = zinssatz;
     this.rate = rate;

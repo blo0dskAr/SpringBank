@@ -1,21 +1,19 @@
 package at.blo0dy.SpringBank.model.konto;
 
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
-import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
+import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.Fetch;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -25,16 +23,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Konto {
-
-  public Konto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, List<KontoBuchung> kontoBuchungList) {
-    this.eroeffnungsDatum = eroeffnungsDatum;
-    this.kontonummer = kontonummer;
-    this.kunde = kunde;
-    this.aktSaldo = aktSaldo;
-    this.kontoStatus = kontoStatus;
-    this.kontoAntrag = kontoAntrag;
-    this.kontoBuchungList = kontoBuchungList;
-  }
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -66,6 +54,24 @@ public class Konto {
 
   @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "konto")
   private List<ZahlungsAuftrag> kontoZahlungsAuftragList;
+
+  @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "konto")
+  private List<DauerAuftrag> dauerAuftragList;
+
+  @Enumerated(value = EnumType.STRING)
+  private KontoProduktEnum produkt;
+
+  public Konto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, List<KontoBuchung> kontoBuchungList, KontoProduktEnum produkt) {
+    this.eroeffnungsDatum = eroeffnungsDatum;
+    this.kontonummer = kontonummer;
+    this.kunde = kunde;
+    this.aktSaldo = aktSaldo;
+    this.kontoStatus = kontoStatus;
+    this.kontoAntrag = kontoAntrag;
+    this.kontoBuchungList = kontoBuchungList;
+    this.produkt = produkt;
+  }
+
 
 
 }

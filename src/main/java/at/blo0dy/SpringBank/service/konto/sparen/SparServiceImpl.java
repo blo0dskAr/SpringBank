@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.service.konto.sparen;
 
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoRepository;
 import at.blo0dy.SpringBank.dao.sparZinsDAO.SparZinsRechnerRepository;
+import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
@@ -78,10 +79,21 @@ public class SparServiceImpl implements SparService {
 
   @Override
   @Transactional
+  public int countAktiveKontenByKundeId(Long kundeId) {
+    return sparKontoRepository.countAktiveKontenByKundeId(kundeId);
+  }
+
+  @Override
+  @Transactional
   public SparKonto findSparKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer) {
     return sparKontoRepository.findSparKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
   }
 
+  @Override
+  @Transactional
+  public SparKonto findByKontonummer(String kontonummer) {
+    return sparKontoRepository.findByKontonummer(Long.valueOf(kontonummer));
+  }
 
   @Override
   @Transactional

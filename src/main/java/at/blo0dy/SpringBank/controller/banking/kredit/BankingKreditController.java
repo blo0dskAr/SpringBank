@@ -65,11 +65,10 @@ public class BankingKreditController {
     log.debug("loaded Kunde: " + kunde.getKundennummer() + "(auth=" + authKundennummer + ")");
 
     model.addAttribute("kunde", kunde);
-    model.addAttribute("kreditKontenListe",kreditKontenListe);
+    model.addAttribute("kontenListe",kreditKontenListe);
     model.addAttribute("activeLink", "kundeBankingKreditUebersicht");
 
-
-    return "kunde/banking/kredit/kreditkontouebersicht";
+    return "kunde/banking/kontouebersicht";
   }
 
   @GetMapping("/showEinzahlungsFormWithKonto")

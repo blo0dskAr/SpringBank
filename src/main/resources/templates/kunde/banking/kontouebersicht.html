@@ -1,4 +1,3 @@
-<!--
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
@@ -6,16 +5,19 @@
       layout:decorate="~{kunde/mainlayout.html}">
 
 <head>
-    <title>Kredit - Index</title>
+    <title>Konto - Index</title>
 </head>
 <body>
 <div layout:fragment="content">
     <main>
         <div class="container-fluid px-0">
-            <h1> Übersicht - KreditKonto </h1>
+            <h1 th:if="${#strings.endsWith(requestURI, '/banking/giro/girokontouebersicht')}"> Übersicht - GiroKonto </h1>
+            <h1 th:if="${#strings.endsWith(requestURI, '/banking/kredit/kreditkontouebersicht')}"> Übersicht - KreditKonto </h1>
+            <h1 th:if="${#strings.endsWith(requestURI, '/banking/sparen/sparkontouebersicht')}"> Übersicht - SparKonto </h1>
+
             <div th:if="${zahlungsAuftragGespeichert}">
                 <div class="alert alert-info ">
-                    Ihr Auftrag wurde gespeichert. Der Status kann nun in Ihren Aufträgen eingesehen werden.
+                    Ihr Zahlungsauftrag wurde gespeichert. Der Status kann nun in Ihren Aufträgen eingesehen werden.
                 </div>
             </div>
             <div th:if="${beschissError}">
@@ -28,14 +30,14 @@
                 </div>
             </div>
             <div class="row justify-content-md-center">
-                <th:block th:each="kreditkonto, iStat : ${kreditKontenListe}">
+                <th:block th:each="konto, iStat : ${kontenListe}">
                     <div class="col-10 pt-4">
                         <div class="accordion" th:attr="id=|accordionExample${iStat.count}|" >
                             <div class="card">
                                 <div class="card-header" th:attr="id=|heading${iStat.count}|">
                                     <div class="row">
                                         <h2 class="mb-0">
-                                            <button class="btn btn-outline-dark text-left float-left" type="button" data-toggle="collapse" th:attr="data-target=|#collapse${iStat.count}|, aria-controls=|collapse${iStat.count}|" aria-expanded="true" th:text="${kreditkonto.kontonummer}">
+                                            <button class="btn btn-outline-dark text-left float-left" type="button" data-toggle="collapse" th:attr="data-target=|#collapse${iStat.count}|, aria-controls=|collapse${iStat.count}|" aria-expanded="true" th:text="${konto.kontonummer}">
                                                 Kontonummer
                                             </button>
                                         </h2>
@@ -46,7 +48,7 @@
                                         <div class="col">
                                             <div class="text-right text-secondary mp-0 small">
                                                 <span th:text="'KontoSaldo: '"></span>
-                                                <span th:classappend="${kreditkonto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${#numbers.formatDecimal(kreditkonto.aktSaldo, 1, 'POINT', 2, 'COMMA')} + ' €'"></span>
+                                                <span th:classappend="${konto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${#numbers.formatDecimal(konto.aktSaldo, 1, 'POINT', 2, 'COMMA')} + ' €'"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -65,25 +67,55 @@
                                             </tr>
                                             </thead>
                                             <tbody>
-                                            <tr th:each="kontobuchung : ${kreditkonto.kontoBuchungList}">
+                                            <tr th:each="kontobuchung : ${konto.kontoBuchungList}">
                                                 <td th:text="${kontobuchung.buchungsDatum}">1</td>
                                                 <td th:text="${kontobuchung.buchungsText}">Mark</td>
-                                                <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">Otto</span></div></td>
-                                                <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).HABEN}"><span class="text-success" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">@mdo</span></div></td>
+                                                <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 1, 'POINT', 2, 'COMMA')}">Otto</span></div></td>
+                                                <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).HABEN}"><span class="text-success" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 1, 'POINT', 2, 'COMMA')}">@mdo</span></div></td>
                                                 <td th:text="${#numbers.formatDecimal(kontobuchung.saldoNachBuchung, 1, 'POINT', 2, 'COMMA')}"></td>
                                             </tr>
                                             </tbody>
                                         </table>
                                         <hr class="my-1">
                                         <div class="row mt-3 justify-content-around align-items-center">
-                                            <a th:href="@{/kunde/banking/kredit/showKontoDetailPage(kontoId=${kreditkonto.id})}"
-                                               class = "btn btn-info" >
-                                                Konto Details
-                                            </a>
-                                            <a th:href="@{/kunde/banking/kredit/showEinzahlungsFormWithKonto(kontoId=${kreditkonto.id})}"
-                                               class = "btn btn-info" >
-                                                Neue Einzahlung
-                                            </a>
+                                            <th:block th:if="${(konto.getClass().getSimpleName() == 'SparKonto')}">
+                                                <a th:href="@{/kunde/banking/sparen/showKontoDetailPage(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                    Konto Details
+                                                </a>
+                                                <a th:href="@{/kunde/banking/sparen/showEinzahlungsFormWithKonto(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                   Neue Einzahlung
+                                                </a>
+                                                <a th:href="@{/kunde/banking/sparen/showAuszahlungsFormWithKonto(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                    Neue Auszahlung
+                                                </a>
+                                            </th:block>
+                                            <th:block th:if="${(konto.getClass().getSimpleName() == 'KreditKonto')}">
+                                                <a th:href="@{/kunde/banking/kredit/showKontoDetailPage(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                    Konto Details
+                                                </a>
+                                                <a th:href="@{/kunde/banking/kredit/showEinzahlungsFormWithKonto(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                    Neue Einzahlung
+                                                </a>
+                                            </th:block>
+                                            <th:block th:if="${(konto.getClass().getSimpleName() == 'GiroKonto')}">
+                                                <a th:href="@{/kunde/banking/giro/showKontoDetailPage(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                    Konto Details
+                                                </a>
+                                                <a th:href="@{/kunde/banking/giro/showEinzahlungsFormWithKonto(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                    Neue Einzahlung
+                                                </a>
+                                                <a th:href="@{/kunde/banking/giro/showAuszahlungsFormWithKonto(kontoId=${konto.id})}"
+                                                   class = "btn btn-info" >
+                                                    Neue Auszahlung
+                                                </a>
+                                            </th:block>
                                         </div>
                                     </div>
                                 </div>
@@ -97,4 +129,3 @@
 </div>
 </body>
 </html>
--->

@@ -24,7 +24,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.naming.Binding;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -67,11 +66,10 @@ public class BankingSparenController {
     log.debug("loaded Kunde: " + kunde.getKundennummer() + "(auth=" + authKundennummer + ")");
 
     model.addAttribute("kunde", kunde);
-    model.addAttribute("sparKontenListe",sparKontenListe);
+    model.addAttribute("kontenListe",sparKontenListe);
     model.addAttribute("activeLink", "kundeBankingSparenUebersicht");
 
-
-    return "kunde/banking/sparen/sparkontouebersicht";
+    return "kunde/banking/kontouebersicht";
   }
 
   @GetMapping({"/showEinzahlungsFormWithKonto", "showAuszahlungsFormWithKonto"})

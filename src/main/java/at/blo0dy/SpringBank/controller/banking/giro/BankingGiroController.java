@@ -65,12 +65,11 @@ public class BankingGiroController {
     log.debug("loaded Kunde: " + kunde.getKundennummer() + "(auth=" + authKundennummer + ")");
 
     model.addAttribute("kunde", kunde);
-    model.addAttribute("giroKontenListe",giroKontenListe);
+    model.addAttribute("kontenListe",giroKontenListe);
     model.addAttribute("activeLink", "kundeBankingGiroUebersicht");
 
-    return "kunde/banking/giro/girokontouebersicht";
+    return "kunde/banking/kontouebersicht";
   }
-
 
   @GetMapping("/showEinzahlungsFormWithKonto")
   public String showEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId,

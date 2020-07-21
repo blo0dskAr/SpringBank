@@ -1,3 +1,4 @@
+<!--
 <!DOCTYPE html>
 <html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org"
@@ -45,7 +46,7 @@
                                         <div class="col">
                                             <div class="text-right text-secondary mp-0 small">
                                                 <span th:text="'KontoSaldo: '"></span>
-                                                <span th:classappend="${sparkonto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${#numbers.formatDecimal(sparkonto.aktSaldo, 0, 'POINT', 2, 'COMMA')} + ' €'"></span>
+                                                <span th:classappend="${sparkonto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${#numbers.formatDecimal(sparkonto.aktSaldo, 1, 'POINT', 2, 'COMMA')} + ' €'"></span>
                                             </div>
                                         </div>
                                     </div>
@@ -100,3 +101,4 @@
 </div>
 </body>
 </html>
+-->

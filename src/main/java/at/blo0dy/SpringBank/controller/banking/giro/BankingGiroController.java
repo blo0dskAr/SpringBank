@@ -164,35 +164,6 @@ public class BankingGiroController {
     return "redirect:/kunde/banking/giro/girokontouebersicht";
   }
 
-
-//  // TODO: Das muss besser gehn als die GetMappings zu duplizieren, nur wegen des AUSZAHLUNG/EINZAHLUNG Enums.. params hat aber ned gepasst...
-  // TODO SOLLTE ERLEDIGT SEIN
-//  @GetMapping("/showAuszahlungsFormWithKonto")
-//  public String showAuszahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
-//
-//    String authKundennummer = authentication.getName();
-//    log.debug("Showing showAddAuszahlungForm for Kunde: " + authKundennummer);
-//
-//    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
-//
-//    ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
-//    zahlungsAuftrag.setId(0L);
-//    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
-//    zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
-//    zahlungsAuftrag.setKontonummer(requestedKontonummer);
-//
-//
-//    List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(authKundennummer);
-//
-//    model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-//    model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
-//
-//
-//    return "kunde/banking/giro/zahlungsAuftrag-form";
-//  }
-
-
-
   @GetMapping("/showKontoDetailPage")
   public String showGiroKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                         @RequestParam("kontoId") Long kontoId, RedirectAttributes redirectAttrs) {
@@ -217,10 +188,10 @@ public class BankingGiroController {
 
       List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragService.findZahlungsAuftraegeByKontonummer(requestedGiroKontonummer);
 
-      model.addAttribute("girokonto", giroKonto);
+      model.addAttribute("konto", giroKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
 
-      return "kunde/banking/giro/konto-detail";
+      return "kunde/banking/konto-detail";
     }
   }
 

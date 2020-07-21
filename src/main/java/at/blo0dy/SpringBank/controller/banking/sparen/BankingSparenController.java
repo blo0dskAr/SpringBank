@@ -164,35 +164,6 @@ public class BankingSparenController {
     return "redirect:/kunde/banking/sparen/sparkontouebersicht";
   }
 
-
-//  // TODO: Das muss besser gehn als die GetMappings zu duplizieren, nur wegen des AUSZAHLUNG/EINZAHLUNG Enums.. params hat aber ned gepasst...
-  // TODO: ERLEDIGT, sollte nimma benötigt werden, sollte aber eventuell noch enger, produktunabhänger gestaltet werden
-//  @GetMapping("/showAuszahlungsFormWithKonto")
-//  public String showAuszahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model, @RequestParam("kontoId") Long kontoId) {
-//
-//    String authKundennummer = authentication.getName();
-//    log.debug("Showing showAddAuszahlungForm for Kunde: " + authKundennummer);
-//
-//    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
-//
-//    ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
-//    zahlungsAuftrag.setId(0L);
-//    zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
-//    zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
-//    zahlungsAuftrag.setKontonummer(requestedKontonummer);
-//
-//
-//    List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
-//
-//    model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
-//    model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
-//
-//    return "kunde/banking/sparen/zahlungsAuftrag-form";
-//  }
-
-
-
-
   @GetMapping("/showKontoDetailPage")
   public String showSparKontoDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                         @RequestParam("kontoId") Long kontoId, RedirectAttributes redirectAttrs) {
@@ -217,10 +188,10 @@ public class BankingSparenController {
 
       List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragService.findZahlungsAuftraegeByKontonummer(requestedSparKontonummer);
 
-      model.addAttribute("sparkonto", sparKonto);
+      model.addAttribute("konto", sparKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
 
-      return "kunde/banking/sparen/konto-detail";
+      return "kunde/banking/konto-detail";
     }
   }
 

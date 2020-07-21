@@ -173,10 +173,10 @@ public class BankingKreditController {
 
       List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragService.findZahlungsAuftraegeByKontonummer(requestedKreditKontonummer);
 
-      model.addAttribute("kreditkonto", kreditKonto);
+      model.addAttribute("konto", kreditKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
 
-      return "kunde/banking/kredit/konto-detail";
+      return "kunde/banking/konto-detail";
     }
   }
 

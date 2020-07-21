@@ -21,9 +21,8 @@
                             Schwerer Fehler: gewählte Kontonummer nicht beim Kunden verfügbar... Anzeige is raus!
                         </div>
                     </div>
-                    <form th:action="${#strings.startsWith(requestURI, '/kunde/banking/sparen')}? (${#strings.startsWith(requestURI, '/kunde/banking/kredit')}? @{/kunde/banking/kredit/saveEinzahlungsFormWithKonto} : @{/kunde/banking/sparen/saveEinzahlungsFormWithKonto}) : @{/kunde/banking/giro/saveEinzahlungsFormWithKonto}"
+                    <form th:action="${#strings.startsWith(requestURI, '/kunde/banking/sparen')} ? @{/kunde/banking/sparen/saveEinzahlungsFormWithKonto} : (${#strings.startsWith(requestURI, '/kunde/banking/kredit')} ? @{/kunde/banking/kredit/saveEinzahlungsFormWithKonto} : @{/kunde/banking/giro/saveEinzahlungsFormWithKonto})"
                           th:object="${zahlungsAuftrag}" method="POST">
-
                         <div class="form-group">
                                <span class="text-danger"
                                      th:if="${#fields.hasErrors('kontonummer')}"

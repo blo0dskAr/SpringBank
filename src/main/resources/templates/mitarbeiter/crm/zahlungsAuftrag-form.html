@@ -1,4 +1,3 @@
-<!--
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -11,7 +10,13 @@
 <div layout:fragment="content">
     <main>
         <div class="container-fluid">
-            <form action="#" th:action="@{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm}" th:object="${zahlungsAuftrag}" method="POST">
+            <form th:action="${konto.getClass().getSimpleName() == 'SparKonto'} ? @{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm} : (${konto.getClass().getSimpleName() == 'KreditKonto'} ? @{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm} : @{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm})"
+                  method="POST" th:object="${zahlungsAuftrag}">
+                <!--            <form th:action="${konto.getClass().getSimpleName()} == 'SparKonto' ? (${konto.getClass().getSimpleName()} == 'KreditKonto' ? '@{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm}' : '@{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm}') : '@{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm}'"-->
+<!--                  method="POST" th:object="${zahlungsAuftrag}">-->
+<!--            <form th:action="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')}? (${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')}? @{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm} : @{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm}) : @{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm}"-->
+<!--                  method="POST" th:object="${zahlungsAuftrag}">-->
+<!--            <form action="#" th:action="@{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm}" th:object="${zahlungsAuftrag}" method="POST">-->
                 <h1> Kontosuche </h1>
                 <div class="form-row">
                     <div class="form-group col-4">
@@ -61,9 +66,11 @@
                         </div>
                     </div>
             </form>
-            <a th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${sparkonto.id})}">Zurück zur Sparkonto-Übersicht</a>
+            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-Übersicht</a>
+            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-Übersicht</a>
+            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-Übersicht</a>
         </div>
     </main>
 </div>
 </body>
-</html>-->
+</html>

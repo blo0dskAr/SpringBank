@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
 
@@ -48,7 +49,7 @@ public class KundeRegistrationController {
 
   // TODO: DA geh ich direkt ins Repository, nicht in den service dazwischen, ich schätz das werd ich noch nachholen.. sollen ,.. müssten ... so quasi ..
   @PostMapping
-  public String processRegistration(@Valid @ModelAttribute("kunde") KundeRegistrationForm form, Errors errors, Model model ) {
+  public String processRegistration(@Valid @ModelAttribute("kunde") KundeRegistrationForm form, Errors errors, Model model, RedirectAttributes redirectAttrs) {
     log.debug("KundeRegistrationForm wird gespeichert");
     if (errors.hasErrors()) {
       log.debug("KundeRegistrationController: Fehler beim speichern von Kunde erhalten. Anzahl:" + errors.getErrorCount());
@@ -59,9 +60,12 @@ public class KundeRegistrationController {
       log.debug("Neue KundeForm soll gespeichert werden: ermittle Kundennummer");
       String newKundennummer = kundeService.getLatestKundennummerPlusOne().toString();
       log.debug("Neue Kundennummer lautet: " + newKundennummer + " .. KundenForm wird gespeichert");
-      kundeService.save(form.toUser(encoder, kundeService.getLatestKundennummerPlusOne().toString()));
-      // TODO: bei zeiten auf bestätigungsPage leiten, damit die Kundennummer mitgeteilt wird.
-      return "redirect:/kunde/index";
+      kundeService.save(form.toUser(encoder, newKundennummer));
+
+      Kunde neuerKunde = kundeService.findByKundennummer(newKundennummer);
+      model.addAttribute("kunde", neuerKunde);
+
+      return "kunde/registrationConfirmation";
     }
   }
 

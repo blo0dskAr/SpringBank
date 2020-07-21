@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{kunde/mainlayout.html}">
+<head>
+    <title>Home</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <main>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-8">
+                        <form method="POST" th:action="@{/kunde/register}" id="registerForm" th:object="${kunde}">
+                            <h1> Register </h1>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('kundennummer')}"
+                                          th:errors="*{kundennummer}">Vorname Error</span>
+                                    <label for="kundennummer">Ihre neue Kundennummer: </label>
+                                    <input type="text" id="kundennummer" class="form-control" name="kundennummer" th:field="*{kundennummer}" readonly/>
+                                </div>
+
+
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                     <span class="text-danger"
+                                           th:if="${#fields.hasErrors('vorname')}"
+                                           th:errors="*{vorname}">Vorname Error</span>
+                                    <label for="vorname">Vorname: </label>
+                                    <input type="text" id="vorname" class="form-control" name="vorname" th:field="*{vorname}" readonly/>
+                                </div>
+
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('nachname')}"
+                                          th:errors="*{nachname}">Nachname Error</span>
+                                    <label for="nachname">Nachname: </label>
+                                    <input type="text" id="nachname" class="form-control" name="nachname" th:field="*{nachname}" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('password')}"
+                                          th:errors="*{password}">password Error</span>
+                                    <label for="password">Password: </label>
+                                    <input type="password" id="password" class="form-control" name="password" th:field="*{password}" readonly/>
+                                </div>
+
+                        <!--        <label for="confirm">Confirm Password: </label>
+                                <input type="password" id="confirm" name="confirm"/><br>-->
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.strasse')}"
+                                          th:errors="*{adresse.strasse}">Strasse Error</span>
+                                    <label for="strasse">Straße: </label>
+                                    <input type="text" id="strasse" class="form-control" name="strasse" th:field="*{adresse.strasse}" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.plz')}"
+                                          th:errors="*{adresse.plz}">PLZ Error</span>
+                                    <label for="plz">plz: </label>
+                                    <input type="text" id="plz" class="form-control" name="plz" th:field="*{adresse.plz}" readonly/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.ort')}"
+                                          th:errors="*{adresse.ort}">Ort Error</span>
+                                    <label for="ort">Ort: </label>
+                                    <input type="text" id="ort" class="form-control" name="ort" th:field="*{adresse.ort}" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('adresse.land')}"
+                                          th:errors="*{adresse.land}">Land Error</span>
+                                    <label for="land">Land: </label>
+                                    <input type="text" id="land" class="form-control" name="land" th:field="*{adresse.land}" readonly/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('connectedGiro')}"
+                                          th:errors="*{connectedGiro}">connectedGiro Error</span>
+                                    <label for="connectedGiro">Verbundes Girokonto: </label>
+                                    <input type="text" id="connectedGiro" class="form-control" name="connectedGiro" th:field="*{connectedGiro}" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('telefonNummer')}"
+                                          th:errors="*{telefonNummer}">PLZ Error</span>
+                                    <label for="telefonNummer">TelefonNummer: </label>
+                                    <input type="text" id="telefonNummer" class="form-control" name="telefonNummer" th:field="*{telefonNummer}" readonly/>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <span class="text-danger"
+                                          th:if="${#fields.hasErrors('emailAdresse')}"
+                                          th:errors="*{emailAdresse}">PLZ Error</span>
+                                    <label for="emailAdresse">Email: </label>
+                                    <input type="text" id="emailAdresse" class="form-control" name="emailAdresse" th:field="*{emailAdresse}" readonly/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <div class="pt-4 pb-2" id="accordion">
+                                        <div class="checkbox">
+                                            <label data-toggle="collapse" data-target="#collapseOne">
+                                                <input type="checkbox" th:checked="*{hasAcceptedAGB}" th:field="*{hasAcceptedAGB}" onclick="return false;" readonly/> Ich bin mit den AGB's einverstanden.
+                                            </label>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse in">
+                                            <div class="card-body">
+                                                <div class="alert alert-primary" role="alert">
+                                                    <a>(*) Hiermit erteilen Sie Zustimmung zu unseren Allgemeinen Geschäftsbedingungen. Solange Sie unsere Geschäftsbedingungen nicht Zustimmen können Sie zwar den Login nutzen, jedoch aber kein Konto eröffnen. Die Kosten die uns durch Sie entstehen, wird durch die Erlöse durch den Verkauf Ihrer Daten wieder reingebracht. Und nun los, verkaufen Sie uns auch Ihre Seele... </a>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                        <a th:href="@{/kunde/banking/loginpage}"
+                           class = "btn btn-success" >
+                            Weiter zum Login
+                        </a>
+                        <a th:href="@{/kunde/index}"
+                           class = "btn btn-info" >
+                            Noch weiter stöbern
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

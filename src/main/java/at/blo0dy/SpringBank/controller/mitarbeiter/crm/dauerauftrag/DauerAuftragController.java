@@ -40,7 +40,7 @@ public class DauerAuftragController {
                                      @RequestParam(required = false) Long dauerAuftragId)   {
 
     log.debug("Showing DauerAuftragForm for Mitarbeiter: " + authentication.getName() + " und KontoId: " + kontoId);
-    
+
     Konto konto = kontoService.findById(kontoId);
     DauerAuftrag dauerAuftrag;
 
@@ -88,7 +88,7 @@ public class DauerAuftragController {
     log.debug("DauerAuftrag für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " wurde erfolgreich gespeichert" );
 
     model.addAttribute("dauerAuftrag", dauerAuftrag);
-    redirectAttrs.addFlashAttribute("DauerAuftragGespeichert", true);
+    redirectAttrs.addFlashAttribute("dauerAuftragGespeichert", true);
 
     if (tmpKonto.getProdukt().equals(KontoProduktEnum.SPAREN)) {
       return "redirect:/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage?sparKontoId=" + tmpKonto.getId();

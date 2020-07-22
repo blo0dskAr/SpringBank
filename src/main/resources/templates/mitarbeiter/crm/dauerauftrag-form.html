@@ -30,7 +30,7 @@
                               th:errors="*{tagImMonat}">tagImMonat Error</span>
                         <label for="tagImMonat">Tag im Monat:</label>
                         <input type="number" max="31" min="1" th:field="*{tagImMonat}" th:value="*{tagImMonat}"
-                               class="form-control mb-4 col-8" id ="tagImMonat" placeholder ="31">
+                               class="form-control mb-4 col-8" id ="tagImMonat" placeholder ="31" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
                     </div>
                 </div>
                 <div class="form-row">
@@ -40,7 +40,7 @@
                               th:errors="*{betrag}">betrag Error</span>
                         <label for="betrag">Betrag:</label>
                         <input type="text" th:field="*{betrag}"
-                               class="form-control mb-4 col-8" id="betrag" name="betrag" placeholder ="12.345,12 €">
+                               class="form-control mb-4 col-8" id="betrag" name="betrag" placeholder ="12.345,12 €" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
                     </div>
                     <div class="form-group col-4">
                         <label for="auftragsArt">Buchungs Art:</label>
@@ -50,7 +50,8 @@
                                 <Option value="" text="'Keine Einschränkung'" disabled>Bitte Auswählen</Option>
                                 <option th:each="zahlungsAuftragArtOption : ${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum).values()}"
                                         th:value="${{zahlungsAuftragArtOption}}"
-                                        th:text="${zahlungsAuftragArtOption.getDisplayName()}">
+                                        th:text="${zahlungsAuftragArtOption.getDisplayName()}"
+                                        th:disabled="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
                                 </option>
                             </select>
                         </th:block>
@@ -63,12 +64,15 @@
                               th:errors="*{text}">text Error</span>
                             <label for="text">Text:</label>
                             <input type="text" th:field="*{text}"
-                                   class="form-control mb-4 col-4" id="text" name="text" placeholder ="zB. Sparen fürs Hundehäuschen">
+                                   class="form-control mb-4 col-4" id="text" name="text" placeholder ="zB. Sparen fürs Hundehäuschen" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
                     </div>
                 </div>
                 <div class="form-row">
                     <div class="form-group col-8">
-                        <button type="submit" class="btn btn-info">Speichern</button>
+                        <button type="submit" class="btn btn-info"
+                                th:disabled="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}"
+                                th:classappend="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT} ? 'disabled' : ''">Speichern
+                        </button>
                         <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'SparKonto'}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-DetailPage</a>
                         <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-DetailPage</a>
                         <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}" th:href="@{/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-DetailPage</a>

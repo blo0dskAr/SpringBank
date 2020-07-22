@@ -22,6 +22,11 @@
                     Der Dauerauftrag wurde erfolgreich gespeichert.
                 </div>
             </div>
+            <div th:if="${dauerAuftragStorniert}">
+                <div class="alert alert-success ">
+                    Der Dauerauftrag wurde erfolgreich gespeichert.
+                </div>
+            </div>
             <div th:if="${kontoBuchungDurchgefuehrt}">
                 <div class="alert alert-success ">
                     Die KontoBuchung wurde erfolgreich durchgeführt.

@@ -270,9 +270,10 @@ public class BankingGiroController {
 
 
 
-  @GetMapping("/showDauerAuftragForm")
+/*  @GetMapping("/showDauerAuftragForm")
   public String showDauerAuftragForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                                     @RequestParam("kontoId") Long kontoId, Model model, RedirectAttributes redirectAttrs )   {
+                                     @RequestParam("kontoId") Long kontoId, Model model, RedirectAttributes redirectAttrs,
+                                     @RequestParam(required = false) Long dauerAuftragId)   {
 
     String authKundennummer = authentication.getName();
     String tmpkontonummer = kontoService.findKontonummerById(kontoId);
@@ -289,10 +290,16 @@ public class BankingGiroController {
     log.debug("Showing DauerAuftragForm for Kunde: " + authentication.getName() + " und KontoId: " + kontoId);
     Konto konto = kontoService.findById(kontoId);
 
-    DauerAuftrag dauerAuftrag = new DauerAuftrag();
-    dauerAuftrag.setKonto(konto);
-    dauerAuftrag.setId(0L);
-    dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+    DauerAuftrag dauerAuftrag;
+
+    if (dauerAuftragId != null) {
+      dauerAuftrag = dauerAuftragService.findById(dauerAuftragId);
+    } else {
+      dauerAuftrag = new DauerAuftrag();
+      dauerAuftrag.setKonto(konto);
+      dauerAuftrag.setId(0L);
+      dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+    }
     if (konto instanceof KreditKonto) {
       dauerAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     }
@@ -334,7 +341,7 @@ public class BankingGiroController {
     // TODO: hmmm da wirds langsam zeit für noch bissi mehr vererbung ausnutzen
 
     return "redirect:/kunde/banking/giro/showKontoDetailPage?kontoId=" + tmpKonto.getId();
-  }
+  }*/
 
 
 }

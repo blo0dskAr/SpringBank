@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.controller.banking.kredit;
 
 
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
@@ -218,13 +219,16 @@ public class BankingKreditController {
 
 
 
-  @GetMapping("/showDauerAuftragForm")
+/*  @GetMapping("/showDauerAuftragForm")
   public String showDauerAuftragForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                                     @RequestParam("kontoId") Long kontoId, Model model, RedirectAttributes redirectAttrs )   {
+                                     @RequestParam("kontoId") Long kontoId, Model model, RedirectAttributes redirectAttrs,
+                                     @RequestParam(required = false) Long dauerAuftragId)   {
 
     String authKundennummer = authentication.getName();
-    String tmpkontonummer = kontoService.findKontonummerById(kontoId);
-    Konto testKonto = kreditService.findKreditKontoByKontonummerAndKundennummer(tmpkontonummer, authKundennummer);
+    Konto tmpKonto = kontoService.findById(kontoId);
+    String tmpkontonummer = tmpKonto.getKontonummer().toString() ;
+
+      Konto testKonto = kreditService.findKreditKontoByKontonummerAndKundennummer(tmpkontonummer, authKundennummer);
 
     log.debug("Check ob KontoId: " + kontoId + " bei Kunde: " + authKundennummer + " liegt.");
     if (testKonto == null) {
@@ -237,10 +241,16 @@ public class BankingKreditController {
     log.debug("Showing DauerAuftragForm for Kunde: " + authentication.getName() + " und KontoId: " + kontoId);
     Konto konto = kontoService.findById(kontoId);
 
-    DauerAuftrag dauerAuftrag = new DauerAuftrag();
-    dauerAuftrag.setKonto(konto);
-    dauerAuftrag.setId(0L);
-    dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+    DauerAuftrag dauerAuftrag;
+
+    if (dauerAuftragId != null) {
+      dauerAuftrag = dauerAuftragService.findById(dauerAuftragId);
+    } else {
+      dauerAuftrag = new DauerAuftrag();
+      dauerAuftrag.setKonto(konto);
+      dauerAuftrag.setId(0L);
+      dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+    }
     if (konto instanceof KreditKonto) {
       dauerAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     }
@@ -282,7 +292,7 @@ public class BankingKreditController {
     // TODO: hmmm da wirds langsam zeit für noch bissi mehr vererbung ausnutzen
 
     return "redirect:/kunde/banking/kredit/showKontoDetailPage?kontoId=" + tmpKonto.getId();
-  }
+  }*/
 
 
 }

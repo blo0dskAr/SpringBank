@@ -3,7 +3,6 @@ package at.blo0dy.SpringBank.controller.banking.sparen;
 
 
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
-import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
@@ -275,7 +274,7 @@ public class BankingSparenController {
 
 
 
-  @GetMapping("/showDauerAuftragForm")
+/*  @GetMapping("/showDauerAuftragForm")
   public String showDauerAuftragForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                      @RequestParam("kontoId") Long kontoId, Model model, RedirectAttributes redirectAttrs,
                                      @RequestParam(required = false) Long dauerAuftragId)   {
@@ -305,7 +304,6 @@ public class BankingSparenController {
       dauerAuftrag.setId(0L);
       dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
     }
-
     if (konto instanceof KreditKonto) {
       dauerAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     }
@@ -347,7 +345,7 @@ public class BankingSparenController {
     // TODO: hmmm da wirds langsam zeit für noch bissi mehr vererbung ausnutzen
 
     return "redirect:/kunde/banking/sparen/showKontoDetailPage?kontoId=" + tmpKonto.getId();
-  }
+  }*/
 
 
 

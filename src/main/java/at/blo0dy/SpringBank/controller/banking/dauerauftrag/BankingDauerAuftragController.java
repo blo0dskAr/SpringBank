@@ -137,4 +137,28 @@ public class BankingDauerAuftragController {
   }
 
 
+
+  @GetMapping("/storniereDauerAuftrag")
+  public String storniereDauerAuftrag(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                      @RequestParam Long kontoId, @RequestParam Long dauerAuftragId, RedirectAttributes redirectAttrs) {
+
+    Konto tmpKonto = kontoService.findById(kontoId);
+
+    dauerAuftragService.storniereDauerAuftragById(dauerAuftragId);
+
+    redirectAttrs.addFlashAttribute("dauerAuftragStorniert", true);
+
+    if (tmpKonto.getProdukt().equals(KontoProduktEnum.SPAREN)) {
+      return "redirect:/kunde/banking/sparen/showKontoDetailPage?kontoId=" + tmpKonto.getId();
+    } else if (tmpKonto.getProdukt().equals(KontoProduktEnum.KREDIT)) {
+      return "redirect:/kunde/banking/kredit/showKontoDetailPage?kontoId=" + tmpKonto.getId();
+    } else {
+      return "redirect:/kunde/banking/giro/showKontoDetailPage?kontoId=" + tmpKonto.getId();
+    }
+
+  }
+
+
+
+
 }

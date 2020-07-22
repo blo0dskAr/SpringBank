@@ -22,6 +22,11 @@
                     Der Dauerauftrag wurde erfolgreich gespeichert.
                 </div>
             </div>
+            <div th:if="${dauerAuftragStorniert}">
+                <div class="alert alert-success ">
+                    Der Dauerauftrag wurde erfolgreich storniert.
+                </div>
+            </div>
             <div class="row justify-content-md-center">
 
 
@@ -238,6 +243,7 @@
                                                     <th>AuftragsArt</th>
                                                     <th>AuftragsStatus</th>
                                                     <th>Betrag</th>
+                                                    <th>Aktion</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -251,6 +257,27 @@
                                                         <span th:text="${dauerAuftrag.auftragsStatus.getDisplayName()}">Status</span>
                                                     </td>
                                                     <td th:text="${#numbers.formatDecimal(dauerAuftrag.betrag, 1, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(dauerAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
+                                                    <th:block th:if="${konto.getClass().getSimpleName() == 'SparKonto'}">
+                                                        <td>
+                                                            <a th:href="@{/kunde/banking/sparen/showDauerAuftragForm(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class="btn btn-info btn-sm">Update</a>
+                                                            |
+                                                            <a th:href="@{/kunde/banking/sparen/storniereDauerAuftrag(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class = "btn btn-danger btn-sm" onclick="if (!(confirm('Möchten Sie den Dauerauftrag wirklich stornieren?'))) return false">Delete</a>
+                                                        </td>
+                                                    </th:block>
+                                                    <th:block th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}">
+                                                        <td>
+                                                            <a th:href="@{/kunde/banking/kredit/showDauerAuftragForm(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class="btn btn-info btn-sm">Update</a>
+                                                            |
+                                                            <a th:href="@{/kunde/banking/kredit/storniereDauerAuftrag(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class = "btn btn-danger btn-sm" onclick="if (!(confirm('Möchten Sie den Dauerauftrag wirklich stornieren?'))) return false">Delete</a>
+                                                        </td>
+                                                    </th:block>
+                                                    <th:block th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}">
+                                                        <td>
+                                                            <a th:href="@{/kunde/banking/giro/showDauerAuftragForm(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class="btn btn-info btn-sm">Update</a>
+                                                            |
+                                                            <a th:href="@{/kunde/banking/giro/storniereDauerAuftrag(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class = "btn btn-danger btn-sm" onclick="if (!(confirm('Möchten Sie den Dauerauftrag wirklich stornieren?'))) return false">Delete</a>
+                                                        </td>
+                                                    </th:block>
                                                 </tr>
                                                 </tbody>
                                             </table>

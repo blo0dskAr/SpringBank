@@ -253,5 +253,4 @@ public class KontoServiceImpl implements KontoService {
     return "TRANSITION_NOT_POSSIBLE";
   }
 
-
 }

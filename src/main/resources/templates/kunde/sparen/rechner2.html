@@ -6,10 +6,8 @@
 
 <head>
     <meta charset="utf-8" />
-    <!--        <meta http-equiv="X-UA-Compatible" content="IE=edge" />-->
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Sparen - Rechner</title>
-    <!--        <link rel="stylesheet" th:href="@{/css/kunde/styles.css}" type="text/css" />-->
     <link href="https://cdn.datatables.net/1.10.20/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link rel="stylesheet" th:href="@{/css/kunde/styles.css}" type="text/css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
@@ -34,7 +32,6 @@
                                  th:if="${#fields.hasErrors('anlagedauer')}"
                                  th:errors="*{anlagedauer}">Anlagedauer Error</div>
                             <input type="text" class="form-control" id="anlagedauer" name="anlagedauer" placeholder="20 Jahre" th:field="*{anlagedauer}">
-                            <!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
                         </div>
                         <div class="form-group">
                             <label for="monatlicheEinzahlung">monatl. Einzahlung: </label>
@@ -53,27 +50,6 @@
             </div>
                 <div class="row pt-4">
                     <div class="col-4">
-                       <!-- <h3>Ergebnis:</h3>
-                        <div class="form-group">
-                            <label for="anfangssaldo">Anfangssaldo: </label>
-                            <input type="text" class="form-control" id="anfangssaldo" name="anfangssaldo" placeholder="0,00" th:field="${ergebnis.anfangsBetrag}" disabled>
-                        </div>
-                        <div class="form-group disabled">
-                            <label for="zinsen">Zinsen: </label>
-                            <input type="text" class="form-control" id="zinsen" name="zinsen" placeholder="0,00" th:field="${ergebnis.zinsen}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="kest">KESt: </label>
-                            <input type="text" class="form-control" id="kest" name="kest" placeholder="0,00" th:field="${ergebnis.kest}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="ergebnisVorKest">Saldo nach Zinsen: </label>
-                            <input type="text" class="form-control" id="ergebnisVorKest" name="ergebnisVorKest" placeholder="0,00" th:field="${ergebnis.ergebnisVorKest}" disabled>
-                        </div>
-                        <div class="form-group">
-                            <label for="ergebnisNachKest">Saldo Zinsen/KESt: </label>
-                            <input type="text" class="form-control" id="ergebnisNachKest" name="ergebnisNachKest" placeholder="0,00" th:field="${ergebnis.ergebnisNachKest}" disabled>
-                        </div>-->
                         <table class ="table table-bordered table-striped table-hover">
                             <thead class="thead-dark">
                             <tr>

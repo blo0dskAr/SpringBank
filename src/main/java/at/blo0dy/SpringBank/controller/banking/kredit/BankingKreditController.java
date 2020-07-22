@@ -4,10 +4,13 @@ package at.blo0dy.SpringBank.controller.banking.kredit;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
+import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
+import at.blo0dy.SpringBank.service.konto.dauerauftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
@@ -39,17 +42,19 @@ public class BankingKreditController {
   KontoBuchungService kontoBuchungService;
   KontoService kontoService;
   ZahlungsAuftragService zahlungsAuftragService;
+  DauerAuftragService dauerAuftragService;
 
 
   @Autowired
-  public BankingKreditController(KreditService kreditService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService,
-                                 KreditKontoAntragService kreditKontoAntragService) {
+  public BankingKreditController(KreditService kreditService, KreditKontoAntragService kreditKontoAntragService, KundeService kundeService, KontoBuchungService kontoBuchungService,
+                                 KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService, DauerAuftragService dauerAuftragService) {
     this.kreditService = kreditService;
+    this.kreditKontoAntragService = kreditKontoAntragService;
     this.kundeService = kundeService;
     this.kontoBuchungService = kontoBuchungService;
     this.kontoService = kontoService;
     this.zahlungsAuftragService = zahlungsAuftragService;
-    this.kreditKontoAntragService = kreditKontoAntragService;
+    this.dauerAuftragService = dauerAuftragService;
   }
 
   @GetMapping("/kreditkontouebersicht")
@@ -155,6 +160,9 @@ public class BankingKreditController {
 
     String requestedKreditKontonummer = kontoService.findKontonummerById(kontoId);
     String authKundennummer = authentication.getName();
+    // TODO: eigetnlich sollt ich irgendwie das passwort jedes mal raushauen, wenn ich nen kunden an den view  weiter geb (bzw. schon im service)
+    Kunde kunde = kundeService.findByKundennummer(authKundennummer);
+    model.addAttribute("kunde", kunde);
     log.debug("Showing showKreditKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedKreditKontonummer );
 
     KreditKonto kreditKonto;
@@ -175,6 +183,8 @@ public class BankingKreditController {
 
       model.addAttribute("konto", kreditKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
+      model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(kontoId));
+      model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(kreditKonto.getKontonummer()));
 
       return "kunde/banking/konto-detail";
     }
@@ -202,6 +212,76 @@ public class BankingKreditController {
     model.addAttribute("kreditkontoantrag", kreditKontoAntrag);
 
     return "kunde/banking/kredit/antrag-detail";
+  }
+
+
+
+
+
+  @GetMapping("/showDauerAuftragForm")
+  public String showDauerAuftragForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                     @RequestParam("kontoId") Long kontoId, Model model, RedirectAttributes redirectAttrs )   {
+
+    String authKundennummer = authentication.getName();
+    String tmpkontonummer = kontoService.findKontonummerById(kontoId);
+    Konto testKonto = kreditService.findKreditKontoByKontonummerAndKundennummer(tmpkontonummer, authKundennummer);
+
+    log.debug("Check ob KontoId: " + kontoId + " bei Kunde: " + authKundennummer + " liegt.");
+    if (testKonto == null) {
+      log.error("Check ob KontoId: " + kontoId + " bei Kunde: " + authKundennummer + " liegt. - FEHLGESCHLAGEN");
+      redirectAttrs.addFlashAttribute("beschissError", true);
+
+      return "redirect:/kunde/banking/kredit/kreditkontouebersicht";
+    }
+
+    log.debug("Showing DauerAuftragForm for Kunde: " + authentication.getName() + " und KontoId: " + kontoId);
+    Konto konto = kontoService.findById(kontoId);
+
+    DauerAuftrag dauerAuftrag = new DauerAuftrag();
+    dauerAuftrag.setKonto(konto);
+    dauerAuftrag.setId(0L);
+    dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+    if (konto instanceof KreditKonto) {
+      dauerAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
+    }
+
+    model.addAttribute("konto", konto);
+    model.addAttribute("dauerAuftrag", dauerAuftrag);
+
+    return "kunde/banking/dauerauftrag-form";
+  }
+
+
+
+
+  @PostMapping("/saveDauerAuftragForm")
+  public String saveDauerAuftragForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                     @Valid @ModelAttribute DauerAuftrag dauerAuftrag, BindingResult result,
+                                     RedirectAttributes redirectAttrs, Model model) {
+
+    Konto tmpKonto = dauerAuftrag.getKonto();
+    String tmpKontonummer = tmpKonto.getKontonummer().toString();
+
+    log.debug("Speichern des DauerAuftrags für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " wurde angefordert");
+
+    if (result.hasErrors()) {
+      log.debug("Fehler beim speichern des DauerAuftrags für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      model.addAttribute("dauerAuftrag", dauerAuftrag);
+      model.addAttribute("konto", tmpKonto);
+
+      return "kunde/banking/dauerauftrag-form";
+    }
+
+    log.debug("DauerAuftrag für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " wird gespeichert");
+    dauerAuftragService.saveNewDauerAuftrag(dauerAuftrag);
+    log.debug("DauerAuftrag für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " wurde erfolgreich gespeichert");
+
+    model.addAttribute("dauerAuftrag", dauerAuftrag);
+    redirectAttrs.addFlashAttribute("DauerAuftragGespeichert", true);
+
+    // TODO: hmmm da wirds langsam zeit für noch bissi mehr vererbung ausnutzen
+
+    return "redirect:/kunde/banking/kredit/showKontoDetailPage?kontoId=" + tmpKonto.getId();
   }
 
 

@@ -90,7 +90,6 @@
                                             <h2>Status Übersicht</h2>
                                         </div>
                                     </div>
-                                    @{/mitarbeiter/kunde/kredit/konto/saveKreditKontoDetailPage}
                                     <form th:action="${konto.getClass().getSimpleName() == 'SparKonto'} ? @{/mitarbeiter/kunde/sparen/konto/saveSparKontoDetailPage} : (${konto.getClass().getSimpleName() == 'KreditKonto'} ? @{/mitarbeiter/kunde/kredit/konto/saveKreditKontoDetailPage} : @{/mitarbeiter/kunde/giro/konto/saveGiroKontoDetailPage})"
                                           method="POST" th:object="${konto}">
                                         <input type="hidden" th:field="*{id}">

@@ -26,7 +26,7 @@ public interface KundeService   {
 
   Long getLatestKundennummerPlusOne();
 
-  String getConnectedGiroByKundennummer(String kundenummer);
+  String getConnectedGiroByKundennummer(String kundennummer);
 
   void updateChangeableDataByKundennummer(String kundennummer, String email, String tel, String connectedGiro, boolean hasAcceptedAGB);
 

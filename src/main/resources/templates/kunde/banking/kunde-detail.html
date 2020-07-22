@@ -91,12 +91,19 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-md-5">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('telefonNummer')}"
                                       th:errors="*{telefonNummer}">telefonNummer Error</span>
                                 <label for="telefonnummer">Telefonnummer</label>
                                 <input type="text" class="form-control" id="telefonnummer" name="telefonnummer" th:field="*{telefonNummer}">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('geburtsDatum')}"
+                                      th:errors="*{geburtsDatum}">geburtsDatum Error</span>
+                                <label for="geburtsDatum">Geburtsdatum: </label>
+                                <input type="date" class="form-control" id="geburtsDatum" name="geburtsDatum" th:field="*{geburtsDatum}" readonly>
                             </div>
                         </div>
                         <div class="form-row">

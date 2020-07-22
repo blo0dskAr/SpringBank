@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,9 +28,9 @@ public class Mitarbeiter extends Person {
   private Long id;*/
 
   @Column(name = "mitarbeiternummer")
-  @Min(1)
-  @Max(99999999)
-  @NotNull(message = "Mitarbeiternummer must be defined.")
+//  @Min(1)
+//  @Max(99999999)
+//  @NotNull(message = "Mitarbeiternummer must be defined.")
   private String mitarbeiterNummer;
 
   @Column(name = "position")
@@ -58,8 +59,8 @@ private List<Rolle> rollen = new ArrayList<>();
 
   public Mitarbeiter() {  }
 
-  public Mitarbeiter(String vorname, String nachname, Adresse adresse, String mitarbeiterNummer, String position) {
-    super(vorname, nachname, adresse);
+  public Mitarbeiter(String vorname, String nachname, Adresse adresse, String mitarbeiterNummer, String position, LocalDate geburtsDatum) {
+    super(vorname, nachname, adresse, geburtsDatum);
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;
   }

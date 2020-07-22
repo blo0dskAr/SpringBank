@@ -36,7 +36,6 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
     Optional<Mitarbeiter> result = mitarbeiterRepository.findById(theId);
 
     Mitarbeiter mitarbeiter;
-
     mitarbeiter = result.get();
 
     return mitarbeiter ;
@@ -68,10 +67,17 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
     return mitarbeiterRepository.count();
   }
 
-//  @Override
-//  public User findByUsername(String username) {
-//    return mitarbeiterRepository.findByUsername(username);
-//  }
+  @Override
+  @Transactional
+  public String getLatestMitarbeiterNummerPlusOne() {
 
+    String neueMitarbeiternummer = mitarbeiterRepository.getLatestMitarbeiterNummerPlusOne();
+
+    if (neueMitarbeiternummer == null) {
+      neueMitarbeiternummer = "1";
+    }
+
+    return neueMitarbeiternummer;
+  }
 
 }

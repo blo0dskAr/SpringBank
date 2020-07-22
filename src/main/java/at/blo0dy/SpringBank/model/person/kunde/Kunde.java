@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -58,8 +59,9 @@ public class Kunde extends Person implements UserDetails {
 
   public Kunde() { }
 
-  public Kunde(String vorname, String nachname, Adresse adresse, String kundennummer, String telefonNummer, String emailAdresse, String password, boolean isLegi, boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone, String connectedGiro) {
-    super(vorname, nachname, adresse);
+  public Kunde(String vorname, String nachname, Adresse adresse, String kundennummer, String telefonNummer, String emailAdresse, String password, boolean isLegi,
+               boolean hasAcceptedAGB, boolean isActive, boolean firstLoginDone, String connectedGiro, LocalDate geburtsDatum) {
+    super(vorname, nachname, adresse, geburtsDatum);
     this.kundennummer = kundennummer;
     this.telefonNummer = telefonNummer;
     this.emailAdresse = emailAdresse;

@@ -8,67 +8,103 @@
 
 <body>
 <div layout:fragment="content">
-    <h3>Admin - Mitarbeiter Directory</h3>
-    <hr>
+    <main>
+        <div class="container-fluid mt-4">
+            <h1 class="mt-4">Admin - Save Mitarbeiter</h1>
+            <hr>
+            <div class="row justify-content-md-center ">
+                <div class="col-10">
 
-    <p class="h4 mb-4">Admin - Save Mitarbeiter</p>
+                    <form action="#" th:action="@{/mitarbeiter/admin/mitarbeiterAdministration/save}"
+                          th:object="${mitarbeiter}" method="POST">
+                        <input type="hidden" th:field="*{id}" />
+                        <input type="hidden" th:field="*{adresse.id}" />
 
-    <form action="#" th:action="@{/mitarbeiter/admin/mitarbeiterAdministration/save}"
-          th:object="${mitarbeiter}" method="POST">
-
-            <!-- Add hidden form Field to handle update -->
-            <input type="hidden" th:field="*{id}" />
-        <input type="hidden" th:field="*{adresse.id}" />
-
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('vorname')}"
-                  th:errors="*{vorname}">Vorname Error</span>
-            <input type="text" th:field="*{vorname}"
-                   class="form-control mb-4 col-8" placeholder ="First name">
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('nachname')}"
-                  th:errors="*{nachname}">Nachname Error</span>
-            <input type="text" th:field="*{nachname}"
-                   class="form-control mb-4 col-8" placeholder ="Last name">
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('mitarbeiterNummer')}"
-                  th:errors="*{mitarbeiterNummer}">MANr Error</span>
-            <input type="text" th:field="*{mitarbeiterNummer}"
-                   class="form-control mb-4 col-8" placeholder ="Mitarbeiternummer">
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('position')}"
-                  th:errors="*{position}">Position Error</span>
-            <input type="text" th:field="*{position}"
-                   class="form-control mb-4 col-8" placeholder ="Position">
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('adresse.strasse')}"
-                  th:errors="*{adresse.strasse}">Strasse Error</span>
-            <input type="text" th:field="*{adresse.strasse}"
-                   class="form-control mb-4 col-8" placeholder ="Straße">
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('adresse.ort')}"
-                  th:errors="*{adresse.ort}">Ort Error</span>
-            <input type="text" th:field="*{adresse.ort}"
-                   class="form-control mb-4 col-8" placeholder ="ort">
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('adresse.plz')}"
-                  th:errors="*{adresse.plz}">PLZ Error</span>
-            <input type="text" th:field="*{adresse.plz}"
-                   class="form-control mb-4 col-8" placeholder ="plz">
-            <span class="text-danger"
-                  th:if="${#fields.hasErrors('adresse.land')}"
-                  th:errors="*{adresse.land}">Land Error</span>
-            <input type="text" th:field="*{adresse.land}"
-                   class="form-control mb-4 col-8" placeholder ="land">
-
-            <button type="submit" class="btn btn-info col-8">Save</button>
-
-        </form>
-    </form>
-
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('vorname')}"
+                                      th:errors="*{vorname}">Vorname Error</span>
+                                <label for="vorname">Vorname: </label>
+                                <input type="text" id="vorname" th:field="*{vorname}" class="form-control" placeholder ="First name">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('nachname')}"
+                                      th:errors="*{nachname}">Nachname Error</span>
+                                <label for="nachname">Nachname: </label>
+                                <input type="text" id="nachname" th:field="*{nachname}" class="form-control" placeholder ="Last name">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('mitarbeiterNummer')}"
+                                      th:errors="*{mitarbeiterNummer}">MANr Error</span>
+                                <label for="mitarbeiterNummer">Mitarbeiternummer: </label>
+                                <input type="text" id="mitarbeiterNummer" th:field="*{mitarbeiterNummer}" class="form-control"readonly placeholder ="Mitarbeiternummer">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('position')}"
+                                      th:errors="*{position}">Position Error</span>
+                                <label for="position">Position: </label>
+                                <input type="text" id="position" th:field="*{position}" class="form-control" placeholder ="Position">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('geburtsDatum')}"
+                                      th:errors="*{geburtsDatum}">geburtsDatum Error</span>
+                                <label for="position">Geburtsdatum: </label>
+                                <input type="date" th:field="*{geburtsDatum}" class="form-control" placeholder ="Straße">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('adresse.strasse')}"
+                                      th:errors="*{adresse.strasse}">Strasse Error</span>
+                                <label for="strasse">Straße: </label>
+                                <input type="text" id="strasse" th:field="*{adresse.strasse}" class="form-control" placeholder ="Straße">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('adresse.ort')}"
+                                      th:errors="*{adresse.ort}">Ort Error</span>
+                                <label for="ort">Ort: </label>
+                                <input type="text" id="ort" th:field="*{adresse.ort}" class="form-control" placeholder ="ort">
+                            </div>
+                            <div class="form-group col-md-5">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('adresse.plz')}"
+                                      th:errors="*{adresse.plz}">PLZ Error</span>
+                                <label for="plz">PLZ: </label>
+                                <input type="text" id="plz" th:field="*{adresse.plz}" class="form-control" placeholder ="plz">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('adresse.land')}"
+                                      th:errors="*{adresse.land}">Land Error</span>
+                                <label for="land">Land: </label>
+                                <input type="text" id="land" th:field="*{adresse.land}" class="form-control" placeholder ="land">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-10">
+                                <button type="submit" class="btn btn-info col-4">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
     <hr>
     <a th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Back to Mitarbeiter List</a>
-
 </div>
 </body>
 </html>

@@ -11,6 +11,7 @@ import org.mockito.Mock;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -30,9 +31,9 @@ class MitarbeiterServiceImplTest {
   @Mock
   MitarbeiterRepository mitarbeiterRepository;
 
-  Mitarbeiter mitarbeiter1 =  new Mitarbeiter("testerVornamex", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "123456","Tester") ;
-  Mitarbeiter mitarbeiter2 = new Mitarbeiter("testerVornamex", "testerNachname",new Adresse("TestStraße 25", "1234","Wien","Österreich"), "223456","Tester")   ;
-  Mitarbeiter mitarbeiter3 =  new Mitarbeiter("testerVornamex", "testerNachname",new Adresse("TestStraße 35", "1234","Wien","Österreich"), "323456","Tester")  ;
+  Mitarbeiter mitarbeiter1 =  new Mitarbeiter("testerVornamex", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1)) ;
+  Mitarbeiter mitarbeiter2 = new Mitarbeiter("testerVornamex", "testerNachname",new Adresse("TestStraße 25", "1234","Wien","Österreich"), "223456","Tester", LocalDate.of(1984,1,1))   ;
+  Mitarbeiter mitarbeiter3 =  new Mitarbeiter("testerVornamex", "testerNachname",new Adresse("TestStraße 35", "1234","Wien","Österreich"), "323456","Tester", LocalDate.of(1984,1,1))  ;
 
   List<Mitarbeiter> mitarbeiterList = Arrays.asList(mitarbeiter1, mitarbeiter2, mitarbeiter3);
 

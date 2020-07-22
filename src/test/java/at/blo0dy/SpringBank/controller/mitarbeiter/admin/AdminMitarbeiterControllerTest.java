@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -19,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -54,9 +56,9 @@ class AdminMitarbeiterControllerTest {
   @MockBean
   private BankServiceImpl bankService;
 
-  List<Mitarbeiter> mitarbeiterList = Arrays.asList(   new Mitarbeiter("testerVorname1", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "123456","Tester"),
-                                                       new Mitarbeiter("testerVorname2", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "223456","Tester"),
-                                                       new Mitarbeiter("testerVorname3", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "323456","Tester"));
+  List<Mitarbeiter> mitarbeiterList = Arrays.asList(   new Mitarbeiter("testerVorname1", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1)),
+                                                       new Mitarbeiter("testerVorname2", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "223456","Tester", LocalDate.of(1984,1,1)),
+                                                       new Mitarbeiter("testerVorname3", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "323456","Tester", LocalDate.of(1984,1,1)));
 
   @BeforeEach
   void setUp() {
@@ -142,7 +144,7 @@ class AdminMitarbeiterControllerTest {
   @Test
   void saveMitarbeiterWithCorrectData() throws Exception {
 
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testeräÄöÖüÜß-muh", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "123456","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testeräÄöÖüÜß-muh", "testerNachname",new Adresse("TestStraße 15", "1234","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1));
 
     doNothing().when(mitarbeiterService).save(any());
 
@@ -173,7 +175,7 @@ class AdminMitarbeiterControllerTest {
   @Test
   void saveMitarbeiterWithEmptyData() throws Exception {
 
-    Mitarbeiter mitarbeiter = new Mitarbeiter("", "",new Adresse("", "","",""), "","");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("", "",new Adresse("", "","",""), "","",null);
 
     doNothing().when(mitarbeiterService).save(any());
 
@@ -198,7 +200,7 @@ class AdminMitarbeiterControllerTest {
   @Test
   void saveMitarbeiterWithNullData() throws Exception {
 
-    Mitarbeiter mitarbeiter = new Mitarbeiter(null, null,new Adresse(null, null,null,null), null,null);
+    Mitarbeiter mitarbeiter = new Mitarbeiter(null, null,new Adresse(null, null,null,null), null,null, null);
 
     doNothing().when(mitarbeiterService).save(any());
 
@@ -214,6 +216,7 @@ class AdminMitarbeiterControllerTest {
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.plz"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.ort"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.land"))
+            .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "geburtsDatum"))
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
@@ -222,7 +225,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithTooLongPLZData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "123456","Wien","Österreich"), "123456","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "123456","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -238,7 +241,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithTooShortPLZData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "123","Wien","Österreich"), "123456","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "123","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -255,7 +258,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithWrongFormat_String_PLZData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "hallo1234","Wien","Österreich"), "123456","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "hallo1234","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -271,7 +274,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithnegativeNumberPLZData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "-1234","Wien","Österreich"), "123456","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "-1234","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -287,7 +290,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithTooLargeMitarbeiterNummerData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "100000000","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "100000000","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -303,7 +306,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithNegativeMitarbeiterNummerData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "-12345678","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "-12345678","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -319,7 +322,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithToSmallMitarbeiterNummerData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "0","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "0","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -335,7 +338,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithWrongFormat_String_MitarbeiterNummerData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "Serwas","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "Serwas","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -351,7 +354,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithWrongFormat_Number_VornameData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("123", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "12345","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("123", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "12345","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -367,7 +370,7 @@ class AdminMitarbeiterControllerTest {
 
   @Test
   void saveMitarbeiterWithWrongFormat_Number_NachnameData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "123",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "12345","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "123",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "12345","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -413,7 +416,7 @@ class AdminMitarbeiterControllerTest {
   @Test
   void showFormForUpdate() throws Exception{
 
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVornamexx", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "12345","Tester");
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVornamexx", "testerNachname",new Adresse("TestStraße 15", "1236","Wien","Österreich"), "12345","Tester", LocalDate.of(1984,1,1));
     mitarbeiter.setId(1L);
     when(mitarbeiterService.findById(1L)).thenReturn(mitarbeiter);
 

@@ -18,4 +18,5 @@ public interface MitarbeiterService {
 
   long count();
 
+  String getLatestMitarbeiterNummerPlusOne();
 }

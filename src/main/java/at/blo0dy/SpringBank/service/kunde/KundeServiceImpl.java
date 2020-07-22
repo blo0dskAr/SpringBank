@@ -151,8 +151,8 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   @Override
   @Transactional
-  public String getConnectedGiroByKundennummer(String kundenummer) {
-    return kundeRepository.getConnectedGiroByKundennummer(kundenummer);
+  public String getConnectedGiroByKundennummer(String kundennummer) {
+    return kundeRepository.getConnectedGiroByKundennummer(kundennummer);
   }
 
   @Override

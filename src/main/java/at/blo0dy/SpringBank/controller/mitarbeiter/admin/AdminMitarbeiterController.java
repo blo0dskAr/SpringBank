@@ -50,17 +50,16 @@ public class AdminMitarbeiterController {
 
   @GetMapping("/delete")
   public String deleteMitarbeiter(@RequestParam("mitarbeiterId") Long theId, Model model) {
-//    try {
       mitarbeiterService.deleteById(theId);
-//    } catch (EmptyResultDataAccessException e) {
-//      throw new UsernameNotFoundException("Mitarbeiter with id: " + theId + " not found.");
-//    }
     return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";
   }
 
 
   @PostMapping("/save")
   public String saveMitarbeiter(@Valid @ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter, Errors errors) {
+
+    mitarbeiter.setMitarbeiterNummer(mitarbeiterService.getLatestMitarbeiterNummerPlusOne());
+
     if (errors.hasErrors()) {
       return "admin/mitarbeiter-form";
     }  else {

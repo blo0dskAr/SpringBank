@@ -4,11 +4,12 @@ import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
+import javax.validation.constraints.*;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -38,10 +39,16 @@ public class Person {
   @OneToOne(cascade = CascadeType.ALL)
   private Adresse adresse;
 
-  public Person(String vorname, String nachname, Adresse adresse) {
+  @DateTimeFormat(pattern = "yyyy-MM-dd")
+  @Past
+  @NotNull(message = "darf nicht leer sein")
+  private LocalDate geburtsDatum;
+
+  public Person(String vorname, String nachname, Adresse adresse, LocalDate geburtsDatum) {
     this.vorname = vorname;
     this.nachname = nachname;
     this.adresse = adresse;
+    this.geburtsDatum = geburtsDatum;
   }
 
   public String getVorname() {

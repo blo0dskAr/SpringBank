@@ -137,6 +137,7 @@ private void loadData() {
   Mitarbeiter mitarbeiter = new Mitarbeiter();
   mitarbeiter.setVorname("Hans");
   mitarbeiter.setNachname("Wurst");
+  mitarbeiter.setGeburtsDatum(LocalDate.of(1984,1,1));
   mitarbeiter.setPosition("Dev/Ops Engineer");
   mitarbeiter.setMitarbeiterNummer("666");
   mitarbeiter.setId(1L);
@@ -150,6 +151,7 @@ private void loadData() {
   Mitarbeiter mitarbeiter2 = new Mitarbeiter();
   mitarbeiter2.setVorname("Melinda");
   mitarbeiter2.setNachname("Wurst");
+  mitarbeiter2.setGeburtsDatum(LocalDate.of(1984,1,1));
   mitarbeiter2.setPosition("Business Analyst");
   mitarbeiter2.setMitarbeiterNummer("667");
   mitarbeiter2.setId(2L);
@@ -186,6 +188,7 @@ private void loadData() {
   kunde1.setKundennummer("123");
   kunde1.setAdresse(adresse3);
   kunde1.setId(3L);
+  kunde1.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde1.setNachname("McKundeFace");
   kunde1.setVorname("Kundy");
   kunde1.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -203,6 +206,7 @@ private void loadData() {
   kunde2.setKundennummer("124");
   kunde2.setAdresse(adresse4);
   kunde2.setId(4L);
+  kunde2.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde2.setNachname("McTestFace");
   kunde2.setVorname("Testy");
   kunde2.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -220,6 +224,7 @@ private void loadData() {
   kunde3.setKundennummer("125");
   kunde3.setAdresse(adresse4);
   kunde3.setId(5L);
+  kunde3.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde3.setNachname("HatAllesFalse");
   kunde3.setVorname("Testy");
   kunde3.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -237,6 +242,7 @@ private void loadData() {
   kunde4.setKundennummer("126");
   kunde4.setAdresse(adresse4);
   kunde4.setId(6L);
+  kunde4.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde4.setNachname("HatAllesFalse");
   kunde4.setVorname("Testy");
   kunde4.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -254,6 +260,7 @@ private void loadData() {
   kunde5.setKundennummer("127");
   kunde5.setAdresse(adresse4);
   kunde5.setId(7L);
+  kunde5.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde5.setNachname("HatLegiFalse");
   kunde5.setVorname("Testy");
   kunde5.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -271,6 +278,7 @@ private void loadData() {
   kunde6.setKundennummer("128");
   kunde6.setAdresse(adresse4);
   kunde6.setId(8L);
+  kunde6.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde6.setNachname("hatAgbFalse");
   kunde6.setVorname("Testy");
   kunde6.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");

@@ -36,16 +36,22 @@ public class DauerAuftragController {
 
   @GetMapping("/showDauerAuftragForm")
   public String showDauerAuftragForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                                     @RequestParam("kontoId") Long kontoId, Model model )   {
-
-    Konto konto = kontoService.findById(kontoId);
+                                     @RequestParam("kontoId") Long kontoId, Model model,
+                                     @RequestParam(required = false) Long dauerAuftragId)   {
 
     log.debug("Showing DauerAuftragForm for Mitarbeiter: " + authentication.getName() + " und KontoId: " + kontoId);
+    
+    Konto konto = kontoService.findById(kontoId);
+    DauerAuftrag dauerAuftrag;
 
-    DauerAuftrag dauerAuftrag = new DauerAuftrag();
-    dauerAuftrag.setKonto(konto);
-    dauerAuftrag.setId(0L);
-    dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+    if (dauerAuftragId != null) {
+      dauerAuftrag = dauerAuftragService.findById(dauerAuftragId);
+    } else {
+      dauerAuftrag = new DauerAuftrag();
+      dauerAuftrag.setKonto(konto);
+      dauerAuftrag.setId(0L);
+      dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+    }
     if (konto instanceof KreditKonto) {
       dauerAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     }
@@ -84,7 +90,28 @@ public class DauerAuftragController {
     model.addAttribute("dauerAuftrag", dauerAuftrag);
     redirectAttrs.addFlashAttribute("DauerAuftragGespeichert", true);
 
-    // TODO: hmmm da wirds langsam zeit für noch bissi mehr vererbung ausnutzen
+    if (tmpKonto.getProdukt().equals(KontoProduktEnum.SPAREN)) {
+      return "redirect:/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage?sparKontoId=" + tmpKonto.getId();
+    } else if (tmpKonto.getProdukt().equals(KontoProduktEnum.KREDIT)) {
+      return "redirect:/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage?kreditKontoId=" + tmpKonto.getId();
+    } else {
+      return "redirect:/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage?giroKontoId=" + tmpKonto.getId();
+    }
+
+  }
+
+
+
+  @GetMapping("/storniereDauerAuftrag")
+  public String storniereDauerAuftrag(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                      @RequestParam Long kontoId, @RequestParam Long dauerAuftragId, RedirectAttributes redirectAttrs) {
+
+    Konto tmpKonto = kontoService.findById(kontoId);
+
+    dauerAuftragService.storniereDauerAuftragById(dauerAuftragId);
+
+    redirectAttrs.addFlashAttribute("dauerAuftragStorniert", true);
+
     if (tmpKonto.getProdukt().equals(KontoProduktEnum.SPAREN)) {
       return "redirect:/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage?sparKontoId=" + tmpKonto.getId();
     } else if (tmpKonto.getProdukt().equals(KontoProduktEnum.KREDIT)) {

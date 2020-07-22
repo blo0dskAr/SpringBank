@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{mainlayout.html}">
 <head>
-    <title>Neue Einzahlung</title>
+    <title>Dauerauftrag</title>
 </head>
 
 <body>
@@ -11,7 +11,7 @@
     <main>
         <div class="container-fluid">
             <form action="#" th:action="@{/mitarbeiter/kunde/konto/saveDauerAuftragForm}" th:object="${dauerAuftrag}" method="POST">
-                <h1> KontoBuchung erstellen </h1>
+                <h1> Dauerauftrag Form </h1>
                 <div class="form-row">
                     <div class="form-group col-4">
                         <input type="hidden" th:field="${dauerAuftrag.id}" />
@@ -29,7 +29,7 @@
                               th:if="${#fields.hasErrors('tagImMonat')}"
                               th:errors="*{tagImMonat}">tagImMonat Error</span>
                         <label for="tagImMonat">Tag im Monat:</label>
-                        <input type="number" max="31" min="1" th:field="*{tagImMonat}"
+                        <input type="number" max="31" min="1" th:field="*{tagImMonat}" th:value="*{tagImMonat}"
                                class="form-control mb-4 col-8" id ="tagImMonat" placeholder ="31">
                     </div>
                 </div>

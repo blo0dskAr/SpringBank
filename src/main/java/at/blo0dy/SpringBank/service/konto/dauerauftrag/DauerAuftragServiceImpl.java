@@ -78,5 +78,21 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
     return "";
   }
 
+  @Override
+  @Transactional
+  public DauerAuftrag findById(Long dauerAuftragId) {
+
+    DauerAuftrag dauerAuftrag = dauerAuftragRepository.findById(dauerAuftragId).get();
+    return dauerAuftrag ;
+  }
+
+  @Override
+  @Transactional
+  public void storniereDauerAuftragById(Long dauerAuftragId) {
+
+    dauerAuftragRepository.storniereDauerAuftragById(dauerAuftragId);
+
+  }
+
 
 }

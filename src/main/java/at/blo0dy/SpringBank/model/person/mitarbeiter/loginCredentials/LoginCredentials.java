@@ -2,6 +2,7 @@ package at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials;
 
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
+import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -10,6 +11,7 @@ import java.sql.Timestamp;
 
 
 @Entity
+@Data
 @Table(name = "login_credentials")
 public class LoginCredentials {
 
@@ -39,43 +41,43 @@ public class LoginCredentials {
     this.password = password;
   }
 
-  public String getLoginName() {
-    return loginName;
-  }
-
-  public void setLoginName(String loginName) {
-    this.loginName = loginName;
-  }
-
-  public String getPassword() {
-    return password;
-  }
-
-  public void setPassword(String password) {
-    this.password = password;
-  }
-
-  public Long getId() {
-    return id;
-  }
-
-  public void setId(Long id) {
-    this.id = id;
-  }
-
-  public boolean isActive() {
-    return isActive;
-  }
-
-  public void setActive(boolean active) {
-    isActive = active;
-  }
-
-  public Mitarbeiter getMitarbeiter() {
-    return mitarbeiter;
-  }
-
-  public void setMitarbeiter(Mitarbeiter mitarbeiter) {
-    this.mitarbeiter = mitarbeiter;
-  }
+//  public String getLoginName() {
+//    return loginName;
+//  }
+//
+//  public void setLoginName(String loginName) {
+//    this.loginName = loginName;
+//  }
+//
+//  public String getPassword() {
+//    return password;
+//  }
+//
+//  public void setPassword(String password) {
+//    this.password = password;
+//  }
+//
+//  public Long getId() {
+//    return id;
+//  }
+//
+//  public void setId(Long id) {
+//    this.id = id;
+//  }
+//
+//  public boolean isActive() {
+//    return isActive;
+//  }
+//
+//  public void setActive(boolean active) {
+//    isActive = active;
+//  }
+//
+//  public Mitarbeiter getMitarbeiter() {
+//    return mitarbeiter;
+//  }
+//
+//  public void setMitarbeiter(Mitarbeiter mitarbeiter) {
+//    this.mitarbeiter = mitarbeiter;
+//  }
 }

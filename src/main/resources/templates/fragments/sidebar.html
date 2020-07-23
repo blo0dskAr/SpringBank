@@ -15,6 +15,11 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                             Home
                         </a>
+                        <a th:class="${#strings.equals(activeLink, 'changePasswordPage')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/showChangePasswordForm}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                            Passwort ändern
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Work</div>
                         <div sec:authorize="hasAuthority('admin')">
                             <a class="nav-link collapsed" href="#" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''"
                                data-toggle="collapse" data-target="#admincollapse" aria-expanded="false" aria-controls="admincollapse">

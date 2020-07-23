@@ -80,4 +80,16 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
     return neueMitarbeiternummer;
   }
 
+  @Override
+  @Transactional
+  public Mitarbeiter findByUserName(String tmpUser) {
+    return mitarbeiterRepository.findByUsername(tmpUser);
+  }
+
+  @Override
+  @Transactional
+  public void updatePasswordByMitarbeiterId(Long mitarbeiterId, String encodedPassword) {
+    mitarbeiterRepository.updatePasswordByMitarbeiterId(mitarbeiterId, encodedPassword);
+  }
+
 }

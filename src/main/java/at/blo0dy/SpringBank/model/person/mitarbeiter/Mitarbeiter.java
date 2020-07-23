@@ -22,11 +22,6 @@ import java.util.List;
 @Builder
 public class Mitarbeiter extends Person {
 
-/*  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;*/
-
   @Column(name = "mitarbeiternummer")
 //  @Min(1)
 //  @Max(99999999)
@@ -82,6 +77,10 @@ private List<Rolle> rollen = new ArrayList<>();
 
   public String  getLoginName() {
     return loginCredentials.get(1).getLoginName();
+  }
+
+  public String  getPassword() {
+    return loginCredentials.get(0).getPassword() ;
   }
 
 }

@@ -207,6 +207,7 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
+                                            <div th:if="${#lists.isEmpty(konto.kontoBuchungList)} " class="mb-2 pl-4">Derzeit keine Buchungen am Konto!</div>
                                             <hr class="my-1">
                                         </div>
                                     </div>
@@ -299,6 +300,7 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
+                                            <div th:if="${#lists.isEmpty(konto.kontoZahlungsAuftragList)} " class="mb-2 pl-4">Derzeit keine Zahlungsaufträge gespeichert!</div>
                                         </div>
                                     </div>
                                 </div>

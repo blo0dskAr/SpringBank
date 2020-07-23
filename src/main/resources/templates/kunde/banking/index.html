@@ -191,7 +191,6 @@
                                                             <span th:text="${sparkontoantrag.antragStatus}">AntragStatus</span>
                                                         </td>
                                                         <td>
-    <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
                                                             <a th:href="@{/kunde/banking/sparen/showSparAntragDetailPage(antragId=${sparkontoantrag.id})}"
                                                                class="btn btn-info btn-sm">
                                                                 Details
@@ -209,7 +208,6 @@
                                                             <span th:text="${kreditkontoantrag.antragStatus}">AntragStatus</span>
                                                         </td>
                                                         <td>
-                                                            <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
                                                             <a th:href="@{/kunde/banking/kredit/showKreditAntragDetailPage(antragId=${kreditkontoantrag.id})}"
                                                                class="btn btn-info btn-sm">
                                                                 Details
@@ -227,7 +225,6 @@
                                                             <span th:text="${girokontoantrag.antragStatus}">AntragStatus</span>
                                                         </td>
                                                         <td>
-                                                            <!--                                                        <a th:href="@{/kunde/banking/sparen/showFormForUpdate(mitarbeiterId=${ma.id})}"-->
                                                             <a th:href="@{/kunde/banking/giro/showGiroAntragDetailPage(antragId=${girokontoantrag.id})}"
                                                                class="btn btn-info btn-sm">
                                                                 Details
@@ -236,7 +233,8 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
-<!--                                                   Pagination -->
+                                                <div th:if="${#lists.isEmpty(girokontoantragliste) && #lists.isEmpty(sparkontoantragliste) && #lists.isEmpty(kreditkontoantragliste)} " class="mb-2 pl-4">Derzeit keine Anträge gespeichert!</div>
+                                                <!--                                                   Pagination -->
 <!--                                                    <div class="clearfix">
                                                         <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
                                                         <ul class="pagination">
@@ -277,43 +275,41 @@
                                             <div class="text-right text-secondary mp-0 small" th:text="${'Offene Konten: ' + offeneKontenGesamt}"> offene Konten: </div>
                                         </div>
                                         <div class="col">
-<!--                                            <div class="text-right text-secondary mp-0 small"  th:text="'GesamtSaldo: '"> <div text="du oasch">penis</div>  </div>-->
 <!--                                            <div class="text-right text-secondary mp-0 small" th:classappend="${summeoffenerkonten != null && summeoffenerkonten > 0 ? 'text-success' : 'text-danger'}"  th:text="'GesamtSaldo: ' + ${summeoffenerkonten} + ' €'"></div>-->
                                             <div class="text-right text-secondary mp-0 small">
                                                 <span th:text="'GesamtSaldo: '"></span>
-                                                <span th:classappend="${gesamtSaldoOffenerKonten != null && gesamtSaldoOffenerKonten > 0 ? 'text-success' : 'text-danger'}" th:text="${gesamtSaldoOffenerKonten} + ' €'"></span>
+                                                <span th:classappend="${gesamtSaldoOffenerKonten != null && gesamtSaldoOffenerKonten >= 0 ? 'text-success' : 'text-danger'}" th:text="${#numbers.formatDecimal(gesamtSaldoOffenerKonten, 1, 'POINT', 2, 'COMMA')} + ' €'"></span>
                                             </div>
-<!--                                            <div class="text-right text-secondary mp-0 small"> KontoName: dollarZgenerat0r </div>-->
                                         </div>
                                     </div>
                                 </div>
                                 <div class="collapse" data-parent="#accordion3" id="collapse3" aria-labelledby="heading3" >
                                     <div class="card-body">
                                         <th:block th:each="sparkonto : ${sparkontenliste}">
-                                        <div class="card-header border border-light rounded mt-2">
-                                            <div class="row">
-                                                <div class="col-3 pl-0">
-                                                    <h2 class="mb-0">
-                                                        <a th:href="@{/kunde/banking/sparen/showKontoDetailPage(kontoId=${sparkonto.id})}"
-                                                           th:text="${sparkonto.kontonummer + ' Details'}"
-                                                           class = "btn btn-outline-dark text-left float-left">
-                                                           Kontonummer
-                                                        </a>
-                                                    </h2>
-                                                </div>
-                                                <div class="col-6">
-                                                    <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
-                                                    <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="text-right text-secondary mp-0 small">
-                                                        <span th:text="'KontoSaldo: '"></span>
-                                                        <span th:classappend="${sparkonto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${sparkonto.aktSaldo} + ' €'"></span>
+                                            <div class="card-header border border-light rounded mt-2">
+                                                <div class="row">
+                                                    <div class="col-3 pl-0">
+                                                        <h2 class="mb-0">
+                                                            <a th:href="@{/kunde/banking/sparen/showKontoDetailPage(kontoId=${sparkonto.id})}"
+                                                               th:text="${sparkonto.kontonummer + ' Details'}"
+                                                               class = "btn btn-outline-dark text-left float-left">
+                                                               Kontonummer
+                                                            </a>
+                                                        </h2>
                                                     </div>
-                                                    <div class="text-right text-secondary mp-0 small" th:text="'KontoTyp: ' + ${sparkonto.getClass().getSimpleName()}"> KontoTyp:</div>
+                                                    <div class="col-6">
+                                                        <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
+                                                        <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
+                                                    </div>
+                                                    <div class="col">
+                                                        <div class="text-right text-secondary mp-0 small">
+                                                            <span th:text="'KontoSaldo: '"></span>
+                                                            <span th:classappend="${sparkonto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${sparkonto.aktSaldo} + ' €'"></span>
+                                                        </div>
+                                                        <div class="text-right text-secondary mp-0 small" th:text="'KontoTyp: ' + ${sparkonto.getClass().getSimpleName()}"> KontoTyp:</div>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </th:block>
                                         <th:block th:each="kreditkonto : ${kreditkontenliste}">
                                             <div class="card-header border border-light rounded mt-2">
@@ -368,6 +364,7 @@
                                                 </div>
                                             </div>
                                         </th:block>
+                                        <div th:if="${#lists.isEmpty(sparkontenliste) && #lists.isEmpty(kreditkontenliste) && #lists.isEmpty(girokontenliste)} " class="mb-2 pl-4">Derzeit keine aktiven Konten gespeichert!</div>
                                     </div>
 
                                 </div>

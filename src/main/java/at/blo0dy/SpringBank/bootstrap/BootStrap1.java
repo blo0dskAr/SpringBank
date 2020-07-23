@@ -305,6 +305,24 @@ private void loadData() {
   kunde6.setHasAcceptedAGB(false);
   kunde6.setFirstLoginDone(true);
 
+  // Kunde 7 ( hat nix und keine anträge)
+  Kunde kunde7 = new Kunde();
+  kunde7.setKundennummer("129");
+  kunde7.setAdresse(adresse4);
+  kunde7.setId(9L);
+  kunde7.setGeburtsDatum(LocalDate.of(1984,1,1));
+  kunde7.setNachname("hatnix");
+  kunde7.setVorname("Testy");
+  kunde7.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde7.setRolle("customer");
+  kunde7.setTelefonNummer("12345345");
+  kunde7.setEmailAdresse("test@test.at");
+  kunde7.setConnectedGiro("AT123451234567890123");
+  kunde7.setLegi(false);
+  kunde7.setActive(false);
+  kunde7.setHasAcceptedAGB(false);
+  kunde7.setFirstLoginDone(false);
+
   // kunde persistieren
   kundeService.save(kunde1);
   kundeService.save(kunde2);
@@ -312,6 +330,7 @@ private void loadData() {
   kundeService.save(kunde4);
   kundeService.save(kunde5);
   kundeService.save(kunde6);
+  kundeService.save(kunde7);
 
   // LoginCredentials erstellen
   LoginCredentials lc1 = new LoginCredentials();

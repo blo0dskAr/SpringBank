@@ -21,7 +21,7 @@ public interface KontoRepository extends JpaRepository<Konto, Long> {
           "   and ko.konto_status = 'OFFEN' ", nativeQuery = true)
   Long countOffeneKontenGesamtByKundennummer(String kundennummer);
 
-  @Query(value = " select sum(akt_saldo) from konto ko" +
+  @Query(value = " select coalesce(sum(akt_saldo),0) from konto ko" +
           "  where ko.kunde_id = (select ku.id from kunde ku " +
           "  where ku.kundennummer= ?1 ) ", nativeQuery = true)
   BigDecimal getGesamtSaldoOffenerKontenByKundennummer(String kundennummer);

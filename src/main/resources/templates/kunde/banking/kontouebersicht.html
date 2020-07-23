@@ -117,12 +117,19 @@
                                                 </a>
                                             </th:block>
                                         </div>
+                                        <div th:if="${#lists.isEmpty(konto.kontoBuchungList)} " class="mb-2 pl-4">Derzeit keine Buchungen am Konto!</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </th:block>
+                <div th:if="${#lists.isEmpty(kontenListe)} " class="mb-2 pl-4">Derzeit keine Offenen Konten gespeichert!
+                    <a th:if="${#strings.endsWith(requestURI, '/banking/sparen/sparkontouebersicht')}" th:href="@{/kunde/banking/sparen/register}" >Hier </a>
+                    <a th:if="${#strings.endsWith(requestURI, '/banking/kredit/kreditkontouebersicht')}" th:href="@{/kunde/banking/kredit/register}" >Hier </a>
+                    <a th:if="${#strings.endsWith(requestURI, '/banking/giro/girokontouebersicht')}" th:href="@{/kunde/banking/giro/register}" >Hier </a>
+                     eröffnen
+                </div>
             </div>
         </div>
     </main>

@@ -16,55 +16,71 @@
 <div layout:fragment="content">
     <main>
         <div class="container-fluid px-2">
-            <div class="row">
-                <div class="col-4">
+            <div class="row justify-content-md-center">
+                <div class="col-10 pt-4">
                     <form method="POST" th:action="@{/kunde/sparen/rechner}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
-                        <div class="form-group">
-                            <label for="datum">Datum: </label>
-                            <div class="text-danger"
-                                 th:if="${#fields.hasErrors('datum')}"
-                                 th:errors="*{datum}">datum Error</div>
-                            <input type="date" class="form-control" id="datum" name="datum" th:field="*{datum}">
-<!--                            <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>-->
+                        <h3>Vorlage:</h3>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="datum">Datum: </label>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('datum')}"
+                                     th:errors="*{datum}">datum Error</div>
+                                <input type="date" class="form-control" id="datum" name="datum" th:field="*{datum}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="betrag">Betrag: </label>
-                            <div class="text-danger"
-                                 th:if="${#fields.hasErrors('betrag')}"
-                                 th:errors="*{betrag}">betrag Error</div>
-                            <input type="text" class="form-control" id="betrag" name="betrag" placeholder="1234,56" th:field="*{betrag}">
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="betrag">Betrag: </label>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('betrag')}"
+                                     th:errors="*{betrag}">betrag Error</div>
+                                <input type="text" class="form-control" id="betrag" name="betrag" placeholder="1234,56" th:field="*{betrag}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="zinssatz">Zinssatz: </label>
-                            <div class="text-danger"
-                                 th:if="${#fields.hasErrors('zinssatz')}"
-                                 th:errors="*{zinssatz}">zinssatz Error</div>
-                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="*{zinssatz}" readonly>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="zinssatz">Zinssatz: </label>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('zinssatz')}"
+                                     th:errors="*{zinssatz}">zinssatz Error</div>
+                                <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="*{zinssatz}" readonly>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
-                <div class="col-4">
+                <div class="col-10 pt-4">
                     <h3>Ergebnis:</h3>
-                    <div class="form-group">
-                        <label for="anfangssaldo">Anfangssaldo: </label>
-                        <input type="text" class="form-control" id="anfangssaldo" name="anfangssaldo" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.anfangsBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="anfangssaldo">Anfangssaldo: </label>
+                            <input type="text" class="form-control" id="anfangssaldo" name="anfangssaldo" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.anfangsBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                        </div>
                     </div>
-                    <div class="form-group disabled">
-                        <label for="zinsen">Zinsen: </label>
-                        <input type="text" class="form-control" id="zinsen" name="zinsen" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.zinsen, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="zinsen">Zinsen: </label>
+                            <input type="text" class="form-control" id="zinsen" name="zinsen" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.zinsen, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="kest">KESt: </label>
-                        <input type="text" class="form-control" id="kest" name="kest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.kest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="kest">KESt: </label>
+                            <input type="text" class="form-control" id="kest" name="kest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.kest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="ergebnisVorKest">Saldo nach Zinsen: </label>
-                        <input type="text" class="form-control" id="ergebnisVorKest" name="ergebnisVorKest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.ergebnisVorKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="ergebnisVorKest">Saldo nach Zinsen: </label>
+                            <input type="text" class="form-control" id="ergebnisVorKest" name="ergebnisVorKest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.ergebnisVorKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="ergebnisNachKest">Saldo Zinsen/KESt: </label>
-                        <input type="text" class="form-control" id="ergebnisNachKest" name="ergebnisNachKest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.ergebnisNachKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                    <div class="form-row">
+                        <div class="form-group col-5">
+                            <label for="ergebnisNachKest">Saldo Zinsen/KESt: </label>
+                            <input type="text" class="form-control" id="ergebnisNachKest" name="ergebnisNachKest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.ergebnisNachKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                        </div>
                     </div>
                 </div>
             </div>

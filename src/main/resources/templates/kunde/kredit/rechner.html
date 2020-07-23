@@ -13,52 +13,71 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/js/all.min.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div layout:fragment="content">
-    <main>
-        <div class="container-fluid px-2">
-            <div class="row">
-                <div class="col-4">
-                    <form method="POST" th:action="@{/kunde/kredit/rechner}" th:object="${kreditrechnervorlage}" id="doKreditBerechnung">
-                        <div class="form-group">
-                            <label for="kreditbetrag">KreditBetrag: </label>
-                            <div class="text-danger"
-                                 th:if="${#fields.hasErrors('kreditBetrag')}"
-                                 th:errors="*{kreditBetrag}">Kreditbetrag Error</div>
-                            <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1234,56 €" th:field="*{kreditBetrag}">
+    <div layout:fragment="content">
+        <main>
+            <div class="container-fluid px-2">
+                <div class="row justify-content-md-center">
+                    <div class="col-10 pt-4">
+                        <form method="POST" th:action="@{/kunde/kredit/rechner}" th:object="${kreditrechnervorlage}" id="doKreditBerechnung">
+                            <h3>Vorlage:</h3>
+                            <div class="form-row">
+                                <div class="form-group col-5">
+                                    <label for="kreditbetrag">KreditBetrag: </label>
+                                    <div class="text-danger"
+                                         th:if="${#fields.hasErrors('kreditBetrag')}"
+                                         th:errors="*{kreditBetrag}">Kreditbetrag Error</div>
+                                    <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1234,56 €" th:field="*{kreditBetrag}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-5">
+                                    <label for="laufzeit">Laufzeit(Monate): </label>
+                                    <div class="text-danger"
+                                         th:if="${#fields.hasErrors('laufzeit')}"
+                                         th:errors="*{laufzeit}">laufzeit Error</div>
+                                    <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="84 Monate" th:field="*{laufzeit}">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-5">
+                                    <label for="zinssatz">Zinssatz: </label>
+                                    <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${kreditrechnervorlage.zinssatz}" readonly>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+
+                    <div class="col-10 pt-4">
+                        <h2>Ergebnis</h2>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="kreditBetragErgebnis">KreditBetrag: </label>
+                                <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:value="${#numbers.formatDecimal(ergebnis.kreditBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="laufzeit">Laufzeit(Monate): </label>
-                            <div class="text-danger"
-                                 th:if="${#fields.hasErrors('laufzeit')}"
-                                 th:errors="*{laufzeit}">laufzeit Error</div>
-                            <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="84 Monate" th:field="*{laufzeit}">
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="zinsAnteil">Zinsen-Anteil: </label>
+                                <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:value="${#numbers.formatDecimal(ergebnis.zinsAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="zinssatz">Zinssatz: </label>
-                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${kreditrechnervorlage.zinssatz}" readonly>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="gesamtBelastung">Gesamtbelastung: </label>
+                                <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:value="${#numbers.formatDecimal(ergebnis.gesamtBelastung, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
-                    </form>
-                </div>
-            </div>
-            <div class="row pt-4">
-                <div class="col-4">
-                    <h2>Ergebnis</h2>
-                    <div class="form-group pt-2">
-                        <label for="kreditBetragErgebnis">KreditBetrag: </label>
-                        <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:value="${#numbers.formatDecimal(ergebnis.kreditBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
-                        <label for="zinsAnteil">Zinsen-Anteil: </label>
-                        <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:value="${#numbers.formatDecimal(ergebnis.zinsAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
-                        <label for="gesamtBelastung">Gesamtbelastung: </label>
-                        <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:value="${#numbers.formatDecimal(ergebnis.gesamtBelastung, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
-                        <label for="monatlicheRate">Monatliche Rate: </label>
-                        <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:value="${#numbers.formatDecimal(ergebnis.monatlicheRate, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="monatlicheRate">Monatliche Rate: </label>
+                                <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:value="${#numbers.formatDecimal(ergebnis.monatlicheRate, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-    </main>
-</div>
+        </main>
+    </div>
 </body>
 </html>

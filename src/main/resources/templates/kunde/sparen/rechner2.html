@@ -16,40 +16,50 @@
 <div layout:fragment="content">
     <main>
         <div class="container-fluid px-2">
-            <div class="row">
-                <div class="col-4">
+            <div class="row justify-content-md-center">
+                <div class="col-10 pt-4">
                     <form method="POST" th:action="@{/kunde/sparen/rechner2}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
-                        <div class="form-group">
-                            <label for="initialBetrag">Anfangsbetrag: </label>
-                            <div class="text-danger"
-                                  th:if="${#fields.hasErrors('initialBetrag')}"
-                                  th:errors="*{initialBetrag}">initialBetrag Error</div>
-                            <input type="text" class="form-control" id="initialBetrag" name="initialBetrag" placeholder="1234,56 €" th:field="*{initialBetrag}">
+                        <h3>Vorlage:</h3>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="initialBetrag">Anfangsbetrag: </label>
+                                <div class="text-danger"
+                                      th:if="${#fields.hasErrors('initialBetrag')}"
+                                      th:errors="*{initialBetrag}">initialBetrag Error</div>
+                                <input type="text" class="form-control" id="initialBetrag" name="initialBetrag" placeholder="1234,56 €" th:field="*{initialBetrag}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="anlagedauer">Anlagedauer(Jahre): </label>
-                            <div class="text-danger"
-                                 th:if="${#fields.hasErrors('anlagedauer')}"
-                                 th:errors="*{anlagedauer}">Anlagedauer Error</div>
-                            <input type="text" class="form-control" id="anlagedauer" name="anlagedauer" placeholder="20 Jahre" th:field="*{anlagedauer}">
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="anlagedauer">Anlagedauer(Jahre): </label>
+                                <div class="text-danger"
+                                     th:if="${#fields.hasErrors('anlagedauer')}"
+                                     th:errors="*{anlagedauer}">Anlagedauer Error</div>
+                                <input type="text" class="form-control" id="anlagedauer" name="anlagedauer" placeholder="20 Jahre" th:field="*{anlagedauer}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="monatlicheEinzahlung">monatl. Einzahlung: </label>
-                            <div class="text-danger"
-                                  th:if="${#fields.hasErrors('monatlicheEinzahlung')}"
-                                  th:errors="*{monatlicheEinzahlung}">monatlicheEinzahlung Error</div>
-                            <input type="text" class="form-control" id="monatlicheEinzahlung" name="monatlicheEinzahlung" placeholder="123,56 €"  th:field="*{monatlicheEinzahlung}">
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="monatlicheEinzahlung">monatl. Einzahlung: </label>
+                                <div class="text-danger"
+                                      th:if="${#fields.hasErrors('monatlicheEinzahlung')}"
+                                      th:errors="*{monatlicheEinzahlung}">monatlicheEinzahlung Error</div>
+                                <input type="text" class="form-control" id="monatlicheEinzahlung" name="monatlicheEinzahlung" placeholder="123,56 €"  th:field="*{monatlicheEinzahlung}">
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="zinssatz">Zinssatz: </label>
-                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${sparzinsrechnervorlage.zinssatz}" readonly>
+                        <div class="form-row">
+                            <div class="form-group col-5">
+                                <label for="zinssatz">Zinssatz: </label>
+                                <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${sparzinsrechnervorlage.zinssatz}" readonly>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>
                 </div>
             </div>
                 <div class="row pt-4">
-                    <div class="col-4">
+                    <div class="col-6">
+                        <h3>Ergebnis:</h3>
                         <table class ="table table-bordered table-striped table-hover">
                             <thead class="thead-dark">
                             <tr>

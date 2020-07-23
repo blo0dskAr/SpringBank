@@ -34,13 +34,13 @@ public class AdvancedSparZinsRechnerVorlage {
   @Min(value = 1, message = "Bitte eine Zahl von 1 bis 5.000,00 angeben.")
   @Max(value = 5000, message = "Bitte eine Zahl von 1 bis 5.000,00 angeben.")
   @NotNull(message = "Bitte eine Zahl von 1 bis 5.000,00 angeben.")
-  @NumberFormat(style = NumberFormat.Style.NUMBER)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal monatlicheEinzahlung;
 
   @Min(value = 1, message = "Bitte eine Zahl von 1 bis 10.000.000  angeben.")
   @Max(value = 10000000, message = "Bitte eine Zahl von 1 bis 10.000.000 angeben.")
   @NotNull(message = "Bitte eine Zahl von 1 bis 10.000.000  angeben.")
-  @NumberFormat(style = NumberFormat.Style.NUMBER)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal initialBetrag;
 
   // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB

@@ -60,11 +60,11 @@
                                 <th>Endkapital</th>
                             </thead>
                             <tr th:each="erg : ${ergebnis}">
-                                <td th:text="${erg.anfangsBetrag}">123</td>
-                                <td th:text="${erg.summeMonatlicheEinzahlungen}">123</td>
-                                <td th:text="${erg.zinsAnteil}">123</td>
-                                <td th:text="${erg.kestAnteil}">123</td>
-                                <td th:text="${erg.endKapital}">123</td>
+                                <td th:text="${#numbers.formatDecimal(erg.anfangsBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                                <td th:text="${#numbers.formatDecimal(erg.summeMonatlicheEinzahlungen, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                                <td th:text="${#numbers.formatDecimal(erg.zinsAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                                <td th:text="${#numbers.formatDecimal(erg.kestAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                                <td th:text="${#numbers.formatDecimal(erg.endKapital, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
                             </tr>
                         </table>
                     </div>

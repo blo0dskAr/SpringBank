@@ -46,13 +46,13 @@
                     <h2>Ergebnis</h2>
                     <div class="form-group pt-2">
                         <label for="kreditBetragErgebnis">KreditBetrag: </label>
-                        <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:field="${ergebnis.kreditBetrag}" disabled>
+                        <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:value="${#numbers.formatDecimal(ergebnis.kreditBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         <label for="zinsAnteil">Zinsen-Anteil: </label>
-                        <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:field="${ergebnis.zinsAnteil}" disabled>
+                        <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:value="${#numbers.formatDecimal(ergebnis.zinsAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         <label for="gesamtBelastung">Gesamtbelastung: </label>
-                        <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:field="${ergebnis.gesamtBelastung}" disabled>
+                        <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:value="${#numbers.formatDecimal(ergebnis.gesamtBelastung, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         <label for="monatlicheRate">Monatliche Rate: </label>
-                        <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:field="${ergebnis.monatlicheRate}" disabled>
+                        <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:value="${#numbers.formatDecimal(ergebnis.monatlicheRate, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                     </div>
                 </div>
             </div>

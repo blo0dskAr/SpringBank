@@ -24,7 +24,8 @@ public class AdvancedSparZinsRechnerVorlage {
 
   // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
   @NumberFormat(style = NumberFormat.Style.PERCENT)
-  private BigDecimal zinssatz = BigDecimal.valueOf(6.00);
+  private BigDecimal zinssatz;
+//  private BigDecimal zinssatz = BigDecimal.valueOf(6.00);
 
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
 //  @NumberFormat(pattern = "#.###.###.###,##")

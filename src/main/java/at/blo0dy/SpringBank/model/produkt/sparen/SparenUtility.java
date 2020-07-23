@@ -2,17 +2,29 @@ package at.blo0dy.SpringBank.model.produkt.sparen;
 
 
 
+import at.blo0dy.SpringBank.dao.produkt.zinssatz.ZinssatzRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
+// TODO eigentlich soll ich dieses ding als service injecten oder ? hat mit model nix zu tun. icxh versuchs mal, mal guggen wo ich ddas ueberall verwend, dass dort der neue service injected wird
+@Service
 public class SparenUtility {
 
-  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
-  private static final Double zinssatz = 6.00 ;
+  private ZinssatzRepository zinssatzRepository;
+
+  @Autowired
+  public SparenUtility(ZinssatzRepository zinssatzRepository) {
+    this.zinssatzRepository = zinssatzRepository;
+  }
+
+  //  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
+//  private static final Double zinssatz = 6.00 ;
 
 //  public static SparZinsRechnerErgebnis getZinsenBisJahresEnde(LocalDate datum, double betrag) {
 //
@@ -35,7 +47,7 @@ public class SparenUtility {
     BigDecimal zinsen = sparZinsRechnerVorlage.getBetrag()
                                   .multiply(sparZinsRechnerVorlage.getZinssatz())
                                   .multiply(BigDecimal.valueOf(tage))
-                                  .divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
+                                  .divide(BigDecimal.valueOf(360),2 , RoundingMode.HALF_UP);
 
     // rechnet die KESt aus den Zinsen
     BigDecimal kest = zinsen.multiply( BigDecimal.valueOf(0.25)).setScale(2, RoundingMode.HALF_UP);
@@ -68,10 +80,10 @@ public class SparenUtility {
     }
   }
 
-    // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
-  public static double getZinssatz() {
-    return zinssatz;
-  } ;
+//    // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
+//  public static double getZinssatz() {
+//    return zinssatz;
+//  } ;
 
   public static List<AdvancedSparZinsRechnerErgebnis> getSparenZinsBerechnung (AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage) {
 
@@ -97,10 +109,15 @@ public class SparenUtility {
     BigDecimal initialBetrag = sparZinsRechnerVorlage.getBetrag();
 
     // Normale Zinsberechnung für ein Jahr mit dem AnfangsBetrag
-    BigDecimal kapitalZinsen = sparZinsRechnerVorlage.getBetrag()
+/*    BigDecimal kapitalZinsen = sparZinsRechnerVorlage.getBetrag()
                                           .multiply(sparZinsRechnerVorlage.getZinssatz())
                                           .multiply(BigDecimal.valueOf(360))
-                                          .divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
+                                          .divide(BigDecimal.valueOf(360),2 , RoundingMode.HALF_UP);*/
+    BigDecimal kapitalZinsen = sparZinsRechnerVorlage.getBetrag()
+            .multiply(sparZinsRechnerVorlage.getZinssatz())
+            .setScale(2,RoundingMode.HALF_UP);
+
+
 
     // Rechnung für monatliche Einzahlung aber Jährlicher Verzinsung: .. mathe is zlang her ...
     // K(n) = R * (12 + 5,5 * p)
@@ -108,8 +125,8 @@ public class SparenUtility {
                         .multiply(BigDecimal.valueOf(12)
                                 .add(BigDecimal.valueOf(5.5)
                                         .multiply(sparZinsRechnerVorlage.getZinssatz()
-                                                .divide(BigDecimal.valueOf(100)))))
-                        .setScale(2,RoundingMode.HALF_UP);
+//                                                .divide(BigDecimal.valueOf(100)))))
+                        .setScale(2,RoundingMode.HALF_UP))));
 
     // summe der monatlichen Einzahlungen
     BigDecimal summeMonatlicheEinzahlungen = sparZinsRechnerVorlage.getMonatlicheEinzahlung().multiply(BigDecimal.valueOf(12));

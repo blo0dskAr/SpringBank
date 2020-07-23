@@ -39,7 +39,7 @@
                             <div class="text-danger"
                                  th:if="${#fields.hasErrors('zinssatz')}"
                                  th:errors="*{zinssatz}">zinssatz Error</div>
-                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="*{zinssatz}" disabled>
+                            <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="*{zinssatz}" readonly>
                         </div>
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </form>

@@ -21,7 +21,8 @@ public class SparZinsRechnerVorlage {
   private LocalDate datum;
 
   @NumberFormat(style = NumberFormat.Style.PERCENT)
-  private BigDecimal zinssatz = BigDecimal.valueOf(6.00);
+  private BigDecimal zinssatz;
+//  private BigDecimal zinssatz = BigDecimal.valueOf(6.00);
 
   @Min(value = 1, message = "Bitte eine Zahl von 1 bis 10.000.000  angeben.")
   @Max(value = 10000000, message = "Bitte eine Zahl von 1 bis 10.000.000 angeben.")
@@ -30,13 +31,8 @@ public class SparZinsRechnerVorlage {
 //  @NumberFormat(pattern = "#.###.###.###,##")
   private BigDecimal betrag;
 
-//  @Min(value = 1, message = "Bitte eine Zahl von 1 bis 5.000,00  angeben.")
-//  @Max(value = 5000, message = "Bitte eine Zahl von 1 bis 5.000,00 angeben.")
-//  @NotNull(message = "Bitte eine Zahl von 1 bis 5.000,00  angeben.")
-//  @NumberFormat(style = NumberFormat.Style.NUMBER)
-//  private BigDecimal monatlicheEinzahlung;
 
-  public BigDecimal getZinssatz() {
+/*  public BigDecimal getZinssatz() {
     return zinssatz;
-  }
+  }*/
 }

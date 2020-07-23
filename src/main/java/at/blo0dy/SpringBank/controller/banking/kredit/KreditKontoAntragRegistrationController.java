@@ -8,6 +8,7 @@ import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
+import at.blo0dy.SpringBank.service.produkt.zinssatz.ZinssatzService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -36,18 +37,20 @@ public class KreditKontoAntragRegistrationController {
   private KreditKontoAntragService kreditKontoAntragService;
   private KundeService kundeService ;
   private KreditService kreditService;
+  private ZinssatzService zinssatzService;
 
   @Autowired
-  public KreditKontoAntragRegistrationController(KreditKontoAntragService kreditKontoAntragService, KundeService kundeService, KreditService kreditService) {
+  public KreditKontoAntragRegistrationController(KreditKontoAntragService kreditKontoAntragService, KundeService kundeService, KreditService kreditService, ZinssatzService zinssatzService) {
     this.kreditKontoAntragService = kreditKontoAntragService;
     this.kundeService = kundeService;
     this.kreditService = kreditService;
+    this.zinssatzService = zinssatzService;
   }
 
   @GetMapping("/register")
   public String registerForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication , Model model) {
 
-    KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), kreditService.getZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
+    KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), zinssatzService.getAktuellerKreditZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
     KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
     model.addAttribute("kreditrechnervorlage", kv);

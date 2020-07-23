@@ -1,7 +1,6 @@
 package at.blo0dy.SpringBank.service.konto.sparen;
 
 
-import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerVorlage;
@@ -23,7 +22,7 @@ public interface SparService {
   public void deleteById(Long theId);
 
   // das liegt mir noch immer im magen
-  double getZinssatz();
+//  double getZinssatz();
 
   List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 

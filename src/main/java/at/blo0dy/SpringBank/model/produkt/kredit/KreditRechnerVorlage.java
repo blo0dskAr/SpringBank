@@ -25,7 +25,8 @@ public class KreditRechnerVorlage {
 
   // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
   @NumberFormat(style = NumberFormat.Style.PERCENT)
-  private BigDecimal zinssatz = BigDecimal.valueOf(8.00);
+  private BigDecimal zinssatz;
+//  private BigDecimal zinssatz = BigDecimal.valueOf(8.00);
 
   @Min(value = 1000, message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
   @Max(value = 80000, message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")

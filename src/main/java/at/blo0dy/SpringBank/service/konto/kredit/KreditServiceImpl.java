@@ -53,10 +53,10 @@ public class KreditServiceImpl implements KreditService {
 
   }
 
-  @Override
-  public BigDecimal getZinssatz() {
-    return KreditUtility.getZinssatz();
-  }
+//  @Override
+//  public BigDecimal getZinssatz() {
+//    return KreditUtility.getZinssatz();
+//  }
 
 
   @Override

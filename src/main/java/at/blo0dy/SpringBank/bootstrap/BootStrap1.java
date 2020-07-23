@@ -15,6 +15,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
+import at.blo0dy.SpringBank.model.produkt.zinssatz.Zinssatz;
 import at.blo0dy.SpringBank.service.*;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
@@ -27,6 +28,7 @@ import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
+import at.blo0dy.SpringBank.service.produkt.zinssatz.ZinssatzService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -60,12 +62,13 @@ public class BootStrap1 implements CommandLineRunner {
   private final GiroService giroService;
   private final KontoBuchungService kontoBuchungService;
   private final ZahlungsAuftragService zahlungsAuftragService;
+  private final ZinssatzService zinssatzService;
 
 
   public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
                     BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService, KreditKontoAntragService kreditKontoAntragService,
                     KreditService kreditService, GiroKontoAntragService giroKontoAntragService, GiroService giroService, KontoBuchungService kontoBuchungService,
-                    ZahlungsAuftragService zahlungsAuftragService) {
+                    ZahlungsAuftragService zahlungsAuftragService, ZinssatzService zinssatzService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
@@ -80,6 +83,7 @@ public class BootStrap1 implements CommandLineRunner {
     this.giroService = giroService;
     this.kontoBuchungService = kontoBuchungService;
     this.zahlungsAuftragService = zahlungsAuftragService;
+    this.zinssatzService = zinssatzService;
   }
 
   @Autowired
@@ -98,6 +102,16 @@ private void loadData() {
     // Bank erstellen
   Bank bank = new Bank();
   bankService.saveBank(bank);
+
+  // Zinssatz erstellen
+
+  Zinssatz zsSparen = new Zinssatz(1L,BigDecimal.valueOf(5), KontoProduktEnum.SPAREN);
+  Zinssatz zskredit = new Zinssatz(2L,BigDecimal.valueOf(8), KontoProduktEnum.KREDIT);
+  Zinssatz zsGiro = new Zinssatz(3L,BigDecimal.valueOf(1), KontoProduktEnum.GIRO);
+
+  zinssatzService.save(zsSparen);
+  zinssatzService.save(zskredit);
+  zinssatzService.save(zsGiro);
 
     // Adressen erstellen
   Adresse adresse = new Adresse();

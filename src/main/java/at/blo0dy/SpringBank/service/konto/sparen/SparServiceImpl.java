@@ -57,10 +57,10 @@ public class SparServiceImpl implements SparService {
     sparKontoRepository.deleteById(theId);
   }
 
-  @Override
-  public double getZinssatz() {
-    return SparenUtility.getZinssatz();
-  }
+//  @Override
+//  public double getZinssatz() {
+//    return SparenUtility.getZinssatz();
+//  }
 
 //  @Override
 //  public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag) {

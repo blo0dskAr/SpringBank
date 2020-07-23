@@ -14,6 +14,26 @@
             <hr>
             <div class="container-fluid">
                 <form method="POST" th:action="${requestURI}" th:object="${kontoantrag}">
+                    <div th:if="${noChanges}">
+                        <div class="alert alert-info">
+                            Der Antrag wurde genehmigt. Das Konto ist In Eröffnung
+                        </div>
+                    </div>
+                    <div th:if="${transitionNotPossible}">
+                        <div class="alert alert-danger">
+                            Das sollte hier nicht passieren :)
+                        </div>
+                    </div>
+                    <div th:if="${kontoOpened}">
+                        <div class="alert alert-success">
+                            Der Antrag wurde genehmigt und das Konto konnte bereits eröffnet werden.
+                        </div>
+                    </div>
+                    <div th:if="${antragAbgelehnt}">
+                        <div class="alert alert-info">
+                            Der Antrag wurde erfolgreich abgelehnt.
+                        </div>
+                    </div>
                     <div class="form-row">
                         <div class="form-group col-sm-6 col-md-5 col-xl-3">
                             <label for="id">Antrag ID:</label>

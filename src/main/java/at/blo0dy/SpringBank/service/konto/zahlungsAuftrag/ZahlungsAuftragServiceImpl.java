@@ -8,6 +8,7 @@ import at.blo0dy.SpringBank.model.enums.BuchungsArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.zv.Datentraeger;
@@ -55,8 +56,18 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
   }
 
   @Override
-  public boolean checkAuszahlungWithVerfuegbarerSaldo(BigDecimal saldoKonto, BigDecimal auszahlungsBetrag) {
-    if (saldoKonto.compareTo(auszahlungsBetrag) == -1) {
+  @Transactional
+  public BigDecimal getSummeOffenerAuszahlungenByKontoId(Long kontoId) {
+    return zahlungsAuftragRepository.getSummeOffenerAuszahlungsAuftraegeByKontoId(kontoId);
+  }
+
+  @Override
+  @Transactional
+  public boolean checkAuszahlungWithVerfuegbarerBetrag(Konto konto, BigDecimal auszahlungsBetrag) {
+
+    BigDecimal verfuegbarerBetrag = getVerfügbarerSaldoByKontoId(konto.getId());
+
+    if (verfuegbarerBetrag.compareTo(auszahlungsBetrag) == -1) {
       return false;
     } else {
       return true;
@@ -82,7 +93,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
       String buchungsText = "Auszahlung";
       // Check Ob Saldo Verfügbar
-      if (checkAuszahlungWithVerfuegbarerSaldo(tmpKonto.getAktSaldo(), zahlungsAuftrag.getBetrag())) {
+      if (checkAuszahlungWithVerfuegbarerBetrag(tmpKonto, zahlungsAuftrag.getBetrag())) {
         // true = erstelle KontoBuchung, update zahlungsAuftrag, (sammle in file, sammle in DB)
         neuerSaldo = tmpKonto.getAktSaldo().subtract(zahlungsAuftrag.getBetrag());
 
@@ -133,6 +144,20 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     datenTraegerRepository.save(datentraeger);
 
     return "DatenträgerId=" + datentraeger.getId() + "  Art=" + zahlungsAuftragsSample.getAuftragsArt().getDisplayName() + "  Anzahl=" + anzahlZahlungsAuftraege + "Summe=" + summeZahlungsAuftraege;
+  }
+
+  @Override
+  @Transactional
+  public BigDecimal getVerfügbarerSaldoByKontoId(Long kontoId) {
+
+    Konto konto = kontoRepository.findById(kontoId).get();
+
+    BigDecimal verfügbarerBetrag = konto.getAktSaldo().subtract(zahlungsAuftragRepository.getSummeOffenerAuszahlungsAuftraegeByKontoId(kontoId)) ;
+    if (konto instanceof GiroKonto) {
+      verfügbarerBetrag = verfügbarerBetrag.add(((GiroKonto) konto).getUeberziehungsRahmen());
+    }
+
+    return verfügbarerBetrag;
   }
 
 

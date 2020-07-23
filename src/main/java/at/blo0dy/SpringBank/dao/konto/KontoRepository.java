@@ -44,4 +44,5 @@ public interface KontoRepository extends JpaRepository<Konto, Long> {
                   "  where ko.id = ?1", nativeQuery = true)
   void updateKontoStatusByIdAndStatus(Long kontoId, String kontoStatus);
 
+
 }

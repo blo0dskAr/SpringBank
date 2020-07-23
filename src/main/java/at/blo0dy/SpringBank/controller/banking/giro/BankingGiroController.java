@@ -4,10 +4,7 @@ package at.blo0dy.SpringBank.controller.banking.giro;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
-import at.blo0dy.SpringBank.model.konto.Konto;
-import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
-import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
@@ -143,7 +140,7 @@ public class BankingGiroController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(giroKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(giroKonto, zahlungsAuftrag.getBetrag() )) {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }

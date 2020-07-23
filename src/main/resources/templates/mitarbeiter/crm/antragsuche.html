@@ -10,30 +10,14 @@
 <body>
     <div layout:fragment="content">
         <main>
-            <h3 class="pt-3 pl-3" >Antragsuche</h3>
+            <h3 class="pt-3 pl-3">Antragsuche</h3>
             <hr>
             <div class="container-fluid">
-                    <form method="POST" th:action="@{/mitarbeiter/kunde/antragsuche}" th:object="${kontoantrag}">
+                <form method="POST" th:action="${requestURI}" th:object="${kontoantrag}">
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label for="id">Antrag ID:</label>
-                            <input type="text" class="form-control" th:field="*{id}" name="id" id="id" placeholder="zB. 4">
-                        </div>
-                        <div class="form-group col-3">
-                            <label for="kundennummer">Kundennummer:</label>
-                            <input type="text" class="form-control" th:field="*{kundennummer}" name="kundennummer" id="kundennummer" placeholder="zB. 123">
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group col-3">
-                            <label for="produkt">Produkt:</label>
-                            <select id="produkt" class="form-control" th:field="*{produkt}">
-                                <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
-                                <option th:each="produktOption : ${T(at.blo0dy.SpringBank.model.enums.KontoProduktEnum).values()}"
-                                        th:value="${{produktOption}}"
-                                        th:text="${produktOption.getDisplayName()}">
-                                </option>
-                            </select>
+                            <input type="text" class="form-control" th:field="*{id}" name="id" id="id" th:text="*{id}" placeholder="zB. 4">
                         </div>
                         <div class="form-group col-3">
                             <label for="antragStatus">AntragStatus:</label>
@@ -44,6 +28,27 @@
                                         th:text="${statusOption.getDisplayName()}">
                                 </option>
                             </select>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-3">
+                            <label for="kundennummer">Kundennummer:</label>
+                            <input type="text" class="form-control" th:field="*{kundennummer}" name="kundennummer"  th:text="*{kundennummer}" id="kundennummer" placeholder="zB. 123">
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="produkt">Produkt:</label>
+                            <th:block th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/antragsuche')}">
+                                <select id="produkt" class="form-control" th:field="*{produkt}">
+                                    <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
+                                    <option th:each="produktOption : ${T(at.blo0dy.SpringBank.model.enums.KontoProduktEnum).values()}"
+                                            th:value="${{produktOption}}"
+                                            th:text="${produktOption.getDisplayName()}">
+                                    </option>
+                                </select>
+                            </th:block>
+                            <input type="text" th:if="${#strings.endsWith(requestURI, 'sparen/antragBearbeitung')}" class="form-control" th:field="*{produkt}" th:value="${produkt}" readonly>
+                            <input type="text" th:if="${#strings.endsWith(requestURI, 'kredit/antragBearbeitung')}" class="form-control" th:field="*{produkt}" th:value="${produkt}" readonly>
+                            <input type="text" th:if="${#strings.endsWith(requestURI, 'giro/antragBearbeitung')}" class="form-control" th:field="*{produkt}" th:value="${produkt}" readonly>
                         </div>
                     </div>
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Suche</button>

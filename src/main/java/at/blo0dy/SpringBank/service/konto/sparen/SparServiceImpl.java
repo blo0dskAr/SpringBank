@@ -31,7 +31,6 @@ public class SparServiceImpl implements SparService {
   @Override
   @Transactional
   public List<SparKonto> findAll() {
-    // ich schätz das werd ich so modifizieren müssen, dass er nur seine eigene ID's findet?
     return sparKontoRepository.findAll();
   }
 

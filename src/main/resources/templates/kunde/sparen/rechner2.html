@@ -15,13 +15,15 @@
 <body>
 <div layout:fragment="content">
     <main>
+        <h3 class="pt-3 pl-3">SparRechner - Zinsen mit Dauersparen</h3>
+        <hr>
         <div class="container-fluid px-2">
-            <div class="row justify-content-md-center">
+            <div class="row justify-content-center">
                 <div class="col-10 pt-4">
                     <form method="POST" th:action="@{/kunde/sparen/rechner2}" th:object="${sparzinsrechnervorlage}" id="doSparZinsenBerechnen">
                         <h3>Vorlage:</h3>
                         <div class="form-row">
-                            <div class="form-group col-5">
+                            <div class="form-group col-sm-10 col-md-8 col-xl-5">
                                 <label for="initialBetrag">Anfangsbetrag: </label>
                                 <div class="text-danger"
                                       th:if="${#fields.hasErrors('initialBetrag')}"
@@ -30,7 +32,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-5">
+                            <div class="form-group col-sm-10 col-md-8 col-xl-5">
                                 <label for="anlagedauer">Anlagedauer(Jahre): </label>
                                 <div class="text-danger"
                                      th:if="${#fields.hasErrors('anlagedauer')}"
@@ -39,7 +41,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-5">
+                            <div class="form-group col-sm-10 col-md-8 col-xl-5">
                                 <label for="monatlicheEinzahlung">monatl. Einzahlung: </label>
                                 <div class="text-danger"
                                       th:if="${#fields.hasErrors('monatlicheEinzahlung')}"
@@ -48,7 +50,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-5">
+                            <div class="form-group col-sm-10 col-md-8 col-xl-5">
                                 <label for="zinssatz">Zinssatz: </label>
                                 <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${sparzinsrechnervorlage.zinssatz}" readonly>
                             </div>
@@ -57,31 +59,29 @@
                     </form>
                 </div>
             </div>
-                <div class="row pt-4">
-                    <div class="col-6">
-                        <h3>Ergebnis:</h3>
-                        <table class ="table table-bordered table-striped table-hover">
-                            <thead class="thead-dark">
-                            <tr>
-                                <th>Startkapital</th>
-                                <th>Einzahlungen</th>
-                                <th>Zinsanteil</th>
-                                <th>KEStAnteil</th>
-                                <th>Endkapital</th>
-                            </thead>
-                            <tr th:each="erg : ${ergebnis}">
-                                <td th:text="${#numbers.formatDecimal(erg.anfangsBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
-                                <td th:text="${#numbers.formatDecimal(erg.summeMonatlicheEinzahlungen, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
-                                <td th:text="${#numbers.formatDecimal(erg.zinsAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
-                                <td th:text="${#numbers.formatDecimal(erg.kestAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
-                                <td th:text="${#numbers.formatDecimal(erg.endKapital, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
-                            </tr>
-                        </table>
-                    </div>
+            <div class="col pt-4">
+                <div class="col-sm-12 col-md-9 col-xl-7">
+                    <h3>Ergebnis:</h3>
+                    <table class ="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Startkapital</th>
+                            <th>Einzahlungen</th>
+                            <th>Zinsanteil</th>
+                            <th>KEStAnteil</th>
+                            <th>Endkapital</th>
+                        </thead>
+                        <tr th:each="erg : ${ergebnis}">
+                            <td th:text="${#numbers.formatDecimal(erg.anfangsBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                            <td th:text="${#numbers.formatDecimal(erg.summeMonatlicheEinzahlungen, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                            <td th:text="${#numbers.formatDecimal(erg.zinsAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                            <td th:text="${#numbers.formatDecimal(erg.kestAnteil, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                            <td th:text="${#numbers.formatDecimal(erg.endKapital, 1, 'POINT', 2, 'COMMA')} + ' €'">123</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
-        <br><br><br><br><br><br><br>
-
+        </div>
     </main>
 </div>
 </body>

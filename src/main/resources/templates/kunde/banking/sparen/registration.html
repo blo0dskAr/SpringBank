@@ -9,11 +9,12 @@
 <body>
     <div layout:fragment="content">
         <main>
+            <h3 class="pt-3 pl-3">Sparkonto - Neuer Antrag</h3>
+            <hr>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-8">
                         <form method="POST" th:action="@{/kunde/banking/sparen/register}" th:object="${sparkontoantrag}" id="registerForm">
-                            <h1> Register - SparKonto </h1>
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <div class="text-danger"

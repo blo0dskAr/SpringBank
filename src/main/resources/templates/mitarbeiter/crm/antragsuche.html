@@ -10,9 +10,10 @@
 <body>
     <div layout:fragment="content">
         <main>
+            <h3 class="pt-3 pl-3" >Antragsuche</h3>
+            <hr>
             <div class="container-fluid">
                     <form method="POST" th:action="@{/mitarbeiter/kunde/antragsuche}" th:object="${kontoantrag}">
-                    <h1> Antrag Suche </h1>
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label for="id">Antrag ID:</label>

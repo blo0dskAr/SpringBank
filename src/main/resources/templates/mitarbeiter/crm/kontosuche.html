@@ -10,9 +10,10 @@
 <body>
     <div layout:fragment="content">
         <main>
+            <h3 class="pt-3 pl-3">Kontosuche</h3>
+            <hr>
             <div class="container-fluid">
                 <form method="POST" th:action="${requestURI}" th:object="${konto}" id="registerForm">
-                    <h1> Kontosuche </h1>
                     <div class="form-row">
                         <div class="form-group col-4">
                             <label for="kontonummer">Kontonummer:</label>

@@ -10,9 +10,10 @@
 <body>
     <div layout:fragment="content">
         <main>
+            <h3 class="pt-3 pl-3">Kundensuche</h3>
+            <hr>
             <div class="container-fluid">
                 <form method="POST" th:action="@{/mitarbeiter/kunde/kundensuche}" th:object="${kunde}" id="registerForm">
-                    <h1> Kundensuche </h1>
                     <div class="form-row">
                         <div class="form-group col-3">
                             <label for="kundennummer">Kundennummer:</label>

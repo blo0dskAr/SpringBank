@@ -11,7 +11,8 @@
 <div layout:fragment="content">
     <main>
         <div class="container-fluid px-0">
-            <h1> KontoDetail - Spar/KREDIT/GIROKonto </h1>
+            <h3 class="pt-3 pl-3" th:text="${'KontoDetail - ' + konto.getKontonummer()}">KontoDetail</h3>
+            <hr>
             <div th:if="${zahlungsAuftragGespeichert}">
                 <div class="alert alert-success ">
                     Der Zahlungsauftrag wurde erfolgreich gespeichert.

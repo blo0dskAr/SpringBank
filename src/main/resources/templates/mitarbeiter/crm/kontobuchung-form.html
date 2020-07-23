@@ -9,9 +9,10 @@
 <body>
 <div layout:fragment="content">
     <main>
+        <h3 class="pt-3 pl-3">KontoBuchung - Bearbeitung</h3>
+        <hr>
         <div class="container-fluid">
             <form action="#" th:action="@{/mitarbeiter/kunde/konto/saveKontoBuchungForm}" th:object="${kontoBuchung}" method="POST">
-                <h1> KontoBuchung erstellen </h1>
                 <div class="form-row">
                     <div class="form-group col-4">
                         <input type="hidden" th:field="${kontoBuchung.id}" />

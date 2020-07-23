@@ -9,7 +9,8 @@
 <body>
 <div layout:fragment="content">
     <main>
-        <h1> Batch Overview </h1>
+        <h3 class="pt-3 pl-3">Admin - Batch Overview</h3>
+        <hr>
         <div class="container-fluid">
             <div th:if="${ergebnis}">
                 <div class="alert alert-success " th:text="${'Batch wurde erfolgreich durchgeführt: ' + ergebnis}"></div>

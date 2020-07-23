@@ -3,12 +3,14 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{kunde/mainlayout.html}">
 <head>
-    <title>Neue Einzahlung</title>
+    <title>Neuer Dauerauftrag</title>
 </head>
 
 <body>
 <div layout:fragment="content">
     <main>
+        <h3 class="pt-3 pl-3">Dauerauftrag - Bearbeitung</h3>
+        <hr>
         <div class="container-fluid">
             <form th:action="${konto.getClass().getSimpleName() == 'SparKonto'} ? @{/kunde/banking/sparen/saveDauerAuftragForm} : (${konto.getClass().getSimpleName() == 'KreditKonto'} ? @{/kunde/banking/kredit/saveDauerAuftragForm} : @{/kunde/banking/giro/saveDauerAuftragForm})"
                   th:object="${dauerAuftrag}" method="POST">

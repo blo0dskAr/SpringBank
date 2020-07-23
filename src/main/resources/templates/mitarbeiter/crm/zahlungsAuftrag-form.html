@@ -9,10 +9,11 @@
 <body>
 <div layout:fragment="content">
     <main>
+        <h3 class="pt-3 pl-3">Zahlungsauftrag - Bearbeiten</h3>
+        <hr>
         <div class="container-fluid">
             <form th:action="${konto.getClass().getSimpleName() == 'SparKonto'} ? @{/mitarbeiter/kunde/sparen/konto/saveEinzahlungsForm} : (${konto.getClass().getSimpleName() == 'KreditKonto'} ? @{/mitarbeiter/kunde/kredit/konto/saveEinzahlungsForm} : @{/mitarbeiter/kunde/giro/konto/saveEinzahlungsForm})"
                   method="POST" th:object="${zahlungsAuftrag}">
-                <h1> Kontosuche </h1>
                 <div class="form-row">
                     <div class="form-group col-4">
                         <input type="hidden" th:field="${zahlungsAuftrag.id}" />

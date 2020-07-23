@@ -9,11 +9,12 @@
 <body>
     <div layout:fragment="content">
         <main>
+            <h3 class="pt-3 pl-3" >Registration - Persönliche Daten</h3>
+            <hr>
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-8">
                         <form method="POST" th:action="@{/kunde/register}" id="registerForm" th:object="${kunde}">
-                            <h1> Register </h1>
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                      <span class="text-danger"

@@ -10,10 +10,11 @@
 <body>
 <div layout:fragment="content">
     <main>
+        <h3 class="pt-3 pl-3" th:if="${#strings.endsWith(requestURI, '/banking/giro/girokontouebersicht')}" >Übersicht - GiroKonto</h3>
+        <h3 class="pt-3 pl-3" th:if="${#strings.endsWith(requestURI, '/banking/kredit/kreditkontouebersicht')}" >Übersicht - KreditKonto</h3>
+        <h3 class="pt-3 pl-3" th:if="${#strings.endsWith(requestURI, '/banking/sparen/sparkontouebersicht')}" >Übersicht - SparKonto</h3>
+        <hr>
         <div class="container-fluid px-0">
-            <h1 th:if="${#strings.endsWith(requestURI, '/banking/giro/girokontouebersicht')}"> Übersicht - GiroKonto </h1>
-            <h1 th:if="${#strings.endsWith(requestURI, '/banking/kredit/kreditkontouebersicht')}"> Übersicht - KreditKonto </h1>
-            <h1 th:if="${#strings.endsWith(requestURI, '/banking/sparen/sparkontouebersicht')}"> Übersicht - SparKonto </h1>
 
             <div th:if="${zahlungsAuftragGespeichert}">
                 <div class="alert alert-info ">

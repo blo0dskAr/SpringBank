@@ -10,8 +10,9 @@
 <body>
     <div layout:fragment="content">
         <main>
+            <h3 class="pt-3 pl-3">AntragDetail - KreditkontoAntrag</h3>
+            <hr>
             <div class="container-fluid px-0">
-                <h1> AntragDetail - Kreditkonto </h1>
                 <div class="row justify-content-md-center">
                     <div class="col-10 pt-4">
                         <form method="POST" th:action="@{/kunde/banking/kredit/saveKreditAntragDetailPage}" th:object="${kreditkontoantrag}" id="registerForm">

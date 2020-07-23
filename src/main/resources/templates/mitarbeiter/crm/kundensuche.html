@@ -13,17 +13,18 @@
             <h3 class="pt-3 pl-3">Kundensuche</h3>
             <hr>
             <div class="container-fluid">
+<!--                <div class="row justify-content-center">-->
                 <form method="POST" th:action="@{/mitarbeiter/kunde/kundensuche}" th:object="${kunde}" id="registerForm">
                     <div class="form-row">
-                        <div class="form-group col-3">
+                        <div class="form-group col-4 col-xl-3">
                             <label for="kundennummer">Kundennummer:</label>
                             <input type="text" class="form-control" th:field="*{kundennummer}" name="kundennummer" id="kundennummer" placeholder="zB. 123">
                         </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-4 col-xl-3">
                             <label for="vorname">Vorname:</label>
                             <input type="text" class="form-control" th:field="*{vorname}" name="vorname" id="vorname" placeholder="zB. Hans">
                         </div>
-                        <div class="form-group col-3">
+                        <div class="form-group col-4 col-xl-3">
                             <label for="nachname">Nachname:</label>
                             <input type="text" class="form-control" th:field="*{nachname}" name="nachname" id="nachname" placeholder="zB. Wurst">
                         </div>

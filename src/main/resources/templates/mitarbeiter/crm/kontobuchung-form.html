@@ -71,7 +71,6 @@
                         <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'SparKonto'}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-DetailPage</a>
                         <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-DetailPage</a>
                         <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}" th:href="@{/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-DetailPage</a>
-
                     </div>
                 </div>
             </form>

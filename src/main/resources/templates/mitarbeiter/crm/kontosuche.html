@@ -15,11 +15,11 @@
             <div class="container-fluid">
                 <form method="POST" th:action="${requestURI}" th:object="${konto}" id="registerForm">
                     <div class="form-row">
-                        <div class="form-group col-4">
+                        <div class="form-group col-sm-6 col-md-5 col-xl-3">
                             <label for="kontonummer">Kontonummer:</label>
                             <input type="text" class="form-control" th:field="*{kontonummer}" name="kontonummer" id="kontonummer" th:text="*{kontonummer}" placeholder="zB. 123001">
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-sm-6 col-md-5 col-xl-3">
                             <label for="kontoStatus">KontoStatus:</label>
                             <select id="kontoStatus" class="form-control" th:field="*{kontoStatus}">
                                 <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
@@ -31,11 +31,11 @@
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="form-group col-4">
+                        <div class="form-group col-sm-6 col-md-5 col-xl-3">
                             <label for="kontoAntrag">KontoAntragId:</label>
                             <input type="text" class="form-control" th:field="*{kontoAntrag}" name="kontoAntrag" id="kontoAntrag" th:text="*{kontoAntrag}" placeholder="zB. 2">
                         </div>
-                        <div class="form-group col-4">
+                        <div class="form-group col-sm-6 col-md-5 col-xl-3">
                             <label for="produkt">Produkt:</label>
                             <th:block th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kontosuche')}">
                                 <select id="produkt" class="form-control" th:field="*{produkt}">

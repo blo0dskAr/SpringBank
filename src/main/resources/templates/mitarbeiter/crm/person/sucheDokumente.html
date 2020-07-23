@@ -14,16 +14,15 @@
         <hr>
         <div class="container-fluid">
             <form method="POST" th:action="${requestURI}" th:object="${legiDokument}" id="registerForm">
-                <h1> Neue Dokumente </h1>
                 <div th:if="${actionErgebnis}">
                     <div class="alert alert-success" th:text="${'Aktion erfolgreich: ' + actionErgebnis}"></div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-sm-6 col-md-5 col-xl-3">
                         <label for="docName">Dokument Name:</label>
                         <input type="text" class="form-control" th:field="*{docName}" name="docName" id="docName" placeholder="zB. reisepass.pdf">
                     </div>
-                    <div class="form-group col-4">
+                    <div class="form-group col-sm-6 col-md-5 col-xl-3">
                         <label for="status">Status:</label>
                         <select id="status" class="form-control" th:field="*{status}">
                             <Option value="" text="'Keine Einschränkung'" selected>Keine Einschränkung</Option>
@@ -35,7 +34,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-4">
+                    <div class="form-group col-sm-6 col-md-5 col-xl-3">
                         <label for="kundennummer">Kundennummer:</label>
                         <input type="text" class="form-control" th:field="*{kundennummer}" name="kundennummer" id="kundennummer" placeholder="zB. 2">
                     </div>

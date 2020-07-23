@@ -58,13 +58,12 @@
                     <div class="form row">
                         <div class="form-group col-8">
                             <button type="submit" class="btn btn-info">Speichern</button>
-                            <hr>
+                            <a class="btn btn-success" th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-Übersicht</a>
+                            <a class="btn btn-success" th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-Übersicht</a>
+                            <a class="btn btn-success" th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-Übersicht</a>
                         </div>
                     </div>
             </form>
-            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-Übersicht</a>
-            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-Übersicht</a>
-            <a th:if="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')}" th:href="@{/mitarbeiter/kunde/sparen/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-Übersicht</a>
         </div>
     </main>
 </div>

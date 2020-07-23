@@ -193,4 +193,10 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     kundeRepository.updateActiveStatusById(kundeId, status);
   }
 
+  @Override
+  @Transactional
+  public void updatePasswordByKundeId(Long kundeId, String encodedPassword) {
+    kundeRepository.UpdatePasswordByKundeId(kundeId, encodedPassword);
+  }
+
 }

@@ -12,11 +12,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.naming.Binding;
 import javax.validation.Valid;
 
 @Controller
@@ -71,6 +69,7 @@ public class MitarbeiterController {
     log.debug("Neues Passwort für " + authentication.getName() + " wird geprüft");
     if (!changePasswordForm.getConfirmPassword().equals(changePasswordForm.getNewPassword())) {
       result.rejectValue("confirmPassword", "error.changePasswordForm","Die neuen Passwörter stimmen nicht überrein");
+      result.rejectValue("newPassword","error.changePasswordForm","Die neuen Passwörter stimmen nicht überein");
       log.debug("Neues Passwort für " + tmpUser + " stimmt mit ConfirmPassword nicht überrein ");
     }
 
@@ -95,7 +94,6 @@ public class MitarbeiterController {
       redirectAttrs.addFlashAttribute("passwordGeaendert", true);
 
       return "redirect:/mitarbeiter/index";
-
     }
   }
 

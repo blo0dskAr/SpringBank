@@ -48,4 +48,10 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
                 " ku.is_active = ?2" +
                 "  where ku.id = ?1 ", nativeQuery = true)
   void updateActiveStatusById(Long kundeId, boolean status);
+
+  @Modifying
+  @Query(value = "update kunde ku set " +
+                  "      ku.password = ?2 " +
+                  " where ku.id = ?1 ", nativeQuery = true)
+  void UpdatePasswordByKundeId(Long kundeId, String encodedPassword);
 }

@@ -38,4 +38,5 @@ public interface KundeService   {
 
   void updateActiveStatusById(Long kundeId, boolean status);
 
+  void updatePasswordByKundeId(Long id, String encode);
 }

@@ -12,76 +12,78 @@
         <h3 class="pt-3 pl-3" >Dauerauftrag - Bearbeitung</h3>
         <hr>
         <div class="container-fluid">
-            <form action="#" th:action="@{/mitarbeiter/kunde/konto/saveDauerAuftragForm}" th:object="${dauerAuftrag}" method="POST">
-                <h1> Dauerauftrag Form </h1>
-                <div class="form-row">
-                    <div class="form-group col-4">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
+                    <form action="#" th:action="@{/mitarbeiter/kunde/konto/saveDauerAuftragForm}" th:object="${dauerAuftrag}" method="POST">
                         <input type="hidden" th:field="${dauerAuftrag.id}" />
                         <input type="hidden" th:field="${dauerAuftrag.konto}" />
                         <input type="hidden" th:field="${dauerAuftrag.konto.id}" />
-                        <span class="text-danger"
-                              th:if="${#fields.hasErrors('konto.kontonummer')}"
-                              th:errors="*{konto.kontonummer}">kontonummer Error</span>
-                        <label for="kontonummer">Kontonummer:</label>
-                        <input type="text" id="kontonummer" name="kontonummer" th:field="${konto.kontonummer}"
-                               class="form-control mb-2 col-8" readonly>
-                    </div>
-                    <div class="form-group col-4">
-                        <span class="text-danger"
-                              th:if="${#fields.hasErrors('tagImMonat')}"
-                              th:errors="*{tagImMonat}">tagImMonat Error</span>
-                        <label for="tagImMonat">Tag im Monat:</label>
-                        <input type="number" max="31" min="1" th:field="*{tagImMonat}" th:value="*{tagImMonat}"
-                               class="form-control mb-4 col-8" id ="tagImMonat" placeholder ="31" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
-                    </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('konto.kontonummer')}"
+                                      th:errors="*{konto.kontonummer}">kontonummer Error</span>
+                                <label for="kontonummer">Kontonummer:</label>
+                                <input type="text" id="kontonummer" name="kontonummer" th:field="${konto.kontonummer}"
+                                       class="form-control" readonly>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('tagImMonat')}"
+                                      th:errors="*{tagImMonat}">tagImMonat Error</span>
+                                <label for="tagImMonat">Tag im Monat:</label>
+                                <input type="number" max="31" min="1" th:field="*{tagImMonat}" th:value="*{tagImMonat}"
+                                       class="form-control" id ="tagImMonat" placeholder ="31" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('betrag')}"
+                                      th:errors="*{betrag}">betrag Error</span>
+                                <label for="betrag">Betrag:</label>
+                                <input type="text" th:field="*{betrag}"
+                                       class="form-control" id="betrag" name="betrag" placeholder ="12.345,12 €" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <label for="auftragsArt">Buchungs Art:</label>
+                                <input type="text" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" class="form-control" th:field="*{auftragsArt}" th:value="${dauerAuftrag.auftragsArt.getDisplayName()}" readonly>
+                                <th:block th:if="${(konto.getClass().getSimpleName() == 'SparKonto') OR (konto.getClass().getSimpleName() == 'GiroKonto')}">
+                                    <select id="auftragsArt" class="form-control" th:field="*{auftragsArt}">
+                                        <Option value="" text="'Keine Einschränkung'" disabled>Bitte Auswählen</Option>
+                                        <option th:each="zahlungsAuftragArtOption : ${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum).values()}"
+                                                th:value="${{zahlungsAuftragArtOption}}"
+                                                th:text="${zahlungsAuftragArtOption.getDisplayName()}"
+                                                th:disabled="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
+                                        </option>
+                                    </select>
+                                </th:block>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('text')}"
+                                      th:errors="*{text}">text Error</span>
+                                    <label for="text">Text:</label>
+                                    <input type="text" th:field="*{text}"
+                                           class="form-control" id="text" name="text" placeholder ="zB. Sparen fürs Hundehäuschen" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <button type="submit" class="btn btn-info"
+                                        th:disabled="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}"
+                                        th:classappend="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT} ? 'disabled' : ''">Speichern
+                                </button>
+                                <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'SparKonto'}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-DetailPage</a>
+                                <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-DetailPage</a>
+                                <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}" th:href="@{/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-DetailPage</a>
+                            </div>
+                        </div>
+                    </form>
                 </div>
-                <div class="form-row">
-                    <div class="form-group col-4">
-                        <span class="text-danger"
-                              th:if="${#fields.hasErrors('betrag')}"
-                              th:errors="*{betrag}">betrag Error</span>
-                        <label for="betrag">Betrag:</label>
-                        <input type="text" th:field="*{betrag}"
-                               class="form-control mb-4 col-8" id="betrag" name="betrag" placeholder ="12.345,12 €" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
-                    </div>
-                    <div class="form-group col-4">
-                        <label for="auftragsArt">Buchungs Art:</label>
-                        <input type="text" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" class="form-control mb-4 col-8" th:field="*{auftragsArt}" th:value="${dauerAuftrag.auftragsArt.getDisplayName()}" readonly>
-                        <th:block th:if="${(konto.getClass().getSimpleName() == 'SparKonto') OR (konto.getClass().getSimpleName() == 'GiroKonto')}">
-                            <select id="auftragsArt" class="form-control" th:field="*{auftragsArt}">
-                                <Option value="" text="'Keine Einschränkung'" disabled>Bitte Auswählen</Option>
-                                <option th:each="zahlungsAuftragArtOption : ${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum).values()}"
-                                        th:value="${{zahlungsAuftragArtOption}}"
-                                        th:text="${zahlungsAuftragArtOption.getDisplayName()}"
-                                        th:disabled="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
-                                </option>
-                            </select>
-                        </th:block>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-8">
-                        <span class="text-danger"
-                              th:if="${#fields.hasErrors('text')}"
-                              th:errors="*{text}">text Error</span>
-                            <label for="text">Text:</label>
-                            <input type="text" th:field="*{text}"
-                                   class="form-control mb-4 col-4" id="text" name="text" placeholder ="zB. Sparen fürs Hundehäuschen" th:readonly="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-8">
-                        <button type="submit" class="btn btn-info"
-                                th:disabled="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT}"
-                                th:classappend="${dauerAuftrag.auftragsStatus == T(at.blo0dy.SpringBank.model.enums.DauerAuftragStatusEnum).STORNIERT} ? 'disabled' : ''">Speichern
-                        </button>
-                        <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'SparKonto'}" th:href="@{/mitarbeiter/kunde/sparen/konto/showSparKontoDetailPage(sparKontoId=${konto.id})}">Zurück zur Sparkonto-DetailPage</a>
-                        <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" th:href="@{/mitarbeiter/kunde/kredit/konto/showKreditKontoDetailPage(kreditKontoId=${konto.id})}">Zurück zur Kreditkonto-DetailPage</a>
-                        <a class="btn btn-success" th:if="${konto.getClass().getSimpleName() == 'GiroKonto'}" th:href="@{/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage(giroKontoId=${konto.id})}">Zurück zur Girokonto-DetailPage</a>
-
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
     </main>
 </div>

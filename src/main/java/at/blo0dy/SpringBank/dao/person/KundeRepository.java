@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.dao;
+package at.blo0dy.SpringBank.dao.person;
 
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -12,8 +12,8 @@
             <h3 class="pt-3 pl-3">Girokonto - Neuer Antrag</h3>
             <hr>
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-8">
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                         <form method="POST" th:action="@{/kunde/banking/giro/register}" th:object="${girokontoantrag}" id="registerForm">
                             <div class="form-row">
                                 <div class="pt-4 pb-2" id="accordion">
@@ -25,17 +25,20 @@
                                     <div id="collapseOne" class="panel-collapse collapse in">
                                         <div class="card-body">
                                             <div class="alert alert-primary" role="alert">
-                                                <a>(*) Ein Überziehungsrahmen von 500,00 € wird ihnen automatisch gewährt, verrückt! Nicht wahr? Bei der HonestBank vertrauen wir unseren Kunden! .. mehr aber noch unseren Schuldeneintreibern! Die lassens knacken :)</a>
-
+                                                <a>(*) Ein Überziehungsrahmen von 500,00 € wird ihnen automatisch gewährt, verrückt! Nicht wahr? Bei der HonestBank vertrauen wir unseren Kunden! .. und so verrückt ist das gar nicht, denn wir wissen wo Sie wohnen!</a>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="form-group col-md-12">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
                                     <label for="kundennummer">Kundennummer: </label>
                                     <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kundennummer}" readonly/><br>
                                 </div>
-                                <div class="form-group col-md-12">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
                                     <input type="submit" class="btn btn-primary" value="Konto eröffnen!" />
                                 </div>
                             </div>

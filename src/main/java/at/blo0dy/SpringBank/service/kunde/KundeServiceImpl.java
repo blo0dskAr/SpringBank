@@ -1,6 +1,6 @@
 package at.blo0dy.SpringBank.service.kunde;
 
-import at.blo0dy.SpringBank.dao.KundeRepository;
+import at.blo0dy.SpringBank.dao.person.KundeRepository;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.extern.slf4j.Slf4j;

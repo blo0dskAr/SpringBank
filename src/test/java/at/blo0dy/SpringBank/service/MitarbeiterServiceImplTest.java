@@ -1,6 +1,6 @@
 package at.blo0dy.SpringBank.service;
 
-import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
+import at.blo0dy.SpringBank.dao.person.MitarbeiterRepository;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,13 +8,11 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;

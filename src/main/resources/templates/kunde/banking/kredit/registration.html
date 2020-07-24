@@ -11,42 +11,54 @@
         <main>
             <h3 class="pt-3 pl-3">Kreditkonto - Neuer Antrag</h3>
             <hr>
-            <div class="container-fluid px-2">
-                <div class="row">
-                    <div class="col-4">
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                         <form method="POST" th:action="@{/kunde/banking/kredit/register}" th:object="${kreditrechnervorlage}" id="doKreditBerechnung">
-                            <div class="form-group">
-                                <label for="kreditbetrag">KreditBetrag: </label>
-                                <div class="text-danger"
-                                     th:if="${#fields.hasErrors('kreditBetrag')}"
-                                     th:errors="*{kreditBetrag}">Kreditbetrag Error</div>
-                                <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1234,56 €" th:field="*{kreditBetrag}">
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
+                                    <label for="kreditbetrag">KreditBetrag: </label>
+                                    <div class="text-danger"
+                                         th:if="${#fields.hasErrors('kreditBetrag')}"
+                                         th:errors="*{kreditBetrag}">Kreditbetrag Error</div>
+                                    <input type="text" class="form-control" id="kreditBetrag" name="kreditBetrag" placeholder="1234,56 €" th:field="*{kreditBetrag}">
                                 </div>
-                                <div class="form-group">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
                                     <label for="laufzeit">Laufzeit(Monate): </label>
                                     <div class="text-danger"
                                          th:if="${#fields.hasErrors('laufzeit')}"
                                          th:errors="*{laufzeit}">laufzeit Error</div>
                                     <input type="text" class="form-control" id="laufzeit" name="laufzeit" placeholder="84 Monate" th:field="*{laufzeit}">
                                 </div>
-                                <div class="form-group">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
                                     <label for="zinssatz">Zinssatz: </label>
                                     <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="*{zinssatz}" readonly>
                                 </div>
-                                <button type="submit" class="btn btn-primary" name="calculate" value="calculate">Berechnen</button>
-                                <span th:if ="${calculatedCorrectly}">
-                                <button type="submit" class="btn btn-primary" name="saveKreditAntrag" value="saveKreditAntrag">KontoEröffnen</button>
-                                </span>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
+                                    <button type="submit" class="btn btn-primary" name="calculate" value="calculate">Berechnen</button>
+                                    <span th:if ="${calculatedCorrectly}">
+                                        <button type="submit" class="btn btn-primary" name="saveKreditAntrag" value="saveKreditAntrag">KontoEröffnen</button>
+                                    </span>
+                                </div>
+                            </div>
                             <h2>Ergebnis</h2>
-                            <div class="form-group pt-2">
-                                <label for="kreditBetragErgebnis">KreditBetrag: </label>
-                                <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:field="${ergebnis.kreditBetrag}" readonly>
-                                <label for="zinsAnteil">Zinsen-Anteil: </label>
-                                <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:field="${ergebnis.zinsAnteil}" readonly>
-                                <label for="gesamtBelastung">Gesamtbelastung: </label>
-                                <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:field="${ergebnis.gesamtBelastung}" readonly>
-                                <label for="monatlicheRate">Monatliche Rate: </label>
-                                <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:field="${ergebnis.monatlicheRate}" readonly>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12 pt-2">
+                                    <label for="kreditBetragErgebnis">KreditBetrag: </label>
+                                    <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:field="${ergebnis.kreditBetrag}" readonly>
+                                    <label for="zinsAnteil">Zinsen-Anteil: </label>
+                                    <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:field="${ergebnis.zinsAnteil}" readonly>
+                                    <label for="gesamtBelastung">Gesamtbelastung: </label>
+                                    <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:field="${ergebnis.gesamtBelastung}" readonly>
+                                    <label for="monatlicheRate">Monatliche Rate: </label>
+                                    <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:field="${ergebnis.monatlicheRate}" readonly>
+                                </div>
                             </div>
                         </form>
                     </div>

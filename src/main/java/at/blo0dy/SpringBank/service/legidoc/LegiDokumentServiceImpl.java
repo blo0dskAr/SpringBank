@@ -1,6 +1,6 @@
 package at.blo0dy.SpringBank.service.legidoc;
 
-import at.blo0dy.SpringBank.dao.LegiDokumentRepository;
+import at.blo0dy.SpringBank.dao.person.LegiDokumentRepository;
 import at.blo0dy.SpringBank.model.enums.LegiDokumentStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;

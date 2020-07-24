@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.service.rolle;
 
-import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
-import at.blo0dy.SpringBank.dao.RolleRepository;
+import at.blo0dy.SpringBank.dao.person.MitarbeiterRepository;
+import at.blo0dy.SpringBank.dao.person.RolleRepository;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import org.springframework.beans.factory.annotation.Autowired;

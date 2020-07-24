@@ -1,8 +1,6 @@
 package at.blo0dy.SpringBank.controller.banking.giro;
 
 
-import at.blo0dy.SpringBank.dao.KundeRepository;
-import at.blo0dy.SpringBank.dao.konto.giro.GiroKontoAntragRepository;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoRegistrationForm;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;

@@ -1,6 +1,6 @@
 package at.blo0dy.SpringBank.service.adresse;
 
-import at.blo0dy.SpringBank.dao.AdresseRepository;
+import at.blo0dy.SpringBank.dao.person.AdresseRepository;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package at.blo0dy.SpringBank.service;
 
-import at.blo0dy.SpringBank.dao.LoginCredentialsRepository;
+import at.blo0dy.SpringBank.dao.person.LoginCredentialsRepository;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

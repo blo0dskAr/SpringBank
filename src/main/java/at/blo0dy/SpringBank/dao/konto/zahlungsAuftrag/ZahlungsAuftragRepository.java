@@ -37,20 +37,20 @@ public interface ZahlungsAuftragRepository extends JpaRepository<ZahlungsAuftrag
                  "   and za.auftrags_art = ?2 ", nativeQuery = true)
   List<ZahlungsAuftrag> findAllAngelegteZahlungsAuftraegeByDateAndType(LocalDate auftragsdatum, String type);
 
-  @Modifying
-  @Query(value ="update zahlungs_auftrag za set" +
-                "       za.dat_aend = ?2 , " +
-                "       za.auftrags_status = ?3 , " +
-                "       za.datentraeger_id = ?4  " +
-                " where za.id = ?1 ", nativeQuery = true)
-  void UpdateZahlungsAuftragById(Long zahlungsAuftragId, LocalDateTime datAend, String status, Datentraeger datentraeger);
-
-  @Modifying
-  @Query(value ="update zahlungs_auftrag za set" +
-          "       za.dat_aend = ?2 , " +
-          "       za.auftrags_status = ?3 , " +
-          " where za.id = ?1 ", nativeQuery = true)
-  void UpdateZahlungsAuftragById(Long zahlungsAuftragId, LocalDateTime datAend, String status);
+//  @Modifying
+//  @Query(value ="update zahlungs_auftrag za set" +
+//                "       za.dat_aend = ?2 , " +
+//                "       za.auftrags_status = ?3 , " +
+//                "       za.datentraeger_id = ?4  " +
+//                " where za.id = ?1 ", nativeQuery = true)
+//  void UpdateZahlungsAuftragById(Long zahlungsAuftragId, LocalDateTime datAend, String status, Datentraeger datentraeger);
+//
+//  @Modifying
+//  @Query(value ="update zahlungs_auftrag za set" +
+//          "       za.dat_aend = ?2 , " +
+//          "       za.auftrags_status = ?3 , " +
+//          " where za.id = ?1 ", nativeQuery = true)
+//  void UpdateZahlungsAuftragById(Long zahlungsAuftragId, LocalDateTime datAend, String status);
 
 
   int countByDatentraeger(Datentraeger datentraeger);

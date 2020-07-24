@@ -104,7 +104,7 @@ public class KontoServiceImpl implements KontoService {
   @Override
   @Transactional
   public void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo) {
-    kontoRepository.UpdateKontoSaldoById(kontoId, neuerSaldo);
+    kontoRepository.updateKontoSaldoById(kontoId, neuerSaldo);
 
   }
 

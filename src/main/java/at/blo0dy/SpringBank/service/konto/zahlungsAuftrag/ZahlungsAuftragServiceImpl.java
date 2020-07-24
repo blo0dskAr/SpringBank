@@ -38,31 +38,31 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public ZahlungsAuftrag save(ZahlungsAuftrag zahlungsAuftrag) {
     return zahlungsAuftragRepository.save(zahlungsAuftrag);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ZahlungsAuftrag> findZahlungsAuftraegeByKontonummer(String kontonummer) {
     return zahlungsAuftragRepository.findZahlungsAuftraegeByKontonummer(kontonummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countOffeneZahlungsAuftraegeByKontoId(Long kontoId) {
     return zahlungsAuftragRepository.countOffeneZahlungsAuftraegeByKontoId(kontoId);
   }
 
-  @Override
-  @Transactional
-  public BigDecimal getSummeOffenerAuszahlungenByKontoId(Long kontoId) {
-    return zahlungsAuftragRepository.getSummeOffenerAuszahlungsAuftraegeByKontoId(kontoId);
-  }
+//  @Override
+//  @Transactional(readOnly = true)
+//  public BigDecimal getSummeOffenerAuszahlungenByKontoId(Long kontoId) {
+//    return zahlungsAuftragRepository.getSummeOffenerAuszahlungsAuftraegeByKontoId(kontoId);
+//  }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public boolean checkAuszahlungWithVerfuegbarerBetrag(Konto konto, BigDecimal auszahlungsBetrag) {
 
     BigDecimal verfuegbarerBetrag = getVerfügbarerSaldoByKontoId(konto.getId());
@@ -75,7 +75,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<ZahlungsAuftrag> findAllAngelegteZahlungsAuftraegeByDateAndType(LocalDate auftragsdatum, String type) {
 
     return zahlungsAuftragRepository.findAllAngelegteZahlungsAuftraegeByDateAndType(auftragsdatum, type);
@@ -83,42 +83,50 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
   @Override
   @Transactional
-  public String processSingleZahlungsAuftrag(ZahlungsAuftrag zahlungsAuftrag, Datentraeger datentraeger) {
+  public BigDecimal processSingleZahlungsAuftrag(ZahlungsAuftrag zahlungsAuftrag, Datentraeger datentraeger) {
 
-    Konto tmpKonto = zahlungsAuftrag.getKonto();
+    // Hier das Konto aus der DB neu laden, weil sonst aus dem zahlungsauftrag.getkonto() der alte saldo übermittelt wird bei > 1 buchung.
+    Konto tmpKonto = kontoRepository.findByKontonummer(Long.valueOf(zahlungsAuftrag.getKontonummer()));
     BigDecimal neuerSaldo;
     KontoBuchung neueKontoBuchung;
+    BuchungsArtEnum buchungsArt;
+    String buchungsText;
 
     // Check Art der Auszahlung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      String buchungsText = "Auszahlung";
+      buchungsText = "Auszahlung";
       // Check Ob Saldo Verfügbar
       if (checkAuszahlungWithVerfuegbarerBetrag(tmpKonto, zahlungsAuftrag.getBetrag())) {
         // true = erstelle KontoBuchung, update zahlungsAuftrag, (sammle in file, sammle in DB)
         neuerSaldo = tmpKonto.getAktSaldo().subtract(zahlungsAuftrag.getBetrag());
-
-        neueKontoBuchung =  new KontoBuchung(0L, LocalDate.now(),LocalDateTime.now(),null,zahlungsAuftrag.getBetrag(),neuerSaldo,"Auszahlung",tmpKonto, BuchungsArtEnum.SOLL );
-
+        buchungsArt = BuchungsArtEnum.SOLL;
       } else {
         // Update ZahlungsAuftrag
-        zahlungsAuftragRepository.UpdateZahlungsAuftragById(zahlungsAuftrag.getId(), LocalDateTime.now(), ZahlungAuftragStatusEnum.STORNIERT.toString());
-        return "STORNIERT";
+        zahlungsAuftrag.setDatAend(LocalDateTime.now());
+        zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.STORNIERT);
+        return tmpKonto.getAktSaldo();
       }
     } else {
-      String buchungsText = "Einzahlung";
+      buchungsText = "Einzahlung";
       neuerSaldo = tmpKonto.getAktSaldo().add(zahlungsAuftrag.getBetrag());
-
-      neueKontoBuchung =  new KontoBuchung(0L, LocalDate.now(),LocalDateTime.now(),null,zahlungsAuftrag.getBetrag(),neuerSaldo,"Einzahlung",tmpKonto, BuchungsArtEnum.HABEN );
+      buchungsArt = BuchungsArtEnum.HABEN;
     }
 
+    neueKontoBuchung =  new KontoBuchung(0L, LocalDate.now(),LocalDateTime.now(),null,zahlungsAuftrag.getBetrag(), neuerSaldo,buchungsText,tmpKonto, buchungsArt );
+
+    // Update KontoSaldo
+    // TODO: jetzt hab ichs erst checkt was das Transactional genau macht. Da ein update machen ist bescheuert, durchs Transactional wird der neue Saldo in der DB schon nur beim  setten persistiert....
+//    kontoRepository.updateKontoSaldoById(tmpKonto.getId(),neuerSaldo);
+    tmpKonto.setAktSaldo(neuerSaldo);
     // Speichere Buchung
     kontoBuchungRepository.save(neueKontoBuchung);
-    // Update KontoSaldo
-    kontoRepository.UpdateKontoSaldoById(tmpKonto.getId(),neuerSaldo);
 
     // Update ZahlungsAuftrag
-    zahlungsAuftragRepository.UpdateZahlungsAuftragById(zahlungsAuftrag.getId(), LocalDateTime.now(), ZahlungAuftragStatusEnum.DURCHGEFUEHRT.toString(), datentraeger);
-    return "DURCHGEFUEHRT";
+//    zahlungsAuftragRepository.UpdateZahlungsAuftragById(zahlungsAuftrag.getId(), LocalDateTime.now(), ZahlungAuftragStatusEnum.DURCHGEFUEHRT.toString(), datentraeger);
+    zahlungsAuftrag.setDatAend(LocalDateTime.now());
+    zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.DURCHGEFUEHRT);
+    zahlungsAuftrag.setDatentraeger(datentraeger);
+    return neuerSaldo;
   }
 
   @Override
@@ -134,20 +142,19 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     Datentraeger datentraeger = new Datentraeger(0, BigDecimal.ZERO, LocalDateTime.now(), null, zahlungsAuftragsSample.getAuftragsArt());
     datenTraegerRepository.save(datentraeger);
 
-    zahlungsAuftragsList.forEach(za -> processSingleZahlungsAuftrag(za, datentraeger));
+    zahlungsAuftragsList.forEach(za ->  processSingleZahlungsAuftrag(za, datentraeger));
 
     int anzahlZahlungsAuftraege = zahlungsAuftragRepository.countByDatentraeger(datentraeger);
     BigDecimal summeZahlungsAuftraege = zahlungsAuftragRepository.sumByDatentraeger(datentraeger);
 
     datentraeger.setAnzahl(anzahlZahlungsAuftraege);
     datentraeger.setSumme(summeZahlungsAuftraege);
-    datenTraegerRepository.save(datentraeger);
 
-    return "DatenträgerId=" + datentraeger.getId() + "  Art=" + zahlungsAuftragsSample.getAuftragsArt().getDisplayName() + "  Anzahl=" + anzahlZahlungsAuftraege + "Summe=" + summeZahlungsAuftraege;
+    return "DatenträgerId=" + datentraeger.getId() + "  Art=" + zahlungsAuftragsSample.getAuftragsArt().getDisplayName() + "  Anzahl=" + datentraeger.getAnzahl() + "Summe=" + datentraeger.getSumme();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public BigDecimal getVerfügbarerSaldoByKontoId(Long kontoId) {
 
     Konto konto = kontoRepository.findById(kontoId).get();

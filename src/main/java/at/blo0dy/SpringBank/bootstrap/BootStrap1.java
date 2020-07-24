@@ -161,6 +161,8 @@ private void loadData() {
 
   // Rolle uebergeben
   mitarbeiter.addRolle(adminRolle);
+  // damit ich ned hin und her wechseln muss
+  mitarbeiter.addRolle(maRolle);
 
   Mitarbeiter mitarbeiter2 = new Mitarbeiter();
   mitarbeiter2.setVorname("Melinda");
@@ -1110,7 +1112,7 @@ private void loadData() {
   zahlungsAuftrag16.setId(16L);
   zahlungsAuftrag16.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
   zahlungsAuftrag16.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
-  zahlungsAuftrag16.setKonto(giroKonto2);
+  zahlungsAuftrag16.setKonto(giroKonto1);
   zahlungsAuftrag16.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag16.setAuftragsDatum(LocalDate.now());
   zahlungsAuftrag16.setKontonummer(giroKonto1.getKontonummer().toString());

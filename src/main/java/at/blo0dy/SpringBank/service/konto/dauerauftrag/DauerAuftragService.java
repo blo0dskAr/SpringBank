@@ -3,7 +3,6 @@ package at.blo0dy.SpringBank.service.konto.dauerauftrag;
 
 import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
 
-import java.time.LocalDate;
 import java.util.List;
 
 
@@ -19,4 +18,7 @@ public interface DauerAuftragService {
 
   String processDauerAuftragsBatch(DauerAuftrag dauerAuftragsSample);
 
+  DauerAuftrag findById(Long dauerAuftragId);
+
+  void storniereDauerAuftragById(Long dauerAuftragId);
 }

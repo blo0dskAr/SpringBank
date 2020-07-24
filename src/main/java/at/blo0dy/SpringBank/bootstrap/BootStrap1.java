@@ -15,6 +15,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.loginCredentials.LoginCredentials;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
+import at.blo0dy.SpringBank.model.produkt.zinssatz.Zinssatz;
 import at.blo0dy.SpringBank.service.*;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.bank.BankService;
@@ -27,6 +28,7 @@ import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.konto.zahlungsAuftrag.ZahlungsAuftragService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
+import at.blo0dy.SpringBank.service.produkt.zinssatz.ZinssatzService;
 import at.blo0dy.SpringBank.service.rolle.RolleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -60,12 +62,13 @@ public class BootStrap1 implements CommandLineRunner {
   private final GiroService giroService;
   private final KontoBuchungService kontoBuchungService;
   private final ZahlungsAuftragService zahlungsAuftragService;
+  private final ZinssatzService zinssatzService;
 
 
   public BootStrap1(MitarbeiterService mitarbeiterService, AdresseService adresseService, KundeService kundeService, LoginCredentialsService loginCredentialsService,
                     BankService bankService, RolleService rolleService, SparService sparService, SparKontoAntragService sparKontoAntragService, KreditKontoAntragService kreditKontoAntragService,
                     KreditService kreditService, GiroKontoAntragService giroKontoAntragService, GiroService giroService, KontoBuchungService kontoBuchungService,
-                    ZahlungsAuftragService zahlungsAuftragService) {
+                    ZahlungsAuftragService zahlungsAuftragService, ZinssatzService zinssatzService) {
     this.mitarbeiterService = mitarbeiterService;
     this.adresseService = adresseService;
     this.kundeService = kundeService;
@@ -80,6 +83,7 @@ public class BootStrap1 implements CommandLineRunner {
     this.giroService = giroService;
     this.kontoBuchungService = kontoBuchungService;
     this.zahlungsAuftragService = zahlungsAuftragService;
+    this.zinssatzService = zinssatzService;
   }
 
   @Autowired
@@ -98,6 +102,16 @@ private void loadData() {
     // Bank erstellen
   Bank bank = new Bank();
   bankService.saveBank(bank);
+
+  // Zinssatz erstellen
+
+  Zinssatz zsSparen = new Zinssatz(1L,BigDecimal.valueOf(5), KontoProduktEnum.SPAREN);
+  Zinssatz zskredit = new Zinssatz(2L,BigDecimal.valueOf(8), KontoProduktEnum.KREDIT);
+  Zinssatz zsGiro = new Zinssatz(3L,BigDecimal.valueOf(1), KontoProduktEnum.GIRO);
+
+  zinssatzService.save(zsSparen);
+  zinssatzService.save(zskredit);
+  zinssatzService.save(zsGiro);
 
     // Adressen erstellen
   Adresse adresse = new Adresse();
@@ -137,6 +151,7 @@ private void loadData() {
   Mitarbeiter mitarbeiter = new Mitarbeiter();
   mitarbeiter.setVorname("Hans");
   mitarbeiter.setNachname("Wurst");
+  mitarbeiter.setGeburtsDatum(LocalDate.of(1984,1,1));
   mitarbeiter.setPosition("Dev/Ops Engineer");
   mitarbeiter.setMitarbeiterNummer("666");
   mitarbeiter.setId(1L);
@@ -146,10 +161,13 @@ private void loadData() {
 
   // Rolle uebergeben
   mitarbeiter.addRolle(adminRolle);
+  // damit ich ned hin und her wechseln muss
+  mitarbeiter.addRolle(maRolle);
 
   Mitarbeiter mitarbeiter2 = new Mitarbeiter();
   mitarbeiter2.setVorname("Melinda");
   mitarbeiter2.setNachname("Wurst");
+  mitarbeiter2.setGeburtsDatum(LocalDate.of(1984,1,1));
   mitarbeiter2.setPosition("Business Analyst");
   mitarbeiter2.setMitarbeiterNummer("667");
   mitarbeiter2.setId(2L);
@@ -186,6 +204,7 @@ private void loadData() {
   kunde1.setKundennummer("123");
   kunde1.setAdresse(adresse3);
   kunde1.setId(3L);
+  kunde1.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde1.setNachname("McKundeFace");
   kunde1.setVorname("Kundy");
   kunde1.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -203,6 +222,7 @@ private void loadData() {
   kunde2.setKundennummer("124");
   kunde2.setAdresse(adresse4);
   kunde2.setId(4L);
+  kunde2.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde2.setNachname("McTestFace");
   kunde2.setVorname("Testy");
   kunde2.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -220,6 +240,7 @@ private void loadData() {
   kunde3.setKundennummer("125");
   kunde3.setAdresse(adresse4);
   kunde3.setId(5L);
+  kunde3.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde3.setNachname("HatAllesFalse");
   kunde3.setVorname("Testy");
   kunde3.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -237,6 +258,7 @@ private void loadData() {
   kunde4.setKundennummer("126");
   kunde4.setAdresse(adresse4);
   kunde4.setId(6L);
+  kunde4.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde4.setNachname("HatAllesFalse");
   kunde4.setVorname("Testy");
   kunde4.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -254,6 +276,7 @@ private void loadData() {
   kunde5.setKundennummer("127");
   kunde5.setAdresse(adresse4);
   kunde5.setId(7L);
+  kunde5.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde5.setNachname("HatLegiFalse");
   kunde5.setVorname("Testy");
   kunde5.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -271,6 +294,7 @@ private void loadData() {
   kunde6.setKundennummer("128");
   kunde6.setAdresse(adresse4);
   kunde6.setId(8L);
+  kunde6.setGeburtsDatum(LocalDate.of(1984,1,1));
   kunde6.setNachname("hatAgbFalse");
   kunde6.setVorname("Testy");
   kunde6.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
@@ -283,6 +307,24 @@ private void loadData() {
   kunde6.setHasAcceptedAGB(false);
   kunde6.setFirstLoginDone(true);
 
+  // Kunde 7 ( hat nix und keine anträge)
+  Kunde kunde7 = new Kunde();
+  kunde7.setKundennummer("129");
+  kunde7.setAdresse(adresse4);
+  kunde7.setId(9L);
+  kunde7.setGeburtsDatum(LocalDate.of(1984,1,1));
+  kunde7.setNachname("hatnix");
+  kunde7.setVorname("Testy");
+  kunde7.setPassword("$2y$12$yfuEHL2ycFi5oJ6KCqxOceiZaT0N2ukxFNPXZqQZKh.9KErt9lRYm");
+  kunde7.setRolle("customer");
+  kunde7.setTelefonNummer("12345345");
+  kunde7.setEmailAdresse("test@test.at");
+  kunde7.setConnectedGiro("AT123451234567890123");
+  kunde7.setLegi(false);
+  kunde7.setActive(false);
+  kunde7.setHasAcceptedAGB(false);
+  kunde7.setFirstLoginDone(false);
+
   // kunde persistieren
   kundeService.save(kunde1);
   kundeService.save(kunde2);
@@ -290,6 +332,7 @@ private void loadData() {
   kundeService.save(kunde4);
   kundeService.save(kunde5);
   kundeService.save(kunde6);
+  kundeService.save(kunde7);
 
   // LoginCredentials erstellen
   LoginCredentials lc1 = new LoginCredentials();
@@ -1069,7 +1112,7 @@ private void loadData() {
   zahlungsAuftrag16.setId(16L);
   zahlungsAuftrag16.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
   zahlungsAuftrag16.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
-  zahlungsAuftrag16.setKonto(giroKonto2);
+  zahlungsAuftrag16.setKonto(giroKonto1);
   zahlungsAuftrag16.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag16.setAuftragsDatum(LocalDate.now());
   zahlungsAuftrag16.setKontonummer(giroKonto1.getKontonummer().toString());

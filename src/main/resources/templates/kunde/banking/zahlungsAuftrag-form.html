@@ -9,64 +9,65 @@
 <body>
 <div layout:fragment="content">
     <main>
-        <div class="container-fluid px-2">
-            <div class="row">
-                <div class="col-10">
-                    <h3>Neue Einzahlung</h3>
-                    <hr>
-                    <p class="h4 mb-4">Neue Einzahlung</p>
-<!--                    das sollt ich mal rausrefactoren, funkt eh nur so halbert -->
-                    <div th:if="${errorObj}">
-                        <div class="alert alert-danger">
-                            Schwerer Fehler: gewählte Kontonummer nicht beim Kunden verfügbar... Anzeige is raus!
-                        </div>
-                    </div>
+        <h3 class="pt-3 pl-3" >Zahlungsauftrag speichern</h3>
+        <hr>
+        <div class="container-fluid">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                     <form th:action="${#strings.startsWith(requestURI, '/kunde/banking/sparen')} ? @{/kunde/banking/sparen/saveEinzahlungsFormWithKonto} : (${#strings.startsWith(requestURI, '/kunde/banking/kredit')} ? @{/kunde/banking/kredit/saveEinzahlungsFormWithKonto} : @{/kunde/banking/giro/saveEinzahlungsFormWithKonto})"
                           th:object="${zahlungsAuftrag}" method="POST">
-                        <div class="form-group">
-                               <span class="text-danger"
-                                     th:if="${#fields.hasErrors('kontonummer')}"
-                                     th:errors="*{kontonummer}">kontonummer Error</span>
-                            <label for="kontonummer">Sparkonto:</label>
-                            <select th:field="*{kontonummer}" class="form-control mb-4 col-8" id="kontonummer">
-                                <option value="" th:selected="${requestedKontonummer == null}" disabled>Konto auswählen... </option>
-                                <th:block th:each="kontonummer : ${kontonummerAuswahl}">
-                                    <option th:text="${kontonummer}" th:value="${kontonummer}" th:selected="${requestedKontonummer == kontonummer}"></option>
-                                </th:block>
-                            </select>
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('kontonummer')}"
+                                      th:errors="*{kontonummer}">kontonummer Error</span>
+                                <label for="kontonummer">Sparkonto:</label>
+                                <select th:field="*{kontonummer}" class="form-control " id="kontonummer">
+                                    <option value="" th:selected="${requestedKontonummer == null}" disabled>Konto auswählen... </option>
+                                    <th:block th:each="kontonummer : ${kontonummerAuswahl}">
+                                        <option th:text="${kontonummer}" th:value="${kontonummer}" th:selected="${requestedKontonummer == kontonummer}"></option>
+                                    </th:block>
+                                </select>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('auftragsDatum')}"
+                                      th:errors="*{auftragsDatum}">auftragsDatum Error</span>
+                                <label for="auftragsDatum">Auftrags Datum:</label>
+                                <input type="date" th:field="*{auftragsDatum}"
+                                       class="form-control" id ="auftragsDatum" placeholder ="auftragsDatum">
+                            </div>
                         </div>
-
-                        <span class="text-danger"
-                              th:if="${#fields.hasErrors('auftragsDatum')}"
-                              th:errors="*{auftragsDatum}">auftragsDatum Error</span>
-                        <label for="auftragsDatum">Auftrags Datum:</label>
-                        <input type="date" th:field="*{auftragsDatum}"
-                               class="form-control mb-4 col-8" id ="auftragsDatum" placeholder ="auftragsDatum">
-
-                        <span class="text-danger"
-                              th:if="${#fields.hasErrors('betrag')}"
-                              th:errors="*{betrag}">betrag Error</span>
-                        <label for="betrag">Betrag:</label>
-                        <input type="text" th:field="*{betrag}"
-                               class="form-control mb-4 col-8" id="betrag" placeholder ="12.345,12 €">
-
-                        <span class="text-danger"
-                              th:if="${#fields.hasErrors('auftragsArt')}"
-                              th:errors="*{auftragsArt}">auftragsArt Error</span>
-                        <label for="auftragsArt">Auftrags Art:</label>
-                        <input type="text" th:field="*{auftragsArt}"
-                               class="form-control mb-4 col-8" id="auftragsArt" placeholder ="Einzahlung/Auszahlung" readonly>
-
-                        <button type="submit" class="btn btn-info col-8">Save</button>
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('betrag')}"
+                                      th:errors="*{betrag}">betrag Error</span>
+                                <label for="betrag">Betrag:</label>
+                                <input type="text" th:field="*{betrag}"
+                                       class="form-control" id="betrag" placeholder ="12.345,12 €">
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('auftragsArt')}"
+                                      th:errors="*{auftragsArt}">auftragsArt Error</span>
+                                <label for="auftragsArt">Auftrags Art:</label>
+                                <input type="text" th:field="*{auftragsArt}"
+                                       class="form-control" id="auftragsArt" placeholder ="Einzahlung/Auszahlung" readonly>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <button type="submit" class="btn btn-info">Save</button>
+                                <a class="btn btn-success" th:if="${#strings.startsWith(requestURI, '/kunde/banking/sparen')}" th:href="@{/kunde/banking/sparen/sparkontouebersicht}">Zurück zur Sparkonto-Übersicht</a>
+                                <a class="btn btn-success" th:if="${#strings.startsWith(requestURI, '/kunde/banking/kredit')}" th:href="@{/kunde/banking/kredit/kreditkontouebersicht}">Zurück zur Kreditkonto-Übersicht</a>
+                                <a class="btn btn-success" th:if="${#strings.startsWith(requestURI, '/kunde/banking/giro')}" th:href="@{/kunde/banking/giro/girokontouebersicht}">Zurück zur Girokonto-Übersicht</a>
+                            </div>
+                        </div>
                     </form>
-                    </div>
-                    <hr>
-                    <a th:if="${#strings.startsWith(requestURI, '/kunde/banking/sparen')}" th:href="@{/kunde/banking/sparen/sparkontouebersicht}">Zurück zur Sparkonto-Übersicht</a>
-                    <a th:if="${#strings.startsWith(requestURI, '/kunde/banking/kredit')}" th:href="@{/kunde/banking/kredit/kreditkontouebersicht}">Zurück zur Kreditkonto-Übersicht</a>
-                    <a th:if="${#strings.startsWith(requestURI, '/kunde/banking/giro')}" th:href="@{/kunde/banking/giro/girokontouebersicht}">Zurück zur Girokonto-Übersicht</a>
-
                 </div>
             </div>
+        </div>
     </main>
 </div>
 </body>

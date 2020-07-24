@@ -1,8 +1,6 @@
 package at.blo0dy.SpringBank.dao.konto.sparen;
 
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
-import at.blo0dy.SpringBank.model.konto.Konto;
-import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

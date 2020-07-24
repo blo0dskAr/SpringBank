@@ -1,6 +1,6 @@
 package at.blo0dy.SpringBank.service.kunde;
 
-import at.blo0dy.SpringBank.dao.KundeRepository;
+import at.blo0dy.SpringBank.dao.person.KundeRepository;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.extern.slf4j.Slf4j;
@@ -151,8 +151,8 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   @Override
   @Transactional
-  public String getConnectedGiroByKundennummer(String kundenummer) {
-    return kundeRepository.getConnectedGiroByKundennummer(kundenummer);
+  public String getConnectedGiroByKundennummer(String kundennummer) {
+    return kundeRepository.getConnectedGiroByKundennummer(kundennummer);
   }
 
   @Override
@@ -191,6 +191,12 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   @Transactional
   public void updateActiveStatusById(Long kundeId, boolean status) {
     kundeRepository.updateActiveStatusById(kundeId, status);
+  }
+
+  @Override
+  @Transactional
+  public void updatePasswordByKundeId(Long kundeId, String encodedPassword) {
+    kundeRepository.UpdatePasswordByKundeId(kundeId, encodedPassword);
   }
 
 }

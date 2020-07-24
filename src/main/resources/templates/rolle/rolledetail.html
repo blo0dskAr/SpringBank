@@ -6,45 +6,41 @@
     <title>Rollen Detail Page</title>
 </head>
 <body>
-<div class="container">
     <div layout:fragment="content">
-
-        <h3 th:text="'RollenDetail Page - Rolle: ' + ${rolle.name}">RollenDetail Page</h3>
-        <hr>
-
-        <p class="h4 mb-4">Existierende Benutzer mit dieser Rolle: </p>
-
-        <table class ="table table-bordered table-striped table-hover">
-            <thead class="thead-dark">
-            <tr>
-                <th>Vorname</th>
-                <th>Nachname</th>
-                <th>Aktion</th>
-            </thead>
-
-            <tr th:each="mitarbeiter : ${mitarbeiter}">
-                <td th:text="${mitarbeiter.vorname}">123</td>
-                <td th:text="${mitarbeiter.nachname}">rolemcroleface</td>
-                <td>
-                    <a th:href="@{/mitarbeiter/admin/rollen/removeRoleFromUser(rolleId=${rolleId}, mitarbeiterId=${mitarbeiter.Id})}"
-                       class = "btn btn-danger btn-sm"
-                       onclick="if (!(confirm('Are you sure you want to remove this Role from User?'))) return false">
-                        Remove
-                    </a>
-                </td>
-            </tr>
-        </table>
-        <a th:href="@{/mitarbeiter/admin/rollen/addRoleToUserPage(rolleId=${rolleId})}"
-           class="btn btn-primary btn-sm mb-3">
-            Add User
-        </a>
-
-        <hr>
-        <a th:href="@{/mitarbeiter/admin/rollen/index}">Back to Rollen List</a>
-
+        <main>
+            <h3 class="pt-3 pl-3" th:text="'RollenDetail Page - Rolle: ' + ${rolle.name}">RollenDetail Page</h3>
+            <hr>
+            <div class="container-fluid">
+                <p class="h4 mb-4">Existierende Benutzer mit dieser Rolle: </p>
+                <div class="row justify-content-center">
+                    <table class ="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>Vorname</th>
+                            <th>Nachname</th>
+                            <th>Aktion</th>
+                        </thead>
+                        <tr th:each="mitarbeiter : ${mitarbeiter}">
+                            <td th:text="${mitarbeiter.vorname}">123</td>
+                            <td th:text="${mitarbeiter.nachname}">rolemcroleface</td>
+                            <td>
+                                <a th:href="@{/mitarbeiter/admin/rollen/removeRoleFromUser(rolleId=${rolleId}, mitarbeiterId=${mitarbeiter.Id})}"
+                                   class = "btn btn-danger btn-sm"
+                                   onclick="if (!(confirm('Are you sure you want to remove this Role from User?'))) return false">
+                                    Remove
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <a th:href="@{/mitarbeiter/admin/rollen/addRoleToUserPage(rolleId=${rolleId})}"
+                   class="btn btn-primary">
+                    Add User
+                </a>
+                <a class="btn btn-success" th:href="@{/mitarbeiter/admin/rollen/index}">Zurück zu Rollen List</a>
+            </div>
+        </main>
     </div>
 </div>
-
-
 </body>
 </html>

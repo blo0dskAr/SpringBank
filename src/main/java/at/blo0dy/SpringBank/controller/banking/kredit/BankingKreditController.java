@@ -2,12 +2,16 @@ package at.blo0dy.SpringBank.controller.banking.kredit;
 
 
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
+import at.blo0dy.SpringBank.model.konto.Konto;
+import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
+import at.blo0dy.SpringBank.service.konto.dauerauftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
@@ -39,17 +43,19 @@ public class BankingKreditController {
   KontoBuchungService kontoBuchungService;
   KontoService kontoService;
   ZahlungsAuftragService zahlungsAuftragService;
+  DauerAuftragService dauerAuftragService;
 
 
   @Autowired
-  public BankingKreditController(KreditService kreditService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService,
-                                 KreditKontoAntragService kreditKontoAntragService) {
+  public BankingKreditController(KreditService kreditService, KreditKontoAntragService kreditKontoAntragService, KundeService kundeService, KontoBuchungService kontoBuchungService,
+                                 KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService, DauerAuftragService dauerAuftragService) {
     this.kreditService = kreditService;
+    this.kreditKontoAntragService = kreditKontoAntragService;
     this.kundeService = kundeService;
     this.kontoBuchungService = kontoBuchungService;
     this.kontoService = kontoService;
     this.zahlungsAuftragService = zahlungsAuftragService;
-    this.kreditKontoAntragService = kreditKontoAntragService;
+    this.dauerAuftragService = dauerAuftragService;
   }
 
   @GetMapping("/kreditkontouebersicht")
@@ -155,6 +161,9 @@ public class BankingKreditController {
 
     String requestedKreditKontonummer = kontoService.findKontonummerById(kontoId);
     String authKundennummer = authentication.getName();
+    // TODO: eigetnlich sollt ich irgendwie das passwort jedes mal raushauen, wenn ich nen kunden an den view  weiter geb (bzw. schon im service)
+    Kunde kunde = kundeService.findByKundennummer(authKundennummer);
+    model.addAttribute("kunde", kunde);
     log.debug("Showing showKreditKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedKreditKontonummer );
 
     KreditKonto kreditKonto;
@@ -175,35 +184,12 @@ public class BankingKreditController {
 
       model.addAttribute("konto", kreditKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
+      model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(kontoId));
+      model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(kreditKonto.getKontonummer()));
 
       return "kunde/banking/konto-detail";
     }
   }
-
-
-
-  @GetMapping("/showKreditAntragDetailPage")
-  public String showKreditAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                           @RequestParam("antragId") Long antragId, RedirectAttributes redirectAttrs) {
-
-    String authKundennummer = authentication.getName();
-    log.debug("Showing showKreditAntragDetailPage for Kunde: " + authKundennummer + " and Antrag: " + antragId );
-
-    KreditKontoAntrag kreditKontoAntrag = kreditKontoAntragService.findKreditAntragByAntragIdAndKundennummer(antragId, authKundennummer);
-
-    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt.");
-    if (kreditKontoAntrag == null) {
-      log.error("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - FEHLGESCHLAGEN");
-      redirectAttrs.addFlashAttribute("beschissError", true);
-
-      return "redirect:/kunde/banking/kredit/kreditkontouebersicht";
-    }
-    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
-    model.addAttribute("kreditkontoantrag", kreditKontoAntrag);
-
-    return "kunde/banking/kredit/antrag-detail";
-  }
-
 
 }
 

@@ -9,6 +9,7 @@ import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
+import at.blo0dy.SpringBank.service.konto.dauerauftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
@@ -41,17 +42,22 @@ public class BankingSparenController {
   KontoBuchungService kontoBuchungService;
   KontoService kontoService;
   ZahlungsAuftragService zahlungsAuftragService;
+  DauerAuftragService dauerAuftragService;
+
 
   @Autowired
-  public BankingSparenController(SparService sparService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService,
-                                 SparKontoAntragService sparKontoAntragService ) {
+  public BankingSparenController(SparService sparService, SparKontoAntragService sparKontoAntragService, KundeService kundeService, KontoBuchungService kontoBuchungService,
+                                 KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService, DauerAuftragService dauerAuftragService) {
     this.sparService = sparService;
+    this.sparKontoAntragService = sparKontoAntragService;
     this.kundeService = kundeService;
     this.kontoBuchungService = kontoBuchungService;
     this.kontoService = kontoService;
     this.zahlungsAuftragService = zahlungsAuftragService;
-    this.sparKontoAntragService = sparKontoAntragService;
+    this.dauerAuftragService = dauerAuftragService;
   }
+
+
 
   @GetMapping("/sparkontouebersicht")
   public String viewSparKontoUebersicht(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
@@ -83,8 +89,7 @@ public class BankingSparenController {
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
-    System.out.println(request.getRequestURI());
-    System.out.println(request.getRequestURL());
+
     if (request.getRequestURI().equals("/kunde/banking/sparen/showAuszahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
     } else if (request.getRequestURI().equals("/kunde/banking/sparen/showEinzahlungsFormWithKonto")) {
@@ -139,7 +144,7 @@ public class BankingSparenController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(sparKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(sparKonto, zahlungsAuftrag.getBetrag() )) {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }
@@ -184,6 +189,10 @@ public class BankingSparenController {
 
     String requestedSparKontonummer = kontoService.findKontonummerById(kontoId);
     String authKundennummer = authentication.getName();
+    // TODO: eigetnlich sollt ich irgendwie das passwort jedes mal raushauen, wenn ich nen kunden an den view  weiter geb (bzw. schon im service)
+    Kunde kunde = kundeService.findByKundennummer(authKundennummer);
+    model.addAttribute("kunde", kunde);
+
     log.debug("Showing showSparKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedSparKontonummer );
 
     SparKonto sparKonto;
@@ -204,56 +213,11 @@ public class BankingSparenController {
 
       model.addAttribute("konto", sparKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
+      model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(kontoId));
+      model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(sparKonto.getKontonummer()));
 
       return "kunde/banking/konto-detail";
     }
-  }
-
-
-
-  @GetMapping("/showSparAntragDetailPage")
-  public String showSparAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                         @RequestParam("antragId") Long antragId, RedirectAttributes redirectAttrs) {
-
-    String authKundennummer = authentication.getName();
-    log.debug("Showing showSparAntragDetailPage for Kunde: " + authKundennummer + " and Antrag: " + antragId );
-
-    SparKontoAntrag sparKontoAntrag = sparKontoAntragService.findSparAntragByAntragIdAndKundennummer(antragId, authKundennummer);
-
-    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt.");
-    if (sparKontoAntrag == null) {
-      log.error("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - FEHLGESCHLAGEN");
-      redirectAttrs.addFlashAttribute("beschissError", true);
-
-      return "redirect:/kunde/banking/sparen/sparkontouebersicht";
-    }
-    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
-    model.addAttribute("sparkontoantrag", sparKontoAntrag);
-
-    return "kunde/banking/sparen/antrag-detail";
-  }
-
-
-  @PostMapping("/saveSparAntragDetailPage")
-  public String saveSparAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                         @Valid @ModelAttribute("sparkontoantrag") SparKontoAntrag sparKontoAntrag, BindingResult result,
-                                         RedirectAttributes redirectAttrs) {
-
-    String authKundennummer = authentication.getName();
-
-    if (result.hasErrors()) {
-      log.warn("Fehler beim speichern eines SparkontoAntrags für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
-      model.addAttribute("sparkontoantrag", sparKontoAntrag);
-
-      return "kunde/banking/sparen/antrag-detail";
-    }
-
-    log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
-    sparKontoAntragService.save(sparKontoAntrag);
-    log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );
-
-    redirectAttrs.addFlashAttribute("antragGespeichert", true);
-    return "redirect:/kunde/banking/index";
   }
 
 }

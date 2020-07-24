@@ -1,32 +1,35 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.kredit;
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
-import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
+import at.blo0dy.SpringBank.service.konto.KontoAntragService;
 import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -37,27 +40,47 @@ public class CrmKreditAntragController {
   KreditService kreditService;
   KundeService kundeService;
   KontoService kontoService;
+  KontoAntragService kontoAntragService;
 
   @Autowired
-  public CrmKreditAntragController(KreditKontoAntragService kreditKontoAntragService, KreditService kreditService, KundeService kundeService, KontoService kontoService) {
+  public CrmKreditAntragController(KreditKontoAntragService kreditKontoAntragService, KreditService kreditService, KundeService kundeService, KontoService kontoService, KontoAntragService kontoAntragService) {
     this.kreditKontoAntragService = kreditKontoAntragService;
     this.kreditService = kreditService;
     this.kundeService = kundeService;
     this.kontoService = kontoService;
+    this.kontoAntragService = kontoAntragService;
   }
 
-  @GetMapping("/antrag")
-  public String showKreditAntragPage(Model model) {
+  @GetMapping("/antragBearbeitung")
+  public String showKreditAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
-    model.addAttribute("gesamtAnzahl", kreditKontoAntragService.count());
-    model.addAttribute("anzahlGenehmigt", kreditKontoAntragService.countByStatus("GENEHMIGT"));
-    model.addAttribute("anzahlAbgelehnt", kreditKontoAntragService.countByStatus("ABGELEHNT"));
-    model.addAttribute("anzahlEingereicht", kreditKontoAntragService.countByStatus("EINGEREICHT"));
-    model.addAttribute("offeneAntragListe", kreditKontoAntragService.findByStatus("EINGEREICHT"));
+    KontoAntrag kontoAntrag = new KreditKontoAntrag();
+    kontoAntrag.setProdukt(KontoProduktEnum.KREDIT);
+    kontoAntrag.setAntragStatus(AntragStatusEnum.EINGEREICHT);
 
+    model.addAttribute("kontoantrag", kontoAntrag);
 
-    return "mitarbeiter/crm/kredit/kreditAntrag";
+    List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing KreditAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/antragsuche";
   }
+
+  @PostMapping("/antragBearbeitung")
+  public String showKreditAntragBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                                    @ModelAttribute KontoAntrag kontoAntrag) {
+    List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
+
+    model.addAttribute("ergebnis", ergebnis);
+    model.addAttribute("kontoantrag", kontoAntrag);
+
+    log.debug("Showing KreditKontoAntragsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/antragsuche";
+  }
+
 
   @GetMapping("/antrag/showKreditAntragForKontoForm")
   public String showKreditAntragForKontoForm(@RequestParam("kreditKontoAntragId") Long kreditKontoAntragId, Model model) {
@@ -143,7 +166,7 @@ public class CrmKreditAntragController {
       }
     }
 
-    return "redirect:/mitarbeiter/kunde/kredit/antrag";
+    return "redirect:/mitarbeiter/kunde/kredit/antragBearbeitung";
   }
 
 

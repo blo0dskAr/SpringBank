@@ -19,7 +19,7 @@ public interface KreditService {
 
   public void deleteById(Long theId);
 
-  BigDecimal getZinssatz();
+//  BigDecimal getZinssatz();
 
   KreditRechnerErgebnis getKreditRechnerErgebnis(KreditRechnerVorlage kreditRechnerVorlage);
 

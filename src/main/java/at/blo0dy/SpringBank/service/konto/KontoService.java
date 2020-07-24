@@ -6,7 +6,6 @@ import at.blo0dy.SpringBank.model.konto.Konto;
 
 import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 
 public interface KontoService {
 

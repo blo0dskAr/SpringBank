@@ -5,8 +5,8 @@ import at.blo0dy.SpringBank.Bank;
 
 public interface BankService {
 
-  public void saveBank(Bank bank);
+  void saveBank(Bank bank);
 
-  public Bank getBank();
+  Bank getBank();
 
 }

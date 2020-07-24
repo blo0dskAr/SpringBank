@@ -1,10 +1,6 @@
 package at.blo0dy.SpringBank.dao.konto.sparen;
 
-import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
-import at.blo0dy.SpringBank.model.konto.Konto;
-import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
-import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

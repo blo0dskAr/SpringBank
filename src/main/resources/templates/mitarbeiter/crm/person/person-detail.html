@@ -3,29 +3,28 @@
       xmlns:th="http://www.thymeleaf.org"
 
       layout:decorate="~{mainlayout.html}">
-
-<title>SparKontoDetail Page</title>
+<head>
+    <title>SparKontoDetail Page</title>
 </head>
 
 <body>
 <div layout:fragment="content">
     <main>
-        <div class="container-fluid px-0">
-            <h1> Persönliche Daten </h1>
+        <h3 class="pt-3 pl-3" >Persönliche Daten - Bearbeitung</h3>
+        <hr>
+        <div class="container-fluid">
             <div th:if="${personDatenGespeichert}">
                 <div class="alert alert-info ">
                     Persönliche Daten wurden gespeichert.
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="col-10 pt-4">
-
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                     <form method="POST" th:action="@{/mitarbeiter/kunde/person/saveKundeDetailPage}" id="registerForm" th:object="${kunde}">
                         <input type="hidden" th:field="${kunde.id}" />
                         <input type="hidden" th:field="${kunde.adresse.id}" />
-
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-sm-12">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('kundennummer')}"
                                       th:errors="*{kundennummer}">kundennummer Error</span>
@@ -33,11 +32,8 @@
                                 <input type="text" id="kundennummer" class="form-control" name="kundennummer" th:field="*{kundennummer}" readonly/>
                             </div>
                         </div>
-
-
-
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                      <span class="text-danger"
                                            th:if="${#fields.hasErrors('vorname')}"
                                            th:errors="*{vorname}">Vorname Error</span>
@@ -45,7 +41,7 @@
                                 <input type="text" id="vorname" class="form-control" name="vorname" th:field="*{vorname}"/>
                             </div>
 
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('nachname')}"
                                           th:errors="*{nachname}">Nachname Error</span>
@@ -54,7 +50,14 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('geburtsDatum')}"
+                                      th:errors="*{geburtsDatum}">geburtsDatum Error</span>
+                                <label for="geburtsDatum">Geburtsdatum: </label>
+                                <input type="date" class="form-control" id="geburtsDatum" name="geburtsDatum" th:field="*{geburtsDatum}">
+                            </div>
+                            <div class="form-group col-sm-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('adresse.strasse')}"
                                           th:errors="*{adresse.strasse}">Strasse Error</span>
@@ -63,14 +66,14 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('adresse.plz')}"
                                           th:errors="*{adresse.plz}">PLZ Error</span>
                                 <label for="plz">plz: </label>
                                 <input type="text" id="plz" class="form-control" name="plz" th:field="*{adresse.plz}" />
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('adresse.ort')}"
                                           th:errors="*{adresse.ort}">Ort Error</span>
@@ -79,7 +82,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-sm-12">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('adresse.land')}"
                                           th:errors="*{adresse.land}">Land Error</span>
@@ -88,14 +91,14 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('telefonNummer')}"
                                           th:errors="*{telefonNummer}">PLZ Error</span>
                                 <label for="telefonNummer">TelefonNummer: </label>
                                 <input type="text" id="telefonNummer" class="form-control" name="telefonNummer" th:field="*{telefonNummer}" />
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('emailAdresse')}"
                                           th:errors="*{emailAdresse}">PLZ Error</span>
@@ -104,7 +107,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-sm-12">
                                     <span class="text-danger"
                                           th:if="${#fields.hasErrors('connectedGiro')}"
                                           th:errors="*{connectedGiro}">PLZ Error</span>
@@ -142,7 +145,7 @@
                         </div>
 
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-sm-12">
                                     <input type="submit" class="btn btn-primary" value="Speichern" />
                                     <a class="btn btn-success" th:href="@{/mitarbeiter/kunde/kundensuche}">
                                         Zurück zur Kundensuche

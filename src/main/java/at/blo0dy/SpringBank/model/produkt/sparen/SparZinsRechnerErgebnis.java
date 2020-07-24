@@ -12,15 +12,15 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class SparZinsRechnerErgebnis {
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal anfangsBetrag;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal zinsen;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal kest;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal ergebnisVorKest;
-  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
   private BigDecimal ergebnisNachKest;
 
 }

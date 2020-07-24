@@ -1,8 +1,6 @@
 package at.blo0dy.SpringBank.controller.banking.sparen;
 
 
-import at.blo0dy.SpringBank.dao.KundeRepository;
-import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoAntragRepository;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoRegistrationForm;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;

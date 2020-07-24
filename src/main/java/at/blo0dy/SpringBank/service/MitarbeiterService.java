@@ -18,4 +18,9 @@ public interface MitarbeiterService {
 
   long count();
 
+  String getLatestMitarbeiterNummerPlusOne();
+
+  Mitarbeiter findByUserName(String tmpUser);
+
+  void updatePasswordByMitarbeiterId(Long id, String encode);
 }

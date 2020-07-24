@@ -10,6 +10,15 @@
 <body>
 <div layout:fragment="content">
 
+    <div th:if="${passwordGeaendert}">
+        <div class="alert alert-success">
+            Dein Passwort wurde erfolgreich geändert.
+        </div>
+    </div>
+
+
+    ""
+
 
     <h1>Welcome to MyBank - we're currently in Alpha</h1>
 
@@ -24,12 +33,8 @@
     <p th:text="'Allgemeine Info: ' + ${bank.info()} + '!'" />
 
 
-<!--    <p th:text="'Hello, ' + ${bank.personalListe()} + '!'" />-->
-
-
     <p th:text="'Hello, ' + ${mitarbeiter} + '!'" />
 
-<!--    <p th:text="'Eingeloggt als: ' + ${mitarbeiter.nachname} + ', ' + ${mitarbeiter.vorname} + ' (Ma-Nr: ' + ${mitarbeiter.mitarbeiterNummer} + ') Angestellt als ' + ${mitarbeiter.position} + '!'" />-->
 
 
     <div sec:authorize="isAuthenticated()">
@@ -59,33 +64,6 @@
     <p th:text="'contextPath: ' + ${contextPath}" />
     <p th:text="'pathInfo: ' + ${pathInfo}" />
     <p th:text="'queryString: ' + ${queryString}" />
-
-
-
-
-
-
-
-
-
-
-
-<!--
-    <h2>Section</h2>
-
-    <p>Lorem ipsum dolor sit amet, eu in mollis morbi nunc nulla
-        metus, ipsum etiam dictum natoque nec eleifend. Congue nec porttitor,
-        ullamcorper neque eu posuere tristique arcu, feugiat magna quam
-        tristique nonummy diam torquent, venenatis ut, fugit suspendisse quis
-        nec.</p>
-
-    <h3>Sub-Section</h3>
-
-    <p>Lorem ipsum dolor sit amet, eu in mollis morbi nunc nulla
-        metus, ipsum etiam dictum natoque nec eleifend. Congue nec porttitor,
-        ullamcorper neque eu posuere tristique arcu, feugiat magna quam
-        tristique nonummy diam torquent, venenatis ut, fugit suspendisse quis
-        nec.</p>-->
 
 </div>
 </body>

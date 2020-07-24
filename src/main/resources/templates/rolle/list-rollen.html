@@ -6,52 +6,51 @@
     <title>Rollen Page</title>
 </head>
 <body>
-
-<div class="container">
     <div layout:fragment="content">
-        <h3>Rolle Directory</h3>
-        <hr>
-
-        <p class="h4 mb-4">Alle Rollen</p>
-
-        <div th:if="${constrainterror}">
-            <div class="alert alert-danger">
-                Error: ConstraintVerletzung - Rolle hat noch verknüpfte User. Bitte vorher löschen.
+        <main>
+            <h3 class="pt-3 pl-3">Rollen - Übersicht</h3>
+            <hr>
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div th:if="${constrainterror}">
+                        <div class="alert alert-danger">
+                            Error: ConstraintVerletzung - Rolle hat noch verknüpfte User. Bitte vorher löschen.
+                        </div>
+                    </div>
+                    <table class ="table table-bordered table-striped table-hover">
+                        <thead class="thead-dark">
+                        <tr>
+                            <th>ID</th>
+                            <th>Name</th>
+                            <th>Details</th>
+                            <th>Aktion</th>
+                        </thead>
+                        <tr th:each="rolle : ${rollen}">
+                            <td th:text="${rolle.id}">123</td>
+                            <td th:text="${rolle.name}">rolemcroleface</td>
+                            <td><a th:href="@{/mitarbeiter/admin/rollen/showRolleDetail(rolleId=${rolle.id})}">show Details</a></td>
+                            <td>
+                                <a th:href="@{/mitarbeiter/admin/rollen/showFormForUpdate(rolleId=${rolle.id})}"
+                                   class="btn btn-info btn-sm">
+                                    Update
+                                </a>
+                                |
+                                <a th:href="@{/mitarbeiter/admin/rollen/delete(rolleId=${rolle.id})}"
+                                   class = "btn btn-danger btn-sm"
+                                   onclick="if (!(confirm('Are you sure you want to delete this Role?'))) return false">
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <a th:href="@{/mitarbeiter/admin/rollen/showFormForAdd}"
+                   class="btn btn-primary">
+                    Add Rolle
+                </a>
             </div>
-        </div>
-
-        <table class ="table table-bordered table-striped table-hover">
-            <thead class="thead-dark">
-            <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Details</th>
-                <th>Aktion</th>
-            </thead>
-            <tr th:each="rolle : ${rollen}">
-                <td th:text="${rolle.id}">123</td>
-                <td th:text="${rolle.name}">rolemcroleface</td>
-                <td><a th:href="@{/mitarbeiter/admin/rollen/showRolleDetail(rolleId=${rolle.id})}">show Details</a></td>
-                <td>
-                    <a th:href="@{/mitarbeiter/admin/rollen/showFormForUpdate(rolleId=${rolle.id})}"
-                       class="btn btn-info btn-sm">
-                        Update
-                    </a>
-                    |
-                    <a th:href="@{/mitarbeiter/admin/rollen/delete(rolleId=${rolle.id})}"
-                       class = "btn btn-danger btn-sm"
-                       onclick="if (!(confirm('Are you sure you want to delete this Role?'))) return false">
-                        Delete
-                    </a>
-                </td>
-            </tr>
-        </table>
-        <a th:href="@{/mitarbeiter/admin/rollen/showFormForAdd}"
-           class="btn btn-primary btn-sm mb-3">
-            Add Rolle
-        </a>
+        </main>
     </div>
-
 </div>
 
 

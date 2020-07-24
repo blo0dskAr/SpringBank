@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.giro;
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
@@ -7,12 +8,15 @@ import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoAntragService;
 import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +26,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -32,30 +37,49 @@ public class CrmGiroAntragController {
   GiroService giroService;
   KundeService kundeService;
   KontoService kontoService;
+  KontoAntragService kontoAntragService;
+
 
   @Autowired
-  public CrmGiroAntragController(GiroKontoAntragService giroKontoAntragService, GiroService giroService, KundeService kundeService, KontoService kontoService) {
+  public CrmGiroAntragController(GiroKontoAntragService giroKontoAntragService, GiroService giroService, KundeService kundeService, KontoService kontoService, KontoAntragService kontoAntragService) {
     this.giroKontoAntragService = giroKontoAntragService;
     this.giroService = giroService;
     this.kundeService = kundeService;
     this.kontoService = kontoService;
+    this.kontoAntragService = kontoAntragService;
   }
 
-  @GetMapping("/antrag")
-  public String showSparAntragPage(Model model) {
+  @GetMapping("/antragBearbeitung")
+  public String showGiroAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
-    model.addAttribute("gesamtAnzahl",giroKontoAntragService.count());
-    model.addAttribute("anzahlGenehmigt",giroKontoAntragService.countByStatus("GENEHMIGT"));
-    model.addAttribute("anzahlAbgelehnt",giroKontoAntragService.countByStatus("ABGELEHNT"));
-    model.addAttribute("anzahlEingereicht",giroKontoAntragService.countByStatus("EINGEREICHT"));
-    model.addAttribute("offeneAntragListe", giroKontoAntragService.findByStatus("EINGEREICHT"));
+    KontoAntrag kontoAntrag = new GiroKontoAntrag();
+    kontoAntrag.setProdukt(KontoProduktEnum.GIRO);
+    kontoAntrag.setAntragStatus(AntragStatusEnum.EINGEREICHT);
 
+    model.addAttribute("kontoantrag", kontoAntrag);
 
-    return "mitarbeiter/crm/giro/giroAntrag";
+    List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing GiroAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/antragsuche";
+  }
+
+  @PostMapping("/antragBearbeitung")
+  public String showGiroAntragBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                                    @ModelAttribute KontoAntrag kontoAntrag) {
+    List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
+
+    model.addAttribute("ergebnis", ergebnis);
+    model.addAttribute("kontoantrag", kontoAntrag);
+    log.debug("Showing GiroKontoAntragsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/antragsuche";
   }
 
   @GetMapping("/antrag/showGiroAntragForKontoForm")
-  public String showSparAntragForKontoForm(@RequestParam("giroKontoAntragId") Long giroKontoAntragId, Model model) {
+  public String showGiroAntragForKontoForm(@RequestParam("giroKontoAntragId") Long giroKontoAntragId, Model model) {
 
     GiroKontoAntrag giroKontoAntrag = giroKontoAntragService.findById(giroKontoAntragId);
     Kunde kunde = kundeService.findByKundennummer(giroKontoAntrag.getKundennummer().toString());
@@ -89,7 +113,7 @@ public class CrmGiroAntragController {
 //        ueberziehungsrahmen = BigDecimal.ZERO;
 //      }
       GiroKonto giroKonto = new GiroKonto(LocalDateTime.now(), kundeService.generateNewKontonummerByKundennummer(kunde.getKundennummer()), mykunde, BigDecimal.ZERO,
-                                          KontoStatusEnum.IN_EROEFFNUNG, giroKontoAntrag, BigDecimal.ZERO, new ArrayList<KontoBuchung>(), KontoProduktEnum.SPAREN);
+                                          KontoStatusEnum.IN_EROEFFNUNG, giroKontoAntrag, BigDecimal.ZERO, new ArrayList<KontoBuchung>(), KontoProduktEnum.GIRO);
       log.debug("Girokonto wurde erstellt, Girokonto wird gespeichert.)");
       giroService.save(giroKonto);
       log.debug("Girokonto wurde erfolgreich gespeichert. (id=" + giroKonto.getId() + ")");
@@ -99,9 +123,9 @@ public class CrmGiroAntragController {
       log.debug("GiroKontoAntrag wurde erfolgreich gespeichert");
 
       if (bestMoeglicherStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
-        log.debug("Sparkonto mit der ID=" + giroKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
+        log.debug("Girokonto mit der ID=" + giroKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
       } else {
-        log.debug("Gespeichertes Sparkonto mit der ID=" + giroKonto.getId() + " wird auf Mögliche KontoEröffnung geprüft:");
+        log.debug("Gespeichertes Girokonto mit der ID=" + giroKonto.getId() + " wird auf Mögliche KontoEröffnung geprüft:");
         String processErgebnis = kontoService.processKontoStatusById(giroKonto.getId(), bestMoeglicherStatus, bestMoeglicherStatus);
 
         switch(processErgebnis) {
@@ -118,7 +142,7 @@ public class CrmGiroAntragController {
       }
     }
 
-    return "redirect:/mitarbeiter/kunde/giro/antrag";
+    return "redirect:/mitarbeiter/kunde/giro/antragBearbeitung";
   }
 
 }

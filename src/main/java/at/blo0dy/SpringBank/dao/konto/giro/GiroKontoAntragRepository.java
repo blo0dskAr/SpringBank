@@ -1,8 +1,6 @@
 package at.blo0dy.SpringBank.dao.konto.giro;
 
 import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
-import at.blo0dy.SpringBank.model.konto.Konto;
-import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

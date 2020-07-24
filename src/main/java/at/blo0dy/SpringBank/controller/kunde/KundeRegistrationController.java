@@ -1,10 +1,8 @@
 package at.blo0dy.SpringBank.controller.kunde;
 
 
-import at.blo0dy.SpringBank.dao.KundeRepository;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.kunde.KundeRegistrationForm;
-import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -15,6 +15,11 @@
                             <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
                             Home
                         </a>
+                        <a th:class="${#strings.equals(activeLink, 'changePasswordPage')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/showChangePasswordForm}">
+                            <div class="sb-nav-link-icon"><i class="fas fa-home"></i></div>
+                            Passwort ändern
+                        </a>
+                        <div class="sb-sidenav-menu-heading">Work</div>
                         <div sec:authorize="hasAuthority('admin')">
                             <a class="nav-link collapsed" href="#" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/admin')}  ? 'active' : ''"
                                data-toggle="collapse" data-target="#admincollapse" aria-expanded="false" aria-controls="admincollapse">
@@ -83,7 +88,7 @@
                                     </a>
                                     <div class="collapse" id="SparenCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen')} ? 'show' : ''">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/sparen/antrag}">
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/sparen/antragBearbeitung}">
                                                 AntragsBearbeitung
                                             </a>
                                             <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/sparen/konto')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/sparen/kontoBearbeitung}">
@@ -98,7 +103,7 @@
                                     </a>
                                     <div class="collapse" id="kreditCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit')} ? 'show' : ''">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/kredit/antrag}">
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/kredit/antragBearbeitung}">
                                                 AntragsBearbeitung
                                             </a>
                                             <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/kredit/konto')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/kredit/kontoBearbeitung}">
@@ -113,7 +118,7 @@
                                     </a>
                                     <div class="collapse" id="giroCollapse" aria-labelledby="headingOne" data-parent="#kundeAccordion" th:classappend="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro')} ? 'show' : ''">
                                         <nav class="sb-sidenav-menu-nested nav">
-                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/giro/antrag}">
+                                            <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/antrag')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/giro/antragBearbeitung}">
                                                 AntragsBearbeitung
                                             </a>
                                             <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/kunde/giro/konto')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/kunde/giro/kontoBearbeitung}">

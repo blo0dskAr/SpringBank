@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.service.rolle;
 
-import at.blo0dy.SpringBank.dao.MitarbeiterRepository;
-import at.blo0dy.SpringBank.dao.RolleRepository;
+import at.blo0dy.SpringBank.dao.person.MitarbeiterRepository;
+import at.blo0dy.SpringBank.dao.person.RolleRepository;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +24,13 @@ public class RolleServiceImpl implements RolleService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<Rolle> findAll() {
     return rolleRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Rolle findById(Long theId) {
 
     Optional<Rolle> result = rolleRepository.findById(theId);
@@ -43,24 +43,25 @@ public class RolleServiceImpl implements RolleService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(Rolle rolle) {
       rolleRepository.save(rolle);
   }
 
   // Fuer delete im postmapping
+  @Override
   public void delete(Rolle rolle) {
     rolleRepository.delete(rolle);
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
       rolleRepository.deleteById(theId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long countByMitarbeiterId(Long theId) {
     return rolleRepository.countByMitarbeiterId(theId);
   }
@@ -71,7 +72,7 @@ public class RolleServiceImpl implements RolleService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<Mitarbeiter> findMitarbeiterIdsByRoleIdExeptExisting(Long theRoleId) {
     List<Long> mitarbeiterIdListe = rolleRepository.findMitarbeiterIdsByRoleIdExeptExisting(theRoleId) ;
     return mitarbeiterRepository.findAllById(mitarbeiterIdListe);
@@ -80,17 +81,20 @@ public class RolleServiceImpl implements RolleService {
 
   @Override
   @Transactional
-  public void removeRoleFromUser(Long theId, Long theMitarbeiterId) {
-    rolleRepository.removeRoleFromUser(theId, theMitarbeiterId);
+  public void removeRoleFromUser(Long theRoleId, Long theMitarbeiterId) {
+    Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(theMitarbeiterId).get();
+    Rolle rolle = rolleRepository.findById(theRoleId).get();
+    mitarbeiter.getRollen().remove(rolle);
+//    rolleRepository.removeRoleFromUser(theRoleId, theMitarbeiterId);
   }
 
   @Override
   @Transactional
   public void addRoleToUser(Long theRoleId, Long theMitarbeiterId) {
-    rolleRepository.addRoleToUser(theRoleId,theMitarbeiterId);
+    Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(theMitarbeiterId).get();
+    Rolle rolle = rolleRepository.findById(theRoleId).get();
+    mitarbeiter.addRolle(rolle);
+//    rolleRepository.addRoleToUser(theRoleId,theMitarbeiterId);
   }
-
-
-
 
 }

@@ -5,12 +5,10 @@ import at.blo0dy.SpringBank.dao.kreditZinsDAO.KreditRechnerRepository;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
-import at.blo0dy.SpringBank.model.produkt.kredit.KreditUtility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -29,11 +27,13 @@ public class KreditServiceImpl implements KreditService {
 
 
   @Override
+  @Transactional(readOnly = true)
   public List<KreditKonto> findAll() {
     return kreditKontoRepository.findAll();
   }
 
   @Override
+  @Transactional(readOnly = true)
   public KreditKonto findById(Long theId) {
     Optional<KreditKonto> result = kreditKontoRepository.findById(theId);
     KreditKonto kreditKonto;
@@ -50,13 +50,12 @@ public class KreditServiceImpl implements KreditService {
   @Override
   public void deleteById(Long theId) {
     kreditKontoRepository.deleteById(theId);
-
   }
 
-  @Override
-  public BigDecimal getZinssatz() {
-    return KreditUtility.getZinssatz();
-  }
+//  @Override
+//  public BigDecimal getZinssatz() {
+//    return KreditUtility.getZinssatz();
+//  }
 
 
   @Override
@@ -65,30 +64,31 @@ public class KreditServiceImpl implements KreditService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<KreditKonto> findKreditKontenByKundennummer(String kundennummer) {
     return kreditKontoRepository.findKreditKontenByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<String> findKontoNummerOffenerKreditKontenByKundennummer(String kundennummer) {
     return kreditKontoRepository.findKontoNummerOffenerKreditKontenByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public KreditKonto findKreditKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer) {
     return kreditKontoRepository.findKreditKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public KreditKonto findByKontonummer(Long kontonummer) {
     return kreditKontoRepository.findByKontonummer(kontonummer);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public int countAktiveKontenByKundeId(Long kundeId) {
     return kreditKontoRepository.countAktiveKontenByKundeId(kundeId);
   }

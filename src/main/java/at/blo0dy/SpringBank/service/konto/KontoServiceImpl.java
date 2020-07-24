@@ -56,44 +56,44 @@ public class KontoServiceImpl implements KontoService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countKontenGesamtByKundennummer(String kundennummer) {
     return kontoRepository.countKontenGesamtByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countOffeneKontenGesamtByKundennummer(String kundennummer) {
     return kontoRepository.countOffeneKontenGesamtByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public BigDecimal getGesamtSaldoOffenerKontenByKundennummer(String kundennummer) {
     return kontoRepository.getGesamtSaldoOffenerKontenByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public String findKontonummerById(Long kontoId) {
     return kontoRepository.findKontonummerById(kontoId);
   }
 
   // TODO: atm ned verwendet
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Konto findByKontonummer(Long kontonummer) {
     return kontoRepository.findByKontonummer(kontonummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<Konto> findAll(Konto konto) {
     return kontoRepository.findAll(Example.of(konto));
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Konto findById(Long kontoId) {
     Optional<Konto> tmpKonto = kontoRepository.findById(kontoId);
     Konto konto = tmpKonto.get();
@@ -104,7 +104,10 @@ public class KontoServiceImpl implements KontoService {
   @Override
   @Transactional
   public void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo) {
-    kontoRepository.UpdateKontoSaldoById(kontoId, neuerSaldo);
+
+    Konto konto = kontoRepository.findById(kontoId).get();
+    konto.setAktSaldo(neuerSaldo);
+//    kontoRepository.updateKontoSaldoById(kontoId, neuerSaldo);
 
   }
 
@@ -144,7 +147,7 @@ public class KontoServiceImpl implements KontoService {
           if (!dauerAuftragList.isEmpty()) {
             dauerAuftragList.forEach(dauerAuftrag -> { dauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.STORNIERT);
                                                         dauerAuftrag.setDatAend(LocalDateTime.now());
-                                                       dauerAuftragRepository.save(dauerAuftrag);
+//                                                       dauerAuftragRepository.save(dauerAuftrag);
             });
           }
 
@@ -152,18 +155,20 @@ public class KontoServiceImpl implements KontoService {
           if (!zahlungsAuftragList.isEmpty()) {
             zahlungsAuftragList.forEach(zahlungsAuftrag -> {zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.STORNIERT);
                                                             zahlungsAuftrag.setDatAend(LocalDateTime.now());
-                                                            zahlungsAuftragRepository.save(zahlungsAuftrag);
+//                                                            zahlungsAuftragRepository.save(zahlungsAuftrag);
             });
           }
 
           // Kontostatus aktualisieren (geschlossen setzen)
-          kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
+//          kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
+          konto.setKontoStatus(neuerKontoStatus);
 
           return "KONTO_NOW_CLOSED";
         }
         // Konto Ist noch In Eröffnung --> wird storniert
       } else if (alterKontoStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
-        kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
+//        kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
+        konto.setKontoStatus(neuerKontoStatus);
         return "KONTO_NOW_CLOSED";
       }
       // Dann sollt nur noch "In_eroeffnung --> Offen" übrig bleiben
@@ -241,17 +246,18 @@ public class KontoServiceImpl implements KontoService {
       if (konto instanceof GiroKonto) {
         GiroKontoAntrag tmpKontoAntrag = giroKontoAntragRepository.findByKontoId(kontoId);
         if (tmpKontoAntrag.isUeberziehungsrahmenGewuenscht()) {
-          giroKontoRepository.UpdateUeberziehungsRahmenByKontoId(kontoId, BigDecimal.valueOf(500));
+          ((GiroKonto) konto).setUeberziehungsRahmen(BigDecimal.valueOf(500));
+//          giroKontoRepository.UpdateUeberziehungsRahmenByKontoId(kontoId, BigDecimal.valueOf(500));
         }
       }
 
       // Kontostatus aktualisieren (offen setzen)
-      kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
+//      kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
+      konto.setKontoStatus(neuerKontoStatus);
       return "KONTO_NOW_OPEN";
     }
     // ?? fehlt wohl theoretisch.. bestimmt nur theoretisch :)
     return "TRANSITION_NOT_POSSIBLE";
   }
-
 
 }

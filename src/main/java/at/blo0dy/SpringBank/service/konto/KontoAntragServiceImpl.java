@@ -21,31 +21,31 @@ public class KontoAntragServiceImpl implements KontoAntragService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countAntraegeGesamtByKundennummer(String kundennummer) {
     return kontoAntragRepository.countAntraegeGesamtByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countOffeneAntraegeByKundennummer(String kundennummer) {
     return kontoAntragRepository.countOffeneAntraegeByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countAbgelehnteAntraegeByKundennummer(String kundennummer) {
     return kontoAntragRepository.countAbgelehnteAntraegeByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countDurchgefuehrteAntraegeByKundennummer(String kundennummer) {
     return kontoAntragRepository.countDurchgefuehrteAntraegeByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<KontoAntrag> findAll(KontoAntrag kontoAntrag) {
     return kontoAntragRepository.findAll(Example.of(kontoAntrag));
   }

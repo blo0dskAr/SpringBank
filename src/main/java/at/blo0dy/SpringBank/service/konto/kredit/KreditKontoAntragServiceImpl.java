@@ -1,7 +1,9 @@
 package at.blo0dy.SpringBank.service.konto.kredit;
 
 import at.blo0dy.SpringBank.dao.konto.kredit.KreditKontoAntragRepository;
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
+import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +23,13 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<KreditKontoAntrag> findAll() {
-    // ich schätz das werd ich so modifizieren müssen, dass er nur seine eigene ID's findet?
     return kreditKontoAntragRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public KreditKontoAntrag findById(Long theId) {
     Optional<KreditKontoAntrag> result = kreditKontoAntragRepository.findById(theId);
 
@@ -40,31 +41,31 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(KreditKontoAntrag kreditKontoAntrag) {
     kreditKontoAntragRepository.save(kreditKontoAntrag);
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     kreditKontoAntragRepository.deleteById(theId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public KreditKontoAntrag getOne(Long aLong) {
     return kreditKontoAntragRepository.getOne(aLong);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long count() {
     return kreditKontoAntragRepository.count();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long countByStatus(String statusEnum) {
     return kreditKontoAntragRepository.countByStatus(statusEnum);
   }
@@ -87,24 +88,28 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
   @Transactional
   public void setKreditAntragAbgelehntWeilNeuBerechnetById(Long kreditKontoAntragId) {
 
-    kreditKontoAntragRepository.setKreditAntragAbgelehntWeilNeuBerechnetById(kreditKontoAntragId);
+    KontoAntrag kontoAntrag = kreditKontoAntragRepository.findById(kreditKontoAntragId).get();
+
+    kontoAntrag.setAntragStatus(AntragStatusEnum.ABGELEHNT_WEIL_NEU_BERECHNET);
+
+//    kreditKontoAntragRepository.setKreditAntragAbgelehntWeilNeuBerechnetById(kreditKontoAntragId);
 
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<KreditKontoAntrag> findKreditAntraegeByKundennummer(String kundennummer) {
     return kreditKontoAntragRepository.findKreditAntraegeByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public KreditKontoAntrag findKreditAntragByAntragIdAndKundennummer(Long antragId, String kundennummer) {
     return kreditKontoAntragRepository.findKreditAntragByAntragIdAndKundennummer(antragId, kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public int countEingereichteKreditAntraegeByKundennummer(String kundennummer) {
     return kreditKontoAntragRepository.countEingereichteKreditAntraegeByKundennummer(kundennummer);
   }

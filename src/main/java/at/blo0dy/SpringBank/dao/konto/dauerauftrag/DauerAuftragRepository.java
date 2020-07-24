@@ -1,11 +1,9 @@
 package at.blo0dy.SpringBank.dao.konto.dauerauftrag;
 
 import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
-import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-import java.time.LocalDate;
 import java.util.List;
 
 public interface DauerAuftragRepository extends JpaRepository<DauerAuftrag, Long> {
@@ -29,6 +27,9 @@ public interface DauerAuftragRepository extends JpaRepository<DauerAuftrag, Long
   List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type);
 
 
-
-
+//  @Modifying
+//  @Query(value = "update dauerauftrag da set " +
+//                    "    da.auftrags_status = 'STORNIERT'" +
+//                  " where da.id = ?1 ", nativeQuery = true)
+//  void storniereDauerAuftragById(Long dauerAuftragId);
 }

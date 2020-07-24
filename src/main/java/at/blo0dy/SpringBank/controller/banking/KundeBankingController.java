@@ -8,6 +8,8 @@ import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
+import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
+import at.blo0dy.SpringBank.model.person.password.ChangePasswordForm;
 import at.blo0dy.SpringBank.service.adresse.AdresseService;
 import at.blo0dy.SpringBank.service.konto.KontoAntragService;
 import at.blo0dy.SpringBank.service.konto.KontoService;
@@ -27,6 +29,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -193,6 +196,60 @@ public class KundeBankingController {
             .contentType(MediaType.parseMediaType(legiDokument.getDocType()))
             .header(HttpHeaders.CONTENT_DISPOSITION,"attachment; filename="+legiDokument.getDocName())
             .body(new ByteArrayResource(legiDokument.getData()));
+  }
+
+
+
+  @GetMapping("/showChangePasswordForm")
+  public String showChangePasswordForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+
+    log.debug("Passwort Ändern Page von Mitarbeiter: " + authentication.getName() + " aufgerufen.");
+    ChangePasswordForm changePasswordForm = new ChangePasswordForm();
+    model.addAttribute("changePasswordForm", changePasswordForm);
+    model.addAttribute("activeLink", "changePasswordPage");
+
+    return "kunde/banking/changepassword-form";
+  }
+
+
+
+  @PostMapping("/saveChangePasswordForm")
+  public String saveChangePasswordForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                       @Valid @ModelAttribute ChangePasswordForm changePasswordForm, BindingResult result,
+                                       Model model, RedirectAttributes redirectAttrs) {
+
+    String tmpUser = authentication.getName();
+    Kunde tmpKunde = kundeService.findByKundennummer(tmpUser);
+    final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
+    log.debug("Neues Passwort für " + authentication.getName() + " wird geprüft");
+    if (!changePasswordForm.getConfirmPassword().equals(changePasswordForm.getNewPassword())) {
+      result.rejectValue("confirmPassword", "error.changePasswordForm","Die neuen Passwörter stimmen nicht überrein");
+      result.rejectValue("newPassword","error.changePasswordForm","Die neuen Passwörter stimmen nicht überein");
+      log.debug("Neues Passwort für " + tmpUser + " stimmt mit ConfirmPassword nicht überrein ");
+    }
+
+    log.debug("Altes Passwort für " + tmpUser + " wird geprüft");
+    if (!passwordEncoder.matches(changePasswordForm.getOldPassword(), tmpKunde.getPassword() )) {
+      result.rejectValue("oldPassword", "error.changePasswordForm", "Ein Fehler ist aufgetreten");
+      log.debug("Altes Passwort für " + tmpUser + " stimmt mit dem eingebenen Passwort nicht überrein ");
+    }
+
+    if (result.hasErrors()) {
+      log.debug("Neues Passwort für " + tmpUser + " kann nicht geändert werden, Seite wird neu ausgeliefert");
+      model.addAttribute("changePasswordForm", changePasswordForm);
+      model.addAttribute("activeLink", "changePasswordPage");
+
+      return "kunde/banking/changepassword-form";
+    } else {
+
+      log.debug("Neues Passwort für " + tmpUser + " wird gespeichert");
+      kundeService.updatePasswordByKundeId(tmpKunde.getId(), passwordEncoder.encode(changePasswordForm.getNewPassword()));
+      log.debug("Neues Passwort für " + tmpUser + " wurde erfolgreich gespeichert");
+      redirectAttrs.addFlashAttribute("passwordGeaendert", true);
+
+      return "redirect:/kunde/banking/index";
+    }
   }
 
 

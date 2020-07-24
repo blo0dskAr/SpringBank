@@ -4,6 +4,7 @@ package at.blo0dy.SpringBank.controller.kunde.kredit;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
+import at.blo0dy.SpringBank.service.produkt.zinssatz.ZinssatzService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,10 +23,12 @@ import java.math.BigInteger;
 public class KundeKreditController {
 
   KreditService kreditService;
+  ZinssatzService zinssatzService;
 
   @Autowired
-  public KundeKreditController(KreditService kreditService) {
+  public KundeKreditController(KreditService kreditService, ZinssatzService zinssatzService) {
     this.kreditService = kreditService;
+    this.zinssatzService = zinssatzService;
   }
 
   @GetMapping({"/index", "/", ""})
@@ -39,7 +42,7 @@ public class KundeKreditController {
   public String showKreditRechnerForm(Model model) {
 
     // / 100 division workaround fürs frontend
-    KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), kreditService.getZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
+    KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), zinssatzService.getAktuellerKreditZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
     KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
     model.addAttribute("kreditrechnervorlage", kv);
@@ -52,14 +55,14 @@ public class KundeKreditController {
   @PostMapping("/rechner")
   public String berechneKredit(@Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv, BindingResult result, Model model ) {
     if (result.hasErrors()) {
-      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
+//      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
       model.addAttribute("activeLink", "kundeKreditRechner");
       return "kunde/kredit/rechner";
     }  else {
       KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(kv);
       // Workaround bis dieses % wird als *100 dargestellt (aber nicht gerechnet) gelöst wird
-      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
+//      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("kreditrechnervorlage", kv);
       model.addAttribute("ergebnis",ke);
       model.addAttribute("activeLink", "kundeKreditRechner");

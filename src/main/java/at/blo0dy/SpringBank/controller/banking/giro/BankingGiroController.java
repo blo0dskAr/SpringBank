@@ -8,6 +8,7 @@ import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
+import at.blo0dy.SpringBank.service.konto.dauerauftrag.DauerAuftragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.giro.GiroService;
 import at.blo0dy.SpringBank.service.konto.kontoBuchung.KontoBuchungService;
@@ -40,16 +41,19 @@ public class BankingGiroController {
   KontoBuchungService kontoBuchungService;
   KontoService kontoService;
   ZahlungsAuftragService zahlungsAuftragService;
+  DauerAuftragService dauerAuftragService;
+
 
   @Autowired
-  public BankingGiroController(GiroService giroService, KundeService kundeService, KontoBuchungService kontoBuchungService, KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService,
-                               GiroKontoAntragService giroKontoAntragService) {
+  public BankingGiroController(GiroService giroService, GiroKontoAntragService giroKontoAntragService, KundeService kundeService, KontoBuchungService kontoBuchungService,
+                               KontoService kontoService, ZahlungsAuftragService zahlungsAuftragService, DauerAuftragService dauerAuftragService) {
     this.giroService = giroService;
+    this.giroKontoAntragService = giroKontoAntragService;
     this.kundeService = kundeService;
     this.kontoBuchungService = kontoBuchungService;
     this.kontoService = kontoService;
     this.zahlungsAuftragService = zahlungsAuftragService;
-    this.giroKontoAntragService = giroKontoAntragService;
+    this.dauerAuftragService = dauerAuftragService;
   }
 
   @GetMapping("/girokontouebersicht")
@@ -136,7 +140,7 @@ public class BankingGiroController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerSaldo(giroKonto.getAktSaldo(), zahlungsAuftrag.getBetrag() )) {
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(giroKonto, zahlungsAuftrag.getBetrag() )) {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }
@@ -180,6 +184,9 @@ public class BankingGiroController {
 
     String requestedGiroKontonummer = kontoService.findKontonummerById(kontoId);
     String authKundennummer = authentication.getName();
+    // TODO: eigetnlich sollt ich irgendwie das passwort jedes mal raushauen, wenn ich nen kunden an den view  weiter geb (bzw. schon im service)
+    Kunde kunde = kundeService.findByKundennummer(authKundennummer);
+    model.addAttribute("kunde", kunde);
     log.debug("Showing showGiroKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedGiroKontonummer );
 
     GiroKonto giroKonto;
@@ -200,57 +207,11 @@ public class BankingGiroController {
 
       model.addAttribute("konto", giroKonto);
       model.addAttribute("zahlungsAuftragsList", zahlungsAuftragList);
+      model.addAttribute("countOffeneZA",zahlungsAuftragService.countOffeneZahlungsAuftraegeByKontoId(kontoId));
+      model.addAttribute("countAktiveDA",dauerAuftragService.countAktiveDauerAuftraegeByKontonummer(giroKonto.getKontonummer()));
 
       return "kunde/banking/konto-detail";
     }
-  }
-
-
-
-
-  @GetMapping("/showGiroAntragDetailPage")
-  public String showGiroAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                         @RequestParam("antragId") Long antragId, RedirectAttributes redirectAttrs) {
-
-    String authKundennummer = authentication.getName();
-    log.debug("Showing showGiroAntragDetailPage for Kunde: " + authKundennummer + " and Antrag: " + antragId );
-
-    GiroKontoAntrag giroKontoAntrag = giroKontoAntragService.findGiroAntragByAntragIdAndKundennummer(antragId, authKundennummer);
-
-    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt.");
-    if (giroKontoAntrag == null) {
-      log.error("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - FEHLGESCHLAGEN");
-      redirectAttrs.addFlashAttribute("beschissError", true);
-
-      return "redirect:/kunde/banking/giro/girokontouebersicht";
-    }
-    log.debug("Check ob ID: " + antragId + " des Antrages bei Kunde: " + authKundennummer + " liegt. - ERFOLGREICH");
-    model.addAttribute("girokontoantrag", giroKontoAntrag);
-
-    return "kunde/banking/giro/antrag-detail";
-  }
-
-
-  @PostMapping("/saveGiroAntragDetailPage")
-  public String saveGiroAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                         @Valid @ModelAttribute("girokontoantrag") GiroKontoAntrag giroKontoAntrag, BindingResult result,
-                                         RedirectAttributes redirectAttrs) {
-
-    String authKundennummer = authentication.getName();
-
-    if (result.hasErrors()) {
-      log.warn("Fehler beim speichern eines GirokontoAntrags für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
-      model.addAttribute("girokontoantrag", giroKontoAntrag);
-
-      return "kunde/banking/giro/antrag-detail";
-    }
-
-    log.debug("GirokontoAntrag: " +  giroKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
-    giroKontoAntragService.save(giroKontoAntrag);
-    log.debug("GirokontoAntrag: " +  giroKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );
-
-    redirectAttrs.addFlashAttribute("antragGespeichert", true);
-    return "redirect:/kunde/banking/index";
   }
 
 

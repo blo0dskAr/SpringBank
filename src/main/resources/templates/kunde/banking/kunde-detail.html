@@ -4,53 +4,44 @@
 
       layout:decorate="~{kunde/mainlayout.html}">
 <head>
-    <meta charset="UTF-8">
     <title>Kunde Detail Page</title>
 </head>
+
 <body>
 <div layout:fragment="content">
     <main>
-        <div class="container-fluid mt-4">
-            <h1 class="mt-4">Persönliche Daten Page</h1>
-<!--            <div th:if="${antragGespeichert}">-->
-<!--                <div class="alert alert-info ">-->
-<!--                    Ihr Antrag wurde gespeichert. Der Status kann nun in Ihren Anträgen eingesehen werden.-->
-<!--                </div>-->
-<!--            </div>-->
+        <h3 class="pt-3 pl-3" >Persönliche Daten - Bearbeitung</h3>
+        <hr>
+        <div class="container-fluid">
             <div th:if="${uploadSuccessful}">
                 <div class="alert alert-success ">
                     Ihr Legitimations Dokument wurde erfolgreich hochgeladen, unsere Betreuer werden sich in Kürze darum kümmern.
                 </div>
             </div>
-            <div class="row border justify-content-md-center ">
-                <div class="col-10">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                     <form method="POST" th:action="@{/kunde/banking/kunde-detailpage}" th:object="${kunde}" id="registerForm">
                         <input type="hidden" th:field="*{id}" />
                         <input type="hidden" th:field="*{adresse.id}" />
                         <div class="form-row">
-                            <div class="form-group col-md-10">
-                                <h4>Kunden-Daten</h4>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-5">
-                              <span class="text-danger"
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
                                       th:if="${#fields.hasErrors('vorname')}"
-                                     th:errors="*{vorname}">vorname Error
-                              </span>
+                                      th:errors="*{vorname}">vorname Error
+                                </span>
                                 <label for="vorname">Vorname</label>
                                 <input type="text" class="form-control" id="vorname" name="vorname" placeholder="Vorname" th:field="*{vorname}" readonly>
-                        </div>
-                        <div class="form-group col-md-5">
-                            <span class="text-danger"
-                                  th:if="${#fields.hasErrors('nachname')}"
-                                  th:errors="*{nachname}">nachname Error</span>
+                            </div>
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('nachname')}"
+                                      th:errors="*{nachname}">nachname Error</span>
                                 <label for="nachname">Nachname</label>
                                 <input type="text" class="form-control" id="nachname" name="nachname" placeholder="Nachname" th:field="*{nachname}" readonly>
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-sm-12">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('adresse.strasse')}"
                                       th:errors="*{adresse.strasse}">strasse Error</span>
@@ -59,14 +50,14 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('adresse.ort')}"
                                       th:errors="*{adresse.ort}">ort Error</span>
                                 <label for="ort">Ort</label>
                                 <input type="text" class="form-control" id="ort" name="ort" th:field="*{adresse.ort}">
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-sm-6">
                             <span class="text-danger"
                                   th:if="${#fields.hasErrors('adresse.land')}"
                                   th:errors="*{adresse.land}">land Error</span>
@@ -75,14 +66,14 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('adresse.plz')}"
                                       th:errors="*{adresse.plz}">plz Error</span>
                                 <label for="plz">PLZ</label>
                                 <input type="text" class="form-control" id="plz" name="plz" th:field="*{adresse.plz}">
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('kundennummer')}"
                                       th:errors="*{kundennummer}">kundennummer Error</span>
@@ -91,23 +82,30 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('telefonNummer')}"
                                       th:errors="*{telefonNummer}">telefonNummer Error</span>
                                 <label for="telefonnummer">Telefonnummer</label>
                                 <input type="text" class="form-control" id="telefonnummer" name="telefonnummer" th:field="*{telefonNummer}">
                             </div>
+                            <div class="form-group col-sm-6">
+                                <span class="text-danger"
+                                      th:if="${#fields.hasErrors('geburtsDatum')}"
+                                      th:errors="*{geburtsDatum}">geburtsDatum Error</span>
+                                <label for="geburtsDatum">Geburtsdatum: </label>
+                                <input type="date" class="form-control" id="geburtsDatum" name="geburtsDatum" th:field="*{geburtsDatum}" readonly>
+                            </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('emailAdresse')}"
                                       th:errors="*{emailAdresse}">emailAdresse Error</span>
                                 <label for="emailAdresse">Email-Adresse</label>
                                 <input type="text" class="form-control" id="emailAdresse" name="emailAdresse" th:field="*{emailAdresse}">
                             </div>
-                            <div class="form-group col-md-5">
+                            <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('connectedGiro')}"
                                       th:errors="*{connectedGiro}">connectedGiro Error</span>
@@ -116,7 +114,7 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-sm-12">
                                 <div class="pt-4 pb-2" id="accordion">
                                     <div class="checkbox">
                                         <label data-toggle="collapse" data-target="#collapseOne">
@@ -137,30 +135,28 @@
                             </div>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-10">
+                            <div class="form-group col-sm-12">
                                 <button type="submit" class="btn btn-info">Daten speichern</button>
                             </div>
                         </div>
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="container-fluid mt-4">
-            <div class="row border justify-content-md-center ">
-                <div class="col-10">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                     <div class="form-row">
-                        <div class="form-group col-md-10">
+                        <div class="form-group col-sm-12">
                             <h4>LegitimationsUpload</h4>
                             <h6 class="text-muted"> - Laden Sie hier Ihren Reisepass oder Führerschein hoch.</h6>
                         </div>
                     </div>
                     <form method="POST" th:action="@{/kunde/banking/kunde-detailpage/uploadLegi}" th:object="${legiDokument}" encType="multipart/form-data" id="uploadForm">
-                        <div class="form row">
-                            <div class="form-group col-md-4">
+                        <div class="form-row">
+                            <div class="form-group col-sm-6">
                                 <input class="form-control-file" type="file" name="legiDokument"  th:disabled="${legiDokument.docName != '' && legiDokument.docName != null}" required/>
                             </div>
                             <th:block th:if= "${legiDokument.docName != '' && legiDokument.docName != null}">
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-sm-6">
                                     <a th:href="@{'/kunde/banking/kunde-detailpage/downloadLegi/'+${legiDokument.id}}"
                                        class="text">
                                         View LegiDokument
@@ -169,7 +165,7 @@
                             </th:block>
                         </div>
                         <div class="form-row">
-                            <div class="form-group col-md-4">
+                            <div class="form-group col-sm-12">
                                 <button type="submit" class="btn btn-info" th:disabled="${legiDokument.docName != '' && legiDokument.docName != null}" >File Uploaden</button>
                             </div>
                         </div>

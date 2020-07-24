@@ -1,5 +1,6 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter.crm.sparen;
 
+import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
 import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
@@ -8,12 +9,15 @@ import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
+import at.blo0dy.SpringBank.service.konto.KontoAntragService;
 import at.blo0dy.SpringBank.service.konto.KontoService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparKontoAntragService;
 import at.blo0dy.SpringBank.service.konto.sparen.SparService;
 import at.blo0dy.SpringBank.service.kunde.KundeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -24,6 +28,7 @@ import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -34,27 +39,48 @@ public class CrmSparAntragController {
   SparService sparService;
   KundeService kundeService;
   KontoService kontoService;
+  KontoAntragService kontoAntragService;
 
   @Autowired
-  public CrmSparAntragController(SparKontoAntragService sparKontoAntragService, SparService sparService, KundeService kundeService, KontoService kontoService) {
+  public CrmSparAntragController(SparKontoAntragService sparKontoAntragService, SparService sparService, KundeService kundeService, KontoService kontoService, KontoAntragService kontoAntragService) {
     this.sparKontoAntragService = sparKontoAntragService;
     this.sparService = sparService;
     this.kundeService = kundeService;
     this.kontoService = kontoService;
+    this.kontoAntragService = kontoAntragService;
   }
 
-  @GetMapping("/antrag")
-  public String showSparAntragPage(Model model) {
 
-    model.addAttribute("gesamtAnzahl",sparKontoAntragService.count());
-    model.addAttribute("anzahlGenehmigt",sparKontoAntragService.countByStatus("GENEHMIGT"));
-    model.addAttribute("anzahlAbgelehnt",sparKontoAntragService.countByStatus("ABGELEHNT"));
-    model.addAttribute("anzahlEingereicht",sparKontoAntragService.countByStatus("EINGEREICHT"));
-    model.addAttribute("offeneAntragListe", sparKontoAntragService.findByStatus("EINGEREICHT"));
+  @GetMapping("/antragBearbeitung")
+  public String showSparAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
+    KontoAntrag kontoAntrag = new SparKontoAntrag();
+    kontoAntrag.setProdukt(KontoProduktEnum.SPAREN);
+    kontoAntrag.setAntragStatus(AntragStatusEnum.EINGEREICHT);
 
-    return "mitarbeiter/crm/sparen/sparAntrag";
+    model.addAttribute("kontoantrag", kontoAntrag);
+
+    List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
+
+    model.addAttribute("ergebnis", ergebnis);
+    log.debug("Showing SparAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/antragsuche";
   }
+
+  @PostMapping("/antragBearbeitung")
+  public String showSparAntragBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                                  @ModelAttribute KontoAntrag kontoAntrag) {
+    List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
+
+    model.addAttribute("ergebnis", ergebnis);
+    model.addAttribute("kontoantrag", kontoAntrag);
+    log.debug("Showing SparKontoAntragsPage for Mitarbeiter: " + authentication.getName());
+
+    return "mitarbeiter/crm/antragsuche";
+  }
+
+
 
   @GetMapping("/antrag/showSparAntragForKontoForm")
   public String showSparAntrag2KontoForm(@RequestParam("sparKontoAntragId") Long sparKontoAntragId, Model model) {
@@ -124,7 +150,7 @@ public class CrmSparAntragController {
     log.debug("SparKontoAntrag wurde erfolgreich gespeichert");
 
 
-    return "redirect:/mitarbeiter/kunde/sparen/antrag";
+    return "redirect:/mitarbeiter/kunde/sparen/antragBearbeitung";
   }
 
 }

@@ -8,6 +8,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,25 +22,20 @@ import java.util.List;
 @Builder
 public class Mitarbeiter extends Person {
 
-/*  @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "id")
-  private Long id;*/
-
   @Column(name = "mitarbeiternummer")
-  @Min(1)
-  @Max(99999999)
-  @NotNull(message = "Mitarbeiternummer must be defined.")
+//  @Min(1)
+//  @Max(99999999)
+//  @NotNull(message = "Mitarbeiternummer must be defined.")
   private String mitarbeiterNummer;
 
   @Column(name = "position")
   @NotBlank(message = "Position must be defined.")
   private String position;
 
-  @OneToMany(mappedBy = "mitarbeiter",
+  @OneToOne(mappedBy = "mitarbeiter",
          // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
           cascade = {CascadeType.ALL})
-  private List<LoginCredentials> loginCredentials;
+  private LoginCredentials loginCredentials;
 
   @Override
   public Long getId() {
@@ -58,8 +54,8 @@ private List<Rolle> rollen = new ArrayList<>();
 
   public Mitarbeiter() {  }
 
-  public Mitarbeiter(String vorname, String nachname, Adresse adresse, String mitarbeiterNummer, String position) {
-    super(vorname, nachname, adresse);
+  public Mitarbeiter(String vorname, String nachname, Adresse adresse, String mitarbeiterNummer, String position, LocalDate geburtsDatum) {
+    super(vorname, nachname, adresse, geburtsDatum);
     this.mitarbeiterNummer = mitarbeiterNummer;
     this.position = position;
   }
@@ -74,14 +70,21 @@ private List<Rolle> rollen = new ArrayList<>();
   }
 
   // Custom Methods
-  // ööhh .. wo kommt das her ? :) verwend ich das ? =)
   public void addRolle(Rolle rolle) {
     rollen.add(rolle);
   }
 
+/*
   public String  getLoginName() {
-    return loginCredentials.get(1).getLoginName();
+    return loginCredentials.getLoginName();
+  }*/
+
+
+  public String  getPassword() {
+    return loginCredentials.getPassword() ;
   }
+
+//  public void setPassword(String encodedPassword) { this.}
 
 }
 

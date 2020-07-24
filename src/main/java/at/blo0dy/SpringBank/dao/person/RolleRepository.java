@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.dao;
+package at.blo0dy.SpringBank.dao.person;
 
 
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
@@ -32,20 +32,20 @@ public interface RolleRepository extends JpaRepository<Rolle, Long> {
           nativeQuery = true)
   List<Long> findMitarbeiterIdsByRoleIdExeptExisting(Long theRoleId);
 
-  @Modifying
-  @Query(value = "delete from map_mita_role " +
-          " where mita_id = :theMitarbeiterId" +
-          "   and role_id = :theId",
-  nativeQuery = true)
-  void removeRoleFromUser(Long theId, Long theMitarbeiterId);
+//  @Modifying
+//  @Query(value = "delete from map_mita_role " +
+//          " where mita_id = :theMitarbeiterId" +
+//          "   and role_id = :theId",
+//  nativeQuery = true)
+//  void removeRoleFromUser(Long theId, Long theMitarbeiterId);
 
-  @Modifying
-  @Query(value = "insert into map_mita_role" +
-          " (mita_id, role_id)" +
-          " values" +
-          " (:theMitarbeiterId, :theRoleId) ",
-  nativeQuery = true)
-  void addRoleToUser(Long theRoleId, Long theMitarbeiterId);
+//  @Modifying
+//  @Query(value = "insert into map_mita_role" +
+//          " (mita_id, role_id)" +
+//          " values" +
+//          " (:theMitarbeiterId, :theRoleId) ",
+//  nativeQuery = true)
+//  void addRoleToUser(Long theRoleId, Long theMitarbeiterId);
 
 
 }

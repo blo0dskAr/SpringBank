@@ -10,74 +10,86 @@
 <body>
 <div layout:fragment="content">
     <main>
+        <h3 class="pt-3 pl-3" >Antrag - Bearbeitung</h3>
+        <hr>
         <div class="container-fluid">
-            <div class="row">
-               <div class="col-8">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                    <form action="#" th:action="@{/mitarbeiter/kunde/giro/antrag/saveGiroAntrag2KontoForm}" method="POST" >
                        <input type="hidden" th:field="${giroKontoAntrag.id}" />
                        <input type="hidden" th:field="${giroKontoAntrag.antragDatum}" />
                        <input type="hidden" th:field="${giroKontoAntrag.produkt}" />
                        <div class="form-row">
-                           <div class="form-group col-md-12">
+                           <div class="form-group col-sm-12">
                                <h4>Antrags-Daten</h4>
                            </div>
                        </div>
-                       <div class="form-group">
-                           <label data-toggle="collapse" data-target="#collapseOne">
-                               <input type="checkbox"
-                                      th:checked="*{giroKontoAntrag.ueberziehungsrahmenGewuenscht}"
-                                      th:field="*{giroKontoAntrag.ueberziehungsrahmenGewuenscht}"
-                                      th:attrappend="onclick=${giroKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}?'return false;'"
-                                      th:disabled="${giroKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}"/> Überziehungsrahmen gewünscht?
-                           </label>
+                       <div class="form-row">
+                           <div class="form-group col-sm-12">
+                               <label data-toggle="collapse" data-target="#collapseOne">
+                                   <input type="checkbox"
+                                          th:checked="*{giroKontoAntrag.ueberziehungsrahmenGewuenscht}"
+                                          th:field="*{giroKontoAntrag.ueberziehungsrahmenGewuenscht}"
+                                          th:attrappend="onclick=${giroKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}?'return false;'"
+                                          th:disabled="${giroKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}"/> Überziehungsrahmen gewünscht?
+                               </label>
+                           </div>
                        </div>
-                       <div class="form-group">
-                           <label for="antragKundennummer">Kundennummer</label>
-                           <input type="text" class="form-control" id="antragKundennummer" name="antragKundennummer" placeholder="12345678" th:value="${giroKontoAntrag.kundennummer}" readonly>
-                       </div>
-                       <div class="form-group">
-                           <label for="antragStatus">Status</label>
-                           <select id="antragStatus" class="form-control" th:field="*{giroKontoAntrag.antragStatus}" th:disabled="(${giroKontoAntrag.antragStatus} == ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT})">
-                               <option th:each="antragStatusOpt : ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).values()}"
-                                       th:value="${{antragStatusOpt}}"
-                                       th:selected="${antragStatusOpt == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum)}"
-                                       th:text="${antragStatusOpt}">
+                       <div class="form-row">
+                           <div class="form-group col-sm-6">
+                               <label for="antragKundennummer">Kundennummer</label>
+                               <input type="text" class="form-control" id="antragKundennummer" name="antragKundennummer" placeholder="12345678" th:value="${giroKontoAntrag.kundennummer}" readonly>
+                           </div>
+                           <div class="form-group col-sm-6">
+                               <label for="antragStatus">Status</label>
+                               <select id="antragStatus" class="form-control" th:field="*{giroKontoAntrag.antragStatus}" th:disabled="(${giroKontoAntrag.antragStatus} == ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT})">
+                                   <option th:each="antragStatusOpt : ${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).values()}"
+                                           th:value="${{antragStatusOpt}}"
+                                           th:selected="${antragStatusOpt == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum)}"
+                                           th:text="${antragStatusOpt}">
 
-                               </option>
-                           </select>
+                                   </option>
+                               </select>
+                           </div>
                        </div>
                        <hr class="mt-5">
                         <div class="form-row">
-                            <div class="form-group col-md-12">
+                            <div class="form-group col-sm-12">
                                 <h4>Kunden-Daten</h4>
                             </div>
-                            <div class="form-group col-md-6">
+                        </div>
+                       <div class="form-row">
+                            <div class="form-group col-sm-6">
                                 <label for="vorname">Vorname</label>
                                 <input type="text" class="form-control" id="vorname" name="vorname" placeholder="Vorname" th:value="${kunde.vorname}" readonly>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                 <label for="nachname">Nachname</label>
                                 <input type="text" class="form-control" id="nachname" name="nachname" placeholder="Nachname" th:value="${kunde.nachname}" readonly>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label for="strasse">Straße</label>
-                            <input type="text" class="form-control" id="strasse" name="strasse" placeholder="Tralastraße 15/5" th:value="${kunde.adresse.strasse}" readonly>
-                        </div>
+                       <div class="form-row">
+                            <div class="form-group col-sm-12">
+                                <label for="strasse">Straße</label>
+                                <input type="text" class="form-control" id="strasse" name="strasse" placeholder="Tralastraße 15/5" th:value="${kunde.adresse.strasse}" readonly>
+                            </div>
+                       </div>
                         <div class="form-row">
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                 <label for="ort">Ort</label>
                                 <input type="text" class="form-control" id="ort" name="ort" th:value="${kunde.adresse.ort}" readonly>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                 <label for="land">PLZ</label>
                                 <input type="text" class="form-control" id="land" name="land" th:value="${kunde.adresse.land}" readonly>
                             </div>
-                            <div class="form-group col-md-6">
+                        </div>
+                       <div class="form-row">
+                            <div class="form-group col-sm-6">
                                 <label for="plz">Land</label>
                                 <input type="text" class="form-control" id="plz" name="plz" th:value="${kunde.adresse.plz}" readonly>
                             </div>
-                            <div class="form-group col-md-6">
+                            <div class="form-group col-sm-6">
                                 <label for="plz">Kundennummer</label>
                                 <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kunde.kundennummer}" readonly>
                             </div>
@@ -113,7 +125,7 @@
                                 th:disabled="${giroKontoAntrag.antragStatus == T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}">
                             Speichern
                         </button>
-                       <a class="btn btn-success ml-2" th:href="@{/mitarbeiter/kunde/giro/antrag}">
+                       <a class="btn btn-success ml-2" th:href="@{/mitarbeiter/kunde/giro/antragBearbeitung}">
                            Zurück zu Neue Anträge
                        </a>
                    </form>

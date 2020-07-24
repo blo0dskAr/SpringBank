@@ -10,8 +10,9 @@
 <body>
 <div layout:fragment="content">
     <main>
-        <div class="container-fluid px-0">
-            <h1> KontoDetail - Spar/KREDIT/GIROKonto </h1>
+        <div class="container-fluid">
+            <h3 class="pt-3 pl-3" th:text="${'KontoDetail - ' + konto.getKontonummer()}">KontoDetail</h3>
+            <hr>
             <div th:if="${zahlungsAuftragGespeichert}">
                 <div class="alert alert-success ">
                     Der Zahlungsauftrag wurde erfolgreich gespeichert.
@@ -20,6 +21,11 @@
             <div th:if="${dauerAuftragGespeichert}">
                 <div class="alert alert-success ">
                     Der Dauerauftrag wurde erfolgreich gespeichert.
+                </div>
+            </div>
+            <div th:if="${dauerAuftragStorniert}">
+                <div class="alert alert-success ">
+                    Der Dauerauftrag wurde erfolgreich storniert.
                 </div>
             </div>
             <div th:if="${kontoBuchungDurchgefuehrt}">
@@ -52,8 +58,8 @@
                     Die KontoEröffnung wurde erfolgreich durchgeführt. Aufträge wurden ggf. bearbeitet.
                 </div>
             </div>
-            <div class="row justify-content-md-center">
-                <div class="col-10 pt-4">
+            <div class="row justify-content-center">
+                <div class="col-sm-12 col-xl-10 pt-4">
 
 
                     <div class="accordion" id="accordionKontoBearbeitung"  >
@@ -76,7 +82,7 @@
                                             <span th:classappend="${kunde.hasAcceptedAGB ? 'text-success' : 'text-danger'}" th:text="${kunde.hasAcceptedAGB ? 'AGB' : 'AGB fehlt'}"></span>
                                         </div>
                                     </div>
-                                    <div class="col-md">
+                                    <div class="col">
                                         <div class="text-right text-secondary mp-0 small" th:text="${'Adresse: ' + kunde.adresse.strasse}"></div>
                                         <div class="text-right text-secondary mp-0 small" th:text="${kunde.adresse.plz + ' ' + kunde.adresse.ort + ', ' + kunde.adresse.land}"></div>
                                     </div>
@@ -86,11 +92,10 @@
                             <div class="collapse" data-parent="#accordionKontoBearbeitung" id="collapseKontoBearbeitung" aria-labelledby="headingKontoBearbeitung" >
                                 <div class="card-body">
                                     <div class="row">
-                                        <div class="col-sm-5">
+                                        <div class="col">
                                             <h2>Status Übersicht</h2>
                                         </div>
                                     </div>
-                                    @{/mitarbeiter/kunde/kredit/konto/saveKreditKontoDetailPage}
                                     <form th:action="${konto.getClass().getSimpleName() == 'SparKonto'} ? @{/mitarbeiter/kunde/sparen/konto/saveSparKontoDetailPage} : (${konto.getClass().getSimpleName() == 'KreditKonto'} ? @{/mitarbeiter/kunde/kredit/konto/saveKreditKontoDetailPage} : @{/mitarbeiter/kunde/giro/konto/saveGiroKontoDetailPage})"
                                           method="POST" th:object="${konto}">
                                         <input type="hidden" th:field="*{id}">
@@ -120,7 +125,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="form row">
+                                        <div class="form-row">
                                             <div class="form-group col-8">
                                                 <button type="submit" class="btn btn-info">Speichern</button>
                                             </div>
@@ -135,10 +140,10 @@
 
 
 
-                <div class="col-10 pt-4">
-                    <div class="accordion" id="accordionKonto"  >
+                <div class=" col-sm-12 col-xl-10 pt-4">
+                    <div class="accordion" id="accordionKonto">
                         <div class="card">
-                            <div class="card-header" id="headingKonto" >
+                            <div class="card-header" id="headingKonto">
                                 <div class="row">
                                     <div class="col-3 pl-0">
                                         <h2 class="mb-0">
@@ -171,11 +176,11 @@
                             </div>
                             <div class="collapse" data-parent="#accordionKonto" id="collapseKonto" aria-labelledby="headingKonto" >
                                 <div class="card-body">
-                                    <div class="table-responsive">
+<!--                                    <div class="table-responsive">-->
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
-                                                    <div class="col-sm-5">
+                                                    <div class="col">
                                                         <h2>Buchungs Übersicht</h2>
                                                     </div>
                                                 </div>
@@ -203,18 +208,19 @@
                                                     </tr>
                                                     </tbody>
                                                 </table>
+                                            <div th:if="${#lists.isEmpty(konto.kontoBuchungList)} " class="mb-2 pl-4">Derzeit keine Buchungen am Konto!</div>
                                             <hr class="my-1">
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+<!--                    </div>-->
                 </div>
 
 
 
-                <div class="col-10 pt-4">
+                <div class=" col-sm-12 col-xl-10 pt-4">
                     <div class="accordion" id="accordionZahlungsAuftrag"  >
                         <div class="card">
                             <div class="card-header" id="headingZahlungsAuftrag" >
@@ -256,11 +262,11 @@
 
                             <div class="collapse" data-parent="#accordionZahlungsAuftrag" id="collapseZahlungsAuftrag" aria-labelledby="headingZahlungsAuftrag" >
                                 <div class="card-body">
-                                    <div class="table-responsive">
+<!--                                    <div class="table-responsive">-->
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
-                                                    <div class="col-sm-5">
+                                                    <div class="col">
                                                         <h2>ZahlungsAuftrags Übersicht</h2>
                                                     </div>
                                                 </div>
@@ -269,7 +275,6 @@
                                             <table class="table table-striped table-hover">
                                                 <thead>
                                                 <tr>
-                                                    <th>AnlageDatum</th>
                                                     <th>AuftragsDatum</th>
                                                     <th>AuftragsArt</th>
                                                     <th>AuftragsStatus</th>
@@ -280,7 +285,6 @@
                                                 </thead>
                                                 <tbody>
                                                 <tr th:each="zahlungsAuftrag : ${konto.kontoZahlungsAuftragList}">
-                                                    <td th:text="${#temporals.format(zahlungsAuftrag.datAnlage, 'dd.MM.yyyy HH:mm:ss')}">Datum</td>
                                                     <td th:text="${#temporals.format(zahlungsAuftrag.auftragsDatum, 'dd.MM.yyyy')}">Datum</td>
                                                     <td th:text="${zahlungsAuftrag.auftragsArt}">Art</td>
                                                     <td th:switch="${zahlungsAuftrag.auftragsStatus}">
@@ -295,17 +299,18 @@
                                                 </tr>
                                                 </tbody>
                                             </table>
+                                            <div th:if="${#lists.isEmpty(konto.kontoZahlungsAuftragList)} " class="mb-2 pl-4">Derzeit keine Zahlungsaufträge gespeichert!</div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+<!--                </div>-->
 
 
 
-                <div class="col-10 pt-4">
+                <div class=" col-sm-12 col-xl-10 pt-4">
                     <div class="accordion" id="accordionDauerAuftrag"  >
                         <div class="card">
                             <div class="card-header" id="headingDauerAuftrag" >
@@ -337,11 +342,11 @@
 
                             <div class="collapse" data-parent="#accordionDauerAuftrag" id="collapseDauerAuftrag" aria-labelledby="headingDauerAuftrag" >
                                 <div class="card-body">
-                                    <div class="table-responsive">
+<!--                                    <div class="table-responsive">-->
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
-                                                    <div class="col-sm-5">
+                                                    <div class="col">
                                                         <h2>DauerAuftrags Übersicht</h2>
                                                     </div>
                                                 </div>
@@ -355,6 +360,7 @@
                                                     <th>AuftragsArt</th>
                                                     <th>AuftragsStatus</th>
                                                     <th>Betrag</th>
+                                                    <th>Aktion</th>
                                                 </tr>
                                                 </thead>
                                                 <tbody>
@@ -368,6 +374,11 @@
                                                         <span th:text="${dauerAuftrag.auftragsStatus.getDisplayName()}">Status</span>
                                                     </td>
                                                     <td th:text="${#numbers.formatDecimal(dauerAuftrag.betrag, 1, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(dauerAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
+                                                    <td>
+                                                        <a th:href="@{/mitarbeiter/kunde/konto/showDauerAuftragForm(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class="btn btn-info btn-sm">Update</a>
+                                                        |
+                                                        <a th:href="@{/mitarbeiter/kunde/konto/storniereDauerAuftrag(kontoId=${konto.id},dauerAuftragId=${dauerAuftrag.id})}" class = "btn btn-danger btn-sm" onclick="if (!(confirm('Möchten Sie den Dauerauftrag wirklich stornieren?'))) return false">Delete</a>
+                                                    </td>
                                                 </tr>
                                                 </tbody>
                                             </table>
@@ -380,7 +391,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+<!--        </div>-->
     </main>
 </div>
 </body>

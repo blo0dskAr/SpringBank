@@ -10,19 +10,20 @@
 <body>
     <div layout:fragment="content">
         <main>
-            <div class="container-fluid px-0">
-                <h1> AntragDetail - Sparkonto </h1>
-                <div class="row justify-content-md-center">
-                    <div class="col-10 pt-4">
+            <h3 class="pt-3 pl-3">AntragDetail - SparkontoAntrag</h3>
+            <hr>
+            <div class="container-fluid">
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                         <form method="POST" th:action="@{/kunde/banking/sparen/saveSparAntragDetailPage}" th:object="${sparkontoantrag}" id="registerForm">
                             <input type="hidden" th:field="*{id}" />
                             <div class="form-row">
-                                <div class="form-group col-md-10">
+                                <div class="form-group col-sm-12">
                                     <h4>SparkontoAntrag-Daten</h4>
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-sm-6">
                               <span class="text-danger"
                                     th:if="${#fields.hasErrors('antragDatum')}"
                                     th:errors="*{antragDatum}">antragDatum Error
@@ -30,7 +31,7 @@
                                     <label for="antragDatum">Antrags-Datum:</label>
                                     <input type="text" class="form-control" id="antragDatum" name="antragDatum" placeholder="antragDatum" th:field="*{antragDatum}" th:value="${#temporals.format(antragDatum, 'dd.MM.yyyy HH:mm:ss')}" readonly>
                                 </div>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-sm-6">
                             <span class="text-danger"
                                   th:if="${#fields.hasErrors('antragStatus')}"
                                   th:errors="*{antragStatus}">antragStatus Error</span>
@@ -39,14 +40,14 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('erstAuftrag')}"
                                       th:errors="*{erstAuftrag}">erstAuftrag Error</span>
                                     <label for="erstAuftrag">Erst Auftrag:</label>
                                     <input type="text" class="form-control" id="erstAuftrag" name="erstAuftrag" placeholder="erstAuftrag" th:field="*{erstAuftrag}" th:readonly="${sparkontoantrag.antragStatus != T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}">
                                 </div>
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-sm-6">
                                 <span class="text-danger"
                                       th:if="${#fields.hasErrors('dauerAuftrag')}"
                                       th:errors="*{dauerAuftrag}">dauerAuftrag Error</span>
@@ -55,14 +56,14 @@
                                 </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-md-5">
+                                <div class="form-group col-sm-6">
                                      <span class="text-danger"
                                            th:if="${#fields.hasErrors('kundennummer')}"
                                            th:errors="*{kundennummer}">kundennummer Error</span>
                                     <label for="kundennummer">Kundennummer:</label>
                                     <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:field="*{kundennummer}" readonly>
                                 </div>
-                                <div class="form-group col-md-5 pt-4 justify-content-around">
+                                <div class="form-group col-sm-6 pt-4 justify-content-around">
                                     <a th:href="@{/kunde/banking/index}"
                                        class = "btn btn-success" >
                                         Zurück

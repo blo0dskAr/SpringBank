@@ -32,7 +32,7 @@ public class ZahlungsAuftrag {
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
   @FutureOrPresent
-  @NotNull
+  @NotNull(message = "Darf nicht leer sein")
   private LocalDate auftragsDatum;
   private LocalDateTime datAnlage;
   private LocalDateTime datAend;

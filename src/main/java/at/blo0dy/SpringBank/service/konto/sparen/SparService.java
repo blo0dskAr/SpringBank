@@ -1,11 +1,7 @@
 package at.blo0dy.SpringBank.service.konto.sparen;
 
-import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoRepository;
-import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
-import at.blo0dy.SpringBank.model.konto.Konto;
+
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
-import at.blo0dy.SpringBank.model.person.kunde.Kunde;
-import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerVorlage;
 import at.blo0dy.SpringBank.model.produkt.sparen.SparZinsRechnerErgebnis;
@@ -26,7 +22,7 @@ public interface SparService {
   public void deleteById(Long theId);
 
   // das liegt mir noch immer im magen
-  double getZinssatz();
+//  double getZinssatz();
 
   List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 
@@ -43,4 +39,5 @@ public interface SparService {
   List<AdvancedSparZinsRechnerErgebnis> getAdvancedSparZinsRechnerErgebnis(AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage);
 
   int countAktiveKontenByKundeId(Long kundeId);
+
 }

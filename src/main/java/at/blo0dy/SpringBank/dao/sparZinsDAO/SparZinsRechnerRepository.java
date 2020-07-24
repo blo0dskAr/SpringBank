@@ -10,9 +10,6 @@ import java.util.List;
 
 public interface SparZinsRechnerRepository {
 
-//  public double getZinssatz();
-
-//  SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(LocalDate datum, double betrag) ;
 
   SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage) ;
 

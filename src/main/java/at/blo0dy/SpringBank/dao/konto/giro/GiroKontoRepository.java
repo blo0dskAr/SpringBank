@@ -35,11 +35,11 @@ public interface GiroKontoRepository extends JpaRepository<GiroKonto, Long> {
 
   GiroKonto findByKontonummer(long kontonummer);
 
-  @Modifying
+/*  @Modifying
   @Query(value = "update girokonto gko set " +
           " gko.ueberziehungs_rahmen = ?2 " +
           "  where gko.id = ?1", nativeQuery = true)
-  void UpdateUeberziehungsRahmenByKontoId(Long kontoId, BigDecimal rahmen);
+  void UpdateUeberziehungsRahmenByKontoId(Long kontoId, BigDecimal rahmen);*/
 
   @Query(value = "select count(*) from girokonto gko, konto ko " +
           " where gko.id = ko.id" +

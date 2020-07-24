@@ -21,14 +21,14 @@ public class GiroServiceImpl implements GiroService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<GiroKonto> findAll() {
     // ich schätz das werd ich so modifizieren müssen, dass er nur seine eigene ID's findet?
     return giroKontoRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public GiroKonto findById(Long theId) {
     Optional<GiroKonto> result = giroKontoRepository.findById(theId);
     GiroKonto giroKonto;
@@ -38,42 +38,43 @@ public class GiroServiceImpl implements GiroService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(GiroKonto giroKonto) {
     giroKontoRepository.save(giroKonto);
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     giroKontoRepository.deleteById(theId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<GiroKonto> findGiroKontenByKundennummer(String kundennummer) {
     return giroKontoRepository.findGiroKontenByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<String> findKontoNummerOffenerGiroKontenByKundennummer(String kundennummer) {
     return giroKontoRepository.findKontoNummerOffenerGiroKontenByKundennummer(kundennummer) ;
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public GiroKonto findGiroKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer) {
     return giroKontoRepository.findGiroKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public GiroKonto findByKontonummer(Long kontonummer) {
     return giroKontoRepository.findByKontonummer(kontonummer);
   }
 
   @Override
+  @Transactional(readOnly = true)
   public int countAktiveKontenByKundeId(Long kundeId) {
     return giroKontoRepository.countAktiveKontenByKundeId(kundeId);
   }

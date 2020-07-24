@@ -9,31 +9,38 @@
 <body>
     <div layout:fragment="content">
         <main>
+            <h3 class="pt-3 pl-3">Sparkonto - Neuer Antrag</h3>
+            <hr>
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-8">
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
                         <form method="POST" th:action="@{/kunde/banking/sparen/register}" th:object="${sparkontoantrag}" id="registerForm">
-                            <h1> Register - SparKonto </h1>
                             <div class="form-row">
-                                <div class="form-group col-md-12">
+                                <div class="form-group col-sm-12">
                                     <div class="text-danger"
                                          th:if="${#fields.hasErrors('erstAuftrag')}"
                                          th:errors="*{erstAuftrag}">erstAuftrag Error</div>
                                     <label for="erstAuftrag">ErstAuftrag einrichten: </label>
                                     <input type="text" class="form-control" id="erstAuftrag" name="erstAuftrag" th:field="*{erstAuftrag}" placeholder="5.000,00 €"/>
                                 </div>
-                                <div class="text-danger"
-                                     th:if="${#fields.hasErrors('dauerAuftrag')}"
-                                     th:errors="*{dauerAuftrag}">dauerAuftrag Error</div>
-                                <div class="form-group col-md-12">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
+                                    <div class="text-danger"
+                                         th:if="${#fields.hasErrors('dauerAuftrag')}"
+                                         th:errors="*{dauerAuftrag}">dauerAuftrag Error</div>
                                     <label for="dauerAuftrag">Dauerauftrag einrichten: </label>
                                     <input type="text" class="form-control" id="dauerAuftrag" name="dauerAuftrag" th:field="*{dauerAuftrag}" placeholder="250,00 €"/>
                                 </div>
-                                <div class="form-group col-md-12">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
                                     <label for="kundennummer">Kundennummer: </label>
                                     <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kundennummer}" readonly/><br>
                                 </div>
-                                <div class="form-group col-md-12">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-sm-12">
                                     <input type="submit" class="btn btn-primary" value="Konto eröffnen!" />
                                 </div>
                             </div>

@@ -3,8 +3,8 @@
       xmlns:th="http://www.thymeleaf.org"
 
       layout:decorate="~{mainlayout.html}">
-
-<title>SparKontoDetail Page</title>
+<head>
+    <title>SparKontoDetail Page</title>
 </head>
 
 <body>
@@ -20,11 +20,9 @@
             </div>
             <div class="row justify-content-center">
                 <div class="col-sm-12 col-md-10 col-lg-8 col-xl-6 pt-4">
-
                     <form method="POST" th:action="@{/mitarbeiter/kunde/person/saveKundeDetailPage}" id="registerForm" th:object="${kunde}">
                         <input type="hidden" th:field="${kunde.id}" />
                         <input type="hidden" th:field="${kunde.adresse.id}" />
-
                         <div class="form-row">
                             <div class="form-group col-sm-12">
                                 <span class="text-danger"
@@ -34,9 +32,6 @@
                                 <input type="text" id="kundennummer" class="form-control" name="kundennummer" th:field="*{kundennummer}" readonly/>
                             </div>
                         </div>
-
-
-
                         <div class="form-row">
                             <div class="form-group col-sm-6">
                                      <span class="text-danger"

@@ -8,10 +8,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -45,6 +46,29 @@ public class BankingKreditAntragController {
     model.addAttribute("kreditkontoantrag", kreditKontoAntrag);
 
     return "kunde/banking/kredit/antrag-detail";
+  }
+
+
+  @PostMapping("/saveKreditAntragDetailPage")
+  public String saveKreditAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
+                                            @Valid @ModelAttribute("kreditkontoantrag") KreditKontoAntrag kreditKontoAntrag, BindingResult result,
+                                            RedirectAttributes redirectAttrs) {
+
+    String authKundennummer = authentication.getName();
+
+    if (result.hasErrors()) {
+      log.warn("Fehler beim speichern eines KreditkontoAntrags für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
+      model.addAttribute("kreditkontoantrag", kreditKontoAntrag);
+
+      return "kunde/banking/kredit/antrag-detail";
+    }
+
+    log.debug("KreditkontoAntrag: " +  kreditKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
+    kreditKontoAntragService.save(kreditKontoAntrag);
+    log.debug("KreditkontoAntrag: " +  kreditKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );
+
+    redirectAttrs.addFlashAttribute("antragGespeichert", true);
+    return "redirect:/kunde/banking/index";
   }
 
 }

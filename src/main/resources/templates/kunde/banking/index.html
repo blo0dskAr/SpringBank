@@ -16,9 +16,9 @@
 <body>
     <div layout:fragment="content">
         <main>
-            <h3 class="pt-3 pl-3">Banking - Index</h3>
-            <hr>
-            <div class="container-fluid mt-4">
+            <div class="container-fluid mt-1">
+                <h3 class="pt-3 pl-3">Banking - Index</h3>
+                <hr>
                 <div th:if="${antragGespeichert}">
                     <div class="alert alert-info ">
                         Ihr Antrag wurde gespeichert. Der Status kann nun in Ihren Anträgen eingesehen werden.
@@ -35,11 +35,11 @@
                     </div>
                 </div>
 
-                <div class="row border justify-content-md-center ">
-                    <div class="col">
-                        <div class="accordion" id="accordion1"  >
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-xl-10">
+                        <div class="accordion" id="accordion1">
                             <div class="card">
-                                <div class="card-header" id="heading1" >
+                                <div class="card-header" id="heading1">
                                     <div class="row">
                                         <div class="col-3 pl-0">
                                             <h2 class="mb-0">
@@ -57,67 +57,79 @@
                                                 <span th:classappend="${kunde.hasAcceptedAGB ? 'text-success' : 'text-danger'}" th:text="${kunde.hasAcceptedAGB ? 'AGB' : 'AGB fehlt'}"></span>
                                             </div>
                                         </div>
-                                        <div class="col-md">
+                                        <div class="col">
                                             <div class="text-right text-secondary mp-0 small" th:text="${'Adresse: ' + kunde.adresse.strasse}"></div>
                                             <div class="text-right text-secondary mp-0 small" th:text="${kunde.adresse.plz + ' ' + kunde.adresse.ort + ', ' + kunde.adresse.land}"></div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="collapse" data-parent="#accordion1" id="collapse1" aria-labelledby="heading1" >
-                                    <div class="card-body">
+                                    <div class="card-body justify-content-center ">
                                         <div class="form-row">
-                                            <div class="form-group col-md-12">
+                                            <div class="form-group col-sm-12">
                                                 <h4>Kunden-Daten</h4>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-6">
                                                   <label for="vorname">Vorname</label>
                                                 <input type="text" class="form-control" id="vorname" name="vorname" placeholder="Vorname" th:value="${kunde.vorname}" readonly>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-sm-6">
                                                 <label for="nachname">Nachname</label>
                                                 <input type="text" class="form-control" id="nachname" name="nachname" placeholder="Nachname" th:value="${kunde.nachname}" readonly>
                                             </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-sm-6">
                                                 <label for="geburtsDatum">Geburtsdatum: </label>
                                                 <input type="date" class="form-control" id="geburtsDatum" name="geburtsDatum" th:value="${kunde.geburtsDatum}" readonly>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-sm-6">
                                                 <label for="strasse">Straße</label>
                                                 <input type="text" class="form-control" id="strasse" name="strasse" placeholder="Tralastraße 15/5" th:value="${kunde.adresse.strasse}" readonly>
                                             </div>
                                         </div>
                                         <div class="form-row">
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-sm-6">
                                                 <label for="ort">Ort</label>
                                                 <input type="text" class="form-control" id="ort" name="ort" th:value="${kunde.adresse.ort}" readonly>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-sm-6">
                                                 <label for="land">PLZ</label>
                                                 <input type="text" class="form-control" id="land" name="land" th:value="${kunde.adresse.land}" readonly>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-6">
                                                 <label for="plz">Land</label>
                                                 <input type="text" class="form-control" id="plz" name="plz" th:value="${kunde.adresse.plz}" readonly>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                            <div class="form-group col-sm-6">
                                                 <label for="kundennummer">Kundennummer</label>
                                                 <input type="text" class="form-control" id="kundennummer" name="kundennummer" th:value="${kunde.kundennummer}" readonly>
                                             </div>
-                                            <div class="form-group col-md-12">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-12">
                                                 <label for="telefonnummer">Telefonnummer</label>
                                                 <input type="text" class="form-control" id="telefonnummer" name="telefonnummer" th:value="${kunde.telefonNummer}" readonly>
                                             </div>
-                                            <div class="form-group col-md-12">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-12">
                                                 <label for="emailAdresse">Email-Adresse</label>
                                                 <input type="text" class="form-control" id="emailAdresse" name="emailAdresse" th:value="${kunde.emailAdresse}" readonly>
                                             </div>
-                                            <div class="form-group col-md-6">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-12">
                                                 <label for="connectedGiro">Verbundenes Giro:</label>
                                                 <input type="text" class="form-control" id="connectedGiro" name="connectedGiro" th:value="${kunde.connectedGiro}" readonly>
                                             </div>
-                                            <div class="form-group col-md-12">
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-sm-12">
                                                 <a th:href="@{/kunde/banking/kunde-detailpage}"
                                                    class="btn btn-info btn-sm">
                                                     Ihre Daten bearbeiten
@@ -132,11 +144,11 @@
                 </div>
             </div>
             <div class="container-fluid mt-4">
-                <div class="row border justify-content-md-center">
-                    <div class="col">
-                        <div class="accordion" id="accordion2"  >
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-xl-10">
+                        <div class="accordion" id="accordion2">
                             <div class="card">
-                                <div class="card-header" id="heading2" >
+                                <div class="card-header" id="heading2">
                                     <div class="row">
                                         <div class="col-3 pl-0">
                                             <h2 class="mb-0">
@@ -157,84 +169,80 @@
                                 </div>
                                 <div class="collapse" data-parent="#accordion2" id="collapse2" aria-labelledby="heading2" >
                                     <div class="card-body">
-                                        <div class="table-responsive">
-                                            <div class="table-wrapper">
-                                                <div class="table-title">
-                                                    <div class="row">
-                                                        <div class="col-sm-5">
-                                                            <h2>Antrags Übersicht</h2>
-                                                        </div>
-<!--                                                            <div class="col-sm-7">
-                                                                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE147;</i> <span>Add New User</span></a>
-                                                                <a href="#" class="btn btn-secondary"><i class="material-icons">&#xE24D;</i> <span>Export to Excel</span></a>
-                                                            </div>-->
+<!--                                        <div class="table-responsive">-->
+                                        <div class="table-wrapper">
+                                            <div class="table-title">
+                                                <div class="row">
+                                                    <div class="col-sm-5">
+                                                        <h2>Antrags Übersicht</h2>
                                                     </div>
                                                 </div>
-                                                <table class="table table-striped table-hover">
-                                                    <thead>
-                                                    <tr>
-                                                        <th>#</th>
-                                                        <th>Produkt</th>
-                                                        <th>Antrag-Datum</th>
-                                                        <th>Antrag-Status</th>
-                                                        <th>Details</th>
-                                                    </tr>
-                                                    </thead>
-                                                    <tbody>
-                                                    <tr th:each="sparkontoantrag : ${sparkontoantragliste}">
-                                                        <td th:text="${sparkontoantrag.id}"><a href="#">345</a></td>
-                                                        <td th:text="${sparkontoantrag.getClass().getSimpleName()}">AntragTyp</td>
-                                                        <td th:text="${#temporals.format(sparkontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
-                                                        <td th:switch="${sparkontoantrag.antragStatus}" >
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                                                            <span th:text="${sparkontoantrag.antragStatus}">AntragStatus</span>
-                                                        </td>
-                                                        <td>
-                                                            <a th:href="@{/kunde/banking/sparen/showSparAntragDetailPage(antragId=${sparkontoantrag.id})}"
-                                                               class="btn btn-info btn-sm">
-                                                                Details
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr th:each="kreditkontoantrag : ${kreditkontoantragliste}">
-                                                        <td th:text="${kreditkontoantrag.id}"><a href="#">345</a></td>
-                                                        <td th:text="${kreditkontoantrag.getClass().getSimpleName()}">AntragTyp</td>
-                                                        <td th:text="${#temporals.format(kreditkontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
-                                                        <td th:switch="${kreditkontoantrag.antragStatus}" >
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                                                            <span th:text="${kreditkontoantrag.antragStatus}">AntragStatus</span>
-                                                        </td>
-                                                        <td>
-                                                            <a th:href="@{/kunde/banking/kredit/showKreditAntragDetailPage(antragId=${kreditkontoantrag.id})}"
-                                                               class="btn btn-info btn-sm">
-                                                                Details
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    <tr th:each="girokontoantrag : ${girokontoantragliste}">
-                                                        <td th:text="${girokontoantrag.id}"><a href="#">345</a></td>
-                                                        <td th:text="${girokontoantrag.getClass().getSimpleName()}">AntragTyp</td>
-                                                        <td th:text="${#temporals.format(girokontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
-                                                        <td th:switch="${girokontoantrag.antragStatus}">
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
-                                                            <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                                                            <span th:text="${girokontoantrag.antragStatus}">AntragStatus</span>
-                                                        </td>
-                                                        <td>
-                                                            <a th:href="@{/kunde/banking/giro/showGiroAntragDetailPage(antragId=${girokontoantrag.id})}"
-                                                               class="btn btn-info btn-sm">
-                                                                Details
-                                                            </a>
-                                                        </td>
-                                                    </tr>
-                                                    </tbody>
-                                                </table>
-                                                <div th:if="${#lists.isEmpty(girokontoantragliste) && #lists.isEmpty(sparkontoantragliste) && #lists.isEmpty(kreditkontoantragliste)} " class="mb-2 pl-4">Derzeit keine Anträge gespeichert!</div>
+                                            </div>
+                                            <table class="table table-striped table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th>#</th>
+                                                    <th>Produkt</th>
+                                                    <th>Antrag-Datum</th>
+                                                    <th>Antrag-Status</th>
+                                                    <th>Details</th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                <tr th:each="sparkontoantrag : ${sparkontoantragliste}">
+                                                    <td th:text="${sparkontoantrag.id}"><a href="#">345</a></td>
+                                                    <td th:text="${sparkontoantrag.getClass().getSimpleName()}">AntragTyp</td>
+                                                    <td th:text="${#temporals.format(sparkontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
+                                                    <td th:switch="${sparkontoantrag.antragStatus}" >
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
+                                                        <span th:text="${sparkontoantrag.antragStatus}">AntragStatus</span>
+                                                    </td>
+                                                    <td>
+                                                        <a th:href="@{/kunde/banking/sparen/showSparAntragDetailPage(antragId=${sparkontoantrag.id})}"
+                                                           class="btn btn-info btn-sm">
+                                                            Details
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr th:each="kreditkontoantrag : ${kreditkontoantragliste}">
+                                                    <td th:text="${kreditkontoantrag.id}"><a href="#">345</a></td>
+                                                    <td th:text="${kreditkontoantrag.getClass().getSimpleName()}">AntragTyp</td>
+                                                    <td th:text="${#temporals.format(kreditkontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
+                                                    <td th:switch="${kreditkontoantrag.antragStatus}" >
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
+                                                        <span th:text="${kreditkontoantrag.antragStatus}">AntragStatus</span>
+                                                    </td>
+                                                    <td>
+                                                        <a th:href="@{/kunde/banking/kredit/showKreditAntragDetailPage(antragId=${kreditkontoantrag.id})}"
+                                                           class="btn btn-info btn-sm">
+                                                            Details
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr th:each="girokontoantrag : ${girokontoantragliste}">
+                                                    <td th:text="${girokontoantrag.id}"><a href="#">345</a></td>
+                                                    <td th:text="${girokontoantrag.getClass().getSimpleName()}">AntragTyp</td>
+                                                    <td th:text="${#temporals.format(girokontoantrag.antragDatum, 'dd.MM.yyyy HH:mm:ss')}">AntragDatum</td>
+                                                    <td th:switch="${girokontoantrag.antragStatus}">
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
+                                                        <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
+                                                        <span th:text="${girokontoantrag.antragStatus}">AntragStatus</span>
+                                                    </td>
+                                                    <td>
+                                                        <a th:href="@{/kunde/banking/giro/showGiroAntragDetailPage(antragId=${girokontoantrag.id})}"
+                                                           class="btn btn-info btn-sm">
+                                                            Details
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                </tbody>
+                                            </table>
+                                            <div th:if="${#lists.isEmpty(girokontoantragliste) && #lists.isEmpty(sparkontoantragliste) && #lists.isEmpty(kreditkontoantragliste)} " class="mb-2 pl-4">Derzeit keine Anträge gespeichert!</div>
                                                 <!--                                                   Pagination -->
 <!--                                                    <div class="clearfix">
                                                         <div class="hint-text">Showing <b>5</b> out of <b>25</b> entries</div>
@@ -248,7 +256,6 @@
                                                             <li class="page-item"><a href="#" class="page-link">Next</a></li>
                                                         </ul>
                                                     </div> -->
-                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -258,15 +265,15 @@
                 </div>
             </div>
             <div class="container-fluid mt-4">
-                <div class="row border justify-content-md-center">
-                    <div class="col">
-                        <div class="accordion" id="accordion3"  >
+                <div class="row justify-content-center">
+                    <div class="col-sm-12 col-xl-10">
+                        <div class="accordion" id="accordion3">
                             <div class="card">
-                                <div class="card-header" id="heading3" >
+                                <div class="card-header" id="heading3">
                                     <div class="row">
                                         <div class="col-3 pl-0">
                                             <h2 class="mb-0">
-                                                <button class="btn btn-outline-dark text-left float-left" data-target="#collapse3", aria-controls="collapse3" type="button" data-toggle="collapse" aria-expanded="true">
+                                                <button class="btn btn-outline-dark text-left float-left" data-target="#collapse3" aria-controls="collapse3" type="button" data-toggle="collapse" aria-expanded="true">
                                                     Konten einsehen.
                                                 </button>
                                             </h2>
@@ -287,7 +294,7 @@
                                 <div class="collapse" data-parent="#accordion3" id="collapse3" aria-labelledby="heading3" >
                                     <div class="card-body">
                                         <th:block th:each="sparkonto : ${sparkontenliste}">
-                                            <div class="card-header border border-light rounded mt-2">
+                                            <div class="card-header border-light rounded mt-2">
                                                 <div class="row">
                                                     <div class="col-3 pl-0">
                                                         <h2 class="mb-0">
@@ -313,7 +320,7 @@
                                             </div>
                                         </th:block>
                                         <th:block th:each="kreditkonto : ${kreditkontenliste}">
-                                            <div class="card-header border border-light rounded mt-2">
+                                            <div class="card-header border-light rounded mt-2">
                                                 <div class="row">
                                                     <div class="col-3 pl-0">
                                                         <h2 class="mb-0">
@@ -339,7 +346,7 @@
                                             </div>
                                         </th:block>
                                         <th:block th:each="girokonto : ${girokontenliste}">
-                                            <div class="card-header border border-light rounded mt-2">
+                                            <div class="card-header border-light rounded mt-2">
                                                 <div class="row">
                                                     <div class="col-3 pl-0">
                                                         <h2 class="mb-0">
@@ -366,41 +373,6 @@
                                             </div>
                                         </th:block>
                                         <div th:if="${#lists.isEmpty(sparkontenliste) && #lists.isEmpty(kreditkontenliste) && #lists.isEmpty(girokontenliste)} " class="mb-2 pl-4">Derzeit keine aktiven Konten gespeichert!</div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="container-fluid mt-4">
-                <div class="row border justify-content-md-center">
-                    <div class="col">
-                        <div class="accordion" id="accordion4"  >
-                            <div class="card">
-                                <div class="card-header" id="heading4" >
-                                    <div class="row">
-                                        <div class="col-3 pl-0">
-                                            <h2 class="mb-0">
-                                                <button class="btn btn-outline-dark text-left float-left" data-target="#collapse4", aria-controls="collapse4" type="button" data-toggle="collapse" aria-expanded="true">
-                                                    TBD blabla.
-                                                </button>
-                                            </h2>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="text-right text-secondary mp-0 small"> Inhaber: Der Herr mim Gwehr </div>
-                                            <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
-                                        </div>
-                                        <div class="col">
-                                            <div class="text-right text-secondary mp-0 small"> Kontosaldo: 100.000.000,00 </div>
-                                            <div class="text-right text-secondary mp-0 small"> KontoName: dollarZgenerat0r </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="collapse" data-parent="#accordion4" id="collapse4" aria-labelledby="heading4" >
-                                    <div class="card-body">
-                                        Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
                                     </div>
                                 </div>
                             </div>

@@ -3,7 +3,6 @@ package at.blo0dy.SpringBank.service.rolle;
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface RolleService {

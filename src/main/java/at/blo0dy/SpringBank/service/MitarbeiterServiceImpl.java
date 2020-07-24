@@ -91,7 +91,7 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
   @Transactional
   public void updatePasswordByMitarbeiterId(Long mitarbeiterId, String encodedPassword) {
     Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(mitarbeiterId).get();
-    mitarbeiter.setPassword(encodedPassword);
+    mitarbeiter.getLoginCredentials().setPassword(encodedPassword);
 
 //    mitarbeiterRepository.updatePasswordByMitarbeiterId(mitarbeiterId, encodedPassword);
   }

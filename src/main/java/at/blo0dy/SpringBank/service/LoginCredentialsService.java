@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface LoginCredentialsService {
 
-  public List<LoginCredentials> findAll();
+  List<LoginCredentials> findAll();
 
-  public LoginCredentials findById(Long theId);
+  LoginCredentials findById(Long theId);
 
-  public void save(LoginCredentials loginCredentials);
+  void save(LoginCredentials loginCredentials);
 
-  public void deleteById(Long theId);
+  void deleteById(Long theId);
 
 
 

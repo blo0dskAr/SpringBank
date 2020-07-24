@@ -32,10 +32,10 @@ public class Mitarbeiter extends Person {
   @NotBlank(message = "Position must be defined.")
   private String position;
 
-  @OneToMany(mappedBy = "mitarbeiter",
+  @OneToOne(mappedBy = "mitarbeiter",
          // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
           cascade = {CascadeType.ALL})
-  private List<LoginCredentials> loginCredentials;
+  private LoginCredentials loginCredentials;
 
   @Override
   public Long getId() {
@@ -70,20 +70,21 @@ private List<Rolle> rollen = new ArrayList<>();
   }
 
   // Custom Methods
-  // ööhh .. wo kommt das her ? :) verwend ich das ? =)
   public void addRolle(Rolle rolle) {
     rollen.add(rolle);
   }
 
+/*
   public String  getLoginName() {
-    return loginCredentials.get(1).getLoginName();
-  }
+    return loginCredentials.getLoginName();
+  }*/
+
 
   public String  getPassword() {
-    return loginCredentials.get(0).getPassword() ;
+    return loginCredentials.getPassword() ;
   }
 
-  public void setPassword(String encodedPassword) { this.setPassword(encodedPassword);}
+//  public void setPassword(String encodedPassword) { this.}
 
 }
 

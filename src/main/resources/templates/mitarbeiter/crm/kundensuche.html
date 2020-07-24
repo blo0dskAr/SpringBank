@@ -43,7 +43,7 @@
                             <th>Kundennummer</th>
                             <th>Vorname</th>
                             <th>NachName</th>
-                            <th>GeburtsdatumFake</th>
+                            <th>Geburtsdatum</th>
                             <th>Adresse</th>
                             <th>Status</th>
                             <th>Details</th>
@@ -54,7 +54,7 @@
                             <td th:text="${kunde.kundennummer}">kundennummer</td>
                             <td th:text="${kunde.vorname}">vorname</td>
                             <td th:text="${kunde.nachname}">nachname</td>
-                            <td th:text="'01.01.1970'">FakeGebDatum</td>
+                            <td th:text="${kunde.geburtsDatum}">FakeGebDatum</td>
                             <td th:text="${kunde.adresse}">Adresse</td>
                             <td>
                                 <small>

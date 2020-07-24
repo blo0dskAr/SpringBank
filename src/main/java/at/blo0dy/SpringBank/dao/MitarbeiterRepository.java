@@ -24,9 +24,9 @@ public interface MitarbeiterRepository extends JpaRepository<Mitarbeiter, Long> 
                     " and l.login_name = ?1  ", nativeQuery = true)
   Mitarbeiter findByUsername(String tmpUser);
 
-  @Modifying
-  @Query(value = "update login_credentials lc set " +
-                       " lc.password =  ?2" +
-                  " where lc.mitarbeiter_id = ?1 ",nativeQuery = true)
-  void updatePasswordByMitarbeiterId(Long mitarbeiterId, String encodedPassword);
+//  @Modifying
+//  @Query(value = "update login_credentials lc set " +
+//                       " lc.password =  ?2" +
+//                  " where lc.mitarbeiter_id = ?1 ",nativeQuery = true)
+//  void updatePasswordByMitarbeiterId(Long mitarbeiterId, String encodedPassword);
 }

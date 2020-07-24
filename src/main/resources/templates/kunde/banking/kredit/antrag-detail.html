@@ -52,7 +52,7 @@
                                       th:if="${#fields.hasErrors('zinssatz')}"
                                       th:errors="*{zinssatz}">zinssatz Error</span>
                                     <label for="zinssatz">Zinssatz:</label>
-                                    <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="zinssatz" th:field="*{zinssatz}" th:readonly="${kreditkontoantrag.antragStatus != T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}">
+                                    <input type="text" class="form-control" id="zinssatz" name="zinssatz" placeholder="zinssatz" th:field="*{zinssatz}" readonly>
                                 </div>
                             </div>
                             <div class="form-row">

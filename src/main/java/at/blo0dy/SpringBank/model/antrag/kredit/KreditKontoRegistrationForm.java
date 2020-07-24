@@ -33,7 +33,7 @@ public class KreditKontoRegistrationForm {
 
   public KreditKontoAntrag toKreditKontoAntrag() {
     log.debug("toKreditKontoAntrag Methode: " + this.toString());
-    return new KreditKontoAntrag(antragDatum,  AntragStatusEnum.EINGEREICHT, kreditBetrag, zinssatz, rate, laufzeit, gesamtBelastung, kundennummer, KontoProduktEnum.KREDIT);
+    return new KreditKontoAntrag(antragDatum,  AntragStatusEnum.EINGEREICHT, kreditBetrag, zinssatz.multiply(BigDecimal.valueOf(100)), rate, laufzeit, gesamtBelastung, kundennummer, KontoProduktEnum.KREDIT);
 
   }
 }

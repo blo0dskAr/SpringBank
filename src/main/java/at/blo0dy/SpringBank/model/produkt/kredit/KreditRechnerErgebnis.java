@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class KreditRechnerErgebnis {
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal kreditBetrag;
 
   @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")

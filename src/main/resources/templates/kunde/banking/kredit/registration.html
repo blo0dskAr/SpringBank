@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="zinssatz">Zinssatz: </label>
-                                    <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="${kreditrechnervorlage.zinssatz}" disabled>
+                                    <input type="text" class="form-control" id="zinssatz" name="zinssatz" th:field="*{zinssatz}" readonly>
                                 </div>
                                 <button type="submit" class="btn btn-primary" name="calculate" value="calculate">Berechnen</button>
                                 <span th:if ="${calculatedCorrectly}">
@@ -40,13 +40,13 @@
                             <h2>Ergebnis</h2>
                             <div class="form-group pt-2">
                                 <label for="kreditBetragErgebnis">KreditBetrag: </label>
-                                <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:field="${ergebnis.kreditBetrag}" disabled>
+                                <input type="text" class="form-control pt-2" id="kreditBetragErgebnis" name="kreditBetragErgebnis" th:field="${ergebnis.kreditBetrag}" readonly>
                                 <label for="zinsAnteil">Zinsen-Anteil: </label>
-                                <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:field="${ergebnis.zinsAnteil}" disabled>
+                                <input type="text" class="form-control pt-2" id="zinsAnteil" name="zinsAnteil" th:field="${ergebnis.zinsAnteil}" readonly>
                                 <label for="gesamtBelastung">Gesamtbelastung: </label>
-                                <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:field="${ergebnis.gesamtBelastung}" disabled>
+                                <input type="text" class="form-control pt-2" id="gesamtBelastung" name="gesamtBelastung" th:field="${ergebnis.gesamtBelastung}" readonly>
                                 <label for="monatlicheRate">Monatliche Rate: </label>
-                                <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:field="${ergebnis.monatlicheRate}" disabled>
+                                <input type="text" class="form-control pt-2" id="monatlicheRate" name="monatlicheRate" th:field="${ergebnis.monatlicheRate}" readonly>
                             </div>
                         </form>
                     </div>

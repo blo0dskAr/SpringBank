@@ -25,7 +25,7 @@ public class KreditUtility {
     BigDecimal zinssatz = kreditRechnerVorlage.getZinssatz();
 
     // q = p/12/100+1 (mal auf 20 nachkommastellen genau (auf 2 gerundet gibts deutliche differenzen)
-    BigDecimal q = zinssatz.divide(BigDecimal.valueOf(12), 20, RoundingMode.HALF_UP).divide(BigDecimal.valueOf(100)).add(BigDecimal.ONE);
+    BigDecimal q = zinssatz.divide(BigDecimal.valueOf(12), 20, RoundingMode.HALF_UP).add(BigDecimal.ONE);
     BigDecimal aequiZinssatz = BigDecimal.ONE.divide(q,20,RoundingMode.HALF_UP);
 
     BigDecimal monatlicheRate = kreditBetrag.multiply((aequiZinssatz.subtract(BigDecimal.ONE))).divide(aequiZinssatz.multiply(aequiZinssatz.pow(laufzeit.intValue()).subtract(BigDecimal.ONE)),2,RoundingMode.HALF_UP);

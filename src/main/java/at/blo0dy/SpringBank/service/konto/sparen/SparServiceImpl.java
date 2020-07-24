@@ -2,11 +2,7 @@ package at.blo0dy.SpringBank.service.konto.sparen;
 
 import at.blo0dy.SpringBank.dao.konto.sparen.SparKontoRepository;
 import at.blo0dy.SpringBank.dao.sparZinsDAO.SparZinsRechnerRepository;
-import at.blo0dy.SpringBank.model.enums.KontoStatusEnum;
-import at.blo0dy.SpringBank.model.konto.Konto;
-import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
-import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.model.produkt.sparen.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,13 +25,13 @@ public class SparServiceImpl implements SparService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<SparKonto> findAll() {
     return sparKontoRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public SparKonto findById(Long theId) {
     Optional<SparKonto> result = sparKontoRepository.findById(theId);
     SparKonto sparKonto;
@@ -45,13 +41,13 @@ public class SparServiceImpl implements SparService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(SparKonto sparKonto) {
     sparKontoRepository.save(sparKonto);
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     sparKontoRepository.deleteById(theId);
   }
@@ -77,31 +73,31 @@ public class SparServiceImpl implements SparService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public int countAktiveKontenByKundeId(Long kundeId) {
     return sparKontoRepository.countAktiveKontenByKundeId(kundeId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public SparKonto findSparKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer) {
     return sparKontoRepository.findSparKontoByKontonummerAndKundennummer(kontonummer, kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public SparKonto findByKontonummer(String kontonummer) {
     return sparKontoRepository.findByKontonummer(Long.valueOf(kontonummer));
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<SparKonto> findSparKontoByKundennummer(String kundennummer) {
     return sparKontoRepository.findSparKontoByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<String> findKontoNummerOffenerSparKontenByKundennummer(String kundennummer) {
     return sparKontoRepository.findKontoNummerOffenerSparKontenByKundennummer(kundennummer);
   }

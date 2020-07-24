@@ -21,14 +21,14 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<GiroKontoAntrag> findAll() {
     // TODO: ich schätz das werd ich so modifizieren müssen, dass er nur seine eigene ID's findet?
     return giroKontoAntragRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public GiroKontoAntrag findById(Long theId) {
     Optional<GiroKontoAntrag> result = giroKontoAntragRepository.findById(theId);
 
@@ -40,25 +40,25 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(GiroKontoAntrag giroKontoAntrag) {
     giroKontoAntragRepository.save(giroKontoAntrag);
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     giroKontoAntragRepository.deleteById(theId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long count() {
     return giroKontoAntragRepository.count();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long countByStatus(String statusEnum) {
     return giroKontoAntragRepository.countByStatus(statusEnum);
   }
@@ -69,20 +69,20 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<GiroKontoAntrag> findGiroAntraegeByKundennummer(String kundennummer) {
     return giroKontoAntragRepository.findGiroAntraegeByKundennummer(kundennummer);
 
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public GiroKontoAntrag findGiroAntragByAntragIdAndKundennummer(Long antragId, String kundennummer) {
     return giroKontoAntragRepository.findGiroAntragByAntragIdAndKundennummer(antragId, kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public int countEingereichteGiroAntraegeByKundennummer(String kundennummer) {
     return giroKontoAntragRepository.countEingereichteGiroAntraegeByKundennummer(kundennummer);
   }

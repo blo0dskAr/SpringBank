@@ -21,14 +21,14 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<SparKontoAntrag> findAll() {
     // ich schätz das werd ich so modifizieren müssen, dass er nur seine eigene ID's findet?
     return sparKontoAntragRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public SparKontoAntrag findById(Long theId) {
     Optional<SparKontoAntrag> result = sparKontoAntragRepository.findById(theId);
 
@@ -40,50 +40,50 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(SparKontoAntrag sparKontoAntrag) {
     sparKontoAntragRepository.save(sparKontoAntrag);
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     sparKontoAntragRepository.deleteById(theId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long count() {
     return sparKontoAntragRepository.count();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long countByStatus(String statusEnum) {
     return sparKontoAntragRepository.countByStatus(statusEnum);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<SparKontoAntrag> findByStatus(String statusEnum) {
     List<SparKontoAntrag> sparKontoAntragListe = sparKontoAntragRepository.findByStatus(statusEnum) ;
     return  sparKontoAntragListe;
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<SparKontoAntrag> findSparAntraegeByKundennummer(String kundennummer) {
     return sparKontoAntragRepository.findSparAntraegeByKundennummer(kundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public SparKontoAntrag findSparAntragByAntragIdAndKundennummer(Long antragId, String authKundennummer) {
     return sparKontoAntragRepository.findSparAntragByAntragIdAndKundennummer(antragId, authKundennummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public int countEingereichteSparAntraegeByKundennummer(String kundennummer) {
     return sparKontoAntragRepository.countEingereichteSparAntraegeByKundennummer(kundennummer);
   }

@@ -438,7 +438,6 @@ class AdminMitarbeiterControllerTest {
             .andExpect(MockMvcResultMatchers.model().hasNoErrors())
             .andReturn();
 
-    System.out.println(result.getModelAndView().getModel().toString());
     verify(mitarbeiterService, times(1)).findById(any());
     verifyNoMoreInteractions(mitarbeiterService);
 

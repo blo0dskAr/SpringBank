@@ -89,8 +89,7 @@ public class BankingSparenController {
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
-    System.out.println(request.getRequestURI());
-    System.out.println(request.getRequestURL());
+
     if (request.getRequestURI().equals("/kunde/banking/sparen/showAuszahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
     } else if (request.getRequestURI().equals("/kunde/banking/sparen/showEinzahlungsFormWithKonto")) {

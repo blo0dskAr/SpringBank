@@ -83,7 +83,6 @@ public class MitarbeiterController {
       log.debug("Neues Passwort für " + tmpUser + " kann nicht geändert werden, Seite wird neu ausgeliefert");
       model.addAttribute("changePasswordForm", changePasswordForm);
       model.addAttribute("activeLink", "changePasswordPage");
-      System.out.println(result.getAllErrors());
 
       return "mitarbeiter/changepassword-form";
     } else {

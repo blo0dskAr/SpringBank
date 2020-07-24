@@ -27,12 +27,12 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public LegiDokument findByKunde(Long kundeId) {
     return legiDokumentRepository.findByKunde(kundeId);
   }
 
-  @Transactional
+//  @Transactional
   @Override
   public LegiDokument saveFile(MultipartFile file, Kunde kunde) {
     String docname = file.getOriginalFilename();
@@ -52,20 +52,20 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Optional<LegiDokument> getFile(Long fileId) {
     return legiDokumentRepository.findById(fileId);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<LegiDokument> getFiles() {
     return legiDokumentRepository.findAll();
   }
 
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<LegiDokument> getNewFiles() {
 
 
@@ -81,7 +81,7 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<LegiDokument> getSearchedFiles(LegiDokument legiDokument) {
 
     ExampleMatcher matcher = ExampleMatcher.matching()
@@ -95,7 +95,7 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public String delete(LegiDokument legiDokument) {
 
     legiDokumentRepository.delete(legiDokument);
@@ -107,7 +107,9 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   @Transactional
   public String acceptLegiDokumentById(Long legiDokumentId) {
 
-    legiDokumentRepository.acceptLegiDokumentById(legiDokumentId);
+//    legiDokumentRepository.acceptLegiDokumentById(legiDokumentId);
+    LegiDokument legiDokument = legiDokumentRepository.findById(legiDokumentId).get();
+    legiDokument.setStatus(LegiDokumentStatusEnum.BEARBEITET);
     return "successfully accepted" ;
   }
 

@@ -24,13 +24,13 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
 
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<Mitarbeiter> findAll() {
     return mitarbeiterRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Mitarbeiter findById(Long theId) {
 
     Optional<Mitarbeiter> result = mitarbeiterRepository.findById(theId);
@@ -42,33 +42,33 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(Mitarbeiter mitarbeiter) {
       mitarbeiterRepository.save(mitarbeiter);
 
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     mitarbeiterRepository.deleteById(theId);
 
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<Mitarbeiter> findMitarbeiterByVorAndNachName(String theSearchName) {
     return mitarbeiterRepository.findMitarbeiterByVorname(theSearchName);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public long count() {
     return mitarbeiterRepository.count();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public String getLatestMitarbeiterNummerPlusOne() {
 
     String neueMitarbeiternummer = mitarbeiterRepository.getLatestMitarbeiterNummerPlusOne();
@@ -81,15 +81,19 @@ public class MitarbeiterServiceImpl implements MitarbeiterService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Mitarbeiter findByUserName(String tmpUser) {
     return mitarbeiterRepository.findByUsername(tmpUser);
   }
 
+  // TODO : gut prüfen ob das geht ...
   @Override
   @Transactional
   public void updatePasswordByMitarbeiterId(Long mitarbeiterId, String encodedPassword) {
-    mitarbeiterRepository.updatePasswordByMitarbeiterId(mitarbeiterId, encodedPassword);
+    Mitarbeiter mitarbeiter = mitarbeiterRepository.findById(mitarbeiterId).get();
+    mitarbeiter.setPassword(encodedPassword);
+
+//    mitarbeiterRepository.updatePasswordByMitarbeiterId(mitarbeiterId, encodedPassword);
   }
 
 }

@@ -83,5 +83,7 @@ private List<Rolle> rollen = new ArrayList<>();
     return loginCredentials.get(0).getPassword() ;
   }
 
+  public void setPassword(String encodedPassword) { this.setPassword(encodedPassword);}
+
 }
 

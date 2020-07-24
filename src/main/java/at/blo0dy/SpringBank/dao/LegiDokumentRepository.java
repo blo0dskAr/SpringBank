@@ -13,9 +13,9 @@ public interface LegiDokumentRepository extends JpaRepository<LegiDokument, Long
   LegiDokument findByKunde(Long kundeId);
 
 
-  @Modifying
-  @Query(value = "update legi_dokument doc set " +
-                  "      doc.status = 'BEARBEITET'" +
-                 " where doc.id = ?1", nativeQuery = true)
-  void acceptLegiDokumentById(Long legiDokumentId);
+//  @Modifying
+//  @Query(value = "update legi_dokument doc set " +
+//                  "      doc.status = 'BEARBEITET'" +
+//                 " where doc.id = ?1", nativeQuery = true)
+//  void acceptLegiDokumentById(Long legiDokumentId);
 }

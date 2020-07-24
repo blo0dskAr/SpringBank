@@ -17,13 +17,13 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void saveBank(Bank bank) {
     bankRepository.save(bank);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Bank getBank() {
     return bankRepository.getOne(1L);
   }

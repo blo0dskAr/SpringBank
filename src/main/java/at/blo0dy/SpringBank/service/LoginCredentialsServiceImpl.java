@@ -21,13 +21,13 @@ public class LoginCredentialsServiceImpl implements LoginCredentialsService {
 
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<LoginCredentials> findAll() {
     return loginCredentialsRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public LoginCredentials findById(Long theId) {
 
     Optional<LoginCredentials> result = loginCredentialsRepository.findById(theId);
@@ -40,13 +40,13 @@ public class LoginCredentialsServiceImpl implements LoginCredentialsService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(LoginCredentials loginCredentials) {
     loginCredentialsRepository.save(loginCredentials);
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     loginCredentialsRepository.deleteById(theId);
 

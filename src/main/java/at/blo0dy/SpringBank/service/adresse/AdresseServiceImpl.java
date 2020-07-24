@@ -21,13 +21,13 @@ public class AdresseServiceImpl implements AdresseService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<Adresse> findAll() {
     return adresseRepository.findAll();
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Adresse findById(Long theId) {
     Optional<Adresse> result = adresseRepository.findById(theId);
 
@@ -39,14 +39,14 @@ public class AdresseServiceImpl implements AdresseService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void save(Adresse adresse) {
     adresseRepository.save(adresse) ;
 
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void deleteById(Long theId) {
     adresseRepository.deleteById(theId);
 

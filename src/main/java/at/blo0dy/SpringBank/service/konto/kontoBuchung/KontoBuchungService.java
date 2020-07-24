@@ -2,7 +2,6 @@ package at.blo0dy.SpringBank.service.konto.kontoBuchung;
 
 
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
-import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 
 import java.math.BigDecimal;
 import java.util.List;

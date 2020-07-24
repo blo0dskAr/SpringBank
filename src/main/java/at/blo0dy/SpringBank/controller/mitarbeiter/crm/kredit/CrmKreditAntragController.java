@@ -166,7 +166,7 @@ public class CrmKreditAntragController {
       }
     }
 
-    return "redirect:/mitarbeiter/kunde/kredit/antrag";
+    return "redirect:/mitarbeiter/kunde/kredit/antragBearbeitung";
   }
 
 

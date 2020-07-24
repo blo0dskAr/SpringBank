@@ -1,17 +1,13 @@
 package at.blo0dy.SpringBank.dao.konto.zahlungsAuftrag;
 
-import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
-import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
-import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
+
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.zv.Datentraeger;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ZahlungsAuftragRepository extends JpaRepository<ZahlungsAuftrag, Long> {

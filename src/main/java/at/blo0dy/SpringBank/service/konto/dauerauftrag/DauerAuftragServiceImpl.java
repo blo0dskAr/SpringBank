@@ -29,7 +29,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
   }
 
   @Override
-  @Transactional
+//  @Transactional
   public void saveNewDauerAuftrag(DauerAuftrag dauerAuftrag) {
 
     dauerAuftrag.setDatAnlage(LocalDateTime.now());
@@ -39,13 +39,13 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Long countAktiveDauerAuftraegeByKontonummer(Long kontonummer) {
     return dauerAuftragRepository.countAktiveDauerAuftraegeByKontonummer(kontonummer);
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type) {
 
     return dauerAuftragRepository.findAllAngelegteDauerAuftraegeByDateAndType(tagImMonat, type) ;
@@ -53,7 +53,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
 
 
   @Override
-  @Transactional
+//  @Transactional
   public String processSingleDauerAuftrag(DauerAuftrag dauerAuftrag) {
 
     Konto tmpKonto = dauerAuftrag.getKonto();
@@ -79,7 +79,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public DauerAuftrag findById(Long dauerAuftragId) {
 
     DauerAuftrag dauerAuftrag = dauerAuftragRepository.findById(dauerAuftragId).get();
@@ -90,7 +90,10 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
   @Transactional
   public void storniereDauerAuftragById(Long dauerAuftragId) {
 
-    dauerAuftragRepository.storniereDauerAuftragById(dauerAuftragId);
+    DauerAuftrag updatedDauerAuftrag = dauerAuftragRepository.findById(dauerAuftragId).get();
+    updatedDauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.STORNIERT);
+    updatedDauerAuftrag.setDatAend(LocalDateTime.now());
+//    dauerAuftragRepository.storniereDauerAuftragById(dauerAuftragId);
 
   }
 

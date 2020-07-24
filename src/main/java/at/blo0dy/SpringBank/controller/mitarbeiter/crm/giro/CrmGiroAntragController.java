@@ -142,7 +142,7 @@ public class CrmGiroAntragController {
       }
     }
 
-    return "redirect:/mitarbeiter/kunde/giro/antrag";
+    return "redirect:/mitarbeiter/kunde/giro/antragBearbeitung";
   }
 
 }

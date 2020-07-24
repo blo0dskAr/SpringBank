@@ -150,7 +150,7 @@ public class CrmSparAntragController {
     log.debug("SparKontoAntrag wurde erfolgreich gespeichert");
 
 
-    return "redirect:/mitarbeiter/kunde/sparen/antrag";
+    return "redirect:/mitarbeiter/kunde/sparen/antragBearbeitung";
   }
 
 }

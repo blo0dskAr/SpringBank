@@ -28,9 +28,9 @@ public interface DauerAuftragRepository extends JpaRepository<DauerAuftrag, Long
   List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type);
 
 
-  @Modifying
-  @Query(value = "update dauerauftrag da set " +
-                    "    da.auftrags_status = 'STORNIERT'" +
-                  " where da.id = ?1 ", nativeQuery = true)
-  void storniereDauerAuftragById(Long dauerAuftragId);
+//  @Modifying
+//  @Query(value = "update dauerauftrag da set " +
+//                    "    da.auftrags_status = 'STORNIERT'" +
+//                  " where da.id = ?1 ", nativeQuery = true)
+//  void storniereDauerAuftragById(Long dauerAuftragId);
 }

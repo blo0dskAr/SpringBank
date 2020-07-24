@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -169,6 +168,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(1)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -186,7 +186,6 @@ class AdminMitarbeiterControllerTest {
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "vorname"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "nachname"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "position"))
-            .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "mitarbeiterNummer"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.strasse"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.plz"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.ort"))
@@ -194,6 +193,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -211,7 +211,6 @@ class AdminMitarbeiterControllerTest {
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "vorname"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "nachname"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "position"))
-            .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "mitarbeiterNummer"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.strasse"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.plz"))
             .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "adresse.ort"))
@@ -220,6 +219,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -236,6 +236,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -252,13 +253,14 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
 
   @Test
   void saveMitarbeiterWithWrongFormat_String_PLZData() throws Exception {
-    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname4", "testerNachname",new Adresse("TestStraße 15", "hallo1234","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1));
+    Mitarbeiter mitarbeiter = new Mitarbeiter("testerVorname", "testerNachname",new Adresse("TestStraße 15", "hallo1234","Wien","Österreich"), "123456","Tester", LocalDate.of(1984,1,1));
     doNothing().when(mitarbeiterService).save(any());
 
     MvcResult result =  mockMvc.perform(post("/mitarbeiter/admin/mitarbeiterAdministration/save")
@@ -269,6 +271,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -285,6 +288,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -297,10 +301,10 @@ class AdminMitarbeiterControllerTest {
             .with(csrf())
             .flashAttr("mitarbeiter", mitarbeiter))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "mitarbeiterNummer"))
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -313,10 +317,10 @@ class AdminMitarbeiterControllerTest {
             .with(csrf())
             .flashAttr("mitarbeiter", mitarbeiter))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "mitarbeiterNummer"))
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -329,10 +333,10 @@ class AdminMitarbeiterControllerTest {
             .with(csrf())
             .flashAttr("mitarbeiter", mitarbeiter))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "mitarbeiterNummer"))
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -345,10 +349,10 @@ class AdminMitarbeiterControllerTest {
             .with(csrf())
             .flashAttr("mitarbeiter", mitarbeiter))
             .andExpect(status().isOk())
-            .andExpect(MockMvcResultMatchers.model().attributeHasFieldErrors("mitarbeiter", "mitarbeiterNummer"))
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -365,6 +369,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
@@ -381,6 +386,7 @@ class AdminMitarbeiterControllerTest {
             .andReturn();
 
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
+    verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
   }
 

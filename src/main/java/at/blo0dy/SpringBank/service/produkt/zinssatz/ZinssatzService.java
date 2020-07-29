@@ -12,7 +12,7 @@ public interface ZinssatzService {
 
  BigDecimal getAktuellerGiroZinssatz();
 
- BigDecimal getAktuellerZinssatzByProdukt(String produkt);
+// BigDecimal getAktuellerZinssatzByProdukt(String produkt);
 
  void save(Zinssatz zinssatz);
 

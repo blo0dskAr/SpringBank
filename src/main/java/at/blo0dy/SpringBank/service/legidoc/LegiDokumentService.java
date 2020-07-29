@@ -15,7 +15,7 @@ public interface LegiDokumentService {
 
   Optional<LegiDokument> getFile(Long fileId);
 
-  List<LegiDokument> getFiles();
+//  List<LegiDokument> getFiles();
 
   List<LegiDokument> getNewFiles();
 

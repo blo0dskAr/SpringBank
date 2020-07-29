@@ -39,7 +39,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
     dauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.ANGELEGT);
 
     DauerAuftrag savedDauerAuftrag = dauerAuftragRepository.save(dauerAuftrag);
-    log.debug("Dauerauftrag mit ID: " + dauerAuftrag.getId() + " + erfolgreich gespeichert. (" + savedDauerAuftrag + ")");
+    log.debug("Dauerauftrag mit ID: " + savedDauerAuftrag.getId() + " + erfolgreich gespeichert. (" + savedDauerAuftrag + ")");
   }
 
   @Override

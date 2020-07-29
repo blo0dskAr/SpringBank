@@ -48,7 +48,8 @@ public class AdresseServiceImpl implements AdresseService {
   public void save(Adresse adresse) {
     log.debug("Adresse(" + adresse + ") wird gespeichert.");
 
-    adresseRepository.save(adresse) ;
+    Adresse savedAdresse = adresseRepository.save(adresse);
+    log.debug("Adresse erfolgreich gespeichert. ID: " +  savedAdresse.getId()) ;
   }
 
   // TODO: löschen wenn nicht gebraucht"

@@ -22,19 +22,17 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
     this.giroKontoAntragRepository = giroKontoAntragRepository;
   }
 
-  // sollte nicht gebraucht werden
-//  @Override
-//  @Transactional(readOnly = true)
-//  public List<GiroKontoAntrag> findAll() {
-//    return giroKontoAntragRepository.findAll();
-//  }
+ //   sollte nicht gebraucht werden
+/*  @Override
+    @Transactional(readOnly = true)
+    public List<GiroKontoAntrag> findAll() {
+    return giroKontoAntragRepository.findAll();
+  }*/
 
   @Override
   @Transactional(readOnly = true)
   public GiroKontoAntrag findById(Long giroAntragId) {
     log.debug("GiroKontoAntrag mit ID: " + giroAntragId + " wird gesucht.");
-
-    GiroKontoAntrag giroKontoAntrag;
 
     Optional<GiroKontoAntrag> result = giroKontoAntragRepository.findById(giroAntragId);
     if (result.isEmpty()) {
@@ -43,7 +41,7 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
 //      throw new NotFoundException("GiroAntrag mit ID: " + giroAntragId + " nicht gefunden.");
     }
 
-    giroKontoAntrag = result.get();
+    GiroKontoAntrag giroKontoAntrag = result.get();
     log.debug("GiroAntrag mit ID: " + giroAntragId + " gefunden.");
 
     return giroKontoAntrag ;
@@ -59,29 +57,31 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
     log.debug("GirokontoAntrag wurde erfolgreich gespeichert. ID: " + savedGiroAntrag.getId());
   }
 
-//  @Override
-////  @Transactional
-//  public void deleteById(Long theId) {
-//    log.debug("GirokontoAntrag wird geloescht:");
-//    giroKontoAntragRepository.deleteById(theId);
-//  }
+/*  @Override
+//  @Transactional
+  public void deleteById(Long theId) {
+    log.debug("GirokontoAntrag wird geloescht:");
+    giroKontoAntragRepository.deleteById(theId);
+  }*/
 
-//  @Override
-//  @Transactional(readOnly = true)
-//  public long count() {
-//    return giroKontoAntragRepository.count();
-//  }
+/*
+  @Override
+  @Transactional(readOnly = true)
+  public long count() {
+    return giroKontoAntragRepository.count();
+  }
+*/
 
-//  @Override
-//  @Transactional(readOnly = true)
-//  public long countByStatus(String statusEnum) {
-//    return giroKontoAntragRepository.countByStatus(statusEnum);
-//  }
+/*  @Override
+  @Transactional(readOnly = true)
+  public long countByStatus(String statusEnum) {
+    return giroKontoAntragRepository.countByStatus(statusEnum);
+  }*/
 
-//  public List<GiroKontoAntrag> findByStatus(String statusEnum) {
-//    List<GiroKontoAntrag> giroKontoAntragListe = giroKontoAntragRepository.findByStatus(statusEnum) ;
-//    return  giroKontoAntragListe;
-//  }
+/*  public List<GiroKontoAntrag> findByStatus(String statusEnum) {
+    List<GiroKontoAntrag> giroKontoAntragListe = giroKontoAntragRepository.findByStatus(statusEnum) ;
+    return  giroKontoAntragListe;
+  }*/
 
   @Override
   @Transactional(readOnly = true)
@@ -89,7 +89,7 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
     log.debug("GiroKontoAnträge für Kundennummer: " + kundennummer + " werden gesucht.");
 
     List<GiroKontoAntrag> giroKontoAntragList = giroKontoAntragRepository.findGiroAntraegeByKundennummer(kundennummer);
-    log.debug("GiroKontoAntrag für Kundennummer: "+ kundennummer + " wurden gefunden. Anzahl: " + giroKontoAntragList.size());
+    log.debug(giroKontoAntragList.size() + " GiroKontoAnträge für Kundennummer: "+ kundennummer + " gefunden.");
 
     return giroKontoAntragList;
   }

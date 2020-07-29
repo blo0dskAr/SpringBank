@@ -30,14 +30,18 @@ public class KontoBuchungServiceImpl implements KontoBuchungService {
     return kontoBuchungRepository.findByKontoIdOrderByIdDesc(kontoId);
   }
 
+  // Nur fuer die Bootstrap generierten
   @Override
-//  @Transactional
   public void save(KontoBuchung kontoBuchung) {
-    kontoBuchungRepository.save(kontoBuchung);
+    log.debug("KontoBuchung wird gespeichert.");
+
+    KontoBuchung savedKontoBuchung = kontoBuchungRepository.save(kontoBuchung);
+    log.debug("Kontobuchung mit ID: " + savedKontoBuchung.getId() + " wurde erfolgreich gespeichert.");
   }
 
   @Override
   public BigDecimal saveNewKontoBuchung(KontoBuchung kontoBuchung) {
+    log.debug("KontoBuchung wird durchgeführt. Saldo nach Buchung wird ermittelt");
 
     kontoBuchung.setDatAnlage(LocalDateTime.now());
 
@@ -50,6 +54,5 @@ public class KontoBuchungServiceImpl implements KontoBuchungService {
     kontoBuchungRepository.save(kontoBuchung);
 
     return kontoBuchung.getSaldoNachBuchung();
-
   }
 }

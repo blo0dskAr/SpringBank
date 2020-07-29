@@ -1,9 +1,8 @@
 package at.blo0dy.SpringBank.service.konto.kredit;
 
 import at.blo0dy.SpringBank.dao.konto.kredit.KreditKontoAntragRepository;
-import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
 import at.blo0dy.SpringBank.model.antrag.kredit.KreditKontoAntrag;
-import at.blo0dy.SpringBank.model.enums.AntragStatusEnum;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +12,7 @@ import java.util.Optional;
 
 
 @Service
+@Slf4j
 public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
 
   KreditKontoAntragRepository kreditKontoAntragRepository;
@@ -22,58 +22,63 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
     this.kreditKontoAntragRepository = kreditKontoAntragRepository;
   }
 
-  @Override
+/*  @Override
   @Transactional(readOnly = true)
   public List<KreditKontoAntrag> findAll() {
     return kreditKontoAntragRepository.findAll();
-  }
+  }*/
 
   @Override
   @Transactional(readOnly = true)
   public KreditKontoAntrag findById(Long theId) {
+    log.debug("KreditAntrag mit ID: " + theId + " wird gesucht.");
+
     Optional<KreditKontoAntrag> result = kreditKontoAntragRepository.findById(theId);
-
     KreditKontoAntrag kreditKontoAntrag;
-
     kreditKontoAntrag = result.get();
 
+    log.debug("KreditAntrag mit ID: " + theId + " wurde gefunden.");
     return kreditKontoAntrag ;
   }
 
   @Override
 //  @Transactional
   public void save(KreditKontoAntrag kreditKontoAntrag) {
-    kreditKontoAntragRepository.save(kreditKontoAntrag);
+    log.debug("KreditAntrag wird gespeichert.");
+
+    KreditKontoAntrag savedKreditAntrag = kreditKontoAntragRepository.save(kreditKontoAntrag);
+
+    log.debug("KreditAntrag wurde erfolgreich gespeichert. ID: " + savedKreditAntrag.getId());
   }
 
-  @Override
+/*  @Override
 //  @Transactional
   public void deleteById(Long theId) {
     kreditKontoAntragRepository.deleteById(theId);
-  }
+  }*/
 
-  @Override
+/*  @Override
   @Transactional(readOnly = true)
   public KreditKontoAntrag getOne(Long aLong) {
     return kreditKontoAntragRepository.getOne(aLong);
-  }
+  }*/
 
-  @Override
+/*  @Override
   @Transactional(readOnly = true)
   public long count() {
     return kreditKontoAntragRepository.count();
-  }
+  }*/
 
-  @Override
+/*  @Override
   @Transactional(readOnly = true)
   public long countByStatus(String statusEnum) {
     return kreditKontoAntragRepository.countByStatus(statusEnum);
-  }
+  }*/
 
-  public List<KreditKontoAntrag> findByStatus(String statusEnum) {
+/*  public List<KreditKontoAntrag> findByStatus(String statusEnum) {
     List<KreditKontoAntrag> kreditKontoAntragListe = kreditKontoAntragRepository.findByStatus(statusEnum) ;
     return  kreditKontoAntragListe;
-  }
+  }*/
 
   @Override
   public boolean compareBasicKreditData(KreditKontoAntrag antrag1, KreditKontoAntrag antrag2) {
@@ -84,33 +89,34 @@ public class KreditKontoAntragServiceImpl implements KreditKontoAntragService {
     }
   }
 
-  @Override
+/*  @Override
   @Transactional
   public void setKreditAntragAbgelehntWeilNeuBerechnetById(Long kreditKontoAntragId) {
 
     KontoAntrag kontoAntrag = kreditKontoAntragRepository.findById(kreditKontoAntragId).get();
-
     kontoAntrag.setAntragStatus(AntragStatusEnum.ABGELEHNT_WEIL_NEU_BERECHNET);
-
 //    kreditKontoAntragRepository.setKreditAntragAbgelehntWeilNeuBerechnetById(kreditKontoAntragId);
 
-  }
+  }*/
 
   @Override
   @Transactional(readOnly = true)
   public List<KreditKontoAntrag> findKreditAntraegeByKundennummer(String kundennummer) {
+    log.debug("KreditAntrag für Kundennummer: " + kundennummer + " wird gesucht.");
     return kreditKontoAntragRepository.findKreditAntraegeByKundennummer(kundennummer);
   }
 
   @Override
   @Transactional(readOnly = true)
   public KreditKontoAntrag findKreditAntragByAntragIdAndKundennummer(Long antragId, String kundennummer) {
+    log.debug("KreditAntrag für Kundennummer: " + kundennummer + " und AntragId: " + antragId + " wird gesucht.");
     return kreditKontoAntragRepository.findKreditAntragByAntragIdAndKundennummer(antragId, kundennummer);
   }
 
   @Override
   @Transactional(readOnly = true)
   public int countEingereichteKreditAntraegeByKundennummer(String kundennummer) {
+    log.debug("Anzahl eingereichter KreditAnträge für Kundennummer: " + kundennummer + " wird ermittelt." );
     return kreditKontoAntragRepository.countEingereichteKreditAntraegeByKundennummer(kundennummer);
   }
 

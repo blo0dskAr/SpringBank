@@ -11,13 +11,13 @@ import java.util.List;
 public interface KreditService {
 
   // standard jpa crud operations:
-  public List<KreditKonto> findAll();
+//  public List<KreditKonto> findAll();
 
   public KreditKonto findById(Long theId);
 
   public void save(KreditKonto kreditKonto);
 
-  public void deleteById(Long theId);
+//  public void deleteById(Long theId);
 
 //  BigDecimal getZinssatz();
 

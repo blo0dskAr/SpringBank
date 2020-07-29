@@ -12,7 +12,7 @@ public interface DauerAuftragService {
 
   Long countAktiveDauerAuftraegeByKontonummer(Long kontonummer);
 
-  List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type);
+//  List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type);
 
   String processSingleDauerAuftrag(DauerAuftrag dauerAuftrag);
 

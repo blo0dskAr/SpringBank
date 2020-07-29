@@ -53,7 +53,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
     return anzahlAngelegterDauerAuftraege;
   }
 
-  @Override
+/*  @Override
   @Transactional(readOnly = true)
   public List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type) {
     log.debug("Alle Angelegten Dauerauftraege mit Tag: " + tagImMonat + " und Typ: " + type + " werden ermittelt");
@@ -62,7 +62,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
     log.debug("Alle Angelegten Dauerauftraege mit Tag: " + tagImMonat + " und Typ: " + type + " wurden ermittelt, Anzahl: " + dauerAuftragsList.size());
 
     return dauerAuftragsList ;
-  }
+  }*/
 
 
   @Override

@@ -1,7 +1,6 @@
 package at.blo0dy.SpringBank.controller.banking.giro;
 
 
-import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;

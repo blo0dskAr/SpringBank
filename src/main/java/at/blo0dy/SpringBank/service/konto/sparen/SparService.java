@@ -12,17 +12,14 @@ import java.util.List;
 
 public interface SparService {
 
-  // standard jpa crud operations:
-  public List<SparKonto> findAll();
+//  public List<SparKonto> findAll();
 
   public SparKonto findById(Long theId);
 
   public void save(SparKonto sparKonto);
 
-  public void deleteById(Long theId);
+//  public void deleteById(Long theId);
 
-  // das liegt mir noch immer im magen
-//  double getZinssatz();
 
   List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 

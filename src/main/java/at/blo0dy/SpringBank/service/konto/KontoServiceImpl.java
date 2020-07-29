@@ -20,6 +20,7 @@ import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
@@ -31,6 +32,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @Service
 public class KontoServiceImpl implements KontoService {
 
@@ -58,46 +60,53 @@ public class KontoServiceImpl implements KontoService {
   @Override
   @Transactional(readOnly = true)
   public Long countKontenGesamtByKundennummer(String kundennummer) {
+    log.debug("Anzahl Konten für Kundennummer: " + kundennummer + " wird ermittelt");
     return kontoRepository.countKontenGesamtByKundennummer(kundennummer);
   }
 
   @Override
   @Transactional(readOnly = true)
   public Long countOffeneKontenGesamtByKundennummer(String kundennummer) {
+    log.debug("Anzahl offener Konten für Kundennummer: " + kundennummer + " wird ermittelt.");
     return kontoRepository.countOffeneKontenGesamtByKundennummer(kundennummer);
   }
 
   @Override
   @Transactional(readOnly = true)
   public BigDecimal getGesamtSaldoOffenerKontenByKundennummer(String kundennummer) {
+    log.debug("GesamtSaldo offener Konten für Kundennummer: " + kundennummer + " wird ermittelt.");
     return kontoRepository.getGesamtSaldoOffenerKontenByKundennummer(kundennummer);
   }
 
   @Override
   @Transactional(readOnly = true)
   public String findKontonummerById(Long kontoId) {
+    log.debug("Kontonummer für KontoId: " + kontoId + " wird gesucht.");
     return kontoRepository.findKontonummerById(kontoId);
   }
 
-  // TODO: atm ned verwendet
+/*
   @Override
   @Transactional(readOnly = true)
   public Konto findByKontonummer(Long kontonummer) {
     return kontoRepository.findByKontonummer(kontonummer);
-  }
+  }*/
 
   @Override
   @Transactional(readOnly = true)
   public List<Konto> findAll(Konto konto) {
+   log.debug("Kontosuche wird durchgeführt.");
     return kontoRepository.findAll(Example.of(konto));
   }
 
   @Override
   @Transactional(readOnly = true)
   public Konto findById(Long kontoId) {
+    log.debug("Konto mit KontoId: " + kontoId + " wird gesucht.");
     Optional<Konto> tmpKonto = kontoRepository.findById(kontoId);
     Konto konto = tmpKonto.get();
 
+    log.debug("Konto mit KontoId: " + kontoId + " wurde gefunden.");
     return konto ;
   }
 
@@ -105,15 +114,19 @@ public class KontoServiceImpl implements KontoService {
   @Transactional
   public void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo) {
 
+    log.debug("Saldo für KontoId: " + kontoId + " wird aktualisiert.");
+
     Konto konto = kontoRepository.findById(kontoId).get();
     konto.setAktSaldo(neuerSaldo);
 //    kontoRepository.updateKontoSaldoById(kontoId, neuerSaldo);
+    log.debug("Saldoaktualisierung erfolgreich.");
 
   }
 
   @Override
   @Transactional
   public String processKontoStatusById(Long kontoId, KontoStatusEnum neuerKontoStatus, KontoStatusEnum bestMoeglicherStatus) {
+    log.debug("KontoStatus für KontoId: " + kontoId + "wird geprüft.");
 
     Optional<Konto> tmpKonto = kontoRepository.findById(kontoId);
     Konto konto = tmpKonto.get();
@@ -121,6 +134,7 @@ public class KontoServiceImpl implements KontoService {
 
     // Keine Änderungen
     if (alterKontoStatus.equals(neuerKontoStatus)) {
+      log.debug("KontoStatus für KontoId: " + konto + " nicht geändert.");
       return "NO_CHANGES";
     }
 
@@ -128,6 +142,7 @@ public class KontoServiceImpl implements KontoService {
     if ((alterKontoStatus.equals(KontoStatusEnum.GESCHLOSSEN))
             // TODO:  werd ich auch nicht brauchen  glaub ich =)
             || ((neuerKontoStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)))) {
+      log.debug("KontoStatusÄnderung für KontoId: " + konto + " nicht möglich.");
       return "TRANSITION_NOT_POSSIBLE";
     }
 
@@ -137,12 +152,16 @@ public class KontoServiceImpl implements KontoService {
       if (alterKontoStatus.equals(KontoStatusEnum.OFFEN)) {
         // Konto muss Saldo == 0 haben. Kann nicht geschlossen werden
         if (konto.getAktSaldo().compareTo(BigDecimal.ZERO) != 0) {
+          log.debug("KontoStatusÄnderung für KontoId: " + konto + " wegen vorhandenen Saldos nicht möglich.");
           return "SALDO_NOT_ZERO";
           // Konto kann geschlossen werden
         } else {
+          log.debug("Kontoschließung für KontoId: " + kontoId + " wird durchgeführt.");
           List<DauerAuftrag> dauerAuftragList = dauerAuftragRepository.findAktiveDauerAuftraegeByKontoId(konto.getId());
           List<ZahlungsAuftrag> zahlungsAuftragList = zahlungsAuftragRepository.findAktiveZahlungsAuftraegeByKontoId(konto.getId());
 
+          log.debug("Anzahl zu stornierender Daueraufträge: " + dauerAuftragList.size());
+          log.debug("Anzahl zu stornierender Zahlungsaufträge: " + zahlungsAuftragList.size());
           // ggf. Daueraufträge löschen
           if (!dauerAuftragList.isEmpty()) {
             dauerAuftragList.forEach(dauerAuftrag -> { dauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.STORNIERT);
@@ -163,22 +182,26 @@ public class KontoServiceImpl implements KontoService {
 //          kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
           konto.setKontoStatus(neuerKontoStatus);
 
+          log.debug("Konto mit KontoId: " + kontoId + " erfolgreich geschlossen.");
           return "KONTO_NOW_CLOSED";
         }
         // Konto Ist noch In Eröffnung --> wird storniert
       } else if (alterKontoStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
 //        kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
         konto.setKontoStatus(neuerKontoStatus);
+        log.debug("Konto mit KontoId: " + kontoId + " erfolgreich storniert.");
         return "KONTO_NOW_CLOSED";
       }
       // Dann sollt nur noch "In_eroeffnung --> Offen" übrig bleiben
     } else if (neuerKontoStatus.equals(KontoStatusEnum.OFFEN)) {
       // TODO, Alle Zahlungsaufträge, DauerAufträge, ÜberziehungsRahmen erstellen.
+      log.debug("Konto mit Id: " +  kontoId + " wird eröffnet.");
 
       // Erstaufträge und Daueraufträge von Sparkonten anlegen
       if (konto instanceof SparKonto) {
         SparKontoAntrag tmpKontoAntrag = sparKontoAntragRepository.findByKontoId(kontoId);
         if (tmpKontoAntrag.getDauerAuftrag().compareTo(BigDecimal.ZERO) != 0) {
+          log.debug("DauerAuftrag vorhanden, wird angelegt.");
           DauerAuftrag tmpDauerAuftrag =  new DauerAuftrag();
           tmpDauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.ANGELEGT);
           tmpDauerAuftrag.setDatAnlage(LocalDateTime.now());
@@ -194,6 +217,7 @@ public class KontoServiceImpl implements KontoService {
         }
 
         if (tmpKontoAntrag.getErstAuftrag().compareTo(BigDecimal.ZERO) != 0) {
+          log.debug("ErstAuftrag vorhanden, wird angelegt");
           ZahlungsAuftrag tmpZahlungsAuftrag = new ZahlungsAuftrag();
           tmpZahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
           tmpZahlungsAuftrag.setDatAnlage(LocalDateTime.now());
@@ -215,6 +239,7 @@ public class KontoServiceImpl implements KontoService {
       if (konto instanceof KreditKonto) {
         KreditKontoAntrag tmpKontoAntrag = kreditKontoAntragRepository.findByKontoId(kontoId);
 
+        log.debug("Kreditauszahlung wird angelegt.");
         ZahlungsAuftrag tmpZahlungsAuftrag = new ZahlungsAuftrag();
         tmpZahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
         tmpZahlungsAuftrag.setDatAnlage(LocalDateTime.now());
@@ -228,6 +253,7 @@ public class KontoServiceImpl implements KontoService {
         tmpZahlungsAuftrag.setAuftragsDatum(LocalDate.now());
         zahlungsAuftragRepository.save(tmpZahlungsAuftrag);
 
+        log.debug("KreditRate wird angelegt.");
         DauerAuftrag tmpDauerAuftrag =  new DauerAuftrag();
         tmpDauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.ANGELEGT);
         tmpDauerAuftrag.setDatAnlage(LocalDateTime.now());
@@ -246,6 +272,7 @@ public class KontoServiceImpl implements KontoService {
       if (konto instanceof GiroKonto) {
         GiroKontoAntrag tmpKontoAntrag = giroKontoAntragRepository.findByKontoId(kontoId);
         if (tmpKontoAntrag.isUeberziehungsrahmenGewuenscht()) {
+          log.debug("überziehungsrahmen wird eingerichtet.");
           ((GiroKonto) konto).setUeberziehungsRahmen(BigDecimal.valueOf(500));
 //          giroKontoRepository.UpdateUeberziehungsRahmenByKontoId(kontoId, BigDecimal.valueOf(500));
         }
@@ -254,9 +281,11 @@ public class KontoServiceImpl implements KontoService {
       // Kontostatus aktualisieren (offen setzen)
 //      kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
       konto.setKontoStatus(neuerKontoStatus);
+      log.debug("Konto mit KontoId: " + kontoId + " wurde erfolgreich eröffnet");
       return "KONTO_NOW_OPEN";
     }
     // ?? fehlt wohl theoretisch.. bestimmt nur theoretisch :)
+    log.error("Das sollte nicht vorkommen :) aber meine If-Abfrage da ist eher mäßig");
     return "TRANSITION_NOT_POSSIBLE";
   }
 

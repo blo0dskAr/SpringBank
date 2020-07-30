@@ -38,7 +38,10 @@ public class AdminOperationsController {
   }
 
   @GetMapping("/batchAdministration")
-  public String showBatchAdministrationPage(Model model) {
+  public String showBatchAdministrationPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+
+    String loginName = authentication.getName();
+    log.debug("BatchAdministration Page von Mitarbeiter: " + loginName + "aufgerufen.");
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setBetrag(BigDecimal.ONE);
@@ -61,6 +64,8 @@ public class AdminOperationsController {
   public String processZahlungsAuftrag(@CurrentSecurityContext(expression = "authentication")Authentication authentication,
                                        @Valid @ModelAttribute ZahlungsAuftrag zahlungsAuftrag, BindingResult result, Model model,
                                         RedirectAttributes redirectAttrs) {
+    String loginName = authentication.getName();
+    log.debug("Requesting processZahlungsAuftragsBatch von Mitarbeiter: " + loginName);
 
     if (result.hasErrors()) {
       log.debug("Fehler beim Durchführen des ZahlungsAuftragsBatches Mitarbeiter: " + authentication.getName() + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -70,7 +75,6 @@ public class AdminOperationsController {
       return "redirect:/mitarbeiter/admin/operations/batchAdministration";
     }
 
-    log.debug("Requesting processZahlungsAuftragsBatch");
     String ergebnis = zahlungsAuftragService.processZahlungsAuftragsBatch(zahlungsAuftrag);
     log.debug("processZahlungsAuftragsBatch erfolgreich durchgeführt");
     redirectAttrs.addFlashAttribute("ergebnis", ergebnis);
@@ -85,6 +89,8 @@ public class AdminOperationsController {
   public String processDauerAuftrag(@CurrentSecurityContext(expression = "authentication")Authentication authentication,
                                     @Valid @ModelAttribute DauerAuftrag dauerAuftrag, BindingResult result, Model model,
                                     RedirectAttributes redirectAttrs) {
+    String loginName = authentication.getName();
+    log.debug("Requesting processDauerAuftragsBatch von Mitarbeiter: " + loginName);
 
     if (result.hasErrors()) {
       log.debug("Fehler beim Durchführen des DauerAuftragsBatches Mitarbeiter: " + authentication.getName() + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -96,7 +102,6 @@ public class AdminOperationsController {
 
     dauerAuftrag.setText(dauerAuftrag.getAuftragsArt().getDisplayName());
 
-    log.debug("Requesting processDauerAuftragsBatch");
     String ergebnis = dauerAuftragService.processDauerAuftragsBatch(dauerAuftrag);
     log.debug("processDauerAuftragsBatch erfolgreich durchgeführt");
     redirectAttrs.addFlashAttribute("ergebnis", ergebnis);

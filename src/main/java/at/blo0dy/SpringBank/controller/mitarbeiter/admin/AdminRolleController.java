@@ -7,6 +7,8 @@ import at.blo0dy.SpringBank.service.rolle.RolleService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -31,8 +33,10 @@ public class AdminRolleController {
   }
 
   @GetMapping({"/list", "/", "", "/index"})
-  public String listRollen(Model model) {
+  public String listRollen(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
+    String loginName = authentication.getName();
+    log.debug("AdminRollenIndexPage wird von Mitarbeiter: " + loginName + " aufgerufen.");
     List<Rolle> rollenListe = rolleService.findAll() ;
 
     model.addAttribute("rollen", rollenListe) ;
@@ -43,7 +47,10 @@ public class AdminRolleController {
 
   // Todo ExceptionHandler checken und basteln.
   @GetMapping("/delete")
-  public String deleteRoleById(@Validated @RequestParam("rolleId") Long theId, Model model) {
+  public String deleteRoleById(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                               @Validated @RequestParam("rolleId") Long theId, Model model) {
+    String loginName = authentication.getName();
+    log.debug("Löschung von RolleId: " + theId + " wird von Mitarbeiter: " + loginName + " angefordert..");
     try {
       rolleService.deleteById(theId);
     } catch (DataIntegrityViolationException ex) {
@@ -63,8 +70,12 @@ public class AdminRolleController {
 
 
   @PostMapping("/save")
-  public String saveRolle(@Valid @ModelAttribute("rolle") Rolle rolle, Errors errors) {
+  public String saveRolle(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                          @Valid @ModelAttribute("rolle") Rolle rolle, Errors errors) {
+    String loginName = authentication.getName();
+    log.debug("Rolle speichern wird von Mitarbeiter: " + loginName + " angefordert.");
     if (errors.hasErrors()) {
+      log.error("Fehler beim Speichern einer Rolle erhalten. Seite wird neu geladen.");
       return "rolle/rollen-form";
     }  else {
       rolleService.save(rolle);
@@ -73,21 +84,24 @@ public class AdminRolleController {
   }
 
   @GetMapping("/showFormForAdd")
-  public String showFormForAdd(Model model) {
+  public String showFormForAdd(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+    String loginName = authentication.getName();
+    log.debug("RolleAddForm wird von Mitarbeiter: " + loginName + " aufgerufen.");
 
     Rolle rolle = new Rolle();
-
     rolle.setId(0L);
-
     model.addAttribute("rolle", rolle);
 
     return "rolle/rollen-form";
   }
 
   @GetMapping("/showFormForUpdate")
-  public String showFormForUpdate(@RequestParam("rolleId") Long theId, Model theModel) {
-    Rolle rolle = rolleService.findById(theId);
+  public String showFormForUpdate(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                  @RequestParam("rolleId") Long theId, Model theModel) {
+    String loginName = authentication.getName();
+    log.debug("RolleUpdateForm wird von Mitarbeiter: " + loginName + " aufgerufen.");
 
+    Rolle rolle = rolleService.findById(theId);
     theModel.addAttribute("rolle", rolle);
 
     return "rolle/rollen-form";
@@ -95,7 +109,10 @@ public class AdminRolleController {
 
 
   @GetMapping({"/showRolleDetail{rolleId}"})
-  public String listRolleDetail(@Validated @RequestParam("rolleId") Long theRoleId, Model model) {
+  public String listRolleDetail(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                @Validated @RequestParam("rolleId") Long theRoleId, Model model) {
+    String loginName = authentication.getName();
+    log.debug("RolleDetail für Rolle: " + theRoleId + " wird von Mitarbeiter: " + loginName + " aufgerufen.");
 
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleId(theRoleId) ;
     Rolle rolle = rolleService.findById(theRoleId);
@@ -109,8 +126,12 @@ public class AdminRolleController {
 
 
   @GetMapping("/removeRoleFromUser{rolleId}{mitarbeiterId}")
-  public String removeRoleFromUser(@Validated @RequestParam("rolleId") Long theId,
+  public String removeRoleFromUser(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                   @Validated @RequestParam("rolleId") Long theId,
                                    @Validated @RequestParam("mitarbeiterId") Long theMitarbeiterId, Model model) {
+    String loginName = authentication.getName();
+    log.debug("Löschung RolleId: " + theId + " bei MitarbeiterId: " + theMitarbeiterId + " wird von Mitarbeiter: " + loginName + " angefordert.");
+
     rolleService.removeRoleFromUser(theId, theMitarbeiterId);
 
     Rolle rolle = rolleService.findById(theId);
@@ -125,7 +146,11 @@ public class AdminRolleController {
 
 
   @GetMapping("/addRoleToUserPage")
-  public String addRoleToUserPage(@Validated @RequestParam("rolleId") Long theRoleId, Model model) {
+  public String addRoleToUserPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                  @Validated @RequestParam("rolleId") Long theRoleId, Model model) {
+    String loginName = authentication.getName();
+    log.debug("Hinzufügen einer Rolle-Page für Rolle: " + theRoleId + " wird von Mitarbeiter: " + loginName + " angefordert.");
+
     List<Mitarbeiter> mitarbeiterListe = rolleService.findMitarbeiterIdsByRoleIdExeptExisting(theRoleId);
     Rolle rolle = rolleService.findById(theRoleId);
 
@@ -137,8 +162,11 @@ public class AdminRolleController {
   }
 
   @GetMapping("/addRoleToUser")
-  public String addRoleToUser(@Validated @RequestParam("rolleId") Long theId,
+  public String addRoleToUser(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                              @Validated @RequestParam("rolleId") Long theId,
                               @Validated @RequestParam("mitarbeiterId") Long theMitarbeiterId, Model model) {
+    String loginName = authentication.getName();
+    log.debug("Hinzufügen RolleId: " + theId + " bei MitarbeiterId: " + theMitarbeiterId + " wird von Mitarbeiter: " + loginName + " angefordert.");
 
     rolleService.addRoleToUser(theId, theMitarbeiterId);
 

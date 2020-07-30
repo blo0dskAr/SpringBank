@@ -38,6 +38,7 @@ public class KundeRegistrationController {
 
   @GetMapping
   public String showRegisterForm(Model model) {
+    log.debug("KundenRegistrierungsForm wird aufgerufen.");
     Kunde kunde = new Kunde();
     kunde.setId(0L);
     model.addAttribute("kunde", kunde);

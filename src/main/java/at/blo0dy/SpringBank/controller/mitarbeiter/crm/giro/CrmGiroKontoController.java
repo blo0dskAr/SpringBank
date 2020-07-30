@@ -52,6 +52,8 @@ public class CrmGiroKontoController {
   @GetMapping("/kontoBearbeitung")
   public String showGiroKontoBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
+    log.debug("Showing GiroKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
     Konto konto = new GiroKonto();
     konto.setProdukt(KontoProduktEnum.GIRO);
     konto.setKontoStatus(KontoStatusEnum.IN_EROEFFNUNG);
@@ -61,7 +63,6 @@ public class CrmGiroKontoController {
     List<Konto> ergebnis = kontoService.findAll(konto);
 
     model.addAttribute("ergebnis", ergebnis);
-    log.debug("Showing GiroKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/kontosuche";
   }
@@ -69,10 +70,10 @@ public class CrmGiroKontoController {
   @PostMapping("/kontoBearbeitung")
   public String showSparKontoBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                                  @ModelAttribute Konto konto) {
-    List<Konto> ergebnis = kontoService.findAll(konto);
-
-    model.addAttribute("ergebnis", ergebnis);
     log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
+    List<Konto> ergebnis = kontoService.findAll(konto);
+    model.addAttribute("ergebnis", ergebnis);
 
     return "mitarbeiter/crm/kontosuche";
   }
@@ -166,12 +167,12 @@ public class CrmGiroKontoController {
                                        @Valid @ModelAttribute(name = "zahlungsAuftrag") ZahlungsAuftrag zahlungsAuftrag, BindingResult result,
                                        RedirectAttributes redirectAttrs) {
 
-    String tmpKontonummer = zahlungsAuftrag.getKontonummer();
     String tmpMitarbeiter = authentication.getName();
+    String tmpKontonummer = zahlungsAuftrag.getKontonummer();
+    log.debug("GiroKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
+
     GiroKonto girokonto = giroService.findByKontonummer(Long.valueOf(tmpKontonummer));
     String tmpKundennummer = girokonto.getKunde().getKundennummer();
-
-    log.debug("GiroKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
 
     if(result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -191,7 +192,7 @@ public class CrmGiroKontoController {
       }
     }
 
-    // TODO: Auch hier muss ich 2 mal auf errors checken, das sollte sich irgendfwie vermeiden lassen
+    // TODO: Auch hier muss ich 2 mal auf errors checken, das sollte sich irgendwie vermeiden lassen
     if(result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(girokonto.getKunde().getKundennummer());
@@ -214,17 +215,11 @@ public class CrmGiroKontoController {
     zahlungsAuftragService.save(zahlungsAuftrag);
     log.debug("GiroKontoEinzahlungsForm wurde erfolgreich gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
 
-
-      return "mitarbeiter/crm/zahlungsAuftrag-form";
+    return "mitarbeiter/crm/zahlungsAuftrag-form";
     }
-
-
 
     redirectAttrs.addFlashAttribute("zahlungsAuftragGespeichert", true);
     return "redirect:/mitarbeiter/kunde/giro/konto/showGiroKontoDetailPage?giroKontoId=" + girokonto.getId();
   }
-
-
-
 
 }

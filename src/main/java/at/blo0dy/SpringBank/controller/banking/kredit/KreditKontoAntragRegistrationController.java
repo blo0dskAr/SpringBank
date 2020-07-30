@@ -53,13 +53,13 @@ public class KreditKontoAntragRegistrationController {
     KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), zinssatzService.getAktuellerKreditZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
     KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
+    String kundennummer = authentication.getName();
+    log.debug("Showing KreditKontoRegistrationForm mit Standardvorlage für Kunde: " + kundennummer);
+    model.addAttribute("kundennummer", kundennummer);
+
     model.addAttribute("kreditrechnervorlage", kv);
     model.addAttribute("ergebnis", ke);
     model.addAttribute("activeLink", "kundeBankingKreditForm");
-
-    String kundennummer = authentication.getName();
-    model.addAttribute("kundennummer", kundennummer);
-    log.debug("Kunde " + kundennummer + " ruft die KreditKontoRegistrierungsSeite auf. Standardvorlage wurde erstellt.");
 
     return "kunde/banking/kredit/registration";
 }

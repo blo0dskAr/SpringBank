@@ -5,6 +5,9 @@ import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.CurrentSecurityContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -26,7 +29,9 @@ public class AdminMitarbeiterController {
   }
 
   @RequestMapping({"", "/", "/index"})
-  public String getIndexPage(Model model) {
+  public String getIndexPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+    String loginName = authentication.getName();
+    log.debug("AdminIndex Page wird von Mitarbeiter: " + loginName +  " aufgerufen");
 
     List<Mitarbeiter> mitarbeiterListe = mitarbeiterService.findAll();
 
@@ -38,7 +43,9 @@ public class AdminMitarbeiterController {
   }
 
   @GetMapping("/list")
-  public String listMitarbeiter(Model theModel) {
+  public String listMitarbeiter(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model theModel) {
+    String loginName = authentication.getName();
+    log.debug("ListMitarbeiterPage Page wird von Mitarbeiter: " + loginName +  " aufgerufen");
 
     List<Mitarbeiter> mitarbeiterListe = mitarbeiterService.findAll();
 
@@ -49,14 +56,21 @@ public class AdminMitarbeiterController {
   }
 
   @GetMapping("/delete")
-  public String deleteMitarbeiter(@RequestParam("mitarbeiterId") Long theId, Model model) {
+  public String deleteMitarbeiter(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                  @RequestParam("mitarbeiterId") Long theId, Model model) {
+    String loginName = authentication.getName();
+    log.debug("Löschung von Mitarbeiter: " + theId + "wird von Mitarbeiter: " + loginName +  " angefordert.");
+
       mitarbeiterService.deleteById(theId);
     return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";
   }
 
 
   @PostMapping("/save")
-  public String saveMitarbeiter(@Valid @ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter, Errors errors) {
+  public String saveMitarbeiter(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                @Valid @ModelAttribute("mitarbeiter") Mitarbeiter mitarbeiter, Errors errors) {
+    String loginName = authentication.getName();
+    log.debug("Speichern eines Mitarbeiters wird von Mitarbeiter: " + loginName +  " angefordert.");
 
     mitarbeiter.setMitarbeiterNummer(mitarbeiterService.getLatestMitarbeiterNummerPlusOne());
 
@@ -69,28 +83,34 @@ public class AdminMitarbeiterController {
   }
 
   @GetMapping("/showFormForAdd")
-  public String showFormForAdd(Model theModel) {
+  public String showFormForAdd(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model theModel) {
+
+    String loginName = authentication.getName();
+    log.debug("MitarbeiterAddingForm wird von Mitarbeiter: " + loginName + " aufgerufen.");
+
     Mitarbeiter mitarbeiter = new Mitarbeiter();
-
     mitarbeiter.setId(0L);                      // kann angebl. zu probs kommen wenn ID != 0, so wirds fix aus der GenerationType geholt
-
     theModel.addAttribute("mitarbeiter", mitarbeiter);
 
     return "admin/mitarbeiter-form";
   }
 
   @GetMapping("/showFormForUpdate")
-  public String showFormForUpdate(@RequestParam("mitarbeiterId") Long theId, Model theModel) {
+  public String showFormForUpdate(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                  @RequestParam("mitarbeiterId") Long theId, Model theModel) {
+    String loginName = authentication.getName();
+    log.debug("MitarbeiterUpdateForm wird von Mitarbeiter: " + loginName + " aufgerufen");
+
     Mitarbeiter mitarbeiter = mitarbeiterService.findById(theId);
-
     theModel.addAttribute("mitarbeiter", mitarbeiter);
-
     return "admin/mitarbeiter-form";
   }
 
   @GetMapping("/search")
-  public String searchMitarbeiter(@RequestParam("theSearchName") String theSearchName,
-                                Model theModel) {
+  public String searchMitarbeiter(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                  @RequestParam("theSearchName") String theSearchName, Model theModel) {
+    String loginName = authentication.getName();
+    log.debug("MitarbeitierSuche wird von Mitarbeiter: " + loginName + " angefordert");
 
     // search customers from the service
     List<Mitarbeiter> mitarbeiterListe = mitarbeiterService.findMitarbeiterByVorAndNachName(theSearchName);

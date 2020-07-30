@@ -53,6 +53,7 @@ public class CrmKreditAntragController {
 
   @GetMapping("/antragBearbeitung")
   public String showKreditAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+    log.debug("Showing KreditAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
     KontoAntrag kontoAntrag = new KreditKontoAntrag();
     kontoAntrag.setProdukt(KontoProduktEnum.KREDIT);
@@ -63,7 +64,6 @@ public class CrmKreditAntragController {
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
 
     model.addAttribute("ergebnis", ergebnis);
-    log.debug("Showing KreditAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/antragsuche";
   }
@@ -71,12 +71,12 @@ public class CrmKreditAntragController {
   @PostMapping("/antragBearbeitung")
   public String showKreditAntragBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                                     @ModelAttribute KontoAntrag kontoAntrag) {
+    log.debug("Showing KreditKontoAntragsPage for Mitarbeiter: " + authentication.getName());
+
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
 
     model.addAttribute("ergebnis", ergebnis);
     model.addAttribute("kontoantrag", kontoAntrag);
-
-    log.debug("Showing KreditKontoAntragsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/antragsuche";
   }
@@ -103,13 +103,13 @@ public class CrmKreditAntragController {
     Long tmpKredAntrId = kreditKontoAntrag.getId();
     String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
 
-      log.debug("KreditAntrag id=" + tmpKredAntrId + ", KundeNr:" + tmpKundenNummer + " soll gespeichert werden" );
-      try {
-          KreditKontoAntrag vergleichsAntrag = kreditKontoAntragService.findById(tmpKredAntrId);
-          log.debug("Es wird geprüft ob sich die KreditAntragdaten verändert haben für KreditAntragId=" + tmpKredAntrId);
-          if (kreditKontoAntragService.compareBasicKreditData(kreditKontoAntrag, vergleichsAntrag)) {
-          model.addAttribute("kreditMussNeuBerechnetWerden", false);
-          log.debug("--> Keine NeuBerechnung Notwendig für KreditAntragId=" + tmpKredAntrId);
+    log.debug("KreditAntrag id=" + tmpKredAntrId + ", KundeNr:" + tmpKundenNummer + " soll gespeichert werden" );
+    try {
+      KreditKontoAntrag vergleichsAntrag = kreditKontoAntragService.findById(tmpKredAntrId);
+      log.debug("Es wird geprüft ob sich die KreditAntragdaten verändert haben für KreditAntragId=" + tmpKredAntrId);
+      if (kreditKontoAntragService.compareBasicKreditData(kreditKontoAntrag, vergleichsAntrag)) {
+        model.addAttribute("kreditMussNeuBerechnetWerden", false);
+        log.debug("--> Keine NeuBerechnung Notwendig für KreditAntragId=" + tmpKredAntrId);
         } else {
           kunde = kundeService.findByKundennummer(tmpKundenNummer);
           model.addAttribute("kunde", kunde);
@@ -177,8 +177,6 @@ public class CrmKreditAntragController {
     Long tmpKredAntrId = kreditKontoAntrag.getId();
     String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
     AntragStatusEnum alterStatus = kreditKontoAntragService.findById(kreditKontoAntrag.getId()).getAntragStatus();
-
-
 
     if (bindingResult.hasErrors()) {
       kunde = kundeService.findByKundennummer(tmpKundenNummer);

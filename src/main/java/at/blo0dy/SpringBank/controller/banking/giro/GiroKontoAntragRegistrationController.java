@@ -43,6 +43,7 @@ public class GiroKontoAntragRegistrationController {
   public String registerForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication , Model model) {
 
     String kundennummer = authentication.getName();
+    log.debug("Showing GiroKontoRegistrationForm für Kunde: " + kundennummer);
     model.addAttribute("kundennummer", kundennummer);
 
     GiroKontoAntrag giroKontoAntrag = new GiroKontoAntrag();

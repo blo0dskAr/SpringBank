@@ -47,9 +47,10 @@ public class SparKontoAntragRegistrationController {
 
     // TODO: authentication.getname als name mitschicken sollt ich mal als controller advice für authentifizierte KundenPages definieren
     String kundennummer = authentication.getName();
-    log.debug("Kunde " + kundennummer + " ruft die SparKontoRegistrierungsSeite auf" );
-    model.addAttribute("activeLink", "kundeBankingSparenForm");
+    log.debug("Showing SparKontoRegistrationForm für Kunde: " + kundennummer);
     model.addAttribute("kundennummer", kundennummer);
+
+    model.addAttribute("activeLink", "kundeBankingSparenForm");
     model.addAttribute("sparkontoantrag", sparKontoRegistrationForm);
 
     return "/kunde/banking/sparen/registration";

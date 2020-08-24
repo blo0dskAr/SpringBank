@@ -10,7 +10,7 @@ public interface DauerAuftragService {
 
   void saveNewDauerAuftrag(DauerAuftrag dauerAuftrag);
 
-  Long countAktiveDauerAuftraegeByKontonummer(Long kontonummer);
+  Long countAktiveDauerAuftraegeByKontonummer(String kontonummer);
 
 //  List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type);
 

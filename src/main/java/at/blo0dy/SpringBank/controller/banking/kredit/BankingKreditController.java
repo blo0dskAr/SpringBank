@@ -8,6 +8,7 @@ import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.dauerauftrag.DauerAuftrag;
 import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
+import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import at.blo0dy.SpringBank.service.konto.KontoService;
@@ -83,7 +84,8 @@ public class BankingKreditController {
     String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
-    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
+    Konto kreditkonto = kreditService.findById(kontoId);
+    String requestedKontonummer = kreditkonto.getKontonummer();
 
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
@@ -96,6 +98,7 @@ public class BankingKreditController {
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
+    model.addAttribute("konto", kreditkonto);
 
     return "kunde/banking/zahlungsAuftrag-form";
   }
@@ -104,24 +107,26 @@ public class BankingKreditController {
   @PostMapping("/saveEinzahlungsFormWithKonto")
   public String saveEinzahlungsForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                     @Valid @ModelAttribute(name = "zahlungsAuftrag") ZahlungsAuftrag zahlungsAuftrag, BindingResult result,
-                                    Model model, RedirectAttributes redirectAttrs ) {
+                                    Model model, RedirectAttributes redirectAttrs) {
 
     String authKundennummer = authentication.getName();
-    log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
-
     KreditKonto kreditKonto;
+    log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = kreditService.findKontoNummerOffenerKreditKontenByKundennummer(authKundennummer);
+      kreditKonto = kreditService.findByKontonummer(zahlungsAuftrag.getKontonummer());
 
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+      model.addAttribute("konto", kreditKonto);
 
       return "kunde/banking/zahlungsAuftrag-form";
     }
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
+    // TODO den TryCatchBlock brauch ich wahrscheinlich gar nicht, weil sparkonto=null nicht als exception kommt, sondern einfach als leeres ergebnis, das mit nem if zu checken is.
     try {
       kreditKonto = kreditService.findKreditKontoByKontonummerAndKundennummer(zahlungsAuftrag.getKontonummer(), authKundennummer);
     } catch (NullPointerException e) {
@@ -139,11 +144,11 @@ public class BankingKreditController {
 
 
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.EINZAHLUNG)) {
-      zahlungsAuftrag.setEmpfaengerKonto(kreditKonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(kreditKonto.getKontonummer());
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
     } else {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
-      zahlungsAuftrag.setEmpfaengerKonto(kreditKonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(kreditKonto.getKontonummer());
     }
 
     log.debug("ZahlungsAuftrag zu Kunde: " + authKundennummer + " und Konto: " + zahlungsAuftrag.getKontonummer() + " wird gespeichert" );

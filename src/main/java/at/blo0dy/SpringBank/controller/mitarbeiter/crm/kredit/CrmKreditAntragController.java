@@ -129,6 +129,10 @@ public class CrmKreditAntragController {
       return "mitarbeiter/crm/kredit/kreditKontoAntrag2Konto";
     }
 
+    if (kreditKontoAntrag.getAntragStatus().equals(AntragStatusEnum.ABGELEHNT) || kreditKontoAntrag.getAntragStatus().equals(AntragStatusEnum.ABGELEHNT_WEIL_NEU_BERECHNET)) {
+      redirectAttrs.addFlashAttribute("antragAbgelehnt", true);
+    }
+
     Kunde mykunde = kundeService.findByKundennummer(tmpKundenNummer);
     KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
@@ -166,6 +170,10 @@ public class CrmKreditAntragController {
       }
     }
 
+    log.debug("KreditKontoAntrag wird gespeichert");
+    kreditKontoAntragService.save(kreditKontoAntrag);
+    log.debug("KreditKontoAntrag wurde erfolgreich gespeichert");
+
     return "redirect:/mitarbeiter/kunde/kredit/antragBearbeitung";
   }
 
@@ -186,7 +194,7 @@ public class CrmKreditAntragController {
     }
 
     log.debug("Neuberechnung für KreditAntragId=" + tmpKredAntrId + " wird durchgeführt");
-    KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(new KreditRechnerVorlage(kreditKontoAntrag.getLaufzeit(), kreditKontoAntrag.getZinssatz(), kreditKontoAntrag.getKreditBetrag()));
+    KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(new KreditRechnerVorlage(kreditKontoAntrag.getLaufzeit(), kreditKontoAntrag.getZinssatz().divide(BigDecimal.valueOf(100)), kreditKontoAntrag.getKreditBetrag()));
 
     kunde = kundeService.findByKundennummer(kreditKontoAntrag.getKundennummer().toString());
     model.addAttribute("kunde", kunde);

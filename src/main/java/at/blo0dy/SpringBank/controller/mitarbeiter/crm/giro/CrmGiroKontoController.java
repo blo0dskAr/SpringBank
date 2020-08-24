@@ -171,7 +171,7 @@ public class CrmGiroKontoController {
     String tmpKontonummer = zahlungsAuftrag.getKontonummer();
     log.debug("GiroKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
 
-    GiroKonto girokonto = giroService.findByKontonummer(Long.valueOf(tmpKontonummer));
+    GiroKonto girokonto = giroService.findByKontonummer(tmpKontonummer);
     String tmpKundennummer = girokonto.getKunde().getKundennummer();
 
     if(result.hasErrors()) {

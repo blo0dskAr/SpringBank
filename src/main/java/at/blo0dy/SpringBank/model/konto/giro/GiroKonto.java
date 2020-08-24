@@ -24,7 +24,7 @@ public class GiroKonto extends Konto {
 
   private BigDecimal ueberziehungsRahmen;
 
-  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal ueberziehungsRahmen, List<KontoBuchung> kontoBuchungList, KontoProduktEnum produkt) {
+  public GiroKonto(LocalDateTime eroeffnungsDatum, String kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, BigDecimal ueberziehungsRahmen, List<KontoBuchung> kontoBuchungList, KontoProduktEnum produkt) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList, KontoProduktEnum.GIRO);
     this.ueberziehungsRahmen = ueberziehungsRahmen;
   }

@@ -25,7 +25,7 @@ public class SparKonto extends Konto {
   @Column(name = "kontoname")
   private String kontoname;
 
-  public SparKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, List<KontoBuchung> kontoBuchungList, String kontoname, KontoProduktEnum produkt) {
+  public SparKonto(LocalDateTime eroeffnungsDatum, String kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, List<KontoBuchung> kontoBuchungList, String kontoname, KontoProduktEnum produkt) {
     super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus, kontoAntrag, kontoBuchungList, KontoProduktEnum.SPAREN);
     this.kontoname = kontoname;
   }

@@ -1,6 +1,5 @@
 package at.blo0dy.SpringBank.service.konto.sparen;
 
-
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.sparen.AdvancedSparZinsRechnerVorlage;
@@ -14,12 +13,11 @@ public interface SparService {
 
 //  public List<SparKonto> findAll();
 
-  public SparKonto findById(Long theId);
+  SparKonto findById(Long theId);
 
-  public void save(SparKonto sparKonto);
+  void save(SparKonto sparKonto);
 
 //  public void deleteById(Long theId);
-
 
   List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 

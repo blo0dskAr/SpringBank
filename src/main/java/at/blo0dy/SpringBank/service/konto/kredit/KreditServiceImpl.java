@@ -95,7 +95,7 @@ public class KreditServiceImpl implements KreditService {
 
   @Override
   @Transactional(readOnly = true)
-  public KreditKonto findByKontonummer(Long kontonummer) {
+  public KreditKonto findByKontonummer(String kontonummer) {
     log.debug("Kreditkonto für Kontonummer: " + kontonummer + " wird gesucht.");
     return kreditKontoRepository.findByKontonummer(kontonummer);
   }

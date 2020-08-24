@@ -97,7 +97,7 @@ public class SparServiceImpl implements SparService {
   @Transactional(readOnly = true)
   public SparKonto findByKontonummer(String kontonummer) {
     log.debug("Konto für Kontonummer: " + kontonummer + " wird gesucht.");
-    return sparKontoRepository.findByKontonummer(Long.valueOf(kontonummer));
+    return sparKontoRepository.findByKontonummer(kontonummer);
   }
 
   @Override

@@ -22,7 +22,7 @@ public interface KundeService   {
 
   void setKundeActiveIfRequirementsMetByKundennummer(String kundennummer);
 
-  Long generateNewKontonummerByKundennummer(String kundennummer);
+  String generateNewKontonummerByKundennummer(String kundennummer);
 
   Long getLatestKundennummerPlusOne();
 

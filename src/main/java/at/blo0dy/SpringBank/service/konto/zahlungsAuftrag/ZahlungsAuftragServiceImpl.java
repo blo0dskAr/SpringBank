@@ -5,11 +5,13 @@ import at.blo0dy.SpringBank.dao.konto.KontoRepository;
 import at.blo0dy.SpringBank.dao.konto.kontoBuchung.KontoBuchungRepository;
 import at.blo0dy.SpringBank.dao.konto.zahlungsAuftrag.ZahlungsAuftragRepository;
 import at.blo0dy.SpringBank.model.enums.BuchungsArtEnum;
+import at.blo0dy.SpringBank.model.enums.KontoProduktEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.kontoBuchung.KontoBuchung;
+import at.blo0dy.SpringBank.model.konto.kredit.KreditKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.zv.Datentraeger;
 import lombok.extern.slf4j.Slf4j;
@@ -107,7 +109,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
       buchungsText = "Auszahlung";
       // Check Ob Saldo Verfügbar
-      if (checkAuszahlungWithVerfuegbarerBetrag(tmpKonto, zahlungsAuftrag.getBetrag())) {
+      if (checkAuszahlungWithVerfuegbarerBetrag(tmpKonto, zahlungsAuftrag.getBetrag()) || tmpKonto.getProdukt() == KontoProduktEnum.KREDIT) {
         // true = erstelle KontoBuchung, update zahlungsAuftrag, (sammle in file, sammle in DB)
         neuerSaldo = tmpKonto.getAktSaldo().subtract(zahlungsAuftrag.getBetrag());
         buchungsArt = BuchungsArtEnum.SOLL;

@@ -163,7 +163,7 @@ public class CrmKreditKontoController {
 
     String tmpKontonummer = zahlungsAuftrag.getKontonummer();
     String tmpMitarbeiter = authentication.getName();
-    Konto kreditkonto = kreditService.findByKontonummer(Long.valueOf(tmpKontonummer));
+    Konto kreditkonto = kreditService.findByKontonummer(tmpKontonummer);
     String tmpKundennummer = kreditkonto.getKunde().getKundennummer();
 
     log.debug("KreditKontoEinzahlungsForm soll gespeichert werden für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);

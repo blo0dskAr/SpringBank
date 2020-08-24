@@ -2,9 +2,12 @@ package at.blo0dy.SpringBank.service.konto;
 
 import at.blo0dy.SpringBank.dao.konto.KontoAntragRepository;
 import at.blo0dy.SpringBank.model.antrag.KontoAntrag;
+import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
+import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

@@ -33,7 +33,7 @@ public class Konto {
   private LocalDateTime eroeffnungsDatum;
 
   @Column(name = "kontonummer")
-  private Long kontonummer;
+  private String kontonummer;
 
   @ManyToOne
   @JoinColumn(name="kunde_id")
@@ -61,7 +61,7 @@ public class Konto {
   @Enumerated(value = EnumType.STRING)
   private KontoProduktEnum produkt;
 
-  public Konto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, List<KontoBuchung> kontoBuchungList, KontoProduktEnum produkt) {
+  public Konto(LocalDateTime eroeffnungsDatum, String kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, KontoAntrag kontoAntrag, List<KontoBuchung> kontoBuchungList, KontoProduktEnum produkt) {
     this.eroeffnungsDatum = eroeffnungsDatum;
     this.kontonummer = kontonummer;
     this.kunde = kunde;

@@ -53,7 +53,7 @@ public class SparKontoAntragRegistrationController {
     model.addAttribute("activeLink", "kundeBankingSparenForm");
     model.addAttribute("sparkontoantrag", sparKontoRegistrationForm);
 
-    return "/kunde/banking/sparen/registration";
+    return "kunde/banking/sparen/registration";
   }
 
   @PostMapping("/register")
@@ -68,7 +68,7 @@ public class SparKontoAntragRegistrationController {
       log.debug("Fehler beim speichern Der SparkontoRegistrationForm erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       model.addAttribute("kundennummer", authentication.getName());
       model.addAttribute("activeLink", "kundeBankingSparenForm");
-      return "/kunde/banking/sparen/registration";
+      return "kunde/banking/sparen/registration";
     }
 
     // AntragDatum generieren und für die Eingabe optimieren.

@@ -87,7 +87,7 @@ public class GiroServiceImpl implements GiroService {
 
   @Override
   @Transactional(readOnly = true)
-  public GiroKonto findByKontonummer(Long kontonummer) {
+  public GiroKonto findByKontonummer(String kontonummer) {
     log.debug("GiroKonto mit Kontonummer: " + kontonummer + " wird gesucht.");
     return giroKontoRepository.findByKontonummer(kontonummer);
   }

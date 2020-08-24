@@ -140,14 +140,14 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   @Override
   @Transactional(readOnly = true)
-  public Long generateNewKontonummerByKundennummer(String kundennummer) {
+  public String generateNewKontonummerByKundennummer(String kundennummer) {
     log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert");
-    Long newKontonummer;
+    String newKontonummer;
     try {
-      newKontonummer = kundeRepository.getLatestKontonummerByKundennummer(kundennummer) + 1;
+      newKontonummer = kundeRepository.getLatestKontonummerByKundennummer(kundennummer) + 1 ;
     } catch (NullPointerException npe) {
       log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert: Ist erstes Konto: 001");
-      newKontonummer = Long.valueOf(kundennummer + "001");
+      newKontonummer = kundennummer + "001" ;
     }
 
     log.debug("Neue Kontonummer für Kunde " + kundennummer + " lautet:" + newKontonummer);

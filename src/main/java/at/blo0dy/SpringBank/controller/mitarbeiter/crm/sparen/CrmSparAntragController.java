@@ -50,11 +50,9 @@ public class CrmSparAntragController {
     this.kontoAntragService = kontoAntragService;
   }
 
-
   @GetMapping("/antragBearbeitung")
   public String showSparAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
     log.debug("Showing SparAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
-
 
     KontoAntrag kontoAntrag = new SparKontoAntrag();
     kontoAntrag.setProdukt(KontoProduktEnum.SPAREN);
@@ -81,8 +79,6 @@ public class CrmSparAntragController {
 
     return "mitarbeiter/crm/antragsuche";
   }
-
-
 
   @GetMapping("/antrag/showSparAntragForKontoForm")
   public String showSparAntrag2KontoForm(@RequestParam("sparKontoAntragId") Long sparKontoAntragId, Model model) {

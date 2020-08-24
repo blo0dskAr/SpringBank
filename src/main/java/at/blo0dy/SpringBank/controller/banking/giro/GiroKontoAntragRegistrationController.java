@@ -51,7 +51,7 @@ public class GiroKontoAntragRegistrationController {
     model.addAttribute("girokontoantrag", giroKontoAntrag);
     model.addAttribute("activeLink", "kundeBankingGiroForm");
 
-    return "/kunde/banking/giro/registration";
+    return "kunde/banking/giro/registration";
   }
 
   @PostMapping("/register")

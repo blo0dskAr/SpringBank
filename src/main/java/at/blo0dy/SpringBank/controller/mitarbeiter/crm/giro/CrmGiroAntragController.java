@@ -39,7 +39,6 @@ public class CrmGiroAntragController {
   KontoService kontoService;
   KontoAntragService kontoAntragService;
 
-
   @Autowired
   public CrmGiroAntragController(GiroKontoAntragService giroKontoAntragService, GiroService giroService, KundeService kundeService, KontoService kontoService, KontoAntragService kontoAntragService) {
     this.giroKontoAntragService = giroKontoAntragService;
@@ -51,10 +50,9 @@ public class CrmGiroAntragController {
 
   @GetMapping("/antragBearbeitung")
   public String showGiroAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
-
     log.debug("Showing GiroAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
-    KontoAntrag kontoAntrag = new GiroKontoAntrag();
+    KontoAntrag kontoAntrag = new KontoAntrag();
     kontoAntrag.setProdukt(KontoProduktEnum.GIRO);
     kontoAntrag.setAntragStatus(AntragStatusEnum.EINGEREICHT);
 
@@ -64,13 +62,12 @@ public class CrmGiroAntragController {
 
     model.addAttribute("ergebnis", ergebnis);
 
-
     return "mitarbeiter/crm/antragsuche";
   }
 
   @PostMapping("/antragBearbeitung")
   public String showGiroAntragBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                                    @ModelAttribute KontoAntrag kontoAntrag) {
+                                                  @ModelAttribute KontoAntrag kontoAntrag) {
     log.debug("Showing GiroKontoAntragsPage for Mitarbeiter: " + authentication.getName());
 
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);

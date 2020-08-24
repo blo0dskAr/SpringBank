@@ -19,7 +19,7 @@ import javax.sql.DataSource;
 import java.util.Locale;
 
 @Configuration
-@Profile("dev")
+@Profile({"dev", "prod"})
 @EnableWebSecurity
 public class DevSecurityConfig {
 
@@ -36,7 +36,7 @@ public class DevSecurityConfig {
   }
 
   @Configuration
-  @Profile("dev")
+  @Profile({"dev", "prod"})
   @Order(1)
   public static class App1ConfigurationAdapter extends WebSecurityConfigurerAdapter {
     public App1ConfigurationAdapter() {
@@ -101,7 +101,7 @@ public class DevSecurityConfig {
 
 
     @Configuration
-    @Profile("dev")
+    @Profile({"dev", "prod"})
     @Order(2)
     public static class App2ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
@@ -167,7 +167,7 @@ public class DevSecurityConfig {
   // hinzugefügt um auch nur unter kunde/* einen security context zu bekommen, sollte sich noch mti dem obigen mergen lassen.
   // Kunden und mitarbeiter trennen lass ich vorerst (sollte ja ned in einer applikation stecken)
   @Configuration
-  @Profile("dev")
+  @Profile({"dev", "prod"})
   @Order(3)
   public static class App3ConfigurationAdapter extends WebSecurityConfigurerAdapter {
 

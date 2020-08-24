@@ -44,7 +44,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
 
   @Override
   @Transactional(readOnly = true)
-  public Long countAktiveDauerAuftraegeByKontonummer(Long kontonummer) {
+  public Long countAktiveDauerAuftraegeByKontonummer(String kontonummer) {
     log.debug("Anzahl der angelegter DauerAufträge für Kontonummer: " + kontonummer + " werden ermittelt.");
 
     Long anzahlAngelegterDauerAuftraege = dauerAuftragRepository.countAktiveDauerAuftraegeByKontonummer(kontonummer);

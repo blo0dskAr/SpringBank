@@ -105,6 +105,8 @@ public class DauerAuftragController {
   @GetMapping("/storniereDauerAuftrag")
   public String storniereDauerAuftrag(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                       @RequestParam Long kontoId, @RequestParam Long dauerAuftragId, RedirectAttributes redirectAttrs) {
+    String authKundennummer = authentication.getName();
+    log.debug("Dauerauftrag Storno für DauerauftragId: " + dauerAuftragId + " bei KontoId: " + kontoId + " von Kunde: " + authKundennummer + " angefordert.");
 
     Konto tmpKonto = kontoService.findById(kontoId);
 
@@ -121,15 +123,5 @@ public class DauerAuftragController {
     }
 
   }
-
-
-
-
-
-
-
-
-
-
 
 }

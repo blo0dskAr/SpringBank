@@ -84,6 +84,7 @@ public class KundeBankingController {
       return "redirect:/kunde/banking/index";
     }
     String authKundennummer = authentication.getName();
+    log.debug("Showing Banking-IndexPage für Kunde: " + authKundennummer);
 
     BigDecimal gesamtSaldoOffenerKonten = kontoService.getGesamtSaldoOffenerKontenByKundennummer(authKundennummer);
 
@@ -148,6 +149,7 @@ public class KundeBankingController {
                                     @Valid @ModelAttribute Kunde kunde, BindingResult result,
                                     Model model, RedirectAttributes redirectAttrs) {
     String authKundennummer = authentication.getName();
+    log.debug("Saving viewKundeDetailPage for Kunde: " + authKundennummer);
 
     if (result.hasErrors()) {
       model.addAttribute("kunde", kunde);
@@ -160,8 +162,6 @@ public class KundeBankingController {
       log.debug("Fehler beim Speichern der saveKundeDetailPage for Kunde: " + authKundennummer);
       return "kunde/banking/kunde-detail";
     }
-
-    log.debug("Saving viewKundeDetailPage for Kunde: " + authKundennummer);
 
     adresseService.save(kunde.getAdresse());
     kundeService.updateChangeableDataByKundennummer(authKundennummer, kunde.getEmailAdresse(), kunde.getTelefonNummer(), kunde.getConnectedGiro(), kunde.isHasAcceptedAGB());
@@ -180,6 +180,7 @@ public class KundeBankingController {
                                   Model model, RedirectAttributes redirectAttrs) {
 
     String authKundennummer = authentication.getName();
+    log.debug("Legitimation für Kunde: " + authKundennummer + " wird hochgeladen.");
     Kunde kunde = kundeService.findByKundennummer(authKundennummer);
 
     legiDokumentService.saveFile(file, kunde);
@@ -189,7 +190,10 @@ public class KundeBankingController {
   }
 
   @GetMapping("/kunde-detailpage/downloadLegi/{legiDokumentId}")
-  public ResponseEntity<ByteArrayResource> downloadFile(@PathVariable Long legiDokumentId) {
+  public ResponseEntity<ByteArrayResource> downloadFile(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                                        @PathVariable Long legiDokumentId) {
+    String authKundennummer = authentication.getName();
+    log.debug("Legitimation für Kunde: " + authKundennummer + " und LegiDocId: " + legiDokumentId + " wird abgerufen.");
 
     LegiDokument legiDokument = legiDokumentService.getFile(legiDokumentId).get();
     return ResponseEntity.ok()
@@ -218,34 +222,36 @@ public class KundeBankingController {
                                        @Valid @ModelAttribute ChangePasswordForm changePasswordForm, BindingResult result,
                                        Model model, RedirectAttributes redirectAttrs) {
 
-    String tmpUser = authentication.getName();
-    Kunde tmpKunde = kundeService.findByKundennummer(tmpUser);
+    String authKundennummer = authentication.getName();
+    log.debug("Neues Passwort für Kunde: " + authKundennummer + " wurde erstellt.");
+
+    Kunde tmpKunde = kundeService.findByKundennummer(authKundennummer);
     final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     log.debug("Neues Passwort für " + authentication.getName() + " wird geprüft");
     if (!changePasswordForm.getConfirmPassword().equals(changePasswordForm.getNewPassword())) {
       result.rejectValue("confirmPassword", "error.changePasswordForm","Die neuen Passwörter stimmen nicht überrein");
       result.rejectValue("newPassword","error.changePasswordForm","Die neuen Passwörter stimmen nicht überein");
-      log.debug("Neues Passwort für " + tmpUser + " stimmt mit ConfirmPassword nicht überrein ");
+      log.debug("Neues Passwort für " + authKundennummer + " stimmt mit ConfirmPassword nicht überrein ");
     }
 
-    log.debug("Altes Passwort für " + tmpUser + " wird geprüft");
+    log.debug("Altes Passwort für " + authKundennummer + " wird geprüft");
     if (!passwordEncoder.matches(changePasswordForm.getOldPassword(), tmpKunde.getPassword() )) {
       result.rejectValue("oldPassword", "error.changePasswordForm", "Ein Fehler ist aufgetreten");
-      log.debug("Altes Passwort für " + tmpUser + " stimmt mit dem eingebenen Passwort nicht überrein ");
+      log.debug("Altes Passwort für " + authKundennummer + " stimmt mit dem eingebenen Passwort nicht überrein ");
     }
 
     if (result.hasErrors()) {
-      log.debug("Neues Passwort für " + tmpUser + " kann nicht geändert werden, Seite wird neu ausgeliefert");
+      log.debug("Neues Passwort für " + authKundennummer + " kann nicht geändert werden, Seite wird neu ausgeliefert");
       model.addAttribute("changePasswordForm", changePasswordForm);
       model.addAttribute("activeLink", "changePasswordPage");
 
       return "kunde/banking/changepassword-form";
     } else {
 
-      log.debug("Neues Passwort für " + tmpUser + " wird gespeichert");
+      log.debug("Neues Passwort für " + authKundennummer + " wird gespeichert");
       kundeService.updatePasswordByKundeId(tmpKunde.getId(), passwordEncoder.encode(changePasswordForm.getNewPassword()));
-      log.debug("Neues Passwort für " + tmpUser + " wurde erfolgreich gespeichert");
+      log.debug("Neues Passwort für " + authKundennummer + " wurde erfolgreich gespeichert");
       redirectAttrs.addFlashAttribute("passwordGeaendert", true);
 
       return "redirect:/kunde/banking/index";

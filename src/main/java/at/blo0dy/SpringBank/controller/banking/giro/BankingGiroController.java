@@ -1,9 +1,9 @@
 package at.blo0dy.SpringBank.controller.banking.giro;
 
 
-import at.blo0dy.SpringBank.model.antrag.giro.GiroKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.giro.GiroKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
@@ -82,10 +82,11 @@ public class BankingGiroController {
     String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
-    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
-
+    Konto girokonto = giroService.findById(kontoId);
+    String requestedKontonummer = girokonto.getKontonummer();
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
+
     if (request.getRequestURI().equals("/kunde/banking/giro/showAuszahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
     } else if (request.getRequestURI().equals("/kunde/banking/giro/showEinzahlungsFormWithKonto")) {
@@ -101,7 +102,7 @@ public class BankingGiroController {
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
-
+    model.addAttribute("konto", girokonto);
 
     return "kunde/banking/zahlungsAuftrag-form";
   }
@@ -113,21 +114,23 @@ public class BankingGiroController {
                                     Model model, RedirectAttributes redirectAttrs) {
 
     String authKundennummer = authentication.getName();
+    GiroKonto giroKonto;
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(authKundennummer);
+      giroKonto = giroService.findByKontonummer(zahlungsAuftrag.getKontonummer());
 
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+      model.addAttribute("konto", giroKonto);
 
       return "kunde/banking/zahlungsAuftrag-form";
     }
 
-    GiroKonto giroKonto;
-
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
+    // TODO den TryCatchBlock brauch ich wahrscheinlich gar nicht, weil sparkonto=null nicht als exception kommt, sondern einfach als leeres ergebnis, das mit nem if zu checken is.
     try {
       giroKonto = giroService.findGiroKontoByKontonummerAndKundennummer(zahlungsAuftrag.getKontonummer(), authKundennummer);
     } catch (NullPointerException e) {
@@ -163,11 +166,11 @@ public class BankingGiroController {
 
 
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.EINZAHLUNG)) {
-      zahlungsAuftrag.setEmpfaengerKonto(giroKonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(giroKonto.getKontonummer());
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
     } else {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
-      zahlungsAuftrag.setEmpfaengerKonto(giroKonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(giroKonto.getKontonummer());
     }
 
     log.debug("ZahlungsAuftrag zu Kunde: " + authKundennummer + " und Konto: " + zahlungsAuftrag.getKontonummer() + " wird gespeichert" );

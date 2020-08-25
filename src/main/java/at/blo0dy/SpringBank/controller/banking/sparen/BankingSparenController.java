@@ -5,6 +5,7 @@ package at.blo0dy.SpringBank.controller.banking.sparen;
 import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
+import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.konto.sparen.SparKonto;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.person.kunde.Kunde;
@@ -85,8 +86,8 @@ public class BankingSparenController {
     String authKundennummer = authentication.getName();
     log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
-    String requestedKontonummer = kontoService.findKontonummerById(kontoId);
-
+    Konto sparkonto = sparService.findById(kontoId);
+    String requestedKontonummer = sparkonto.getKontonummer();
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
 
@@ -105,7 +106,7 @@ public class BankingSparenController {
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("zahlungsAuftrag",zahlungsAuftrag);
-
+    model.addAttribute("konto", sparkonto);
 
     return "kunde/banking/zahlungsAuftrag-form";
   }
@@ -115,17 +116,18 @@ public class BankingSparenController {
                                     @Valid @ModelAttribute(name = "zahlungsAuftrag") ZahlungsAuftrag zahlungsAuftrag, BindingResult result,
                                     Model model, RedirectAttributes redirectAttrs) {
 
-      String authKundennummer = authentication.getName();
-    log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
-
+    String authKundennummer = authentication.getName();
     SparKonto sparKonto;
+    log.debug("Showing showAddEinzahlungForm for Kunde: " + authKundennummer);
 
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
       List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(authKundennummer);
+      sparKonto = sparService.findByKontonummer(zahlungsAuftrag.getKontonummer());
 
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+      model.addAttribute("konto", sparKonto);
 
       return "kunde/banking/zahlungsAuftrag-form";
     }
@@ -148,6 +150,7 @@ public class BankingSparenController {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }
+
     // TODO: hab hier nochmal die fehlerprüfung einbauen müssen, weil mir sonst entweder ne nullpointer exception fliegt, oder die saldoprüfung zwar durchgeführt, aber der fehler nicht im result gespeichert wird ...
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines EinzahlungsAuftrag für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -159,8 +162,6 @@ public class BankingSparenController {
       return "kunde/banking/zahlungsAuftrag-form";
     }
 
-
-
     log.debug("Prüfungen für Kontonummer " + zahlungsAuftrag.getKontonummer() + " bei Kunde: " + authKundennummer + " erfolgreich abgeschlossen.");
     zahlungsAuftrag.setKonto(sparKonto);
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
@@ -168,11 +169,11 @@ public class BankingSparenController {
 
 
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.EINZAHLUNG)) {
-      zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer());
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
     } else {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(authKundennummer));
-      zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(sparKonto.getKontonummer());
     }
 
     log.debug("ZahlungsAuftrag zu Kunde: " + authKundennummer + " und Konto: " + zahlungsAuftrag.getKontonummer() + " wird gespeichert" );

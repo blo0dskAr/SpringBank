@@ -31,12 +31,12 @@ public class KundenSucheController {
   @GetMapping("/kundensuche")
   public String showKundenSucheForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                     Model model) {
+    log.debug("Showing KundenSuche Page for Mitarbeiter: " + authentication.getName());
 
     Kunde kunde = new Kunde();
 
     model.addAttribute("kunde", kunde);
 
-    log.debug("Showing KundenSuche Page for Mitarbeiter: " + authentication.getName());
     return "mitarbeiter/crm/kundensuche";
   }
 

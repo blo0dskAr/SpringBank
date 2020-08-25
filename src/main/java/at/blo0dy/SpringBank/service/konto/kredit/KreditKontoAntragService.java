@@ -7,25 +7,25 @@ import java.util.List;
 
 public interface KreditKontoAntragService {
 
-  List<KreditKontoAntrag> findAll();
+//  List<KreditKontoAntrag> findAll();
 
   KreditKontoAntrag findById(Long theId);
 
   void save(KreditKontoAntrag kreditKontoAntrag);
 
-  void deleteById(Long theId);
+//  void deleteById(Long theId);
 
-  KreditKontoAntrag getOne(Long aLong);
+//  KreditKontoAntrag getOne(Long aLong);
 
-  long count();
+//  long count();
 
-  long countByStatus(String statusEnum);
+//  long countByStatus(String statusEnum);
 
-  List<KreditKontoAntrag> findByStatus(String statusEnum);
+//  List<KreditKontoAntrag> findByStatus(String statusEnum);
 
   boolean compareBasicKreditData(KreditKontoAntrag antrag1, KreditKontoAntrag antrag2);
 
-  void setKreditAntragAbgelehntWeilNeuBerechnetById(Long kreditKontoAntragId);
+//  void setKreditAntragAbgelehntWeilNeuBerechnetById(Long kreditKontoAntragId);
 
   List<KreditKontoAntrag> findKreditAntraegeByKundennummer(String kundennummer);
 

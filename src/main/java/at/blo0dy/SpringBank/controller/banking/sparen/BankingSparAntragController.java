@@ -53,8 +53,9 @@ public class BankingSparAntragController {
   public String saveSparAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                          @Valid @ModelAttribute("sparkontoantrag") SparKontoAntrag sparKontoAntrag, BindingResult result,
                                          RedirectAttributes redirectAttrs) {
-
     String authKundennummer = authentication.getName();
+    log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
+
 
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines SparkontoAntrags für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -63,7 +64,6 @@ public class BankingSparAntragController {
       return "kunde/banking/sparen/antrag-detail";
     }
 
-    log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
     sparKontoAntragService.save(sparKontoAntrag);
     log.debug("SparkontoAntrag: " +  sparKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );
 

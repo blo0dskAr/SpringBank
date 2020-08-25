@@ -80,6 +80,7 @@ public class CrmKundeController {
   @GetMapping("/sucheDokumente")
   public String showNeueDokumentePage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                       Model model) {
+    log.debug("Dokukmentensuche wird von Mitarbeiter: " + authentication.getName() + " aufgerufen.");
 
     List<LegiDokument> legiDokumentList = legiDokumentService.getNewFiles();
 
@@ -94,6 +95,7 @@ public class CrmKundeController {
   @PostMapping("/sucheDokumente")
   public String searchNeueDokumentePage(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                         @ModelAttribute LegiDokument legiDokument, Model model) {
+    log.debug("Dokukmentensuche wird von Mitarbeiter: " + authentication.getName() + " durchgeführt.");
 
     List<LegiDokument> legiDokumentList = legiDokumentService.getSearchedFiles(legiDokument);
 
@@ -105,7 +107,9 @@ public class CrmKundeController {
   }
 
   @GetMapping("/showDokument")
-  public ResponseEntity<ByteArrayResource> downloadFile(@RequestParam Long legiDokumentId) {
+  public ResponseEntity<ByteArrayResource> downloadFile(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                                        @RequestParam Long legiDokumentId) {
+    log.debug("DokumentId: " + legiDokumentId + " wird von Mitarbeiter: " + authentication.getName() + " aufgerufen.");
 
     LegiDokument legiDokument = legiDokumentService.getFile(legiDokumentId).get();
     return ResponseEntity.ok()
@@ -116,7 +120,9 @@ public class CrmKundeController {
 
 
   @GetMapping("/rejectDokument")
-  public String rejectFile(@RequestParam Long legiDokumentId, RedirectAttributes redirectAttrs) {
+  public String rejectFile(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                           @RequestParam Long legiDokumentId, RedirectAttributes redirectAttrs) {
+    log.debug("DokumentId: " + legiDokumentId + " wird von Mitarbeiter: " + authentication.getName() + " abgelehnt.");
 
     Optional<LegiDokument> legiDokument = legiDokumentService.getFile(legiDokumentId);
     LegiDokument tmpLegiDokument = legiDokument.get();
@@ -133,7 +139,9 @@ public class CrmKundeController {
 
 
   @GetMapping("/acceptDokument")
-  public String acceptFile(@RequestParam Long legiDokumentId, RedirectAttributes redirectAttrs) {
+  public String acceptFile(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                           @RequestParam Long legiDokumentId, RedirectAttributes redirectAttrs) {
+    log.debug("DokumentId: " + legiDokumentId + " wird von Mitarbeiter: " + authentication.getName() + " akzeptiert.");
 
     Optional<LegiDokument> legiDokument = legiDokumentService.getFile(legiDokumentId);
     LegiDokument tmpLegiDokument = legiDokument.get();

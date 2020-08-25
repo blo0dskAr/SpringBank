@@ -39,7 +39,6 @@ public class CrmGiroAntragController {
   KontoService kontoService;
   KontoAntragService kontoAntragService;
 
-
   @Autowired
   public CrmGiroAntragController(GiroKontoAntragService giroKontoAntragService, GiroService giroService, KundeService kundeService, KontoService kontoService, KontoAntragService kontoAntragService) {
     this.giroKontoAntragService = giroKontoAntragService;
@@ -51,8 +50,9 @@ public class CrmGiroAntragController {
 
   @GetMapping("/antragBearbeitung")
   public String showGiroAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+    log.debug("Showing GiroAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
-    KontoAntrag kontoAntrag = new GiroKontoAntrag();
+    KontoAntrag kontoAntrag = new KontoAntrag();
     kontoAntrag.setProdukt(KontoProduktEnum.GIRO);
     kontoAntrag.setAntragStatus(AntragStatusEnum.EINGEREICHT);
 
@@ -61,25 +61,28 @@ public class CrmGiroAntragController {
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
 
     model.addAttribute("ergebnis", ergebnis);
-    log.debug("Showing GiroAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/antragsuche";
   }
 
   @PostMapping("/antragBearbeitung")
   public String showGiroAntragBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
-                                                    @ModelAttribute KontoAntrag kontoAntrag) {
+                                                  @ModelAttribute KontoAntrag kontoAntrag) {
+    log.debug("Showing GiroKontoAntragsPage for Mitarbeiter: " + authentication.getName());
+
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
 
     model.addAttribute("ergebnis", ergebnis);
     model.addAttribute("kontoantrag", kontoAntrag);
-    log.debug("Showing GiroKontoAntragsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/antragsuche";
   }
 
   @GetMapping("/antrag/showGiroAntragForKontoForm")
-  public String showGiroAntragForKontoForm(@RequestParam("giroKontoAntragId") Long giroKontoAntragId, Model model) {
+  public String showGiroAntragForKontoForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                           @RequestParam("giroKontoAntragId") Long giroKontoAntragId, Model model) {
+    String loginName = authentication.getName();
+    log.debug("Showing GiroAntrag2KontoForm für GiroAntragId: " + giroKontoAntragId + " für Mitarbeiter: " + loginName);
 
     GiroKontoAntrag giroKontoAntrag = giroKontoAntragService.findById(giroKontoAntragId);
     Kunde kunde = kundeService.findByKundennummer(giroKontoAntrag.getKundennummer().toString());
@@ -92,14 +95,12 @@ public class CrmGiroAntragController {
 
 
   @PostMapping("/antrag/saveGiroAntrag2KontoForm")
-  public String saveGiroAntrag2KontoForm(@Valid @ModelAttribute("giroKontoAntrag") GiroKontoAntrag giroKontoAntrag,
+  public String saveGiroAntrag2KontoForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                         @Valid @ModelAttribute("giroKontoAntrag") GiroKontoAntrag giroKontoAntrag,
                                          @ModelAttribute("kunde") Kunde kunde, Model model, RedirectAttributes redirectAttrs) {
 
-    log.debug("GiroKontoAntrag id=" + giroKontoAntrag.getId() + ", KundeNr:" + giroKontoAntrag.getKundennummer() + " soll gespeichert werden" );
-
-
-
-
+    String loginName = authentication.getName();
+    log.debug("GiroKontoAntrag id=" + giroKontoAntrag.getId() + ", KundeNr:" + giroKontoAntrag.getKundennummer() + " soll von MitarbeiterId: " + loginName + " gespeichert werden." );
 
     final Kunde mykunde = kundeService.findByKundennummer(giroKontoAntrag.getKundennummer().toString());
     final KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());

@@ -45,7 +45,7 @@ import java.time.format.DateTimeFormatter;
 
 
 @Component
-@Profile("dev")
+@Profile({"dev","prod"})
 public class BootStrap1 implements CommandLineRunner {
 
   private final MitarbeiterService mitarbeiterService;
@@ -626,7 +626,7 @@ private void loadData() {
   sparKonto1.setKontoname("tralala1");
   sparKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   sparKonto1.setAktSaldo(BigDecimal.valueOf(4750.00));
-  sparKonto1.setKontonummer(123001L);
+  sparKonto1.setKontonummer("123001");
   sparKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto1.setKunde(kunde1);
   sparKonto1.setProdukt(KontoProduktEnum.SPAREN);
@@ -637,7 +637,7 @@ private void loadData() {
   sparKonto2.setKontoname("tralala2");
   sparKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   sparKonto2.setAktSaldo(BigDecimal.valueOf(0.00));
-  sparKonto2.setKontonummer(123002L);
+  sparKonto2.setKontonummer("123002");
   sparKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto2.setKunde(kunde1);
   sparKonto2.setProdukt(KontoProduktEnum.SPAREN);
@@ -648,7 +648,7 @@ private void loadData() {
   sparKonto3.setKontoname("tralala3");
   sparKonto3.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   sparKonto3.setAktSaldo(BigDecimal.valueOf(4750.00));
-  sparKonto3.setKontonummer(124001L);
+  sparKonto3.setKontonummer("124001");
   sparKonto3.setKontoStatus(KontoStatusEnum.OFFEN);
   sparKonto3.setKunde(kunde2);
   sparKonto3.setProdukt(KontoProduktEnum.SPAREN);
@@ -662,7 +662,7 @@ private void loadData() {
   GiroKonto giroKonto1 = new GiroKonto();
   giroKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   giroKonto1.setAktSaldo(BigDecimal.valueOf(2250));
-  giroKonto1.setKontonummer(123003L);
+  giroKonto1.setKontonummer("123003");
   giroKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   giroKonto1.setKunde(kunde1);
   giroKonto1.setKontoAntrag(giroKontoAntrag3);
@@ -674,7 +674,7 @@ private void loadData() {
   GiroKonto giroKonto2 = new GiroKonto();
   giroKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   giroKonto2.setAktSaldo(BigDecimal.valueOf(1500));
-  giroKonto2.setKontonummer(124003L);
+  giroKonto2.setKontonummer("124003");
   giroKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   giroKonto2.setKunde(kunde2);
   giroKonto2.setKontoAntrag(giroKontoAntrag2);
@@ -686,7 +686,7 @@ private void loadData() {
   KreditKonto kreditKonto1 = new KreditKonto();
   kreditKonto1.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   kreditKonto1.setAktSaldo(BigDecimal.valueOf(-14750));
-  kreditKonto1.setKontonummer(123004L);
+  kreditKonto1.setKontonummer("123004");
   kreditKonto1.setKontoStatus(KontoStatusEnum.OFFEN);
   kreditKonto1.setKunde(kunde1);
   kreditKonto1.setKontoAntrag(kreditKontoAntrag2);
@@ -700,7 +700,7 @@ private void loadData() {
   KreditKonto kreditKonto2 = new KreditKonto();
   kreditKonto2.setEroeffnungsDatum(LocalDateTime.parse(LocalDateTime.now().format(formatter)));
   kreditKonto2.setAktSaldo(BigDecimal.valueOf(-14750));
-  kreditKonto2.setKontonummer(124002L);
+  kreditKonto2.setKontonummer("124002");
   kreditKonto2.setKontoStatus(KontoStatusEnum.OFFEN);
   kreditKonto2.setKunde(kunde2);
   kreditKonto2.setKontoAntrag(kreditKontoAntrag1);

@@ -17,7 +17,7 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
                 " where ko.kunde_id = ku.id" +
                 "   and ku.kundennummer = ?1 ;",
                 nativeQuery = true)
-  Long getLatestKontonummerByKundennummer(String kundennummer);
+  String getLatestKontonummerByKundennummer(String kundennummer);
 
 
   @Query (value ="select max((ku.kundennummer)+1) from kunde ku  ",

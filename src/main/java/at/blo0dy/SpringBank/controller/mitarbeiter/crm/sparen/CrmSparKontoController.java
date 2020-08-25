@@ -51,6 +51,8 @@ public class CrmSparKontoController {
 
   @GetMapping("/kontoBearbeitung")
   public String showSparKontoBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
 
     Konto konto = new SparKonto();
     konto.setProdukt(KontoProduktEnum.SPAREN);
@@ -61,19 +63,17 @@ public class CrmSparKontoController {
     List<Konto> ergebnis = kontoService.findAll(konto);
 
     model.addAttribute("ergebnis", ergebnis);
-    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
-
     return "mitarbeiter/crm/kontosuche";
   }
 
   @PostMapping("/kontoBearbeitung")
   public String showSparKontoBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                                  @ModelAttribute Konto konto) {
+    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
+
     List<Konto> ergebnis = kontoService.findAll(konto);
 
     model.addAttribute("ergebnis", ergebnis);
-    log.debug("Showing SparKontoBearbeitungsPage for Mitarbeiter: " + authentication.getName());
-
     return "mitarbeiter/crm/kontosuche";
   }
 

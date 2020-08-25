@@ -29,12 +29,15 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   @Override
   @Transactional(readOnly = true)
   public LegiDokument findByKunde(Long kundeId) {
+    log.debug("LegiDokument für KundeId: " + kundeId + " wird gesucht.");
+
     return legiDokumentRepository.findByKunde(kundeId);
   }
 
 //  @Transactional
   @Override
   public LegiDokument saveFile(MultipartFile file, Kunde kunde) {
+    log.debug("Legidokument für Kundennummer: " + kunde.getKundennummer() + " wird gespeichert." );
     String docname = file.getOriginalFilename();
     LegiDokument legidoc = null;
 
@@ -48,26 +51,30 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
           e.getMessage();
         }
       }
-    return legiDokumentRepository.save(legidoc);
+      LegiDokument savedLegiDoc = legiDokumentRepository.save(legidoc);
+      log.debug("LegiDokument erfolgreich gespeichert. ID: " + savedLegiDoc.getId());
+      return savedLegiDoc;
   }
 
   @Override
   @Transactional(readOnly = true)
   public Optional<LegiDokument> getFile(Long fileId) {
+    log.debug("LegiDokument mit FileId: " + fileId + " wird gesucht.");
     return legiDokumentRepository.findById(fileId);
   }
 
-  @Override
+/*  @Override
   @Transactional(readOnly = true)
   public List<LegiDokument> getFiles() {
     return legiDokumentRepository.findAll();
-  }
+  }*/
 
 
   @Override
   @Transactional(readOnly = true)
   public List<LegiDokument> getNewFiles() {
 
+    log.debug("Neue Legidokumente werden gesucht");
 
     LegiDokument legiDokument = new LegiDokument(null,null,null,null,LegiDokumentStatusEnum.NEU, null);
 
@@ -77,12 +84,17 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
             .withMatcher("docName", match -> match.contains().ignoreCase())
             .withIgnorePaths("docType","kunde","data");
 
-    return legiDokumentRepository.findAll(Example.of(legiDokument, matcher));
+    List<LegiDokument> legiDokumentList =  legiDokumentRepository.findAll(Example.of(legiDokument, matcher));
+    log.debug(legiDokumentList.size() + " Neue Legidokumente wurden gefunden udn ggf. angezeigt");
+
+    return legiDokumentList;
   }
 
   @Override
   @Transactional(readOnly = true)
   public List<LegiDokument> getSearchedFiles(LegiDokument legiDokument) {
+
+    log.debug("Legidokumentensuche wird durchgeführt");
 
     ExampleMatcher matcher = ExampleMatcher.matching()
             .withIgnoreNullValues()
@@ -91,14 +103,19 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
             .withMatcher("kundennummer", match -> match.contains())
             .withIgnorePaths("docType","data","kunde");
 
-    return legiDokumentRepository.findAll(Example.of(legiDokument,matcher)) ;
+    List<LegiDokument> legiDokumentList = legiDokumentRepository.findAll(Example.of(legiDokument,matcher)) ;
+    log.debug(legiDokumentList.size() + " Neue Legidokumente wurden gefunden udn ggf. angezeigt");
+    return legiDokumentList;
   }
 
   @Override
 //  @Transactional
   public String delete(LegiDokument legiDokument) {
 
+    log.debug("Legidokument für Kundennummer: " + legiDokument.getKundennummer() + " ID: " + legiDokument.getId() + " wird gelöscht.");
+
     legiDokumentRepository.delete(legiDokument);
+    log.debug("Legidokument für Kundennummer: " + legiDokument.getKundennummer() + " erfolgreich gelöscht.");
 
     return "successfully deleted";
   }
@@ -107,9 +124,12 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
   @Transactional
   public String acceptLegiDokumentById(Long legiDokumentId) {
 
+    log.debug("LegiDokument mit ID: " + legiDokumentId + " wird akzeptiert." );
+
 //    legiDokumentRepository.acceptLegiDokumentById(legiDokumentId);
     LegiDokument legiDokument = legiDokumentRepository.findById(legiDokumentId).get();
     legiDokument.setStatus(LegiDokumentStatusEnum.BEARBEITET);
+    log.debug("LegiDokument mit ID: " + legiDokument + " erfolgreich aktualisiert.");
     return "successfully accepted" ;
   }
 

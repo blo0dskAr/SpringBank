@@ -7,19 +7,19 @@ import java.util.List;
 
 public interface GiroKontoAntragService {
 
-  List<GiroKontoAntrag> findAll();
+//  List<GiroKontoAntrag> findAll();
 
   GiroKontoAntrag findById(Long theId);
 
   void save(GiroKontoAntrag giroKontoAntrag);
 
-  void deleteById(Long theId);
+//  void deleteById(Long theId);
 
-  long count();
+//  long count();
 
-  long countByStatus(String statusEnum);
+//  long countByStatus(String statusEnum);
 
-  List<GiroKontoAntrag> findByStatus(String statusEnum);
+//  List<GiroKontoAntrag> findByStatus(String statusEnum);
 
   List<GiroKontoAntrag> findGiroAntraegeByKundennummer(String kundennummer);
 

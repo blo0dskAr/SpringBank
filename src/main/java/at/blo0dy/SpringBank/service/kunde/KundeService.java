@@ -8,13 +8,13 @@ import java.util.List;
 
 public interface KundeService   {
 
-  List<Kunde> findAll();
+//  List<Kunde> findAll();
 
   Kunde findById(Long theId);
 
   void save(Kunde kunde);
 
-  void deleteById(Long theId);
+//  void deleteById(Long theId);
 
   Kunde findByKundennummer(String kundennummer);
 
@@ -22,7 +22,7 @@ public interface KundeService   {
 
   void setKundeActiveIfRequirementsMetByKundennummer(String kundennummer);
 
-  Long generateNewKontonummerByKundennummer(String kundennummer);
+  String generateNewKontonummerByKundennummer(String kundennummer);
 
   Long getLatestKundennummerPlusOne();
 
@@ -36,7 +36,7 @@ public interface KundeService   {
 
   void updateLegiStatusById(Long kundeId, boolean status);
 
-  void updateActiveStatusById(Long kundeId, boolean status);
+//  void updateActiveStatusById(Long kundeId, boolean status);
 
   void updatePasswordByKundeId(Long id, String encode);
 }

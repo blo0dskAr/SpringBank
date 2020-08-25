@@ -30,7 +30,7 @@ public interface KreditKontoRepository extends JpaRepository<KreditKonto, Long> 
           "   and ko.id = kko.id", nativeQuery = true)
   KreditKonto findKreditKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
-  KreditKonto findByKontonummer(Long tmpKontonummer);
+  KreditKonto findByKontonummer(String kontonummer);
 
   @Query(value = "select count(*) from kreditkonto kko, konto ko " +
           " where kko.id = ko.id" +

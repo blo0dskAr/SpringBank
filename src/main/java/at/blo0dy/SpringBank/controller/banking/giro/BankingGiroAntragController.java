@@ -53,8 +53,8 @@ public class BankingGiroAntragController {
   public String saveGiroAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                          @Valid @ModelAttribute("girokontoantrag") GiroKontoAntrag giroKontoAntrag, BindingResult result,
                                          RedirectAttributes redirectAttrs) {
-
     String authKundennummer = authentication.getName();
+    log.debug("GirokontoAntrag: " +  giroKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
 
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines GirokontoAntrags für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -63,7 +63,6 @@ public class BankingGiroAntragController {
       return "kunde/banking/giro/antrag-detail";
     }
 
-    log.debug("GirokontoAntrag: " +  giroKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
     giroKontoAntragService.save(giroKontoAntrag);
     log.debug("GirokontoAntrag: " +  giroKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );
 

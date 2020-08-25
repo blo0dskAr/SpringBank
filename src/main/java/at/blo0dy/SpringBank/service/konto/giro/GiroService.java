@@ -8,14 +8,13 @@ import java.util.List;
 
 public interface GiroService {
 
-  // standard jpa crud operations:
-  public List<GiroKonto> findAll();
+//  List<GiroKonto> findAll();
 
-  public GiroKonto findById(Long theId);
+  GiroKonto findById(Long theId);
 
-  public void save(GiroKonto giroKonto);
+  void save(GiroKonto giroKonto);
 
-  public void deleteById(Long theId);
+//  void deleteById(Long theId);
 
   List<GiroKonto> findGiroKontenByKundennummer(String kundennummer);
 
@@ -23,7 +22,7 @@ public interface GiroService {
 
   GiroKonto findGiroKontoByKontonummerAndKundennummer(String kontonummer, String kundennummer);
 
-  GiroKonto findByKontonummer(Long kontonummer);
+  GiroKonto findByKontonummer(String kontonummer);
 
   int countAktiveKontenByKundeId(Long id);
 }

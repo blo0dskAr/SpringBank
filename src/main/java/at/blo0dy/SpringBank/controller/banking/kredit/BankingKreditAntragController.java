@@ -53,8 +53,8 @@ public class BankingKreditAntragController {
   public String saveKreditAntragDetailPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                             @Valid @ModelAttribute("kreditkontoantrag") KreditKontoAntrag kreditKontoAntrag, BindingResult result,
                                             RedirectAttributes redirectAttrs) {
-
     String authKundennummer = authentication.getName();
+    log.debug("KreditkontoAntrag: " +  kreditKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
 
     if (result.hasErrors()) {
       log.warn("Fehler beim speichern eines KreditkontoAntrags für Kunde: " + authKundennummer + " erhalten. Wird mit Fehler neu geladen. (count=" + result.getErrorCount() + ")");
@@ -63,7 +63,6 @@ public class BankingKreditAntragController {
       return "kunde/banking/kredit/antrag-detail";
     }
 
-    log.debug("KreditkontoAntrag: " +  kreditKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wird gespeichert" );
     kreditKontoAntragService.save(kreditKontoAntrag);
     log.debug("KreditkontoAntrag: " +  kreditKontoAntrag.getId() + " zu Kunde: " + authKundennummer + " wurde erfolgreich gespeichert" );
 

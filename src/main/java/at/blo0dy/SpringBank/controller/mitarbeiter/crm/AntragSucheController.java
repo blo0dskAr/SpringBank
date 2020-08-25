@@ -30,8 +30,9 @@ public class AntragSucheController {
   @GetMapping("/antragsuche")
   public String showAntragSucheForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
 
-    KontoAntrag kontoAntrag = new KontoAntrag();
+    log.debug("Antragsuche Page for Mitarbeiter: " + authentication.getName() + " wird aufgerufen.");
 
+    KontoAntrag kontoAntrag = new KontoAntrag();
     model.addAttribute("kontoantrag", kontoAntrag);
 
     return "mitarbeiter/crm/antragsuche";

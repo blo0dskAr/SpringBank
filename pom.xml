@@ -11,7 +11,7 @@
 	<groupId>at.blo0dy</groupId>
 	<artifactId>SpringBank</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>SpringBank</name>
 	<description>first try</description>
 

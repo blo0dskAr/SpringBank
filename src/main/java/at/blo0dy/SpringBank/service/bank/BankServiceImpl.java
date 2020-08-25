@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class BankServiceImpl implements BankService {
+  // Die Bank-Klasse ist  ein Ueberbleibsel aus der Anfangszeit. Ich lass sie aber trotzdem vorerst.
 
   BankRepository bankRepository;
 
@@ -17,7 +18,6 @@ public class BankServiceImpl implements BankService {
   }
 
   @Override
-//  @Transactional
   public void saveBank(Bank bank) {
     bankRepository.save(bank);
   }
@@ -25,6 +25,7 @@ public class BankServiceImpl implements BankService {
   @Override
   @Transactional(readOnly = true)
   public Bank getBank() {
+
     return bankRepository.getOne(1L);
   }
 

@@ -5,6 +5,7 @@ import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerErgebnis;
 import at.blo0dy.SpringBank.model.produkt.kredit.KreditRechnerVorlage;
 import at.blo0dy.SpringBank.service.konto.kredit.KreditService;
 import at.blo0dy.SpringBank.service.produkt.zinssatz.ZinssatzService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 
+@Slf4j
 @Controller
 @RequestMapping("/kunde/kredit")
 public class KundeKreditController {
@@ -33,6 +35,7 @@ public class KundeKreditController {
 
   @GetMapping({"/index", "/", ""})
   public String viewKreditIndex(Model model) {
+    log.debug("KreditIndexPage wird aufgerufen.");
     model.addAttribute("activeLink", "kundeKreditHome");
 
     return "kunde/kredit/index";
@@ -40,6 +43,7 @@ public class KundeKreditController {
 
   @GetMapping("/rechner")
   public String showKreditRechnerForm(Model model) {
+    log.debug("KreditRechnerForm wird aufgerufen.");
 
     // / 100 division workaround fürs frontend
     KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), zinssatzService.getAktuellerKreditZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
@@ -54,7 +58,9 @@ public class KundeKreditController {
 
   @PostMapping("/rechner")
   public String berechneKredit(@Validated @ModelAttribute("kreditrechnervorlage") KreditRechnerVorlage kv, BindingResult result, Model model ) {
+    log.debug("Unverbindliche Kreditberechnung wird durchgeführt.");
     if (result.hasErrors()) {
+      log.debug("Fehler bei der Eingabe erhalten. Seite wird neu geladen.");
 //      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
       model.addAttribute("activeLink", "kundeKreditRechner");

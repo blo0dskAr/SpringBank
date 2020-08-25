@@ -53,6 +53,8 @@ public class BankingDauerAuftragController {
     String tmpkontonummer = tmpKonto.getKontonummer().toString() ;
     KontoProduktEnum tmpProdukt = tmpKonto.getProdukt();
 
+    log.debug("Showing DauerAuftragForm for Kunde: " + authKundennummer + " und KontoId: " + kontoId);
+
     Konto testKonto;
 
     if (tmpProdukt == KontoProduktEnum.SPAREN) {
@@ -77,13 +79,14 @@ public class BankingDauerAuftragController {
       }
     }
 
-    log.debug("Showing DauerAuftragForm for Kunde: " + authentication.getName() + " und KontoId: " + kontoId);
-
     DauerAuftrag dauerAuftrag;
 
     if (dauerAuftragId != null) {
+      log.debug("DauerauftragId: " + dauerAuftragId + " für KontoId: " + kontoId + " wird gesucht.");
       dauerAuftrag = dauerAuftragService.findById(dauerAuftragId);
+      log.debug("DauerauftragId: " + dauerAuftragId + " für KontoId: " + kontoId + " wurde gefunden.");
     } else {
+      log.debug("Kein Dauerauftrag für KontoId: " + kontoId + " mitgeliefert. Neuer Dauerauftrag wird erstellt.");
       dauerAuftrag = new DauerAuftrag();
       dauerAuftrag.setKonto(tmpKonto);
       dauerAuftrag.setId(0L);
@@ -141,10 +144,12 @@ public class BankingDauerAuftragController {
   @GetMapping("/storniereDauerAuftrag")
   public String storniereDauerAuftrag(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
                                       @RequestParam Long kontoId, @RequestParam Long dauerAuftragId, RedirectAttributes redirectAttrs) {
+    log.debug("DauerauftragId: " + dauerAuftragId + " für KontoId: " + " wird storniert.");
 
     Konto tmpKonto = kontoService.findById(kontoId);
 
     dauerAuftragService.storniereDauerAuftragById(dauerAuftragId);
+    log.debug("DauerauftragId: " + dauerAuftragId + " für KontoId: " + " wurde erfolgreich storniert.");
 
     redirectAttrs.addFlashAttribute("dauerAuftragStorniert", true);
 

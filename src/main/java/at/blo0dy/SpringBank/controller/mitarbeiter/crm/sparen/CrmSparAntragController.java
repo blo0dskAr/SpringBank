@@ -50,9 +50,9 @@ public class CrmSparAntragController {
     this.kontoAntragService = kontoAntragService;
   }
 
-
   @GetMapping("/antragBearbeitung")
   public String showSparAntragBearbeitungsPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+    log.debug("Showing SparAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
     KontoAntrag kontoAntrag = new SparKontoAntrag();
     kontoAntrag.setProdukt(KontoProduktEnum.SPAREN);
@@ -63,7 +63,6 @@ public class CrmSparAntragController {
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
 
     model.addAttribute("ergebnis", ergebnis);
-    log.debug("Showing SparAntragBearbeitungsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/antragsuche";
   }
@@ -71,16 +70,15 @@ public class CrmSparAntragController {
   @PostMapping("/antragBearbeitung")
   public String showSparAntragBearbeitungsPageErg(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model,
                                                   @ModelAttribute KontoAntrag kontoAntrag) {
+    log.debug("Showing SparKontoAntragsPage for Mitarbeiter: " + authentication.getName());
+
     List<KontoAntrag> ergebnis = kontoAntragService.findAll(kontoAntrag);
 
     model.addAttribute("ergebnis", ergebnis);
     model.addAttribute("kontoantrag", kontoAntrag);
-    log.debug("Showing SparKontoAntragsPage for Mitarbeiter: " + authentication.getName());
 
     return "mitarbeiter/crm/antragsuche";
   }
-
-
 
   @GetMapping("/antrag/showSparAntragForKontoForm")
   public String showSparAntrag2KontoForm(@RequestParam("sparKontoAntragId") Long sparKontoAntragId, Model model) {

@@ -23,6 +23,7 @@ import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -88,7 +89,7 @@ public class KontoServiceImpl implements KontoService {
 /*
   @Override
   @Transactional(readOnly = true)
-  public Konto findByKontonummer(Long kontonummer) {
+  public Konto findByKontonummer(String kontonummer) {
     return kontoRepository.findByKontonummer(kontonummer);
   }*/
 
@@ -96,7 +97,7 @@ public class KontoServiceImpl implements KontoService {
   @Transactional(readOnly = true)
   public List<Konto> findAll(Konto konto) {
    log.debug("Kontosuche wird durchgeführt.");
-    return kontoRepository.findAll(Example.of(konto));
+    return kontoRepository.findAll(Example.of(konto, ExampleMatcher.matching().withMatcher("kontonummer", match -> match.contains())));
   }
 
   @Override

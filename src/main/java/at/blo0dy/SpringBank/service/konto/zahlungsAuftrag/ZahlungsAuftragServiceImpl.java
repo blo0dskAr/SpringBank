@@ -113,7 +113,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
     log.debug("Zahlungsauftrag wird bearbeitet.");
     // Hier das Konto aus der DB neu laden, weil sonst aus dem zahlungsauftrag.getkonto() der alte saldo übermittelt wird bei > 1 buchung.
-    Konto tmpKonto = kontoRepository.findByKontonummer(Long.valueOf(zahlungsAuftrag.getKontonummer()));
+    Konto tmpKonto = kontoRepository.findByKontonummer(zahlungsAuftrag.getKontonummer());
     BigDecimal neuerSaldo;
     KontoBuchung neueKontoBuchung;
     BuchungsArtEnum buchungsArt;

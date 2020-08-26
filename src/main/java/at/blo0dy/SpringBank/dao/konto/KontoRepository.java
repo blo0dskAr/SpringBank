@@ -28,7 +28,7 @@ public interface KontoRepository extends JpaRepository<Konto, Long> {
                  " where ko.id = ?1 ", nativeQuery = true)
   String findKontonummerById(Long kontoId);
 
-  Konto findByKontonummer(Long kontonummer);
+  Konto findByKontonummer(String kontonummer);
 
 /*  @Modifying
   @Query(value = "update konto ko set " +

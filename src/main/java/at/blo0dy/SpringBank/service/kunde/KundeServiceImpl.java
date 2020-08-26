@@ -144,8 +144,14 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert");
     String newKontonummer;
     try {
-      newKontonummer = kundeRepository.getLatestKontonummerByKundennummer(kundennummer) + 1 ;
+      // Das hin und her mit der Kontonummer is bissi schiach nach dem Wechsel zu String)
+      Integer latestKontonummer = Integer.parseInt( kundeRepository.getLatestKontonummerByKundennummer(kundennummer))+1;
+      newKontonummer = latestKontonummer.toString() ;
     } catch (NullPointerException npe) {
+      // npe brauch ich theoretisch nicht mehr ? . parseInt nun ne numberformat exception wirft, wenn ergebnis == null)
+      log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert: Ist erstes Konto: 001");
+      newKontonummer = kundennummer + "001" ;
+    } catch (NumberFormatException nfe) {
       log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert: Ist erstes Konto: 001");
       newKontonummer = kundennummer + "001" ;
     }

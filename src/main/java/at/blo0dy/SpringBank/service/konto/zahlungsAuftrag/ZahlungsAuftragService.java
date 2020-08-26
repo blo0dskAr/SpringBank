@@ -18,7 +18,7 @@ public interface ZahlungsAuftragService {
 
 //  BigDecimal getSummeOffenerAuszahlungenByKontoId(Long kontoId);
 
-  boolean checkAuszahlungWithVerfuegbarerBetrag(Konto konto, BigDecimal auszahlungsBetrag);
+  boolean checkAuszahlungWithVerfuegbarerBetrag(Konto konto, BigDecimal auszahlungsBetrag, Boolean isZV);
 
   List<ZahlungsAuftrag> findAllAngelegteZahlungsAuftraegeByDateAndType(LocalDate auftragsdatum, String type);
 

@@ -74,15 +74,29 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
   @Override
   @Transactional(readOnly = true)
-  public boolean checkAuszahlungWithVerfuegbarerBetrag(Konto konto, BigDecimal auszahlungsBetrag) {
+  public boolean checkAuszahlungWithVerfuegbarerBetrag(Konto konto, BigDecimal auszahlungsBetrag, Boolean isZV) {
     log.debug("Auszahlung von EUR " +  auszahlungsBetrag + " wird mit verfügbaren Betrg am Konto: " + konto.getKontonummer() + " geprüft.");
     BigDecimal verfuegbarerBetrag = getVerfügbarerSaldoByKontoId(konto.getId());
-    if (verfuegbarerBetrag.compareTo(auszahlungsBetrag) == -1) {
-      log.debug("--> Betrag nicht verfügbar.");
-      return false;
+    // Wenn der Check aus dem ZV kommt, und nicht vom Kunden eingegeben wird
+    if (isZV = true) {
+      // wenn auszahlungsbetrag groesser als der verfuegbare betrag
+      if (auszahlungsBetrag.compareTo(konto.getAktSaldo()) == 1) {
+        log.debug("--> Betrag nicht verfügbar.");
+        return false;
+      } else {
+        log.debug("--> Betrag verfügbar.");
+        return true;
+      }
+      // Wenn der Check aus einer Kunden/Mitarbeiter Eingabe stammt
     } else {
-      log.debug("--> Betrag verfügbar.");
-      return true;
+      // wenn verfuegbarer betrag (aktsaldo - offene auszahlungen bis heute) kleiner als Auszahlung
+      if (verfuegbarerBetrag.compareTo(auszahlungsBetrag) == -1) {
+        log.debug("--> Betrag nicht verfügbar.");
+        return false;
+      } else {
+        log.debug("--> Betrag verfügbar.");
+        return true;
+      }
     }
   }
 
@@ -109,8 +123,8 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
       buchungsText = "Auszahlung";
       // Check Ob Saldo Verfügbar
-      if (checkAuszahlungWithVerfuegbarerBetrag(tmpKonto, zahlungsAuftrag.getBetrag()) || tmpKonto.getProdukt() == KontoProduktEnum.KREDIT) {
-        // true = erstelle KontoBuchung, update zahlungsAuftrag, (sammle in file, sammle in DB)
+      if (checkAuszahlungWithVerfuegbarerBetrag(tmpKonto, zahlungsAuftrag.getBetrag(), true) || tmpKonto.getProdukt() == KontoProduktEnum.KREDIT) {
+        // true = erstelle KontoBuchung, update zahlungsAuftrag, (sammle in file(tbd), sammle in DB)
         neuerSaldo = tmpKonto.getAktSaldo().subtract(zahlungsAuftrag.getBetrag());
         buchungsArt = BuchungsArtEnum.SOLL;
       } else {
@@ -183,7 +197,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     log.debug("Verfügbarer Saldo für KontoId: " + kontoId + " wird ermittelt.");
     Konto konto = kontoRepository.findById(kontoId).get();
 
-    BigDecimal verfügbarerBetrag = konto.getAktSaldo().subtract(zahlungsAuftragRepository.getSummeOffenerAuszahlungsAuftraegeByKontoId(kontoId)) ;
+    BigDecimal verfügbarerBetrag = konto.getAktSaldo().subtract(zahlungsAuftragRepository.getSummeOffenerAuszahlungsAuftraegeBisSysdateByKontoId(kontoId)) ;
     if (konto instanceof GiroKonto) {
       verfügbarerBetrag = verfügbarerBetrag.add(((GiroKonto) konto).getUeberziehungsRahmen());
     }

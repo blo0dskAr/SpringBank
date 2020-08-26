@@ -97,13 +97,15 @@ public class CrmKreditAntragController {
 
 
   @PostMapping(value = "/antrag/saveKreditAntrag2KontoForm", params = {"saveKreditKonto"})
-  public String saveKreditAntrag2KontoForm(@Valid @ModelAttribute("kreditKontoAntrag") KreditKontoAntrag kreditKontoAntrag, BindingResult bindingResult,
+  public String saveKreditAntrag2KontoForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                           @Valid @ModelAttribute("kreditKontoAntrag") KreditKontoAntrag kreditKontoAntrag, BindingResult bindingResult,
                                            @ModelAttribute("kunde") Kunde kunde, Model model, RedirectAttributes redirectAttrs) {
 
+    String loginName = authentication.getName();
     Long tmpKredAntrId = kreditKontoAntrag.getId();
     String tmpKundenNummer = kreditKontoAntrag.getKundennummer().toString();
 
-    log.debug("KreditAntrag id=" + tmpKredAntrId + ", KundeNr:" + tmpKundenNummer + " soll gespeichert werden" );
+    log.debug("KreditAntrag id=" + tmpKredAntrId + ", KundeNr:" + tmpKundenNummer + " soll von MitarbeiterId: " + loginName + " gespeichert werden." );
     try {
       KreditKontoAntrag vergleichsAntrag = kreditKontoAntragService.findById(tmpKredAntrId);
       log.debug("Es wird geprüft ob sich die KreditAntragdaten verändert haben für KreditAntragId=" + tmpKredAntrId);
@@ -152,6 +154,7 @@ public class CrmKreditAntragController {
 
       if (bestMoeglicherStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
         log.debug("KreditKonto mit der ID=" + kreditKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
+        redirectAttrs.addFlashAttribute("kontoInEroeffnung", true);
       } else {
         log.debug("Gespeichertes KreditKonto mit der ID=" + kreditKonto.getId() + " wird auf Mögliche KontoEröffnung geprüft:");
         String processErgebnis = kontoService.processKontoStatusById(kreditKonto.getId(), bestMoeglicherStatus, bestMoeglicherStatus);

@@ -24,6 +24,11 @@
                             Das sollte hier nicht passieren :)
                         </div>
                     </div>
+                    <div th:if="${kontoInEroeffnung}">
+                        <div class="alert alert-info">
+                            Der Antrag wurde genehmigt, wegen fehlender Kundendaten bleibt das Konto aber in Eroeffnung.
+                        </div>
+                    </div>
                     <div th:if="${kontoOpened}">
                         <div class="alert alert-success">
                             Der Antrag wurde genehmigt und das Konto konnte bereits eröffnet werden.

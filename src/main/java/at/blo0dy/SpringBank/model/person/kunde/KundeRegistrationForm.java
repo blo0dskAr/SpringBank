@@ -13,22 +13,22 @@ import java.time.LocalDate;
 @Data
 public class KundeRegistrationForm {
 
-  @NotBlank(message = "Vorname must be defined.")
+  @NotBlank(message = "Vorname muss angegeben werden.")
   private String vorname;
 
-  @NotBlank(message = "Nachname must be defined.")
+  @NotBlank(message = "Nachname muss angegeben werden.")
   private String nachname;
 
-  @NotBlank(message = "Password must be defined.")
+  @NotBlank(message = "Password muss angegeben werden.")
   private String password;
 
   @Valid
   private Adresse adresse;
 
-  @NotBlank(message = "Telefonnummer must be defined.")
+  @NotBlank(message = "Telefonnummer muss angegeben werden.")
   private String telefonNummer;
 
-  @NotBlank(message = "EmailAdresse must be defined.")
+  @NotBlank(message = "EmailAdresse muss angegeben werden.")
   private String emailAdresse;
 
   @NotBlank(message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")
@@ -37,8 +37,8 @@ public class KundeRegistrationForm {
   private String connectedGiro;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
-  @Past
-  @NotNull(message = "Darf nicht leer sein")
+  @Past(message = "Darf nicht leer sein, muss in der Vergangenheit liegen.")
+  @NotNull(message = "Darf nicht leer sein, muss in der Vergangenheit liegen.")
   private LocalDate geburtsDatum;
 
 

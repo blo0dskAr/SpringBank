@@ -3,7 +3,6 @@ package at.blo0dy.SpringBank.model.person.kunde;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
-import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

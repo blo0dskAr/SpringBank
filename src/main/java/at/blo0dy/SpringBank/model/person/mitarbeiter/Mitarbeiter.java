@@ -23,9 +23,6 @@ import java.util.List;
 public class Mitarbeiter extends Person {
 
   @Column(name = "mitarbeiternummer")
-//  @Min(1)
-//  @Max(99999999)
-//  @NotNull(message = "Mitarbeiternummer must be defined.")
   private String mitarbeiterNummer;
 
   @Column(name = "position")

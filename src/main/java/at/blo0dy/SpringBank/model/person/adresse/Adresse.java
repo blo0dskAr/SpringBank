@@ -15,22 +15,22 @@ public class Adresse {
   private Long id;
 
   @Column(name = "strasse")
-  @NotBlank(message = "Straße darf nicht leer sein.")
+  @NotBlank(message = "Straße muss mindestens Adresse und Hausnummer enthalten (zB. Teststraße 5/D/7)")
   @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -.,]{2,40}[0-9]{1,5}[0-9 -/a-zA-Z]{0,15}$", message = "Straße muss mindestens Adresse und Hausnummer enthalten (zB. Teststraße 5/D/7)")
   private String strasse;
 
   @Column(name = "plz")
   @Pattern(regexp = "^[0-9]{4,5}$", message = "PLZ als 4 bzw. 5-stellige Zahl angeben")
-  @NotBlank(message = "PLZ darf nicht leer sein.")
+  @NotBlank(message = "PLZ als 4 bzw. 5-stellige Zahl angeben")
   private String plz;
 
   @Column(name = "ort")
-  @NotBlank(message = "Ort darf nicht leer sein.")
+  @NotBlank(message = "Ort darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]{2,30}$", message = "Ort darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   private String ort;
 
   @Column(name = "land")
-  @NotBlank(message = "Land darf nicht leer sein.")
+  @NotBlank(message = "Ort darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]{2,30}$", message = "Land darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   private String land;
 

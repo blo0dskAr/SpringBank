@@ -26,7 +26,7 @@ public class Mitarbeiter extends Person {
   private String mitarbeiterNummer;
 
   @Column(name = "position")
-  @NotBlank(message = "Position must be defined.")
+  @NotBlank(message = "Position muss angegeben werden.")
   private String position;
 
   @OneToOne(mappedBy = "mitarbeiter",

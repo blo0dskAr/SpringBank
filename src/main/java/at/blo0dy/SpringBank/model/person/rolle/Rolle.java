@@ -22,7 +22,7 @@ public class Rolle  {
   private Long id;
 
   @Column
-  @NotBlank(message = "Darf nicht leer sein. Darf nur Buchstaben, \"_\" und \"-\" enthalten")
+  @NotBlank
   @Pattern(message = "Darf nicht leer sein. Darf nur Buchstaben, \"_\" und \"-\" enthalten", regexp = "^[a-z_-]{3,20}")
   private String name;
 

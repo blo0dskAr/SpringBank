@@ -91,18 +91,20 @@ public class AdminRolleController {
     Rolle rolle = new Rolle();
     rolle.setId(0L);
     model.addAttribute("rolle", rolle);
+    model.addAttribute("activeLink", "AdminRolleList");
 
     return "rolle/rollen-form";
   }
 
   @GetMapping("/showFormForUpdate")
   public String showFormForUpdate(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
-                                  @RequestParam("rolleId") Long theId, Model theModel) {
+                                  @RequestParam("rolleId") Long theId, Model model) {
     String loginName = authentication.getName();
     log.debug("RolleUpdateForm wird von Mitarbeiter: " + loginName + " aufgerufen.");
 
     Rolle rolle = rolleService.findById(theId);
-    theModel.addAttribute("rolle", rolle);
+    model.addAttribute("rolle", rolle);
+    model.addAttribute("activeLink", "AdminRolleList");
 
     return "rolle/rollen-form";
   }
@@ -120,6 +122,7 @@ public class AdminRolleController {
     model.addAttribute("rolleId", theRoleId);
     model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
+    model.addAttribute("activeLink", "AdminRolleList");
 
     return "rolle/rolledetail";
   }
@@ -175,6 +178,7 @@ public class AdminRolleController {
     model.addAttribute("rolleId", theId);
     model.addAttribute("rolle",rolle);
     model.addAttribute("mitarbeiter", mitarbeiterListe) ;
+    model.addAttribute("activeLink", "AdminRolleList");
 
     return "rolle/add-user";
   }

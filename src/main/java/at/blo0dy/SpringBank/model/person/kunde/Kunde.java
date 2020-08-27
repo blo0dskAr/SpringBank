@@ -26,14 +26,15 @@ public class Kunde extends Person implements UserDetails {
   @NotBlank(message = "kundennummer darf nicht leer sein.")
   private String kundennummer;
 
+  // TODO: hier muss mal ein pattern her, damit gscheite passwoerter vergeben werden. zum testen ists aber muehsam...
   @Column(name = "password")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
-  @NotBlank(message = "Telefonnummer darf nicht leer sein.")
+  @NotBlank(message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   @Pattern(regexp = "^[+]?[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   private String telefonNummer;
-  @NotBlank(message = "emailAdresse darf nicht leer sein.")
+  @NotBlank(message = "Email im Format <name>@<domain>.<land> angeben.")
   @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", message = "Email im Format <name>@<domain>.<land> angeben.", flags = Pattern.Flag.CASE_INSENSITIVE)
   private String emailAdresse;
 
@@ -49,13 +50,9 @@ public class Kunde extends Person implements UserDetails {
   private boolean isActive;
   private boolean firstLoginDone ;
 
-//  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//  private LegiDokument legiDokument;
-
   @Column(name = "connected_giro")
   @Pattern(regexp = "^AT[0-9a-zA-Z]{18}$", message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")
   private String connectedGiro;
-
 
   public Kunde() { }
 

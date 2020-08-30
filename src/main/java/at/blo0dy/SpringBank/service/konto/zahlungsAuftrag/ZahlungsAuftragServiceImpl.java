@@ -175,7 +175,7 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
 
     log.debug("Datenträger wird erstellt.");
     Datentraeger datentraeger = new Datentraeger(0, BigDecimal.ZERO, LocalDateTime.now(), null, zahlungsAuftragsSample.getAuftragsArt());
-    Datentraeger savedDatentraeger = datenTraegerRepository.save(datentraeger);
+    datenTraegerRepository.save(datentraeger);
     log.debug("Datenträger erfolgreich gespeichert. ID: " + datentraeger.getId());
 
     zahlungsAuftragsList.forEach(za ->  processSingleZahlungsAuftrag(za, datentraeger));

@@ -45,7 +45,6 @@ public class KundeKreditController {
   public String showKreditRechnerForm(Model model) {
     log.debug("KreditRechnerForm wird aufgerufen.");
 
-    // / 100 division workaround fürs frontend
     KreditRechnerVorlage kv = new KreditRechnerVorlage(BigInteger.valueOf(84), zinssatzService.getAktuellerKreditZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.valueOf(10000));
     KreditRechnerErgebnis ke = new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
@@ -61,14 +60,11 @@ public class KundeKreditController {
     log.debug("Unverbindliche Kreditberechnung wird durchgeführt.");
     if (result.hasErrors()) {
       log.debug("Fehler bei der Eingabe erhalten. Seite wird neu geladen.");
-//      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
       model.addAttribute("activeLink", "kundeKreditRechner");
       return "kunde/kredit/rechner";
     }  else {
       KreditRechnerErgebnis ke = kreditService.getKreditRechnerErgebnis(kv);
-      // Workaround bis dieses % wird als *100 dargestellt (aber nicht gerechnet) gelöst wird
-//      kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("kreditrechnervorlage", kv);
       model.addAttribute("ergebnis",ke);
       model.addAttribute("activeLink", "kundeKreditRechner");

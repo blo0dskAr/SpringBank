@@ -86,7 +86,7 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
       Kunde tmpKunde = kundeRepository.findByKundennummer(kundennummer);
       boolean neuerStatus = tmpKunde.isActive();
 
-      if (tmpKunde.isActive()) {
+      if (neuerStatus) {
         if (tmpKunde.isHasAcceptedAGB() && tmpKunde.isLegi()) {
           log.debug("KundenStatusCheck durchgeführt für " + kundennummer + ": Keine Änderung durchgeführt (bereits aktiv)");
         } else {

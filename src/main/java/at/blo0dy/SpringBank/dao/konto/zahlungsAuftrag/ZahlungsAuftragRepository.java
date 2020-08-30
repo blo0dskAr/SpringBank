@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.dao.konto.zahlungsAuftrag;
 
 
+import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.zv.Datentraeger;
 import org.springframework.data.jpa.repository.JpaRepository;

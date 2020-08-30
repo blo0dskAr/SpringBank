@@ -39,7 +39,7 @@ public class AdvancedSparZinsRechnerVorlage {
 
   @Min(value = 1, message = "Bitte eine Zahl von 1 bis 10.000.000  angeben.")
   @Max(value = 10000000, message = "Bitte eine Zahl von 1 bis 10.000.000 angeben.")
-  @NotNull(message = "Bitte eine Zahl von 1 bis 10.000.000  angeben.")
+  @NotNull(message = "Bitte eine Zahl von 1 bis 10.000.000 angeben.")
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal initialBetrag;
 

@@ -155,6 +155,7 @@ public class BankingSparenController {
 
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+      model.addAttribute("konto", sparKonto);
 
       return "kunde/banking/zahlungsAuftrag-form";
     }

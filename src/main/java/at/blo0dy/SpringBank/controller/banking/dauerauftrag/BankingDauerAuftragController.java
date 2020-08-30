@@ -50,7 +50,7 @@ public class BankingDauerAuftragController {
 
     String authKundennummer = authentication.getName();
     Konto tmpKonto = kontoService.findById(kontoId);
-    String tmpkontonummer = tmpKonto.getKontonummer().toString() ;
+    String tmpkontonummer = tmpKonto.getKontonummer() ;
     KontoProduktEnum tmpProdukt = tmpKonto.getProdukt();
 
     log.debug("Showing DauerAuftragForm for Kunde: " + authKundennummer + " und KontoId: " + kontoId);
@@ -111,7 +111,7 @@ public class BankingDauerAuftragController {
                                      RedirectAttributes redirectAttrs, Model model) {
 
     Konto tmpKonto = dauerAuftrag.getKonto();
-    String tmpKontonummer = tmpKonto.getKontonummer().toString();
+    String tmpKontonummer = tmpKonto.getKontonummer();
     KontoProduktEnum tmpProdukt = tmpKonto.getProdukt();
 
     log.debug("Speichern des DauerAuftrags für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " wurde angefordert");

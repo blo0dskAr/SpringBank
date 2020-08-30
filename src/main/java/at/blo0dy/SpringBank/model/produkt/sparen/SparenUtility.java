@@ -16,6 +16,7 @@ import java.util.List;
 @Service
 public class SparenUtility {
 
+  public static final int ANZAHL_MONATE_IM_JAHR = 12;
   private ZinssatzRepository zinssatzRepository;
 
   @Autowired
@@ -41,7 +42,7 @@ public class SparenUtility {
   public static SparZinsRechnerErgebnis getZinsenBisJahresEnde(SparZinsRechnerVorlage sparZinsRechnerVorlage) {
 
     // hol Tage bis Jahresende
-    int tage = getTageBisMonatsEnde(sparZinsRechnerVorlage.getDatum()) + (getTageBisJahresEnde(sparZinsRechnerVorlage.getDatum())*30);
+    int tage = getTageBisMonatsEnde(sparZinsRechnerVorlage.getDatum()) + (getVolleMonateBisJahresEnde(sparZinsRechnerVorlage.getDatum())*30);
 
     // berechnet Zinsen & kest bis JahresEnde als SparZinsRechnerErgebnis
     BigDecimal zinsen = sparZinsRechnerVorlage.getBetrag()
@@ -59,31 +60,28 @@ public class SparenUtility {
             betrag.add(zinsen),  betrag.add(zinsen).subtract(kest)) ;
   }
 
+  /**
+   * Monate zählen als 30 Tage fuer Zinsberechnung gemaess BWG 30/360 berechnung.
+   * @param datum
+   * @return
+   */
   public static int getTageBisMonatsEnde(LocalDate datum) {
-
-    if (datum.getDayOfMonth()==30 || datum.getDayOfMonth()==31) {
+    // TODO: 28 februar ..
+    if (isEndOfMonth(datum)) {
       return 1;
     } else {
       return 30 - datum.getDayOfMonth()+1;
     }
   }
 
-
-  public static int  getTageBisJahresEnde(LocalDate datum) {
-
-    int tageBisJahresEnde;
-
-    if (datum.getMonthValue()==12) {
-      return 0;
-    } else {
-      return 12 - datum.getMonthValue();
-    }
+  private static boolean isEndOfMonth(LocalDate datum) {
+    return datum.getDayOfMonth()==30 || datum.getDayOfMonth()==31;
   }
 
-//    // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
-//  public static double getZinssatz() {
-//    return zinssatz;
-//  } ;
+
+  public static int  getVolleMonateBisJahresEnde(LocalDate datum) {
+    return ANZAHL_MONATE_IM_JAHR - datum.getMonthValue();
+    }
 
   public static List<AdvancedSparZinsRechnerErgebnis> getSparenZinsBerechnung (AdvancedSparZinsRechnerVorlage sparZinsRechnerVorlage) {
 
@@ -109,11 +107,7 @@ public class SparenUtility {
     BigDecimal initialBetrag = sparZinsRechnerVorlage.getBetrag();
 
     // Normale Zinsberechnung für ein Jahr mit dem AnfangsBetrag
-/*    BigDecimal kapitalZinsen = sparZinsRechnerVorlage.getBetrag()
-                                          .multiply(sparZinsRechnerVorlage.getZinssatz())
-                                          .multiply(BigDecimal.valueOf(360))
-                                          .divide(BigDecimal.valueOf(360),2 , RoundingMode.HALF_UP);*/
-    BigDecimal kapitalZinsen = sparZinsRechnerVorlage.getBetrag()
+    BigDecimal kapitalZinsen = initialBetrag
             .multiply(sparZinsRechnerVorlage.getZinssatz())
             .setScale(2,RoundingMode.HALF_UP);
 
@@ -122,14 +116,13 @@ public class SparenUtility {
     // Rechnung für monatliche Einzahlung aber Jährlicher Verzinsung: .. mathe is zlang her ...
     // K(n) = R * (12 + 5,5 * p)
     BigDecimal k = sparZinsRechnerVorlage.getMonatlicheEinzahlung()
-                        .multiply(BigDecimal.valueOf(12)
+                        .multiply(BigDecimal.valueOf(ANZAHL_MONATE_IM_JAHR)
                                 .add(BigDecimal.valueOf(5.5)
                                         .multiply(sparZinsRechnerVorlage.getZinssatz()
-//                                                .divide(BigDecimal.valueOf(100)))))
                         .setScale(2,RoundingMode.HALF_UP))));
 
     // summe der monatlichen Einzahlungen
-    BigDecimal summeMonatlicheEinzahlungen = sparZinsRechnerVorlage.getMonatlicheEinzahlung().multiply(BigDecimal.valueOf(12));
+    BigDecimal summeMonatlicheEinzahlungen = sparZinsRechnerVorlage.getMonatlicheEinzahlung().multiply(BigDecimal.valueOf(ANZAHL_MONATE_IM_JAHR));
 
     // Zinsanteil durch monatliche rausrechnen
     BigDecimal zinsAnteil = k.subtract(summeMonatlicheEinzahlungen);

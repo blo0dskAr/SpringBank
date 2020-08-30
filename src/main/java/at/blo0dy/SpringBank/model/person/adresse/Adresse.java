@@ -9,6 +9,10 @@ import javax.validation.constraints.Pattern;
 @Table(name = "adresse")
 public class Adresse {
 
+  private static final String LAND_UND_ORT_REGEXP = "^[a-zA-ZäÄöÖüÜß -]{2,30}$";
+  private static final String ADRESSE_MIT_NUMMER_REGEXP = "^[a-zA-ZäÄöÖüÜß -.,]{2,40}[0-9]{1,5}[0-9 -/a-zA-Z]{0,15}$";
+  private static final String PLZ_REGEXP = "^[0-9]{4,5}$";
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "id")
@@ -16,22 +20,22 @@ public class Adresse {
 
   @Column(name = "strasse")
   @NotBlank
-  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -.,]{2,40}[0-9]{1,5}[0-9 -/a-zA-Z]{0,15}$", message = "Straße muss mindestens Adresse und Hausnummer enthalten (zB. Teststraße 5/D/7)")
+  @Pattern(regexp = ADRESSE_MIT_NUMMER_REGEXP, message = "Straße muss mindestens Adresse und Hausnummer enthalten (zB. Teststraße 5/D/7)")
   private String strasse;
 
   @Column(name = "plz")
-  @Pattern(regexp = "^[0-9]{4,5}$", message = "PLZ als 4 bzw. 5-stellige Zahl angeben")
+  @Pattern(regexp = PLZ_REGEXP, message = "PLZ als 4 bzw. 5-stellige Zahl angeben")
   @NotBlank
   private String plz;
 
   @Column(name = "ort")
   @NotBlank
-  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]{2,30}$", message = "Ort darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
+  @Pattern(regexp = LAND_UND_ORT_REGEXP, message = "Ort darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   private String ort;
 
   @Column(name = "land")
   @NotBlank
-  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]{2,30}$", message = "Land darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
+  @Pattern(regexp = LAND_UND_ORT_REGEXP, message = "Land darf nur aus Buchstaben (max. 30 Zeichen) bestehen.")
   private String land;
 
   public Adresse() {

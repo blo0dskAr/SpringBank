@@ -7,15 +7,6 @@ import java.math.RoundingMode;
 
 public class KreditUtility {
 
-  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
-//  private static final BigDecimal zinssatz = BigDecimal.valueOf(8.00) ;
-
-
-    // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
-//  public static BigDecimal getZinssatz() {
-//    return zinssatz;
-//  } ;
-
 
   public static KreditRechnerErgebnis getKreditRechnerErgebnis(KreditRechnerVorlage kreditRechnerVorlage) {
 

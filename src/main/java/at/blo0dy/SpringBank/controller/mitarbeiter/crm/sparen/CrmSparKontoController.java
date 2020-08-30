@@ -150,12 +150,12 @@ public class CrmSparKontoController {
     } else {
       // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske)
     }
-    zahlungsAuftrag.setKontonummer(sparkonto.getKontonummer().toString());
+    zahlungsAuftrag.setKontonummer(sparkonto.getKontonummer());
     List<String> kontonummerAuswahlList = sparService.findKontoNummerOffenerSparKontenByKundennummer(sparkonto.getKunde().getKundennummer());
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("konto", sparkonto);
-    model.addAttribute("requestedKontonummer", sparkonto.getKontonummer().toString());
+    model.addAttribute("requestedKontonummer", sparkonto.getKontonummer());
     model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
 
     return "mitarbeiter/crm/zahlungsAuftrag-form";
@@ -181,7 +181,7 @@ public class CrmSparKontoController {
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("konto", sparkonto);
-      model.addAttribute("requestedKontonummer", sparkonto.getKontonummer().toString());
+      model.addAttribute("requestedKontonummer", sparkonto.getKontonummer());
 
       return "mitarbeiter/crm/zahlungsAuftrag-form";
     }
@@ -200,7 +200,7 @@ public class CrmSparKontoController {
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("konto", sparkonto);
-      model.addAttribute("requestedKontonummer", sparkonto.getKontonummer().toString());
+      model.addAttribute("requestedKontonummer", sparkonto.getKontonummer());
 
       return "mitarbeiter/crm/zahlungsAuftrag-form";
     }
@@ -210,11 +210,11 @@ public class CrmSparKontoController {
     zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
     zahlungsAuftrag.setKonto(sparkonto);
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.EINZAHLUNG)) {
-      zahlungsAuftrag.setEmpfaengerKonto(sparkonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(sparkonto.getKontonummer());
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
     } else {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
-      zahlungsAuftrag.setEmpfaengerKonto(sparkonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(sparkonto.getKontonummer());
     }
 
 

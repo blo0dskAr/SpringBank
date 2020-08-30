@@ -228,12 +228,8 @@ public class KundeBankingController {
     Kunde tmpKunde = kundeService.findByKundennummer(authKundennummer);
     final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-    log.debug("Neues Passwort für " + authentication.getName() + " wird geprüft");
-    if (!changePasswordForm.getConfirmPassword().equals(changePasswordForm.getNewPassword())) {
-      result.rejectValue("confirmPassword", "error.changePasswordForm","Die neuen Passwörter stimmen nicht überrein");
-      result.rejectValue("newPassword","error.changePasswordForm","Die neuen Passwörter stimmen nicht überein");
-      log.debug("Neues Passwort für " + authKundennummer + " stimmt mit ConfirmPassword nicht überrein ");
-    }
+    log.debug("Neues Passwort für " + authKundennummer + " wird geprüft");
+    compareNewPasswordWithConfirmPassword(changePasswordForm, result, authKundennummer);
 
     log.debug("Altes Passwort für " + authKundennummer + " wird geprüft");
     if (!passwordEncoder.matches(changePasswordForm.getOldPassword(), tmpKunde.getPassword() )) {
@@ -258,8 +254,13 @@ public class KundeBankingController {
     }
   }
 
-
-
+  private void compareNewPasswordWithConfirmPassword(@ModelAttribute @Valid ChangePasswordForm changePasswordForm, BindingResult result, String authKundennummer) {
+    if (!changePasswordForm.getConfirmPassword().equals(changePasswordForm.getNewPassword())) {
+      result.rejectValue("confirmPassword", "error.changePasswordForm","Die neuen Passwörter stimmen nicht überrein");
+      result.rejectValue("newPassword","error.changePasswordForm","Die neuen Passwörter stimmen nicht überein");
+      log.debug("Neues Passwort für " + authKundennummer + " stimmt mit ConfirmPassword nicht überrein ");
+    }
+  }
 
 
 }

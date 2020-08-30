@@ -733,9 +733,9 @@ private void loadData() {
   zahlungsAuftrag1.setKonto(sparKonto1);
   zahlungsAuftrag1.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag1.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag1.setKontonummer(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag1.setKontonummer(sparKonto1.getKontonummer());
   zahlungsAuftrag1.setBetrag(BigDecimal.valueOf(5000));
-  zahlungsAuftrag1.setEmpfaengerKonto(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag1.setEmpfaengerKonto(sparKonto1.getKontonummer());
   zahlungsAuftrag1.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag1);
 
@@ -760,9 +760,9 @@ private void loadData() {
   zahlungsAuftrag2.setKonto(sparKonto1);
   zahlungsAuftrag2.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag2.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag2.setKontonummer(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag2.setKontonummer(sparKonto1.getKontonummer());
   zahlungsAuftrag2.setBetrag(BigDecimal.valueOf(250));
-  zahlungsAuftrag2.setEmpfaengerKonto(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag2.setEmpfaengerKonto(sparKonto1.getKontonummer());
   zahlungsAuftrag2.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag2);
 
@@ -787,9 +787,9 @@ private void loadData() {
   zahlungsAuftrag3.setKonto(sparKonto1);
   zahlungsAuftrag3.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag3.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag3.setKontonummer(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag3.setKontonummer(sparKonto1.getKontonummer());
   zahlungsAuftrag3.setBetrag(BigDecimal.valueOf(250));
-  zahlungsAuftrag3.setSenderKonto(sparKonto1.getKontonummer().toString());
+  zahlungsAuftrag3.setSenderKonto(sparKonto1.getKontonummer());
   zahlungsAuftrag3.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag3);
 
@@ -815,9 +815,9 @@ private void loadData() {
   zahlungsAuftrag4.setKonto(sparKonto3);
   zahlungsAuftrag4.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag4.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag4.setKontonummer(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag4.setKontonummer(sparKonto3.getKontonummer());
   zahlungsAuftrag4.setBetrag(BigDecimal.valueOf(5000));
-  zahlungsAuftrag4.setEmpfaengerKonto(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag4.setEmpfaengerKonto(sparKonto3.getKontonummer());
   zahlungsAuftrag4.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag4);
 
@@ -842,9 +842,9 @@ private void loadData() {
   zahlungsAuftrag5.setKonto(sparKonto3);
   zahlungsAuftrag5.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag5.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag5.setKontonummer(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag5.setKontonummer(sparKonto3.getKontonummer());
   zahlungsAuftrag5.setBetrag(BigDecimal.valueOf(250));
-  zahlungsAuftrag5.setEmpfaengerKonto(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag5.setEmpfaengerKonto(sparKonto3.getKontonummer());
   zahlungsAuftrag5.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag5);
 
@@ -869,9 +869,9 @@ private void loadData() {
   zahlungsAuftrag6.setKonto(sparKonto3);
   zahlungsAuftrag6.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag6.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag6.setKontonummer(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag6.setKontonummer(sparKonto3.getKontonummer());
   zahlungsAuftrag6.setBetrag(BigDecimal.valueOf(500));
-  zahlungsAuftrag6.setSenderKonto(sparKonto3.getKontonummer().toString());
+  zahlungsAuftrag6.setSenderKonto(sparKonto3.getKontonummer());
   zahlungsAuftrag6.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag6);
 
@@ -897,9 +897,9 @@ private void loadData() {
   zahlungsAuftrag7.setKonto(kreditKonto1);
   zahlungsAuftrag7.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag7.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag7.setKontonummer(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag7.setKontonummer(kreditKonto1.getKontonummer());
   zahlungsAuftrag7.setBetrag(BigDecimal.valueOf(15000));
-  zahlungsAuftrag7.setSenderKonto(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag7.setSenderKonto(kreditKonto1.getKontonummer());
   zahlungsAuftrag7.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag7);
 
@@ -924,9 +924,9 @@ private void loadData() {
   zahlungsAuftrag8.setKonto(kreditKonto1);
   zahlungsAuftrag8.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag8.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag8.setKontonummer(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag8.setKontonummer(kreditKonto1.getKontonummer());
   zahlungsAuftrag8.setBetrag(BigDecimal.valueOf(250));
-  zahlungsAuftrag8.setEmpfaengerKonto(kreditKonto1.getKontonummer().toString());
+  zahlungsAuftrag8.setEmpfaengerKonto(kreditKonto1.getKontonummer());
   zahlungsAuftrag8.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag8);
 
@@ -951,9 +951,9 @@ private void loadData() {
   zahlungsAuftrag9.setKonto(kreditKonto2);
   zahlungsAuftrag9.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag9.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag9.setKontonummer(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag9.setKontonummer(kreditKonto2.getKontonummer());
   zahlungsAuftrag9.setBetrag(BigDecimal.valueOf(15000));
-  zahlungsAuftrag9.setSenderKonto(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag9.setSenderKonto(kreditKonto2.getKontonummer());
   zahlungsAuftrag9.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag9);
 
@@ -978,9 +978,9 @@ private void loadData() {
   zahlungsAuftrag10.setKonto(kreditKonto2);
   zahlungsAuftrag10.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag10.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag10.setKontonummer(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag10.setKontonummer(kreditKonto2.getKontonummer());
   zahlungsAuftrag10.setBetrag(BigDecimal.valueOf(250));
-  zahlungsAuftrag10.setEmpfaengerKonto(kreditKonto2.getKontonummer().toString());
+  zahlungsAuftrag10.setEmpfaengerKonto(kreditKonto2.getKontonummer());
   zahlungsAuftrag10.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag10);
 
@@ -1006,9 +1006,9 @@ private void loadData() {
   zahlungsAuftrag11.setKonto(giroKonto1);
   zahlungsAuftrag11.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag11.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag11.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag11.setKontonummer(giroKonto1.getKontonummer());
   zahlungsAuftrag11.setBetrag(BigDecimal.valueOf(2500));
-  zahlungsAuftrag11.setEmpfaengerKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag11.setEmpfaengerKonto(giroKonto1.getKontonummer());
   zahlungsAuftrag11.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag11);
 
@@ -1033,9 +1033,9 @@ private void loadData() {
   zahlungsAuftrag12.setKonto(giroKonto1);
   zahlungsAuftrag12.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag12.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag12.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag12.setKontonummer(giroKonto1.getKontonummer());
   zahlungsAuftrag12.setBetrag(BigDecimal.valueOf(250));
-  zahlungsAuftrag12.setSenderKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag12.setSenderKonto(giroKonto1.getKontonummer());
   zahlungsAuftrag12.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag12);
 
@@ -1060,9 +1060,9 @@ private void loadData() {
   zahlungsAuftrag13.setKonto(giroKonto2);
   zahlungsAuftrag13.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag13.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag13.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag13.setKontonummer(giroKonto2.getKontonummer());
   zahlungsAuftrag13.setBetrag(BigDecimal.valueOf(1600));
-  zahlungsAuftrag13.setEmpfaengerKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag13.setEmpfaengerKonto(giroKonto2.getKontonummer());
   zahlungsAuftrag13.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag13);
 
@@ -1087,9 +1087,9 @@ private void loadData() {
   zahlungsAuftrag14.setKonto(giroKonto2);
   zahlungsAuftrag14.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag14.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag14.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag14.setKontonummer(giroKonto2.getKontonummer());
   zahlungsAuftrag14.setBetrag(BigDecimal.valueOf(100));
-  zahlungsAuftrag14.setSenderKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag14.setSenderKonto(giroKonto2.getKontonummer());
   zahlungsAuftrag14.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag14);
 
@@ -1101,9 +1101,9 @@ private void loadData() {
   zahlungsAuftrag15.setKonto(giroKonto1);
   zahlungsAuftrag15.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag15.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag15.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag15.setKontonummer(giroKonto1.getKontonummer());
   zahlungsAuftrag15.setBetrag(BigDecimal.valueOf(100));
-  zahlungsAuftrag15.setEmpfaengerKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag15.setEmpfaengerKonto(giroKonto1.getKontonummer());
   zahlungsAuftrag15.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag15);
 
@@ -1115,9 +1115,9 @@ private void loadData() {
   zahlungsAuftrag16.setKonto(giroKonto1);
   zahlungsAuftrag16.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag16.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag16.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag16.setKontonummer(giroKonto1.getKontonummer());
   zahlungsAuftrag16.setBetrag(BigDecimal.valueOf(1500));
-  zahlungsAuftrag16.setEmpfaengerKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag16.setEmpfaengerKonto(giroKonto1.getKontonummer());
   zahlungsAuftrag16.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag16);
 
@@ -1128,9 +1128,9 @@ private void loadData() {
   zahlungsAuftrag17.setKonto(giroKonto2);
   zahlungsAuftrag17.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag17.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag17.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag17.setKontonummer(giroKonto2.getKontonummer());
   zahlungsAuftrag17.setBetrag(BigDecimal.valueOf(400));
-  zahlungsAuftrag17.setSenderKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag17.setSenderKonto(giroKonto2.getKontonummer());
   zahlungsAuftrag17.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag17);
 
@@ -1141,9 +1141,9 @@ private void loadData() {
   zahlungsAuftrag18.setKonto(giroKonto2);
   zahlungsAuftrag18.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag18.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag18.setKontonummer(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag18.setKontonummer(giroKonto2.getKontonummer());
   zahlungsAuftrag18.setBetrag(BigDecimal.valueOf(100));
-  zahlungsAuftrag18.setEmpfaengerKonto(giroKonto2.getKontonummer().toString());
+  zahlungsAuftrag18.setEmpfaengerKonto(giroKonto2.getKontonummer());
   zahlungsAuftrag18.setSenderKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag18);
 
@@ -1154,9 +1154,9 @@ private void loadData() {
   zahlungsAuftrag19.setKonto(giroKonto1);
   zahlungsAuftrag19.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag19.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag19.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag19.setKontonummer(giroKonto1.getKontonummer());
   zahlungsAuftrag19.setBetrag(BigDecimal.valueOf(230));
-  zahlungsAuftrag19.setSenderKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag19.setSenderKonto(giroKonto1.getKontonummer());
   zahlungsAuftrag19.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag19);
 
@@ -1167,9 +1167,9 @@ private void loadData() {
   zahlungsAuftrag20.setKonto(giroKonto1);
   zahlungsAuftrag20.setDatAnlage(LocalDateTime.now());
   zahlungsAuftrag20.setAuftragsDatum(LocalDate.now());
-  zahlungsAuftrag20.setKontonummer(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag20.setKontonummer(giroKonto1.getKontonummer());
   zahlungsAuftrag20.setBetrag(BigDecimal.valueOf(360));
-  zahlungsAuftrag20.setSenderKonto(giroKonto1.getKontonummer().toString());
+  zahlungsAuftrag20.setSenderKonto(giroKonto1.getKontonummer());
   zahlungsAuftrag20.setEmpfaengerKonto("1234566788912");
   zahlungsAuftragService.save(zahlungsAuftrag20);
 }

@@ -50,7 +50,7 @@ public class DauerAuftragController {
       dauerAuftrag = new DauerAuftrag();
       dauerAuftrag.setKonto(konto);
       dauerAuftrag.setId(0L);
-      dauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+      dauerAuftrag.setKontonummer(konto.getKontonummer());
     }
     if (konto instanceof KreditKonto) {
       dauerAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
@@ -71,7 +71,7 @@ public class DauerAuftragController {
                                      RedirectAttributes redirectAttrs, Model model)   {
 
     Konto tmpKonto = dauerAuftrag.getKonto();
-    String tmpKontonummer = tmpKonto.getKontonummer().toString();
+    String tmpKontonummer = tmpKonto.getKontonummer();
 
     log.debug("Speichern des DauerAuftrags für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " wurde angefordert");
 

@@ -30,7 +30,6 @@ public class Mitarbeiter extends Person {
   private String position;
 
   @OneToOne(mappedBy = "mitarbeiter",
-         // cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
           cascade = {CascadeType.ALL})
   private LoginCredentials loginCredentials;
 
@@ -66,22 +65,14 @@ private List<Rolle> rollen = new ArrayList<>();
             '}';
   }
 
-  // Custom Methods
   public void addRolle(Rolle rolle) {
     rollen.add(rolle);
   }
-
-/*
-  public String  getLoginName() {
-    return loginCredentials.getLoginName();
-  }*/
-
 
   public String  getPassword() {
     return loginCredentials.getPassword() ;
   }
 
-//  public void setPassword(String encodedPassword) { this.}
 
 }
 

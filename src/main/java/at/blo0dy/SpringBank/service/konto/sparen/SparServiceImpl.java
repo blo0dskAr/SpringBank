@@ -25,12 +25,6 @@ public class SparServiceImpl implements SparService {
     this.sparKontoRepository = sparKontoRepository;
   }
 
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<SparKonto> findAll() {
-    return sparKontoRepository.findAll();
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public SparKonto findById(Long theId) {
@@ -53,19 +47,6 @@ public class SparServiceImpl implements SparService {
 
     log.debug("Sparkonto wurde erfolgreich gespeichert. ID: " + savedSparKonto.getId());
   }
-
-/*  @Override
-//  @Transactional
-  public void deleteById(Long theId) {
-    sparKontoRepository.deleteById(theId);
-  }*/
-
-/*  @Override
-  public double getZinssatz() {
-    return SparenUtility.getZinssatz();
-  }*/
-
-
 
   @Override
   public SparZinsRechnerErgebnis getSparZinsRechnerEregebnis(SparZinsRechnerVorlage sparZinsRechnerVorlage) {

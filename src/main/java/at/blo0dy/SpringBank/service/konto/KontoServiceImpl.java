@@ -86,13 +86,6 @@ public class KontoServiceImpl implements KontoService {
     return kontoRepository.findKontonummerById(kontoId);
   }
 
-/*
-  @Override
-  @Transactional(readOnly = true)
-  public Konto findByKontonummer(String kontonummer) {
-    return kontoRepository.findByKontonummer(kontonummer);
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public List<Konto> findAll(Konto konto) {

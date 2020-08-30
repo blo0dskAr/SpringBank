@@ -148,7 +148,7 @@ public class CrmGiroKontoController {
     } else if (request.getRequestURI().equals("/mitarbeiter/kunde/giro/konto/showEinzahlungsForm")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     } else {
-      // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske)
+      // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske (nicht umgesetzt))
     }
     zahlungsAuftrag.setKontonummer(girokonto.getKontonummer());
     List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(girokonto.getKunde().getKundennummer());

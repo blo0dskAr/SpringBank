@@ -21,13 +21,6 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
     this.sparKontoAntragRepository = sparKontoAntragRepository;
   }
 
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<SparKontoAntrag> findAll() {
-    // ich schätz das werd ich so modifizieren müssen, dass er nur seine eigene ID's findet?
-    return sparKontoAntragRepository.findAll();
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public SparKontoAntrag findById(Long theId) {
@@ -42,7 +35,6 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
   }
 
   @Override
-//  @Transactional
   public void save(SparKontoAntrag sparKontoAntrag) {
     log.debug("SparAntrag wird gespeichert.");
 
@@ -50,31 +42,6 @@ public class SparKontoAntragServiceImpl implements SparKontoAntragService {
 
     log.debug("SparAntrag wurde erfolgreich gespeichert. ID: " + savedSparAntrag.getId());
   }
-
-/*  @Override
-//  @Transactional
-  public void deleteById(Long theId) {
-    sparKontoAntragRepository.deleteById(theId);
-  }*/
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public long count() {
-    return sparKontoAntragRepository.count();
-  }*/
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public long countByStatus(String statusEnum) {
-    return sparKontoAntragRepository.countByStatus(statusEnum);
-  }*/
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<SparKontoAntrag> findByStatus(String statusEnum) {
-    List<SparKontoAntrag> sparKontoAntragListe = sparKontoAntragRepository.findByStatus(statusEnum) ;
-    return  sparKontoAntragListe;
-  }*/
 
   @Override
   @Transactional(readOnly = true)

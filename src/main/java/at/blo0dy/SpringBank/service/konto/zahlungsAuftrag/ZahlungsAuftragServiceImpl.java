@@ -66,12 +66,6 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
     return zahlungsAuftragRepository.countOffeneZahlungsAuftraegeByKontoId(kontoId);
   }
 
-/*  @Override
-  @Transactional(readOnly = true)
-  public BigDecimal getSummeOffenerAuszahlungenByKontoId(Long kontoId) {
-    return zahlungsAuftragRepository.getSummeOffenerAuszahlungsAuftraegeByKontoId(kontoId);
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public boolean checkAuszahlungWithVerfuegbarerBetrag(Konto konto, BigDecimal auszahlungsBetrag, Boolean isZV) {

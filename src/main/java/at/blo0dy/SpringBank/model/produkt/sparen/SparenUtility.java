@@ -12,7 +12,6 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-// TODO eigentlich soll ich dieses ding als service injecten oder ? hat mit model nix zu tun. icxh versuchs mal, mal guggen wo ich ddas ueberall verwend, dass dort der neue service injected wird
 @Service
 public class SparenUtility {
 
@@ -23,21 +22,6 @@ public class SparenUtility {
   public SparenUtility(ZinssatzRepository zinssatzRepository) {
     this.zinssatzRepository = zinssatzRepository;
   }
-
-  //  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
-//  private static final Double zinssatz = 6.00 ;
-
-//  public static SparZinsRechnerErgebnis getZinsenBisJahresEnde(LocalDate datum, double betrag) {
-//
-//    // hol Tage bis Jahresende
-//    int tage = getTageBisMonatsEnde(datum) + (getTageBisJahresEnde(datum)*30);
-//
-//    // berechnet Zinsen & kest bis JahresEnde als SparZinsRechnerErgebnis
-//    BigDecimal zinsen = BigDecimal.valueOf(betrag).multiply(BigDecimal.valueOf(zinssatz)).multiply(BigDecimal.valueOf(tage)).divide(BigDecimal.valueOf(36000),2 , RoundingMode.HALF_UP);
-//    BigDecimal kest = zinsen.multiply( BigDecimal.valueOf(0.25)).setScale(2, RoundingMode.HALF_UP);
-//
-//    return new SparZinsRechnerErgebnis(betrag, zinsen.doubleValue(), kest.doubleValue()) ;
-//  }
 
   public static SparZinsRechnerErgebnis getZinsenBisJahresEnde(SparZinsRechnerVorlage sparZinsRechnerVorlage) {
 

@@ -63,13 +63,6 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
     return legiDokumentRepository.findById(fileId);
   }
 
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<LegiDokument> getFiles() {
-    return legiDokumentRepository.findAll();
-  }*/
-
-
   @Override
   @Transactional(readOnly = true)
   public List<LegiDokument> getNewFiles() {

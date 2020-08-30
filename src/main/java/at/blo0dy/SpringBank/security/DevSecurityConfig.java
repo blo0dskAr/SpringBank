@@ -78,8 +78,7 @@ public class DevSecurityConfig {
               .loginPage("/mitarbeiter/loginpage").permitAll()
               .loginProcessingUrl("/mitarbeiter/maauthenticationpage")
               .successForwardUrl("/mitarbeiter/index")
-              //.defaultSuccessUrl()
-              //.failureUrl()
+
 
               .and()
               .logout()
@@ -111,11 +110,6 @@ public class DevSecurityConfig {
       @Autowired
       PasswordEncoder encoder;
 
-      /*@Bean
-      public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-      }*/
-
       public App2ConfigurationAdapter() {
         super();
       }
@@ -139,8 +133,6 @@ public class DevSecurityConfig {
                 .usernameParameter("kundennummer")
                 .passwordParameter("password")
                 .loginProcessingUrl("/kunde/banking/kundeauthenticationpage")
-//              .failureUrl("/loginUser?error=loginError")
-//                .defaultSuccessUrl("/kunde/banking/index")
                 .successForwardUrl("/kunde/banking/index").permitAll()
 
                 .and()

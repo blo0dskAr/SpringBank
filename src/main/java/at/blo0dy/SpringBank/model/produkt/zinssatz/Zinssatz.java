@@ -24,8 +24,6 @@ public class Zinssatz {
   private Long id;
 
   @NotNull
-/*  @DecimalMin(value = "0.01", message = "muss zwischen 0.01 und 20 % liegen")
-  @DecimalMax(value = "20", message = "muss zwischen 0.01 und 20 % liegen")*/
   @NumberFormat(style = NumberFormat.Style.PERCENT)
   private BigDecimal zinssatz ;
 

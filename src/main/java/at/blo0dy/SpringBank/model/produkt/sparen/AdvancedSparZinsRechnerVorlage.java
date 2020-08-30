@@ -22,7 +22,6 @@ public class AdvancedSparZinsRechnerVorlage {
   @NumberFormat(style = NumberFormat.Style.NUMBER)
   private BigInteger anlagedauer;
 
-  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
   @NumberFormat(style = NumberFormat.Style.PERCENT)
   private BigDecimal zinssatz;
 //  private BigDecimal zinssatz = BigDecimal.valueOf(6.00);

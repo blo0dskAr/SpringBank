@@ -30,13 +30,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     this.kundeRepository = KundeRepository;
   }
 
-
-/*  @Override
-  @Transactional
-  public List<Kunde> findAll() {
-    return kundeRepository.findAll();
-  }*/
-
   @Override
   @Transactional
   public Kunde findById(Long theId) {
@@ -53,19 +46,12 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
-//  @Transactional
   public void save(Kunde kunde) {
     log.debug("Kunde wird gespeichert.");
     Kunde savedKunde = kundeRepository.save(kunde);
     log.debug("Kunde erfolgreich gespeichert. ID: " + savedKunde.getId() + " Kundennummmer: " + savedKunde.getKundennummer());
 
   }
-
-/*  @Override
-  @Transactional
-  public void deleteById(Long theId) {
-    kundeRepository.deleteById(theId);
-  }*/
 
   @Override
   @Transactional
@@ -106,8 +92,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
         // TODO: Ausserdem is die obige if abfrage definitv übertrieben .. und methode umbenennnen ;) und von kundennummer auf kundeId wechseln :D
       log.debug("Status von Kunde: " + kundennummer + " Status=" + neuerStatus + "  wird gespeichert");
       tmpKunde.setActive(neuerStatus);
-//      kundeRepository.updateActiveStatusById(kunde.getId(), neuerStatus);
-
   }
 
   @Override
@@ -209,13 +193,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     setKundeActiveIfRequirementsMetByKundennummer(kunde.getKundennummer());
     log.debug("LegiSTatus für KundeId: " + kundeId + " wurde erfolgreich aktualisiert.");
   }
-
-/*  @Override
-  @Transactional
-  public void updateActiveStatusById(Long kundeId, boolean status) {
-    log.debug("Aktivstatus für KundeId: " + kundeId + " wird aktualisiert.");
-    kundeRepository.updateActiveStatusById(kundeId, status);
-  }*/
 
   @Override
   @Transactional

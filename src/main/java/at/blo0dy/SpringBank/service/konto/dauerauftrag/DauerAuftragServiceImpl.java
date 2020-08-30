@@ -31,7 +31,6 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
   }
 
   @Override
-//  @Transactional
   public void saveNewDauerAuftrag(DauerAuftrag dauerAuftrag) {
     log.debug("Neuer Dauerauftrag wird angelegt. (" + dauerAuftrag + ")");
 
@@ -53,20 +52,7 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
     return anzahlAngelegterDauerAuftraege;
   }
 
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<DauerAuftrag> findAllAngelegteDauerAuftraegeByDateAndType(int tagImMonat, String type) {
-    log.debug("Alle Angelegten Dauerauftraege mit Tag: " + tagImMonat + " und Typ: " + type + " werden ermittelt");
-
-    List<DauerAuftrag> dauerAuftragsList = dauerAuftragRepository.findAllAngelegteDauerAuftraegeByDateAndType(tagImMonat, type);
-    log.debug("Alle Angelegten Dauerauftraege mit Tag: " + tagImMonat + " und Typ: " + type + " wurden ermittelt, Anzahl: " + dauerAuftragsList.size());
-
-    return dauerAuftragsList ;
-  }*/
-
-
   @Override
-//  @Transactional
   public String processSingleDauerAuftrag(DauerAuftrag dauerAuftrag) {
 
     Long tmpDauerAuftragId = dauerAuftrag.getId();
@@ -76,7 +62,6 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
     Konto tmpKonto = dauerAuftrag.getKonto();
     ZahlungsAuftrag neuerZahlungsAuftrag = new ZahlungsAuftrag(LocalDate.now(), LocalDateTime.now(), null, dauerAuftrag.getBetrag(), tmpKonto, dauerAuftrag.getKontonummer(), ZahlungAuftragStatusEnum.ANGELEGT, dauerAuftrag.getAuftragsArt(),
                                                                 tmpKonto.getKunde().getConnectedGiro(), dauerAuftrag.getKontonummer()) ;
-
     ZahlungsAuftrag savedZahlungsAuftrag = zahlungsAuftragRepository.save(neuerZahlungsAuftrag);
     log.debug("Dauerauftrag mit ID: " + tmpDauerAuftragId + " erfolgreich zu Zahlungsauftrag mit ID: " + savedZahlungsAuftrag.getId() + " verarbeitet." );
 
@@ -130,7 +115,6 @@ public class DauerAuftragServiceImpl implements DauerAuftragService {
     }
     updatedDauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.STORNIERT);
     updatedDauerAuftrag.setDatAend(LocalDateTime.now());
-//    dauerAuftragRepository.storniereDauerAuftragById(dauerAuftragId);
 
     log.debug("Dauerauftrag mit ID: " + dauerAuftragId + " erfolgreich storniert.");
   }

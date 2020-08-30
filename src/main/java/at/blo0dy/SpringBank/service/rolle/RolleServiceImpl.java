@@ -53,12 +53,6 @@ public class RolleServiceImpl implements RolleService {
     log.debug("Rolle wurde erfolgreich gespeichert. ID: " + savedRolle.getId());
   }
 
-/*  // Fuer delete im postmapping
-  @Override
-  public void delete(Rolle rolle) {
-    rolleRepository.delete(rolle);
-  }*/
-
   @Override
 //  @Transactional
   public void deleteById(Long theId) {
@@ -66,12 +60,6 @@ public class RolleServiceImpl implements RolleService {
     rolleRepository.deleteById(theId);
     log.debug("Rolle mit der RolleId: " + theId + " wurde erfolgreich gelöscht.");
   }
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public long countByMitarbeiterId(Long theId) {
-    return rolleRepository.countByMitarbeiterId(theId);
-  }*/
 
   @Override
   @Transactional(readOnly = true)

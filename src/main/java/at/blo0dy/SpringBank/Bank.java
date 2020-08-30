@@ -11,7 +11,6 @@ public class Bank {
   @Id
   private final Long id = 1L;
 
-  // Parameter für meine Bank
   @Column
   private String firmenName = "my Bank";
 
@@ -23,7 +22,6 @@ public class Bank {
 
   public Bank() {};
 
-  // Konstruktor für meine Bank
   public Bank(String firmenName, String firmenChef, Long steuerNummer) {
     this.firmenChef = firmenChef;
     this.firmenName = firmenName;
@@ -58,7 +56,6 @@ public class Bank {
     this.steuerNummer = steuerNummer;
   }
 
-  // Gibt StandardInfo über die Bank aus
   public String info() {
     return "Die Firma " + firmenName + " mit der Steuernummer: " + steuerNummer + " hat als Overlord: " + firmenChef + "." ;
   }

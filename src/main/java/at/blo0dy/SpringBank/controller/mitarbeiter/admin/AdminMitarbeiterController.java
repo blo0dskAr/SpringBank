@@ -114,10 +114,8 @@ public class AdminMitarbeiterController {
     String loginName = authentication.getName();
     log.debug("MitarbeitierSuche wird von Mitarbeiter: " + loginName + " angefordert");
 
-    // search customers from the service
     List<Mitarbeiter> mitarbeiterListe = mitarbeiterService.findMitarbeiterByVorAndNachName(theSearchName);
 
-    // add the customers to the model
     theModel.addAttribute("mitarbeiter", mitarbeiterListe);
 
     return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";

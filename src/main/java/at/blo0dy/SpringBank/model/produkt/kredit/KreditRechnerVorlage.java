@@ -23,7 +23,6 @@ public class KreditRechnerVorlage {
   @NumberFormat(style = NumberFormat.Style.NUMBER)
   private BigInteger laufzeit;
 
-  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
   @NumberFormat(style = NumberFormat.Style.PERCENT)
   private BigDecimal zinssatz;
 
@@ -34,8 +33,6 @@ public class KreditRechnerVorlage {
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal kreditBetrag;
 
-
-  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
   public BigDecimal getZinssatz() {
     return zinssatz;
   }

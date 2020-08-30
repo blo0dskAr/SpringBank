@@ -27,13 +27,6 @@ public class KreditServiceImpl implements KreditService {
     this.kreditKontoRepository = kreditKontoRepository;
   }
 
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<KreditKonto> findAll() {
-    return kreditKontoRepository.findAll();
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public KreditKonto findById(Long theId) {
@@ -54,17 +47,6 @@ public class KreditServiceImpl implements KreditService {
 
     log.debug("Kreditkonto erfolgreich gespeichert. ID: " + savedKreditKonto.getId()) ;
   }
-
-/*  @Override
-  public void deleteById(Long theId) {
-    kreditKontoRepository.deleteById(theId);
-  }*/
-
-/*  @Override
-  public BigDecimal getZinssatz() {
-    return KreditUtility.getZinssatz();
-  }*/
-
 
   @Override
   public KreditRechnerErgebnis getKreditRechnerErgebnis(KreditRechnerVorlage kreditRechnerVorlage) {

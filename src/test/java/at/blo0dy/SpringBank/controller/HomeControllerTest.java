@@ -46,6 +46,6 @@ class HomeControllerTest {
             .andExpect(status().isOk())
             .andExpect(view().name("access-denied"))
             .andExpect(content().string(containsString("blo0dy Access Denied Page - You are not authorized to access this resource.")))
-            .andExpect(MockMvcResultMatchers.model().hasNoErrors());;
+            .andExpect(MockMvcResultMatchers.model().hasNoErrors());
   }
 }

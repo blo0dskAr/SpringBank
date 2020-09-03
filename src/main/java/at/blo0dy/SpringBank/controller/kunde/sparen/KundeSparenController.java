@@ -84,7 +84,10 @@ public class KundeSparenController {
     log.debug("Erweiterte SparRechnerForm wird aufgerufen");
     BigDecimal anfangsWerte = BigDecimal.ZERO;
 
-    AdvancedSparZinsRechnerVorlage sv = new AdvancedSparZinsRechnerVorlage(BigInteger.valueOf(5), zinssatzService.getAktuellerSparZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.ZERO,BigDecimal.valueOf(100), BigDecimal.valueOf(5000));
+    AdvancedSparZinsRechnerVorlage sv =
+            new AdvancedSparZinsRechnerVorlage(BigInteger.valueOf(5),
+                    zinssatzService.getAktuellerSparZinssatz().divide(BigDecimal.valueOf(100)),
+                    BigDecimal.ZERO,BigDecimal.valueOf(100), BigDecimal.valueOf(5000));
     AdvancedSparZinsRechnerErgebnis se = new AdvancedSparZinsRechnerErgebnis(anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte);
 
     model.addAttribute("activeLink", "kundeSparenRechner2");
@@ -95,7 +98,8 @@ public class KundeSparenController {
   }
 
   @PostMapping("/rechner2")
-  public String berechneSparZinsen2(@Validated @ModelAttribute("sparzinsrechnervorlage") AdvancedSparZinsRechnerVorlage sv, BindingResult result,  Model model ) {
+  public String berechneSparZinsen2(@Valid @ModelAttribute("sparzinsrechnervorlage") AdvancedSparZinsRechnerVorlage sv,
+                                    BindingResult result,  Model model ) {
     log.debug("Unverbindliche erweiterte SparzinsBerechnung wird durchgeführt.");
     if (result.hasErrors()) {
       log.debug("Fehler bei der Eingabe erhalten. Seite wird neu geladen.");

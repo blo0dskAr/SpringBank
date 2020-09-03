@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter;
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
-import at.blo0dy.SpringBank.model.person.password.ChangePasswordForm;
+import at.blo0dy.SpringBank.model.person.passwordForm.ChangePasswordForm;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import at.blo0dy.SpringBank.service.bank.BankService;
 import lombok.extern.slf4j.Slf4j;

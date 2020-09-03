@@ -39,7 +39,6 @@ public class SparServiceImpl implements SparService {
   }
 
   @Override
-//  @Transactional
   public void save(SparKonto sparKonto) {
     log.debug("Sparkonto wird gespeichert");
 

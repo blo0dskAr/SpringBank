@@ -11,13 +11,9 @@ import java.util.List;
 
 public interface SparService {
 
-//  public List<SparKonto> findAll();
-
   SparKonto findById(Long theId);
 
   void save(SparKonto sparKonto);
-
-//  public void deleteById(Long theId);
 
   List<SparKonto> findSparKontoByKundennummer(String kundennummer);
 

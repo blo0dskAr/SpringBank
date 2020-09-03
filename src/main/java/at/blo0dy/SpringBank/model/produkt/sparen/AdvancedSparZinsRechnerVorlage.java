@@ -24,10 +24,8 @@ public class AdvancedSparZinsRechnerVorlage {
 
   @NumberFormat(style = NumberFormat.Style.PERCENT)
   private BigDecimal zinssatz;
-//  private BigDecimal zinssatz = BigDecimal.valueOf(6.00);
 
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
-//  @NumberFormat(pattern = "#.###.###.###,##")
   private BigDecimal betrag;
 
   @Min(value = 1, message = "Bitte eine Zahl von 1 bis 5.000,00 angeben.")
@@ -42,8 +40,5 @@ public class AdvancedSparZinsRechnerVorlage {
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal initialBetrag;
 
-  // TODO: den vergeb ich momentan an 2 stellen, da gibts was zu refactoren. nur noch aus der vorlage nehmen - und vorlage nimmts im optimalfall aus der DB
-  public BigDecimal getZinssatz() {
-    return zinssatz;
-  }
+
 }

@@ -19,7 +19,6 @@ import java.util.List;
 @Table(name = "mitarbeiter")
 @PrimaryKeyJoinColumn(name = "id")
 @Inheritance(strategy = InheritanceType.JOINED)
-@Builder
 public class Mitarbeiter extends Person {
 
   @Column(name = "mitarbeiternummer")

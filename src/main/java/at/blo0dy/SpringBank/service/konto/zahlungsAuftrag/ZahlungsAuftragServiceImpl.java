@@ -132,7 +132,6 @@ public class ZahlungsAuftragServiceImpl implements ZahlungsAuftragService{
       neuerSaldo = tmpKonto.getAktSaldo().add(zahlungsAuftrag.getBetrag());
       buchungsArt = BuchungsArtEnum.HABEN;
     }
-
     log.debug("Prüfung erfolgreich " + buchungsText + " wird erstellt");
 
     neueKontoBuchung =  new KontoBuchung(0L, LocalDate.now(),LocalDateTime.now(),null,zahlungsAuftrag.getBetrag(), neuerSaldo,buchungsText,tmpKonto, buchungsArt );

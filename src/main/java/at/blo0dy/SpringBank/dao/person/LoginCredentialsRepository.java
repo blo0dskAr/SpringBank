@@ -6,7 +6,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface LoginCredentialsRepository extends JpaRepository<LoginCredentials, Long> {
 
-  // Standard JpaRepository Implementation
-
 
 }

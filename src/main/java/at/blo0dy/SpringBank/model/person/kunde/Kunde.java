@@ -43,7 +43,6 @@ public class Kunde extends Person implements UserDetails {
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
   private List<Konto> kontenListe;
 
-  // TODO: mit false initialisieren sobald der komplette weg für legi & AGB ready ist.
   private boolean isLegi;
   private boolean hasAcceptedAGB ;
   private boolean isActive;

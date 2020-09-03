@@ -21,8 +21,6 @@ import java.util.Optional;
 @Service
 public class KundeServiceImpl implements KundeService, UserDetailsService {
 
-  // TODO: DA MUSS ICH NOCH DAS TRANSACTIONAL ORDENTLICH UMSETZEN, EINIGE REPOMETHODEN WERDEN DA SICHER NICHT GEBRAUCHT.
-
   private KundeRepository kundeRepository;
 
   @Autowired
@@ -31,7 +29,7 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Kunde findById(Long theId) {
 
     log.debug("Kunde mit KundeId: " + theId + " wird gesucht.");
@@ -54,7 +52,7 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String kundennummer) throws UsernameNotFoundException {
       final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
     if (kunde != null) {
@@ -184,7 +182,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
-//  @Transactional
   public void updateLegiStatusById(Long kundeId, boolean status) {
     log.debug("LegiStatus für KundeId: " + kundeId + " wird aktualisiert.");
     kundeRepository.updateLegiStatusById(kundeId, status);

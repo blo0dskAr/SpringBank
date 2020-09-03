@@ -10,17 +10,13 @@ public class PropertyServiceForJasyptStarter {
 
   @Value("${spring.datasource.password}")
   private String property;
-
   @Value("${server.ssl.key-store-password}")
   private String keyStoreProperty;
-
   public String getProperty() {
     return property;
   }
-
   public String getKeyStoreProperty() {
     return keyStoreProperty;
   }
-
 }
 

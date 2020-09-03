@@ -48,7 +48,8 @@
                             </div>
                             <div class="form-group col-sm-6">
                                 <label for="auftragsArt">Buchungs Art:</label>
-                                <input type="text" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" class="form-control mb-4 col-8" th:field="*{auftragsArt}" th:value="${dauerAuftrag.auftragsArt.getDisplayName()}" readonly>
+                                <input type="text" th:if="${konto.getClass().getSimpleName() == 'KreditKonto'}" class="form-control mb-4 col-8"
+                                                   th:field="*{auftragsArt}" th:value="${dauerAuftrag.auftragsArt.getDisplayName()}" readonly>
                                 <th:block th:if="${(konto.getClass().getSimpleName() == 'SparKonto') OR (konto.getClass().getSimpleName() == 'GiroKonto')}">
                                     <select id="auftragsArt" class="form-control" th:field="*{auftragsArt}">
                                         <Option value="" text="'Keine Einschränkung'" disabled>Bitte Auswählen</Option>

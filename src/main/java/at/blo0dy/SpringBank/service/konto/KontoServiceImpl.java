@@ -107,14 +107,11 @@ public class KontoServiceImpl implements KontoService {
   @Override
   @Transactional
   public void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo) {
-
     log.debug("Saldo für KontoId: " + kontoId + " wird aktualisiert.");
 
     Konto konto = kontoRepository.findById(kontoId).get();
     konto.setAktSaldo(neuerSaldo);
-//    kontoRepository.updateKontoSaldoById(kontoId, neuerSaldo);
     log.debug("Saldoaktualisierung erfolgreich.");
-
   }
 
   @Override

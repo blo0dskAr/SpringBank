@@ -12,11 +12,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.servlet.LocaleResolver;
-import org.springframework.web.servlet.i18n.SessionLocaleResolver;
+
 
 import javax.sql.DataSource;
-import java.util.Locale;
 
 @Configuration
 @Profile({"dev", "prod"})
@@ -28,18 +26,18 @@ public class DevSecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-  @Bean
+/*  @Bean
   public LocaleResolver localeResolver() {
     SessionLocaleResolver slr = new SessionLocaleResolver();
     slr.setDefaultLocale(Locale.GERMANY);
     return slr;
-  }
+  }*/
 
   @Configuration
   @Profile({"dev", "prod"})
   @Order(1)
-  public static class App1ConfigurationAdapter extends WebSecurityConfigurerAdapter {
-    public App1ConfigurationAdapter() {
+  public static class MitarbeiterConfigurationAdapter extends WebSecurityConfigurerAdapter {
+    public MitarbeiterConfigurationAdapter() {
       super();
     }
 
@@ -53,7 +51,8 @@ public class DevSecurityConfig {
               .usersByUsernameQuery(
                       "select login_name, password, is_active from login_credentials where login_name=?")
               .authoritiesByUsernameQuery(
-                      "select lc.login_name, r.name from login_credentials lc, mitarbeiter m, rolle r, map_mita_role ur" +
+                      "select lc.login_name, r.name from login_credentials lc, mitarbeiter m," +
+                                                       " rolle r, map_mita_role ur" +
                               " where lc.login_name=?" +
                               " and lc.mitarbeiter_id = m.id" +
                               " and m.id = ur.mita_id" +
@@ -71,14 +70,11 @@ public class DevSecurityConfig {
                 .anyRequest()
                 .authenticated()
 
-
-              // orig
               .and()
               .formLogin()
               .loginPage("/mitarbeiter/loginpage").permitAll()
               .loginProcessingUrl("/mitarbeiter/maauthenticationpage")
               .successForwardUrl("/mitarbeiter/index")
-
 
               .and()
               .logout()
@@ -102,7 +98,7 @@ public class DevSecurityConfig {
     @Configuration
     @Profile({"dev", "prod"})
     @Order(2)
-    public static class App2ConfigurationAdapter extends WebSecurityConfigurerAdapter {
+    public static class KundeConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
       @Autowired
       private UserDetailsService userDetailsService;
@@ -110,7 +106,7 @@ public class DevSecurityConfig {
       @Autowired
       PasswordEncoder encoder;
 
-      public App2ConfigurationAdapter() {
+      public KundeConfigurationAdapter() {
         super();
       }
 
@@ -142,7 +138,6 @@ public class DevSecurityConfig {
                 .invalidateHttpSession(true)
                 .logoutSuccessUrl("/kunde/banking/loginpage?logout").permitAll()
 
-
                 .and()
                 .exceptionHandling()
                 .accessDeniedPage("/access-denied")
@@ -161,10 +156,9 @@ public class DevSecurityConfig {
   @Configuration
   @Profile({"dev", "prod"})
   @Order(3)
-  public static class App3ConfigurationAdapter extends WebSecurityConfigurerAdapter {
+  public static class InteressentConfigurationAdapter extends WebSecurityConfigurerAdapter {
 
-
-    public App3ConfigurationAdapter() {
+    public InteressentConfigurationAdapter() {
       super();
     }
 

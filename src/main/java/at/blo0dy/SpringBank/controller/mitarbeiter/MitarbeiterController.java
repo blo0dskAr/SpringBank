@@ -32,7 +32,19 @@ public class MitarbeiterController {
   }
 
   @RequestMapping({"", "/", "/index"})
-  public String getIndexPage(Model model) {
+  public String getIndexPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+
+    String authName;
+    Mitarbeiter loggedUser;
+
+    if (authentication == null) {
+      return "redirect:/mitarbeiter/index";
+    } else {
+      authName = authentication.getName();
+      log.debug("Index Page von Mitarbeiter: " + authName + " aufgerufen.");
+      loggedUser = mitarbeiterService.findByUserName(authName);
+      model.addAttribute("loggedUser", loggedUser);
+    }
 
     model.addAttribute("bank", bankservice.getBank());
     model.addAttribute("mitarbeiter",mitarbeiterService.findAll());

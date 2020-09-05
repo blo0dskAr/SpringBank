@@ -9,62 +9,47 @@
 </head>
 <body>
 <div layout:fragment="content">
+    <main>
+        <div class="container-fluid px-0">
+            <div th:if="${passwordGeaendert}">
+                <div class="alert alert-success">
+                    Dein Passwort wurde erfolgreich geändert.
+                </div>
+            </div>
 
-    <div th:if="${passwordGeaendert}">
-        <div class="alert alert-success">
-            Dein Passwort wurde erfolgreich geändert.
+            <h1>Welcome to HonestBank - we're currently in Alpha</h1>
+
+            <p th:text="'FirmenName: ' + ${bank.firmenName} + '!'" />
+
+            <p th:text="'FirmenChef: ' + ${bank.firmenChef} + '!'" />
+
+            <p th:text="'Steuernummer: ' + ${bank.steuerNummer} + '!'" />
+
+            <p th:text="'Allgemeine Info: ' + ${bank.info()} + '!'" />
+
+
+            <p th:text="'Hallo, ' + ${loggedUser.getVorname() + ' ' + loggedUser.getNachname()}  + ' !'" />
+
+
+            <div sec:authorize="isAuthenticated()">
+                Authentifiziert als:  <span sec:authentication="name"></span></div>
+            <br>
+
+
+            <div sec:authorize="hasAuthority('admin')">
+                Nur Administratoren dürfen das sehen.
+            </div>
+            <br>
+            <div sec:authorize="hasAuthority('mitarbeiter')">
+                Nur Mitarbeiter dürfen das sehen.
+            </div>
+            <br>
+
+            Rollen: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
+
+            <p th:text="'Wir haben schon ' + ${mitarbeitercount} + ' Mitarbeiter'" />
         </div>
-    </div>
-
-
-    ""
-
-
-    <h1>Welcome to MyBank - we're currently in Alpha</h1>
-
-    <p th:text="'Bank: ' + ${bank} + '!'" />
-
-    <p th:text="'FirmenName: ' + ${bank.firmenName} + '!'" />
-
-    <p th:text="'FirmenChef: ' + ${bank.firmenChef} + '!'" />
-
-    <p th:text="'Steuernummer: ' + ${bank.steuerNummer} + '!'" />
-
-    <p th:text="'Allgemeine Info: ' + ${bank.info()} + '!'" />
-
-
-    <p th:text="'Hello, ' + ${mitarbeiter} + '!'" />
-
-
-
-    <div sec:authorize="isAuthenticated()">
-        Authenticated as <span sec:authentication="name"></span></div>
-    <br>
-
-
-    <div sec:authorize="hasAuthority('admin')">
-        This content is only shown to administrators.
-    </div>
-    <br>
-    <div sec:authorize="hasAuthority('mitarbeiter')">
-        This content is only shown to Mitarbeiters.
-    </div>
-    <br>
-
-    Logged user: <span sec:authentication="name">Bob</span>
-    <br>
-    Roles: <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
-
-    <br><br>
-
-
-    <p th:text="'Mitarbeiteranzahl: ' + ${mitarbeitercount}" />
-
-    <p th:text="'requestURI: ' + ${requestURI}" />
-    <p th:text="'contextPath: ' + ${contextPath}" />
-    <p th:text="'pathInfo: ' + ${pathInfo}" />
-    <p th:text="'queryString: ' + ${queryString}" />
-
+    </main>
 </div>
 </body>
 </html>

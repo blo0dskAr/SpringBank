@@ -12,10 +12,10 @@ public class Bank {
   private final Long id = 1L;
 
   @Column
-  private String firmenName = "my Bank";
+  private String firmenName = "HonestBank";
 
   @Column
-  private String firmenChef = "Ich";
+  private String firmenChef = "blo0dy";
 
   @Column
   private Long steuerNummer = 12345L;

@@ -75,7 +75,7 @@
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).OFFEN}" class="status text-success" >&bull;</span>
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).GESCHLOSSEN}" class="status text-danger">&bull;</span>
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.KontoStatusEnum).IN_EROEFFNUNG}" class="status text-warning">&bull;</span>
-                            <span th:text="${konto.kontoStatus}">Konto-Status</span>
+                            <span th:text="${konto.kontoStatus.getDisplayName()}">Konto-Status</span>
                         </td>
                         <td th:class="${konto.aktSaldo < 0} ? 'text-danger' : 'text-success'" th:text="${#numbers.formatDecimal(konto.aktSaldo, 1, 'POINT', 2, 'COMMA')}">Aktueller Saldo</td>
                         <td>

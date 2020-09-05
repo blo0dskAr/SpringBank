@@ -54,7 +54,7 @@
                             <td th:text="${kunde.kundennummer}">kundennummer</td>
                             <td th:text="${kunde.vorname}">vorname</td>
                             <td th:text="${kunde.nachname}">nachname</td>
-                            <td th:text="${kunde.geburtsDatum}">FakeGebDatum</td>
+                            <td th:text="${#temporals.format(kunde.geburtsDatum, 'dd.MM.yyyy')}">FakeGebDatum</td>
                             <td th:text="${kunde.adresse}">Adresse</td>
                             <td>
                                 <small>

@@ -101,7 +101,7 @@
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                            <span th:text="${kontoantrag.antragStatus}">AntragStatus</span>
+                            <span th:text="${kontoantrag.antragStatus.getDisplayName()}">AntragStatus</span>
                         </td>
                         <td>
                             <a th:if="${kontoantrag.getClass().getSimpleName() == 'SparKontoAntrag'}" th:href="@{/mitarbeiter/kunde/sparen/antrag/showSparAntragForKontoForm(sparKontoAntragId=${kontoantrag.id})}"

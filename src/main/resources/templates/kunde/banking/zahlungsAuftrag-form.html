@@ -53,7 +53,7 @@
                                       th:errors="*{auftragsArt}">auftragsArt Error</span>
                                 <label for="auftragsArt">Auftrags Art:</label>
                                 <input type="text" th:field="*{auftragsArt}"
-                                       class="form-control" id="auftragsArt" placeholder ="Einzahlung/Auszahlung" readonly>
+                                       class="form-control" id="auftragsArt" th:value="${zahlungsAuftrag.auftragsArt.getDisplayName()}" placeholder ="Einzahlung/Auszahlung" readonly>
                             </div>
                         </div>
                         <div class="form-row">

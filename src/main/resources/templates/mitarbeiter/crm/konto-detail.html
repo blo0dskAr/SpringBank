@@ -199,11 +199,11 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr th:each="kontobuchung : ${konto.kontoBuchungList}">
-                                                        <td th:text="${kontobuchung.buchungsDatum}">Datum</td>
+                                                        <td th:text="${#temporals.format(kontobuchung.buchungsDatum, 'dd.MM.yyyy')}">Datum</td>
                                                         <td th:text="${kontobuchung.buchungsText}">Text</td>
-                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">Geld</span></div></td>
-                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).HABEN}"><span class="text-success" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">AuchGeld</span></div></td>
-                                                        <td th:text="${#numbers.formatDecimal(kontobuchung.saldoNachBuchung, 1, 'POINT', 2, 'COMMA')}"></td>
+                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')} + ' €'">Geld</span></div></td>
+                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).HABEN}"><span class="text-success" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')} + ' €'">AuchGeld</span></div></td>
+                                                        <td th:text="${#numbers.formatDecimal(kontobuchung.saldoNachBuchung, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -283,12 +283,12 @@
                                                 <tbody>
                                                 <tr th:each="zahlungsAuftrag : ${konto.kontoZahlungsAuftragList}">
                                                     <td th:text="${#temporals.format(zahlungsAuftrag.auftragsDatum, 'dd.MM.yyyy')}">Datum</td>
-                                                    <td th:text="${zahlungsAuftrag.auftragsArt}">Art</td>
+                                                    <td th:text="${zahlungsAuftrag.auftragsArt.getDisplayName()}">Art</td>
                                                     <td th:switch="${zahlungsAuftrag.auftragsStatus}">
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum).ANGELEGT}" class="status text-warning" >&bull;</span>
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum).DURCHGEFUEHRT}" class="status text-success">&bull;</span>
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum).STORNIERT}" class="status text-danger">&bull;</span>
-                                                        <span th:text="${zahlungsAuftrag.auftragsStatus}">Status</span>
+                                                        <span th:text="${zahlungsAuftrag.auftragsStatus.getDisplayName()}">Status</span>
                                                     </td>
                                                     <td th:text="${#numbers.formatDecimal(zahlungsAuftrag.betrag, 0, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(zahlungsAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
                                                     <td th:text="${zahlungsAuftrag.senderKonto}">Datum</td>

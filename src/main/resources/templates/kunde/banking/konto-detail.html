@@ -43,12 +43,11 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
-                                        <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
                                     </div>
                                     <div class="col">
                                         <div class="text-right text-secondary mp-0 small">
                                             <span th:text="'KontoSaldo: '"></span>
-                                            <span th:classappend="${konto.aktSaldo > 0 ? 'text-success' : 'text-danger'}" th:text="${konto.aktSaldo} + ' €'"></span>
+                                            <span th:classappend="${konto.aktSaldo < 0 ? 'text-danger' : 'text-success'}" th:text="${konto.aktSaldo} + ' €'"></span>
                                         </div>
                                         <div class="text-right text-secondary mp-0 small" th:text="'KontoTyp: ' + ${konto.getClass().getSimpleName()}"> KontoTyp:</div>
                                     </div>
@@ -56,7 +55,6 @@
                             </div>
                             <div class="collapse" data-parent="#accordionKonto" id="collapseKonto" aria-labelledby="headingKonto" >
                                 <div class="card-body">
-<!--                                    <div class="table-responsive">-->
                                     <div class="table-wrapper">
                                         <div class="table-title">
                                             <div class="row">
@@ -89,7 +87,6 @@
                                                 </tbody>
                                             </table>
                                         <hr class="my-1">
-<!--                                        </div>-->
                                     </div>
                                 </div>
                             </div>
@@ -132,7 +129,6 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
-                                        <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
                                     </div>
                                     <div class="col">
                                         <div class="text-right text-secondary mp-0 small" th:text="${'Offene Aufträge: ' + countOffeneZA}"></div>
@@ -142,7 +138,6 @@
 
                             <div class="collapse" data-parent="#accordionZahlungsAuftrag" id="collapseZahlungsAuftrag" aria-labelledby="headingZahlungsAuftrag" >
                                 <div class="card-body">
-<!--                                    <div class="table-responsive">-->
                                     <div class="table-wrapper">
                                         <div class="table-title">
                                             <div class="row">
@@ -213,7 +208,6 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
-                                        <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
                                     </div>
                                     <div class="col">
                                         <div class="text-right text-secondary mp-0 small" th:text="${'Aktive DauerAufträge: ' + countAktiveDA}"></div>
@@ -223,7 +217,6 @@
 
                             <div class="collapse" data-parent="#accordionDauerAuftrag" id="collapseDauerAuftrag" aria-labelledby="headingDauerAuftrag" >
                                 <div class="card-body">
-<!--                                    <div class="table-responsive">-->
                                     <div class="table-wrapper">
                                         <div class="table-title">
                                             <div class="row">

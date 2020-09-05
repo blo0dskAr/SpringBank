@@ -16,26 +16,8 @@
             <li class="nav-item">
                 <a th:class="${#strings.equals(activeLink, 'MitarbeiterHome')} ? 'nav-link active' : 'nav-link'" th:href="@{~/mitarbeiter/index}">Home <span class="sr-only">(current)</span></a>
             </li>
-
-<!--            <li class="nav-item dropdown">
-                &lt;!&ndash;                <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'nav-link active' : 'nav-link'" th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Mitarbeiter</a>&ndash;&gt;
-                <a class="nav-link dropdown-toggle" th:classappend="${(#strings.startsWith(requestURI, '/kunde/sparen') ? 'active' : '') + (#strings.startsWith(requestURI, '/kunde/banking/sparen') ? 'active' : '')}"
-                   id="sparenDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Sparen</a>
-                <div class="dropdown-menu animated&#45;&#45;fade-in" aria-labelledby="sparenDropdown">
-                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeSparenHome')} ? 'text-primary' : ''" th:href="@{/kunde/sparen/index}">Allgemeine Information</a>
-                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeSparenRechner1')} ? 'text-primary' : ''" th:href="@{/kunde/sparen/rechner}">Spar-Rechner</a>
-                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeSparenRechner2')} ? 'text-primary' : ''" th:href="@{/kunde/sparen/rechner2}">Spar-Rechner2</a>
-                    <hr class="my-1">
-                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingSparenForm')} ? 'text-primary' : ''" th:href="@{/kunde/banking/sparen/register}">Eröffnen</a>
-                    <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingSparenUebersicht')} ? 'text-primary' : ''" th:href="@{/kunde/banking/sparen/sparkontouebersicht}">Sparkonto Übersicht</a>
-                </div>
-            </li>-->
-
             <li class="nav-item">
                 <a th:class="${#strings.startsWith(requestURI, '/mitarbeiter/admin/mitarbeiterAdministration')} ? 'nav-link active' : 'nav-link'" th:href="@{/mitarbeiter/admin/mitarbeiterAdministration/list}">Mitarbeiter</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">BlaBla</a>
             </li>
         </ul>
         <ul class="navbar-nav">

@@ -66,9 +66,6 @@
                     <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankImpressum')} ? 'text-primary' : ''" th:href="@{/kunde/bank/impressum}">Impressum</a>
                 </div>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">BlaBla</a>
-            </li>
         </ul>
         <ul class="navbar-nav">
             <div sec:authorize="isFullyAuthenticated()">

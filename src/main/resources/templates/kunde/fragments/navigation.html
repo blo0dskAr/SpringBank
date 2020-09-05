@@ -56,7 +56,7 @@
                     <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingGiroUebersicht')} ? 'text-primary' : ''" th:href="@{/kunde/banking/giro/girokontouebersicht}">Girokonto Übersicht</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
+           <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" th:classappend="${#strings.startsWith(requestURI, '/kunde/bank/') ? 'active' : ''}"
                    id="wirDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über uns</a>
                 <div class="dropdown-menu" aria-labelledby="wirDropdown">
@@ -65,7 +65,7 @@
                     <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankKontakt')} ? 'text-primary' : ''" th:href="@{/kunde/bank/kontakt}">Kontakt</a>
                     <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankImpressum')} ? 'text-primary' : ''" th:href="@{/kunde/bank/impressum}">Impressum</a>
                 </div>
-            </li>
+            </li>-->
         </ul>
         <ul class="navbar-nav">
             <div sec:authorize="isFullyAuthenticated()">

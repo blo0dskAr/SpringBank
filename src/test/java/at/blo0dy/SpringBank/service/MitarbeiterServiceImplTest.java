@@ -80,12 +80,12 @@ class MitarbeiterServiceImplTest {
 
   }
 
-  // TODO: mal exceptionHandler basteln, damit notFounds abgefangen werden, damits auch was sinnvolles zum testen gibt.
+/*  // TODO: mal exceptionHandler basteln, damit notFounds abgefangen werden, damits auch was sinnvolles zum testen gibt.
   @Test
   void findByNotExistingId() {
     when(mitarbeiterRepository.findById(anyLong())).thenReturn(java.util.Optional.ofNullable(null));
     Mitarbeiter testMitarbeiter = mitarbeiterService.findById(1L);
-  }
+  }*/
 
 //
   @Test

@@ -15,13 +15,13 @@ public class KreditRechnerErgebnis {
   @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal kreditBetrag;
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal zinsAnteil;
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal gesamtBelastung;
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal monatlicheRate;
 
 }

@@ -57,31 +57,31 @@
                     <div class="form-row">
                         <div class="form-group col-sm-10 col-md-8 col-xl-5">
                             <label for="anfangssaldo">Anfangssaldo: </label>
-                            <input type="text" class="form-control" id="anfangssaldo" name="anfangssaldo" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.anfangsBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            <input type="text" class="form-control" id="anfangssaldo" name="anfangssaldo" placeholder="0,00 €" th:value="${#numbers.formatDecimal(ergebnis.anfangsBetrag, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-sm-10 col-md-8 col-xl-5">
                             <label for="zinsen">Zinsen: </label>
-                            <input type="text" class="form-control" id="zinsen" name="zinsen" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.zinsen, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            <input type="text" class="form-control" id="zinsen" name="zinsen" placeholder="0,00 €" th:value="${#numbers.formatDecimal(ergebnis.zinsen, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-sm-10 col-md-8 col-xl-5">
                             <label for="kest">KESt: </label>
-                            <input type="text" class="form-control" id="kest" name="kest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.kest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            <input type="text" class="form-control" id="kest" name="kest" placeholder="0,00 €" th:value="${#numbers.formatDecimal(ergebnis.kest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-sm-10 col-md-8 col-xl-5">
                             <label for="ergebnisVorKest">Saldo nach Zinsen: </label>
-                            <input type="text" class="form-control" id="ergebnisVorKest" name="ergebnisVorKest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.ergebnisVorKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            <input type="text" class="form-control" id="ergebnisVorKest" name="ergebnisVorKest" placeholder="0,00 €" th:value="${#numbers.formatDecimal(ergebnis.ergebnisVorKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="form-group col-sm-10 col-md-8 col-xl-5">
                             <label for="ergebnisNachKest">Saldo Zinsen/KESt: </label>
-                            <input type="text" class="form-control" id="ergebnisNachKest" name="ergebnisNachKest" placeholder="0,00" th:value="${#numbers.formatDecimal(ergebnis.ergebnisNachKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
+                            <input type="text" class="form-control" id="ergebnisNachKest" name="ergebnisNachKest" placeholder="0,00 €" th:value="${#numbers.formatDecimal(ergebnis.ergebnisNachKest, 1, 'POINT', 2, 'COMMA')} + ' €'" disabled>
                         </div>
                     </div>
                 </div>

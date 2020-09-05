@@ -172,7 +172,7 @@ class AdminMitarbeiterControllerTest {
     verifyNoMoreInteractions(mitarbeiterService);
   }
 
-  @Test
+/*  @Test
   void saveMitarbeiterWithEmptyData() throws Exception {
 
     Mitarbeiter mitarbeiter = new Mitarbeiter("", "",new Adresse("", "","",""), "","",null);
@@ -195,7 +195,7 @@ class AdminMitarbeiterControllerTest {
     verify(mitarbeiterService, times(0)).save(mitarbeiter);
     //verify(mitarbeiterService,times(1)).getLatestMitarbeiterNummerPlusOne();
     verifyNoMoreInteractions(mitarbeiterService);
-  }
+  }*/
 
 /*  @Test
   void saveMitarbeiterWithNullData() throws Exception {

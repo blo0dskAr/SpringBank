@@ -42,7 +42,8 @@
                                                 </button>
                                             </h2>
                                             <div class="col-6">
-                                                <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber: Der Herr mim Gwehr </div>
+                                                <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
+                                                <div class="text-right text-secondary mp-0 small" th:text="'Status: ' + ${konto.kontoStatus.getDisplayName()}"> Status:</div>
                                             </div>
                                             <div class="col">
                                                 <div class="text-right text-secondary mp-0 small">

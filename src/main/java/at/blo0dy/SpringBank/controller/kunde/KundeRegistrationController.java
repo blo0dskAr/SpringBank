@@ -10,6 +10,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,7 +29,7 @@ public class KundeRegistrationController {
   private PasswordEncoder encoder;
 
   // TODO: gibt irgendwie autowiring probleme wenn ich versuch auf den globalen passwordencoder zuzugreifen
-  // TODO: daher mal mit this.encoder = new BCryptPasswordEncoder(); gelöst.
+  // TODO: daher mal mit this.encoder = new BCryptPasswordEncoder(); gelöst. - reicht wegen eh default..
   @Autowired
 //  public KundeRegistrationController(KundeRepository kundeRepository, PasswordEncoder encoder) {
   public KundeRegistrationController(KundeService kundeService) {
@@ -46,13 +47,12 @@ public class KundeRegistrationController {
     return "kunde/registration";
   }
 
-  // TODO: DA geh ich direkt ins Repository, nicht in den service dazwischen, ich schätz das werd ich noch nachholen.. sollen ,.. müssten ... so quasi ..
   @PostMapping
-  public String processRegistration(@Valid @ModelAttribute("kunde") KundeRegistrationForm form, Errors errors, Model model, RedirectAttributes redirectAttrs) {
+  public String processRegistration(@Valid @ModelAttribute("kunde") KundeRegistrationForm form, BindingResult result, Model model, RedirectAttributes redirectAttrs) {
     log.debug("KundeRegistrationForm wird gespeichert");
-    if (errors.hasErrors()) {
-      log.debug("KundeRegistrationController: Fehler beim speichern von Kunde erhalten. Anzahl:" + errors.getErrorCount());
-      log.warn("Errors: " + errors.getAllErrors());
+    if (result.hasErrors()) {
+      log.debug("KundeRegistrationController: Fehler beim speichern von Kunde erhalten. Anzahl:" + result.getErrorCount());
+      log.warn("Errors: " + result.getAllErrors());
       model.addAttribute("kunde",form);
       return "kunde/registration";
     } else {

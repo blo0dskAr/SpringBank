@@ -14,21 +14,25 @@ import java.time.LocalDate;
 public class KundeRegistrationForm {
 
   @NotBlank(message = "Vorname muss angegeben werden.")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nicht leer sein & nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
   private String vorname;
 
   @NotBlank(message = "Nachname muss angegeben werden.")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nicht leer sein & nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
   private String nachname;
 
   @NotBlank(message = "Password muss angegeben werden.")
+  @Pattern(regexp = "^[a-zA-Z0-9äÄöÖüÜß -]+$", message = "Darf nicht leer sein & nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
   private String password;
 
   @Valid
   private Adresse adresse;
 
-  @NotBlank(message = "Telefonnummer muss angegeben werden.")
+  @NotBlank(message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
+  @Pattern(regexp = "^[+]?[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   private String telefonNummer;
-
-  @NotBlank(message = "EmailAdresse muss angegeben werden.")
+  @NotBlank(message = "Email im Format <name>@<domain>.<land> angeben.")
+  @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", message = "Email im Format <name>@<domain>.<land> angeben.", flags = Pattern.Flag.CASE_INSENSITIVE)
   private String emailAdresse;
 
   @NotBlank(message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")

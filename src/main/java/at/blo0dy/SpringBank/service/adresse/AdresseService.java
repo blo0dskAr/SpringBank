@@ -6,13 +6,13 @@ import java.util.List;
 
 public interface AdresseService  {
 
-  public List<Adresse> findAll();
+  List<Adresse> findAll();
 
-  public Adresse findById(Long theId);
+  Adresse findById(Long theId);
 
-  public void save(Adresse mitarbeiter);
+  void save(Adresse mitarbeiter);
 
-  public void deleteById(Long theId);
+  void deleteById(Long theId);
 
 
 

@@ -41,7 +41,7 @@ public class ZahlungsAuftrag {
   @DecimalMax(value = "50000", message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.")
   @Digits(integer = 5, fraction = 2, message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen. maximal 2 Nachkommastellen")
   @NotNull(message = "Bitte einen Betrag zw. 0,01 und 50.000,00 wählen.")
-  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##" )
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal betrag;
 
   @ManyToOne

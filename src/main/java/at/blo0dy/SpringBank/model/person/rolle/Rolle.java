@@ -23,12 +23,8 @@ public class Rolle  {
 
   @Column
   @NotBlank
-  @Pattern(regexp = "^[a-z_-]{3,20}")
+  @Pattern(message = "Darf nicht leer sein. Darf nur Buchstaben, \"_\" und \"-\" enthalten", regexp = "^[a-z_-]{3,20}")
   private String name;
-
-/*  @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.REFRESH})
-  @JoinColumn(name="mitarbeiter_id")
-  private Mitarbeiter mitarbeiter;*/
 
   @ManyToMany(mappedBy = "rollen")
   private List<Mitarbeiter> mitarbeiter;

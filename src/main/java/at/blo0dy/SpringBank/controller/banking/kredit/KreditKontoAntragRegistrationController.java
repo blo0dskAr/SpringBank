@@ -72,14 +72,11 @@ public class KreditKontoAntragRegistrationController {
 
       if (bindingResult.hasErrors()) {
         log.debug("Fehler beim speichern Der KreditRechnerVorlage erhalten. Wird mit Fehler neu geladen. (count=" + bindingResult.getErrorCount() + ")");
-//        kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
         model.addAttribute("ergebnis", new KreditRechnerErgebnis(BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
         model.addAttribute("activeLink", "kundeBankingKreditForm");
         return "kunde/banking/kredit/registration";
       }  else {
         KreditRechnerErgebnis ergebnis = kreditService.getKreditRechnerErgebnis(kv);
-        // Workaround bis dieses % wird als *100 dargestellt (aber nicht gerechnet) gelöst wird
-//        kv.setZinssatz(kv.getZinssatz().divide(BigDecimal.valueOf(100)));
         model.addAttribute("kreditrechnervorlage", kv);
         model.addAttribute("ergebnis",ergebnis);
         model.addAttribute("calculatedCorrectly", true);

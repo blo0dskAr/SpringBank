@@ -22,13 +22,6 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
     this.giroKontoAntragRepository = giroKontoAntragRepository;
   }
 
- //   sollte nicht gebraucht werden
-/*  @Override
-    @Transactional(readOnly = true)
-    public List<GiroKontoAntrag> findAll() {
-    return giroKontoAntragRepository.findAll();
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public GiroKontoAntrag findById(Long giroAntragId) {
@@ -56,32 +49,6 @@ public class GiroKontoAntragServiceImpl implements GiroKontoAntragService {
 
     log.debug("GirokontoAntrag wurde erfolgreich gespeichert. ID: " + savedGiroAntrag.getId());
   }
-
-/*  @Override
-//  @Transactional
-  public void deleteById(Long theId) {
-    log.debug("GirokontoAntrag wird geloescht:");
-    giroKontoAntragRepository.deleteById(theId);
-  }*/
-
-/*
-  @Override
-  @Transactional(readOnly = true)
-  public long count() {
-    return giroKontoAntragRepository.count();
-  }
-*/
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public long countByStatus(String statusEnum) {
-    return giroKontoAntragRepository.countByStatus(statusEnum);
-  }*/
-
-/*  public List<GiroKontoAntrag> findByStatus(String statusEnum) {
-    List<GiroKontoAntrag> giroKontoAntragListe = giroKontoAntragRepository.findByStatus(statusEnum) ;
-    return  giroKontoAntragListe;
-  }*/
 
   @Override
   @Transactional(readOnly = true)

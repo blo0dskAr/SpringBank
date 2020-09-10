@@ -112,11 +112,6 @@ public class TestSecurityConfig {
       @Autowired
       private PasswordEncoder encoder;
 
-/*      @Bean
-      public PasswordEncoder encoder() {
-        return new BCryptPasswordEncoder();
-      }*/
-
       public App2ConfigurationAdapter() {
         super();
       }

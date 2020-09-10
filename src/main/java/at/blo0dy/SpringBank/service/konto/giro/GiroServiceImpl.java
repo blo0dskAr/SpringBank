@@ -22,12 +22,6 @@ public class GiroServiceImpl implements GiroService {
     this.giroKontoRepository = giroKontoRepository;
   }
 
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<GiroKonto> findAll() {
-    return giroKontoRepository.findAll();
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public GiroKonto findById(Long giroKontoId) {
@@ -54,12 +48,6 @@ public class GiroServiceImpl implements GiroService {
     GiroKonto savedGirokonto = giroKontoRepository.save(giroKonto);
     log.debug("GiroKonto wurde erfolgreich gespeichert. ID: " + savedGirokonto.getId());
   }
-
-/*  @Override
-//  @Transactional
-  public void deleteById(Long theId) {
-    giroKontoRepository.deleteById(theId);
-  }*/
 
   @Override
   @Transactional(readOnly = true)

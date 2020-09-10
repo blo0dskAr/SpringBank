@@ -3,19 +3,18 @@ package at.blo0dy.SpringBank.dao.person;
 
 import at.blo0dy.SpringBank.model.person.rolle.Rolle;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
 public interface RolleRepository extends JpaRepository<Rolle, Long> {
 
-  @Query(value = "select count(r.name) from rolle r" +
+/*  @Query(value = "select count(r.name) from rolle r" +
          "  where r.id in (select role_id from map_mita_role map, mitarbeiter m" +
          "                           where map.mita_id = m.id)" +
          "  and r.id = :theId"
          , nativeQuery = true)
-  long countByMitarbeiterId(Long theId) ;
+  long countByMitarbeiterId(Long theId) ;*/
 
   @Query(value = "select m.id from rolle r, mitarbeiter m, map_mita_role map" +
            " where r.id = map.role_id" +

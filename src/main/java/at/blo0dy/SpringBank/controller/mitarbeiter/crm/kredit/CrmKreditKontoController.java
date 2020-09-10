@@ -144,12 +144,12 @@ public class CrmKreditKontoController {
     ZahlungsAuftrag zahlungsAuftrag = new ZahlungsAuftrag();
     zahlungsAuftrag.setId(0L);
     zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
-    zahlungsAuftrag.setKontonummer(kreditkonto.getKontonummer().toString());
+    zahlungsAuftrag.setKontonummer(kreditkonto.getKontonummer());
     List<String> kontonummerAuswahlList = kreditService.findKontoNummerOffenerKreditKontenByKundennummer(kreditkonto.getKunde().getKundennummer());
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("konto", kreditkonto);
-    model.addAttribute("requestedKontonummer", kreditkonto.getKontonummer().toString());
+    model.addAttribute("requestedKontonummer", kreditkonto.getKontonummer());
     model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
 
     return "mitarbeiter/crm/zahlungsAuftrag-form";
@@ -174,7 +174,7 @@ public class CrmKreditKontoController {
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("konto", kreditkonto);
-      model.addAttribute("requestedKontonummer", kreditkonto.getKontonummer().toString());
+      model.addAttribute("requestedKontonummer", kreditkonto.getKontonummer());
 
       return "mitarbeiter/crm/zahlungsAuftrag-form";
     }
@@ -182,7 +182,7 @@ public class CrmKreditKontoController {
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
     zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
     zahlungsAuftrag.setKonto(kreditkonto);
-    zahlungsAuftrag.setEmpfaengerKonto(kreditkonto.getKontonummer().toString());
+    zahlungsAuftrag.setEmpfaengerKonto(kreditkonto.getKontonummer());
     zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
 
     log.debug("KreditKontoEinzahlungsForm wird gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);

@@ -148,14 +148,14 @@ public class CrmGiroKontoController {
     } else if (request.getRequestURI().equals("/mitarbeiter/kunde/giro/konto/showEinzahlungsForm")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     } else {
-      // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske)
+      // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske (nicht umgesetzt))
     }
-    zahlungsAuftrag.setKontonummer(girokonto.getKontonummer().toString());
+    zahlungsAuftrag.setKontonummer(girokonto.getKontonummer());
     List<String> kontonummerAuswahlList = giroService.findKontoNummerOffenerGiroKontenByKundennummer(girokonto.getKunde().getKundennummer());
 
     model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
     model.addAttribute("konto", girokonto);
-    model.addAttribute("requestedKontonummer", girokonto.getKontonummer().toString());
+    model.addAttribute("requestedKontonummer", girokonto.getKontonummer());
     model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
 
     return "mitarbeiter/crm/zahlungsAuftrag-form";
@@ -180,14 +180,14 @@ public class CrmGiroKontoController {
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("konto", girokonto);
-      model.addAttribute("requestedKontonummer", girokonto.getKontonummer().toString());
+      model.addAttribute("requestedKontonummer", girokonto.getKontonummer());
 
       return "mitarbeiter/crm/zahlungsAuftrag-form";
     }
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(girokonto, zahlungsAuftrag.getBetrag() )) {
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(girokonto, zahlungsAuftrag.getBetrag(), false)) {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }
@@ -199,17 +199,17 @@ public class CrmGiroKontoController {
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("konto", girokonto);
-      model.addAttribute("requestedKontonummer", girokonto.getKontonummer().toString());
+      model.addAttribute("requestedKontonummer", girokonto.getKontonummer());
 
     zahlungsAuftrag.setDatAnlage(LocalDateTime.now());
     zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.ANGELEGT);
     zahlungsAuftrag.setKonto(girokonto);
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.EINZAHLUNG)) {
-      zahlungsAuftrag.setEmpfaengerKonto(girokonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(girokonto.getKontonummer());
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
     } else {
       zahlungsAuftrag.setSenderKonto(kundeService.getConnectedGiroByKundennummer(tmpKundennummer));
-      zahlungsAuftrag.setEmpfaengerKonto(girokonto.getKontonummer().toString());
+      zahlungsAuftrag.setEmpfaengerKonto(girokonto.getKontonummer());
     }
     log.debug("GiroKontoEinzahlungsForm wird gespeichert für Mitarbeiter: " + tmpMitarbeiter + " und KontoNr: " + tmpKontonummer);
     zahlungsAuftragService.save(zahlungsAuftrag);

@@ -30,7 +30,7 @@ public class GiroKonto extends Konto {
   }
 
   //  orig
-//  public GiroKonto(LocalDateTime eroeffnungsDatum, Long kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, GiroKontoAntrag giroKontoAntrag, BigDecimal ueberziehungsRahmen) {
+//  public GiroKonto(LocalDateTime eroeffnungsDatum, String kontonummer, Kunde kunde, BigDecimal aktSaldo, KontoStatusEnum kontoStatus, GiroKontoAntrag giroKontoAntrag, BigDecimal ueberziehungsRahmen) {
 //    super(eroeffnungsDatum, kontonummer, kunde, aktSaldo, kontoStatus);
 //    this.giroKontoAntrag = giroKontoAntrag;
 //    this.ueberziehungsRahmen = ueberziehungsRahmen;

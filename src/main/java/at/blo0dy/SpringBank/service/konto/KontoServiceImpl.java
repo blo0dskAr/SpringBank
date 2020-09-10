@@ -23,6 +23,7 @@ import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,18 +86,11 @@ public class KontoServiceImpl implements KontoService {
     return kontoRepository.findKontonummerById(kontoId);
   }
 
-/*
-  @Override
-  @Transactional(readOnly = true)
-  public Konto findByKontonummer(Long kontonummer) {
-    return kontoRepository.findByKontonummer(kontonummer);
-  }*/
-
   @Override
   @Transactional(readOnly = true)
   public List<Konto> findAll(Konto konto) {
    log.debug("Kontosuche wird durchgeführt.");
-    return kontoRepository.findAll(Example.of(konto));
+    return kontoRepository.findAll(Example.of(konto, ExampleMatcher.matching().withMatcher("kontonummer", ExampleMatcher.GenericPropertyMatcher::contains)));
   }
 
   @Override
@@ -113,14 +107,11 @@ public class KontoServiceImpl implements KontoService {
   @Override
   @Transactional
   public void UpdateKontoSaldoById(Long kontoId, BigDecimal neuerSaldo) {
-
     log.debug("Saldo für KontoId: " + kontoId + " wird aktualisiert.");
 
     Konto konto = kontoRepository.findById(kontoId).get();
     konto.setAktSaldo(neuerSaldo);
-//    kontoRepository.updateKontoSaldoById(kontoId, neuerSaldo);
     log.debug("Saldoaktualisierung erfolgreich.");
-
   }
 
   @Override
@@ -147,9 +138,9 @@ public class KontoServiceImpl implements KontoService {
     }
 
     // Wird geschlossen/storniert
-    if (neuerKontoStatus.equals(KontoStatusEnum.GESCHLOSSEN)) {
+    if (KontoStatusEnum.GESCHLOSSEN.equals(neuerKontoStatus)) {
       // Konto ist noch offen
-      if (alterKontoStatus.equals(KontoStatusEnum.OFFEN)) {
+      if (KontoStatusEnum.OFFEN.equals(alterKontoStatus)) {
         // Konto muss Saldo == 0 haben. Kann nicht geschlossen werden
         if (konto.getAktSaldo().compareTo(BigDecimal.ZERO) != 0) {
           log.debug("KontoStatusÄnderung für KontoId: " + konto + " wegen vorhandenen Saldos nicht möglich.");
@@ -163,20 +154,18 @@ public class KontoServiceImpl implements KontoService {
           log.debug("Anzahl zu stornierender Daueraufträge: " + dauerAuftragList.size());
           log.debug("Anzahl zu stornierender Zahlungsaufträge: " + zahlungsAuftragList.size());
           // ggf. Daueraufträge löschen
-          if (!dauerAuftragList.isEmpty()) {
+//          if (!dauerAuftragList.isEmpty()) {
             dauerAuftragList.forEach(dauerAuftrag -> { dauerAuftrag.setAuftragsStatus(DauerAuftragStatusEnum.STORNIERT);
                                                         dauerAuftrag.setDatAend(LocalDateTime.now());
-//                                                       dauerAuftragRepository.save(dauerAuftrag);
             });
-          }
+//          }
 
           // ggf. Zahlungsauftraege stornieren
-          if (!zahlungsAuftragList.isEmpty()) {
+//          if (!zahlungsAuftragList.isEmpty()) {
             zahlungsAuftragList.forEach(zahlungsAuftrag -> {zahlungsAuftrag.setAuftragsStatus(ZahlungAuftragStatusEnum.STORNIERT);
                                                             zahlungsAuftrag.setDatAend(LocalDateTime.now());
-//                                                            zahlungsAuftragRepository.save(zahlungsAuftrag);
             });
-          }
+//          }
 
           // Kontostatus aktualisieren (geschlossen setzen)
 //          kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
@@ -186,14 +175,15 @@ public class KontoServiceImpl implements KontoService {
           return "KONTO_NOW_CLOSED";
         }
         // Konto Ist noch In Eröffnung --> wird storniert
-      } else if (alterKontoStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
+        // TODO: Denk nochmal nach wenns bissl früher ist, das brauchst ned :)
+      } else if (KontoStatusEnum.IN_EROEFFNUNG.equals(alterKontoStatus)) {
 //        kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
         konto.setKontoStatus(neuerKontoStatus);
         log.debug("Konto mit KontoId: " + kontoId + " erfolgreich storniert.");
         return "KONTO_NOW_CLOSED";
       }
       // Dann sollt nur noch "In_eroeffnung --> Offen" übrig bleiben
-    } else if (neuerKontoStatus.equals(KontoStatusEnum.OFFEN)) {
+    } else if (KontoStatusEnum.OFFEN.equals(neuerKontoStatus)) {
       // TODO, Alle Zahlungsaufträge, DauerAufträge, ÜberziehungsRahmen erstellen.
       log.debug("Konto mit Id: " +  kontoId + " wird eröffnet.");
 
@@ -208,7 +198,7 @@ public class KontoServiceImpl implements KontoService {
           tmpDauerAuftrag.setId(0L);
           tmpDauerAuftrag.setKonto(konto);
           tmpDauerAuftrag.setBetrag(tmpKontoAntrag.getDauerAuftrag());
-          tmpDauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+          tmpDauerAuftrag.setKontonummer(konto.getKontonummer());
           tmpDauerAuftrag.setText("Noch leer");
           // TODO: das muss noch in die registration form rein (und vermutlich weitere)
           tmpDauerAuftrag.setTagImMonat(1);
@@ -224,10 +214,10 @@ public class KontoServiceImpl implements KontoService {
           tmpZahlungsAuftrag.setId(0L);
           tmpZahlungsAuftrag.setKonto(konto);
           tmpZahlungsAuftrag.setBetrag(tmpKontoAntrag.getErstAuftrag());
-          tmpZahlungsAuftrag.setKontonummer(konto.getKontonummer().toString());
+          tmpZahlungsAuftrag.setKontonummer(konto.getKontonummer());
           tmpZahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
           tmpZahlungsAuftrag.setSenderKonto(konto.getKunde().getConnectedGiro());
-          tmpZahlungsAuftrag.setEmpfaengerKonto(konto.getKontonummer().toString());
+          tmpZahlungsAuftrag.setEmpfaengerKonto(konto.getKontonummer());
           // TODO in den zahlungsauftrag muss auch noch mal text rein und auch ein gscheites auftragsdatum
           tmpZahlungsAuftrag.setAuftragsDatum(LocalDate.now());
 //          tmpZahlungsAuftrag.setText("ErstAuftrag");
@@ -246,10 +236,10 @@ public class KontoServiceImpl implements KontoService {
         tmpZahlungsAuftrag.setId(0L);
         tmpZahlungsAuftrag.setBetrag(tmpKontoAntrag.getKreditBetrag());
         tmpZahlungsAuftrag.setKonto(konto);
-        tmpZahlungsAuftrag.setKontonummer(konto.getKontonummer().toString());
+        tmpZahlungsAuftrag.setKontonummer(konto.getKontonummer());
         tmpZahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.AUSZAHLUNG);
         tmpZahlungsAuftrag.setEmpfaengerKonto(konto.getKunde().getConnectedGiro());
-        tmpZahlungsAuftrag.setSenderKonto(konto.getKontonummer().toString());
+        tmpZahlungsAuftrag.setSenderKonto(konto.getKontonummer());
         tmpZahlungsAuftrag.setAuftragsDatum(LocalDate.now());
         zahlungsAuftragRepository.save(tmpZahlungsAuftrag);
 
@@ -260,7 +250,7 @@ public class KontoServiceImpl implements KontoService {
         tmpDauerAuftrag.setId(0L);
         tmpDauerAuftrag.setKonto(konto);
         tmpDauerAuftrag.setBetrag(tmpKontoAntrag.getRate());
-        tmpDauerAuftrag.setKontonummer(konto.getKontonummer().toString());
+        tmpDauerAuftrag.setKontonummer(konto.getKontonummer());
         tmpDauerAuftrag.setText("Rate");
         // TODO: das muss noch in die registration form rein (und vermutlich weitere)
         tmpDauerAuftrag.setTagImMonat(31);
@@ -274,12 +264,10 @@ public class KontoServiceImpl implements KontoService {
         if (tmpKontoAntrag.isUeberziehungsrahmenGewuenscht()) {
           log.debug("überziehungsrahmen wird eingerichtet.");
           ((GiroKonto) konto).setUeberziehungsRahmen(BigDecimal.valueOf(500));
-//          giroKontoRepository.UpdateUeberziehungsRahmenByKontoId(kontoId, BigDecimal.valueOf(500));
         }
       }
 
       // Kontostatus aktualisieren (offen setzen)
-//      kontoRepository.updateKontoStatusByIdAndStatus(konto.getId(), neuerKontoStatus.toString());
       konto.setKontoStatus(neuerKontoStatus);
       log.debug("Konto mit KontoId: " + kontoId + " wurde erfolgreich eröffnet");
       return "KONTO_NOW_OPEN";

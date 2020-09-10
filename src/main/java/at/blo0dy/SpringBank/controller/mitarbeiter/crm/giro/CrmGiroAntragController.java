@@ -105,6 +105,10 @@ public class CrmGiroAntragController {
     final Kunde mykunde = kundeService.findByKundennummer(giroKontoAntrag.getKundennummer().toString());
     final KontoStatusEnum bestMoeglicherStatus = kundeService.getBestmoeglicherKontoStatusByKundennummer(kunde.getKundennummer());
 
+    if (giroKontoAntrag.getAntragStatus().equals(AntragStatusEnum.ABGELEHNT) || giroKontoAntrag.getAntragStatus().equals(AntragStatusEnum.ABGELEHNT_WEIL_NEU_BERECHNET)) {
+      redirectAttrs.addFlashAttribute("antragAbgelehnt", true);
+    }
+
     if (giroKontoAntrag.getAntragStatus().equals(AntragStatusEnum.GENEHMIGT))  {
       log.debug("GiroKontoAntrag wurde genehmigt, GiroKonto wird erstellt");
       BigDecimal ueberziehungsrahmen;
@@ -119,12 +123,9 @@ public class CrmGiroAntragController {
       giroService.save(giroKonto);
       log.debug("Girokonto wurde erfolgreich gespeichert. (id=" + giroKonto.getId() + ")");
 
-      log.debug("GiroKontoAntrag wird gespeichert");
-      giroKontoAntragService.save(giroKontoAntrag);
-      log.debug("GiroKontoAntrag wurde erfolgreich gespeichert");
-
       if (bestMoeglicherStatus.equals(KontoStatusEnum.IN_EROEFFNUNG)) {
         log.debug("Girokonto mit der ID=" + giroKonto.getId() + " Kann nicht eröffnet werden. BestMöglicher Status voerst erreicht");
+        redirectAttrs.addFlashAttribute("noChanges", true);
       } else {
         log.debug("Gespeichertes Girokonto mit der ID=" + giroKonto.getId() + " wird auf Mögliche KontoEröffnung geprüft:");
         String processErgebnis = kontoService.processKontoStatusById(giroKonto.getId(), bestMoeglicherStatus, bestMoeglicherStatus);
@@ -142,6 +143,10 @@ public class CrmGiroAntragController {
         }
       }
     }
+
+    log.debug("SparKontoAntrag wird gespeichert");
+    giroKontoAntragService.save(giroKontoAntrag);
+    log.debug("SparKontoAntrag wurde erfolgreich gespeichert");
 
     return "redirect:/mitarbeiter/kunde/giro/antragBearbeitung";
   }

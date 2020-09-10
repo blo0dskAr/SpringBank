@@ -72,7 +72,9 @@ public class AdminMitarbeiterController {
     String loginName = authentication.getName();
     log.debug("Speichern eines Mitarbeiters wird von Mitarbeiter: " + loginName +  " angefordert.");
 
-    mitarbeiter.setMitarbeiterNummer(mitarbeiterService.getLatestMitarbeiterNummerPlusOne());
+    if (mitarbeiter.getMitarbeiterNummer().equals("")) {
+      mitarbeiter.setMitarbeiterNummer(mitarbeiterService.getLatestMitarbeiterNummerPlusOne());
+    }
 
     if (errors.hasErrors()) {
       return "admin/mitarbeiter-form";
@@ -112,10 +114,8 @@ public class AdminMitarbeiterController {
     String loginName = authentication.getName();
     log.debug("MitarbeitierSuche wird von Mitarbeiter: " + loginName + " angefordert");
 
-    // search customers from the service
     List<Mitarbeiter> mitarbeiterListe = mitarbeiterService.findMitarbeiterByVorAndNachName(theSearchName);
 
-    // add the customers to the model
     theModel.addAttribute("mitarbeiter", mitarbeiterListe);
 
     return "redirect:/mitarbeiter/admin/mitarbeiterAdministration/list";

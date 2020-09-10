@@ -1,4 +1,4 @@
-package at.blo0dy.SpringBank.model.person.password;
+package at.blo0dy.SpringBank.model.person.passwordForm;
 
 
 import lombok.AllArgsConstructor;

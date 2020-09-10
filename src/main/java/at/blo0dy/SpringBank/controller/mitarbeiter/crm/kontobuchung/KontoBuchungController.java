@@ -63,7 +63,7 @@ public class KontoBuchungController {
                                      RedirectAttributes redirectAttrs, Model model)   {
 
     Konto tmpKonto = kontoBuchung.getKonto();
-    String tmpKontonummer = tmpKonto.getKontonummer().toString();
+    String tmpKontonummer = tmpKonto.getKontonummer();
 
     log.debug("Speichern Der KontoBuchung für Mitarbeiter: " + authentication.getName() + " und KontoNr: " + tmpKontonummer + " wurde angefordert");
 

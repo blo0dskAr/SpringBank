@@ -1,6 +1,7 @@
 package at.blo0dy.SpringBank.dao.konto.zahlungsAuftrag;
 
 
+import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.konto.zahlungsAuftrag.ZahlungsAuftrag;
 import at.blo0dy.SpringBank.model.zv.Datentraeger;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -58,6 +59,8 @@ public interface ZahlungsAuftragRepository extends JpaRepository<ZahlungsAuftrag
   @Query (value = "select coalesce(sum(za.betrag), 0) from zahlungs_auftrag za " +
                   " where za.konto_id = ?1 " +
                     " and za.auftrags_art = 'AUSZAHLUNG' " +
-                    " and za.auftrags_status = 'ANGELEGT'", nativeQuery = true)
-  BigDecimal getSummeOffenerAuszahlungsAuftraegeByKontoId(Long kontoId);
+                    " and za.auftrags_status = 'ANGELEGT'" +
+                    " and za.auftrags_datum <= trunc(sysdate)", nativeQuery = true)
+  BigDecimal getSummeOffenerAuszahlungsAuftraegeBisSysdateByKontoId(Long kontoId);
 }
+

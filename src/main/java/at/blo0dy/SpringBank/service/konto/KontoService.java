@@ -17,8 +17,6 @@ public interface KontoService {
 
   String findKontonummerById(Long kontoId);
 
-//  Konto findByKontonummer(Long kontonummer);
-
   List<Konto> findAll(Konto konto);
 
   Konto findById(Long kontoId);

@@ -42,13 +42,6 @@ public class ZinssatzServiceImpl implements ZinssatzService {
     return zinssatzRepository.getAktuellerGiroZinssatz();
   }
 
-/*  @Override
-  @Transactional(readOnly = true)
-  public BigDecimal getAktuellerZinssatzByProdukt(String produkt) {
-
-    return zinssatzRepository.getAktuellerZinssatzByProdukt(produkt);
-  }*/
-
   @Override
   public void save(Zinssatz zinssatz) {
     log.debug("Zinssatz wird gespeichert.");

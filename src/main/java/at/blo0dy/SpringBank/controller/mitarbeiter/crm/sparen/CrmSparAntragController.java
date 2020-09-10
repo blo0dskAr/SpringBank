@@ -96,10 +96,12 @@ public class CrmSparAntragController {
 
 
   @PostMapping("/antrag/saveSparAntrag2KontoForm")
-  public String saveSparAntrag2KontoForm(@Valid @ModelAttribute("sparKontoAntrag") SparKontoAntrag sparKontoAntrag, BindingResult result,
+  public String saveSparAntrag2KontoForm(@CurrentSecurityContext(expression = "authentication") Authentication authentication,
+                                         @Valid @ModelAttribute("sparKontoAntrag") SparKontoAntrag sparKontoAntrag, BindingResult result,
                                          @ModelAttribute("kunde") Kunde kunde, Model model, RedirectAttributes redirectAttrs) {
 
-    log.debug("SparKontoAntrag id=" + sparKontoAntrag.getId() + ", KundeNr:" + sparKontoAntrag.getKundennummer() + " soll gespeichert werden" );
+    String loginName = authentication.getName();
+    log.debug("SparKontoAntrag id=" + sparKontoAntrag.getId() + ", KundeNr:" + sparKontoAntrag.getKundennummer() + " soll von MitarbeiterId: " + loginName + " gespeichert werden." );
     if (result.hasErrors()) {
       model.addAttribute("kunde", kundeService.findByKundennummer(sparKontoAntrag.getKundennummer().toString()));
       return "mitarbeiter/crm/sparen/sparKontoAntrag2Konto";
@@ -146,7 +148,6 @@ public class CrmSparAntragController {
     log.debug("SparKontoAntrag wird gespeichert");
     sparKontoAntragService.save(sparKontoAntrag);
     log.debug("SparKontoAntrag wurde erfolgreich gespeichert");
-
 
     return "redirect:/mitarbeiter/kunde/sparen/antragBearbeitung";
   }

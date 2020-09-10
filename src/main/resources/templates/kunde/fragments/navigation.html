@@ -56,7 +56,7 @@
                     <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankingGiroUebersicht')} ? 'text-primary' : ''" th:href="@{/kunde/banking/giro/girokontouebersicht}">Girokonto Übersicht</a>
                 </div>
             </li>
-            <li class="nav-item dropdown">
+           <!-- <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" th:classappend="${#strings.startsWith(requestURI, '/kunde/bank/') ? 'active' : ''}"
                    id="wirDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Über uns</a>
                 <div class="dropdown-menu" aria-labelledby="wirDropdown">
@@ -65,10 +65,7 @@
                     <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankKontakt')} ? 'text-primary' : ''" th:href="@{/kunde/bank/kontakt}">Kontakt</a>
                     <a class="dropdown-item" th:classappend="${#strings.equals(activeLink, 'kundeBankImpressum')} ? 'text-primary' : ''" th:href="@{/kunde/bank/impressum}">Impressum</a>
                 </div>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">BlaBla</a>
-            </li>
+            </li>-->
         </ul>
         <ul class="navbar-nav">
             <div sec:authorize="isFullyAuthenticated()">
@@ -89,8 +86,8 @@
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" id="userDropdown" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user fa-fw"></i></a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
-                        <a class="dropdown-item" href="#">Settings</a>
-                        <a class="dropdown-item" href="#">Activity Log</a>
+                        <a class="dropdown-item" th:href="@{/kunde/banking/kunde-detailpage}">Persönliche Daten</a>
+                        <a class="dropdown-item" th:href="@{/kunde/banking/showChangePasswordForm}">Passwort ändern</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" th:href=@{/kunde/banking/logoutpage}>Logout</a>
                     </div>
@@ -100,16 +97,6 @@
     </nav>
 </div>
 
-<!--  add a search box -->
-<!--                <form:form class="form-inline mt-2 mt-md-0" action="search" method="GET">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="theSearchName" />
-
-                    <input class="btn btn-outline-success my-2 my-sm-0" type="submit" value="Search" ></input>
-                </form:form>-->
-<!--<form class="form-inline mt-2 mt-md-0" action="search" method="GET">
-    <input class="form-control mr-sm-2" type="text" placeholder="Search" name="theSearchName" >
-    <button class="btn btn-outline-success my-2 my-sm-0" value="Search" type="submit">Search</button>
-</form>-->
 
 </body>
 </html>

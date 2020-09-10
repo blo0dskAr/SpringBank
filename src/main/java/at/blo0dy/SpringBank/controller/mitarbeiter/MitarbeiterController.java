@@ -1,7 +1,7 @@
 package at.blo0dy.SpringBank.controller.mitarbeiter;
 
 import at.blo0dy.SpringBank.model.person.mitarbeiter.Mitarbeiter;
-import at.blo0dy.SpringBank.model.person.password.ChangePasswordForm;
+import at.blo0dy.SpringBank.model.person.passwordForm.ChangePasswordForm;
 import at.blo0dy.SpringBank.service.MitarbeiterService;
 import at.blo0dy.SpringBank.service.bank.BankService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,19 @@ public class MitarbeiterController {
   }
 
   @RequestMapping({"", "/", "/index"})
-  public String getIndexPage(Model model) {
+  public String getIndexPage(@CurrentSecurityContext(expression = "authentication") Authentication authentication, Model model) {
+
+    String authName;
+    Mitarbeiter loggedUser;
+
+    if (authentication == null) {
+      return "redirect:/mitarbeiter/index";
+    } else {
+      authName = authentication.getName();
+      log.debug("Index Page von Mitarbeiter: " + authName + " aufgerufen.");
+      loggedUser = mitarbeiterService.findByUserName(authName);
+      model.addAttribute("loggedUser", loggedUser);
+    }
 
     model.addAttribute("bank", bankservice.getBank());
     model.addAttribute("mitarbeiter",mitarbeiterService.findAll());

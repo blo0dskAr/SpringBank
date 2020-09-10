@@ -92,7 +92,7 @@ public class BankingGiroController {
     } else if (request.getRequestURI().equals("/kunde/banking/giro/showEinzahlungsFormWithKonto")) {
       zahlungsAuftrag.setAuftragsArt(ZahlungAuftragArtEnum.EINZAHLUNG);
     } else {
-      // setz nix, damit mans manuell auswählen kann. (in allgemeiner maske)
+      // setz nix, damit mans manuell auswählen kann. (ggf. in allgemeiner maske (nicht umgesetzt))
     }
     zahlungsAuftrag.setAuftragsDatum(LocalDate.now());
     // TODO: Glaub da ist theoretisch beschiss möglich - hier schon prüfen?
@@ -130,20 +130,20 @@ public class BankingGiroController {
     }
 
     log.debug("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt.");
-    // TODO den TryCatchBlock brauch ich wahrscheinlich gar nicht, weil sparkonto=null nicht als exception kommt, sondern einfach als leeres ergebnis, das mit nem if zu checken is.
-    try {
-      giroKonto = giroService.findGiroKontoByKontonummerAndKundennummer(zahlungsAuftrag.getKontonummer(), authKundennummer);
-    } catch (NullPointerException e) {
-      // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking. . muss auch noch getestet werden irgendwie :)
+
+    giroKonto = giroService.findGiroKontoByKontonummerAndKundennummer(zahlungsAuftrag.getKontonummer(), authKundennummer);
+    if (giroKonto == null) {
+      // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking.
       log.error("Check ob Kontonummer " + zahlungsAuftrag.getKontonummer() + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       model.addAttribute("errorObj", "errorObj");
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       return "kunde/banking/zahlungsAuftrag-form";
     }
 
+
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(giroKonto, zahlungsAuftrag.getBetrag() )) {
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(giroKonto, zahlungsAuftrag.getBetrag(), false)) {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }
@@ -187,7 +187,6 @@ public class BankingGiroController {
 
     String requestedGiroKontonummer = kontoService.findKontonummerById(kontoId);
     String authKundennummer = authentication.getName();
-    // TODO: eigetnlich sollt ich irgendwie das passwort jedes mal raushauen, wenn ich nen kunden an den view  weiter geb (bzw. schon im service)
     Kunde kunde = kundeService.findByKundennummer(authKundennummer);
     model.addAttribute("kunde", kunde);
     log.debug("Showing showGiroKontoDetailPage for Kunde: " + authKundennummer + " and Konto: " + requestedGiroKontonummer );
@@ -198,7 +197,7 @@ public class BankingGiroController {
     giroKonto = giroService.findGiroKontoByKontonummerAndKundennummer(requestedGiroKontonummer, authKundennummer);
 
     if (giroKonto == null) {
-      // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking. . muss auch noch getestet werden irgendwie :)
+      // TODO: Überlegen ob man da den Kunden nicht gleich raushaut aus dem Banking.
       log.error("Check ob Kontonummer " + requestedGiroKontonummer + " des EinzahlungsAuftrages bei Kunde: " + authKundennummer + " liegt - FEHLGESCHLAGEN.");
       redirectAttrs.addFlashAttribute("beschissError", true);
 

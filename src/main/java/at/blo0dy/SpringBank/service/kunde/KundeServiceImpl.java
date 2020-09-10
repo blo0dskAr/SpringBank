@@ -21,8 +21,6 @@ import java.util.Optional;
 @Service
 public class KundeServiceImpl implements KundeService, UserDetailsService {
 
-  // TODO: DA MUSS ICH NOCH DAS TRANSACTIONAL ORDENTLICH UMSETZEN, EINIGE REPOMETHODEN WERDEN DA SICHER NICHT GEBRAUCHT.
-
   private KundeRepository kundeRepository;
 
   @Autowired
@@ -30,15 +28,8 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     this.kundeRepository = KundeRepository;
   }
 
-
-/*  @Override
-  @Transactional
-  public List<Kunde> findAll() {
-    return kundeRepository.findAll();
-  }*/
-
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public Kunde findById(Long theId) {
 
     log.debug("Kunde mit KundeId: " + theId + " wird gesucht.");
@@ -53,7 +44,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
-//  @Transactional
   public void save(Kunde kunde) {
     log.debug("Kunde wird gespeichert.");
     Kunde savedKunde = kundeRepository.save(kunde);
@@ -61,14 +51,8 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
 
   }
 
-/*  @Override
-  @Transactional
-  public void deleteById(Long theId) {
-    kundeRepository.deleteById(theId);
-  }*/
-
   @Override
-  @Transactional
+  @Transactional(readOnly = true)
   public UserDetails loadUserByUsername(String kundennummer) throws UsernameNotFoundException {
       final Kunde kunde = kundeRepository.findByKundennummer(kundennummer);
     if (kunde != null) {
@@ -86,7 +70,7 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
       Kunde tmpKunde = kundeRepository.findByKundennummer(kundennummer);
       boolean neuerStatus = tmpKunde.isActive();
 
-      if (tmpKunde.isActive()) {
+      if (neuerStatus) {
         if (tmpKunde.isHasAcceptedAGB() && tmpKunde.isLegi()) {
           log.debug("KundenStatusCheck durchgeführt für " + kundennummer + ": Keine Änderung durchgeführt (bereits aktiv)");
         } else {
@@ -106,8 +90,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
         // TODO: Ausserdem is die obige if abfrage definitv übertrieben .. und methode umbenennnen ;) und von kundennummer auf kundeId wechseln :D
       log.debug("Status von Kunde: " + kundennummer + " Status=" + neuerStatus + "  wird gespeichert");
       tmpKunde.setActive(neuerStatus);
-//      kundeRepository.updateActiveStatusById(kunde.getId(), neuerStatus);
-
   }
 
   @Override
@@ -144,8 +126,14 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert");
     String newKontonummer;
     try {
-      newKontonummer = kundeRepository.getLatestKontonummerByKundennummer(kundennummer) + 1 ;
+      // Das hin und her mit der Kontonummer is bissi schiach nach dem Wechsel zu String)
+      Integer latestKontonummer = Integer.parseInt( kundeRepository.getLatestKontonummerByKundennummer(kundennummer))+1;
+      newKontonummer = latestKontonummer.toString() ;
     } catch (NullPointerException npe) {
+      // npe brauch ich theoretisch nicht mehr ? . parseInt nun ne numberformat exception wirft, wenn ergebnis == null)
+      log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert: Ist erstes Konto: 001");
+      newKontonummer = kundennummer + "001" ;
+    } catch (NumberFormatException nfe) {
       log.debug("Neue Kontonummer für Kunde " + kundennummer + " wird generiert: Ist erstes Konto: 001");
       newKontonummer = kundennummer + "001" ;
     }
@@ -194,7 +182,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
-//  @Transactional
   public void updateLegiStatusById(Long kundeId, boolean status) {
     log.debug("LegiStatus für KundeId: " + kundeId + " wird aktualisiert.");
     kundeRepository.updateLegiStatusById(kundeId, status);
@@ -203,13 +190,6 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
     setKundeActiveIfRequirementsMetByKundennummer(kunde.getKundennummer());
     log.debug("LegiSTatus für KundeId: " + kundeId + " wurde erfolgreich aktualisiert.");
   }
-
-/*  @Override
-  @Transactional
-  public void updateActiveStatusById(Long kundeId, boolean status) {
-    log.debug("Aktivstatus für KundeId: " + kundeId + " wird aktualisiert.");
-    kundeRepository.updateActiveStatusById(kundeId, status);
-  }*/
 
   @Override
   @Transactional

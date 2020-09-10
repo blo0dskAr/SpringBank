@@ -25,14 +25,14 @@ public class Person {
   private Long id;
 
   // TODO: Mal ein RegexPattern für Name (mit hatscheks usw.) suchen.
-  @NotBlank(message = "Vorname must be defined.")
+  @NotBlank
   @Column(name = "vorname")
-  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nicht leer sein & nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
   private String vorname;
 
-  @NotBlank(message = "Nachname must be defined.")
+  @NotBlank
   @Column(name = "nachname")
-  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
+  @Pattern(regexp = "^[a-zA-ZäÄöÖüÜß -]+$", message = "Darf nicht leer sein & nur aus Buchstaben und dem Sonderzeichen \"-\" bestehen")
   private String nachname;
 
   @Valid
@@ -40,8 +40,8 @@ public class Person {
   private Adresse adresse;
 
   @DateTimeFormat(pattern = "yyyy-MM-dd")
-  @Past
-  @NotNull(message = "darf nicht leer sein")
+  @Past(message = "Darf nicht leer sein und muss in der Vergangenheit liegen" )
+  @NotNull
   private LocalDate geburtsDatum;
 
   public Person(String vorname, String nachname, Adresse adresse, LocalDate geburtsDatum) {

@@ -4,9 +4,6 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
 
 
 public interface KundeRepository extends JpaRepository<Kunde, Long> {
@@ -43,11 +40,11 @@ public interface KundeRepository extends JpaRepository<Kunde, Long> {
                 "  where ku.id = ?1 ", nativeQuery = true)
   void updateLegiStatusById(Long kundeId, boolean status);
 
-  @Modifying
+/*  @Modifying
   @Query(value = "update kunde ku set " +
                 " ku.is_active = ?2" +
                 "  where ku.id = ?1 ", nativeQuery = true)
-  void updateActiveStatusById(Long kundeId, boolean status);
+  void updateActiveStatusById(Long kundeId, boolean status);*/
 
   @Modifying
   @Query(value = "update kunde ku set " +

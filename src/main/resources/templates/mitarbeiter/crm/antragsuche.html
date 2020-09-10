@@ -24,6 +24,11 @@
                             Das sollte hier nicht passieren :)
                         </div>
                     </div>
+                    <div th:if="${kontoInEroeffnung}">
+                        <div class="alert alert-info">
+                            Der Antrag wurde genehmigt, wegen fehlender Kundendaten bleibt das Konto aber in Eroeffnung.
+                        </div>
+                    </div>
                     <div th:if="${kontoOpened}">
                         <div class="alert alert-success">
                             Der Antrag wurde genehmigt und das Konto konnte bereits eröffnet werden.
@@ -96,7 +101,7 @@
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).GENEHMIGT}" class="status text-success" >&bull;</span>
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).ABGELEHNT}" class="status text-danger">&bull;</span>
                             <span th:case="${T(at.blo0dy.SpringBank.model.enums.AntragStatusEnum).EINGEREICHT}" class="status text-warning">&bull;</span>
-                            <span th:text="${kontoantrag.antragStatus}">AntragStatus</span>
+                            <span th:text="${kontoantrag.antragStatus.getDisplayName()}">AntragStatus</span>
                         </td>
                         <td>
                             <a th:if="${kontoantrag.getClass().getSimpleName() == 'SparKontoAntrag'}" th:href="@{/mitarbeiter/kunde/sparen/antrag/showSparAntragForKontoForm(sparKontoAntragId=${kontoantrag.id})}"

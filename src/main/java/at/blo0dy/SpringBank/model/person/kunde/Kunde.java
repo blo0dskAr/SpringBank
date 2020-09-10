@@ -3,7 +3,6 @@ package at.blo0dy.SpringBank.model.person.kunde;
 import at.blo0dy.SpringBank.model.konto.Konto;
 import at.blo0dy.SpringBank.model.person.Person;
 import at.blo0dy.SpringBank.model.person.adresse.Adresse;
-import at.blo0dy.SpringBank.model.person.legidoc.LegiDokument;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,14 +25,15 @@ public class Kunde extends Person implements UserDetails {
   @NotBlank(message = "kundennummer darf nicht leer sein.")
   private String kundennummer;
 
+  // TODO: hier muss mal ein pattern her, damit gscheite passwoerter vergeben werden. zum testen ists aber muehsam...
   @Column(name = "password")
   private String password;
 
   // ToDo: Eigene klassen? Oberklasse kontakt? kann mehr als eine tel haben etc.
-  @NotBlank(message = "Telefonnummer darf nicht leer sein.")
+  @NotBlank(message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   @Pattern(regexp = "^[+]?[0-9]{5,20}", message = "Bei einer Telefonnummer dürfen nur Ziffern angegeben werden 5-20 Zeichen sind einzuhalten.")
   private String telefonNummer;
-  @NotBlank(message = "emailAdresse darf nicht leer sein.")
+  @NotBlank(message = "Email im Format <name>@<domain>.<land> angeben.")
   @Pattern(regexp = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+.[A-Z]{2,6}$", message = "Email im Format <name>@<domain>.<land> angeben.", flags = Pattern.Flag.CASE_INSENSITIVE)
   private String emailAdresse;
 
@@ -43,19 +43,14 @@ public class Kunde extends Person implements UserDetails {
                 cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.PERSIST, CascadeType.MERGE})
   private List<Konto> kontenListe;
 
-  // TODO: mit false initialisieren sobald der komplette weg für legi & AGB ready ist.
   private boolean isLegi;
   private boolean hasAcceptedAGB ;
   private boolean isActive;
   private boolean firstLoginDone ;
 
-//  @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-//  private LegiDokument legiDokument;
-
   @Column(name = "connected_giro")
   @Pattern(regexp = "^AT[0-9a-zA-Z]{18}$", message = "Bitte IBAN im Format: \"AT## #### #### #### ####\" angeben. (Abstände nicht notwendig)")
   private String connectedGiro;
-
 
   public Kunde() { }
 

@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/mitarbeiter")
 public class MitarbeiterLoginController {
 
-//  @Autowired
-//  BCryptPasswordEncoder bCryptPasswordEncoder;
-
   @GetMapping("/loginpage")
   public String loginpage() {
 

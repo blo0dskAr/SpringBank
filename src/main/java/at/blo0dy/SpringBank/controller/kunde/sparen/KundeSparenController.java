@@ -51,7 +51,6 @@ public class KundeSparenController {
   public String viewSparenRechner(Model model) {
     log.debug("SparRechnerPage wird aufgerufen");
 
-    // / 100 division workaround fürs frontend
     SparZinsRechnerVorlage sv = new SparZinsRechnerVorlage(LocalDate.now(), zinssatzService.getAktuellerSparZinssatz().divide(BigDecimal.valueOf(100)) ,BigDecimal.valueOf(5000));
     SparZinsRechnerErgebnis se = new SparZinsRechnerErgebnis( BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
 
@@ -67,16 +66,12 @@ public class KundeSparenController {
     log.debug("Unverbindliche Sparzinsberechnung wird durchgeführt");
     if (result.hasErrors()) {
       log.debug("Fehler bei der Eingabe erhalten. Seite wird neu geladen.");
-//      sv.setZinssatz(sv.getZinssatz().divide(BigDecimal.valueOf(100)));
       SparZinsRechnerErgebnis se = new SparZinsRechnerErgebnis( BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO);
       model.addAttribute("ergebnis",se);
       model.addAttribute("activeLink", "kundeSparenRechner1");
       return "kunde/sparen/rechner";
     }  else {
       SparZinsRechnerErgebnis se = sparService.getSparZinsRechnerEregebnis(sv);
-
-      // Workaround bis dieses % wird als *100 dargestellt (aber nicht gerechnet) gelöst wird
-//      sv.setZinssatz(sv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("activeLink", "kundeSparenRechner1");
       model.addAttribute("sparzinsrechnervorlage", sv);
       model.addAttribute("ergebnis",se);
@@ -89,8 +84,10 @@ public class KundeSparenController {
     log.debug("Erweiterte SparRechnerForm wird aufgerufen");
     BigDecimal anfangsWerte = BigDecimal.ZERO;
 
-    // / 100 division workaround fürs frontend
-    AdvancedSparZinsRechnerVorlage sv = new AdvancedSparZinsRechnerVorlage(BigInteger.valueOf(5), zinssatzService.getAktuellerSparZinssatz().divide(BigDecimal.valueOf(100)), BigDecimal.ZERO,BigDecimal.valueOf(100), BigDecimal.valueOf(5000));
+    AdvancedSparZinsRechnerVorlage sv =
+            new AdvancedSparZinsRechnerVorlage(BigInteger.valueOf(5),
+                    zinssatzService.getAktuellerSparZinssatz().divide(BigDecimal.valueOf(100)),
+                    BigDecimal.ZERO,BigDecimal.valueOf(100), BigDecimal.valueOf(5000));
     AdvancedSparZinsRechnerErgebnis se = new AdvancedSparZinsRechnerErgebnis(anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte, anfangsWerte);
 
     model.addAttribute("activeLink", "kundeSparenRechner2");
@@ -101,17 +98,15 @@ public class KundeSparenController {
   }
 
   @PostMapping("/rechner2")
-  public String berechneSparZinsen2(@Validated @ModelAttribute("sparzinsrechnervorlage") AdvancedSparZinsRechnerVorlage sv, BindingResult result,  Model model ) {
+  public String berechneSparZinsen2(@Valid @ModelAttribute("sparzinsrechnervorlage") AdvancedSparZinsRechnerVorlage sv,
+                                    BindingResult result,  Model model ) {
     log.debug("Unverbindliche erweiterte SparzinsBerechnung wird durchgeführt.");
     if (result.hasErrors()) {
       log.debug("Fehler bei der Eingabe erhalten. Seite wird neu geladen.");
-//      sv.setZinssatz(sv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("activeLink", "kundeSparenRechner2");
       return "kunde/sparen/rechner2";
     }  else {
       List<AdvancedSparZinsRechnerErgebnis> se = sparService.getAdvancedSparZinsRechnerErgebnis(sv);
-      // Workaround bis dieses % wird als *100 dargestellt (aber nicht gerechnet) gelöst wird
-//      sv.setZinssatz(sv.getZinssatz().divide(BigDecimal.valueOf(100)));
       model.addAttribute("activeLink", "kundeSparenRechner2");
       model.addAttribute("sparzinsrechnervorlage", sv);
       model.addAttribute("ergebnis",se);

@@ -26,7 +26,7 @@ public class KreditKontoAntrag extends KontoAntrag {
   @DecimalMax(value = "80000", message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
   @Digits(integer = 5,fraction = 2)
   @NotNull(message = "Bitte einen Betrag zwischen 1.000 und 80.000 angeben.")
-  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   @Column(name = "kredit_betrag")
   private BigDecimal kreditBetrag;
 
@@ -39,8 +39,8 @@ public class KreditKontoAntrag extends KontoAntrag {
   private BigDecimal zinssatz;
 
   @Column(name = "rate")
-  @NumberFormat(style = NumberFormat.Style.PERCENT, pattern = "#,###,###,###.##")
-  @NotNull(message = "Da hats was ")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
+  @NotNull(message = "darf nicht leer sein")
   @Digits(integer = 5,fraction = 2)
   private BigDecimal rate;
 
@@ -51,7 +51,7 @@ public class KreditKontoAntrag extends KontoAntrag {
   @Column(name = "laufzeit")
   private BigInteger laufzeit;
 
-  @NumberFormat(style = NumberFormat.Style.CURRENCY, pattern = "#,###,###,###.##")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   @Column(name = "gesamt_belastung")
   private BigDecimal gesamtBelastung;
 

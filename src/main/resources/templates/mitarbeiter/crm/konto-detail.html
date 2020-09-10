@@ -163,7 +163,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
-                                        <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
+                                        <div class="text-right text-secondary mp-0 small" th:text="'Status: ' + ${konto.kontoStatus.getDisplayName()}"> Status:</div>
                                     </div>
                                     <div class="col">
                                         <div class="text-right text-secondary mp-0 small">
@@ -176,7 +176,6 @@
                             </div>
                             <div class="collapse" data-parent="#accordionKonto" id="collapseKonto" aria-labelledby="headingKonto" >
                                 <div class="card-body">
-<!--                                    <div class="table-responsive">-->
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
@@ -200,11 +199,11 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr th:each="kontobuchung : ${konto.kontoBuchungList}">
-                                                        <td th:text="${kontobuchung.buchungsDatum}">Datum</td>
+                                                        <td th:text="${#temporals.format(kontobuchung.buchungsDatum, 'dd.MM.yyyy')}">Datum</td>
                                                         <td th:text="${kontobuchung.buchungsText}">Text</td>
-                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">Geld</span></div></td>
-                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).HABEN}"><span class="text-success" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')}">AuchGeld</span></div></td>
-                                                        <td th:text="${#numbers.formatDecimal(kontobuchung.saldoNachBuchung, 1, 'POINT', 2, 'COMMA')}"></td>
+                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).SOLL}"><span class="text-danger" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')} + ' €'">Geld</span></div></td>
+                                                        <td><div th:if="${kontobuchung.buchungsArt == T(at.blo0dy.SpringBank.model.enums.BuchungsArtEnum).HABEN}"><span class="text-success" th:text="${#numbers.formatDecimal(kontobuchung.buchungsBetrag, 0, 'POINT', 2, 'COMMA')} + ' €'">AuchGeld</span></div></td>
+                                                        <td th:text="${#numbers.formatDecimal(kontobuchung.saldoNachBuchung, 1, 'POINT', 2, 'COMMA')} + ' €'"></td>
                                                     </tr>
                                                     </tbody>
                                                 </table>
@@ -215,7 +214,6 @@
                                 </div>
                             </div>
                         </div>
-<!--                    </div>-->
                 </div>
 
 
@@ -252,7 +250,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
-                                        <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
+                                        <div class="text-right text-secondary mp-0 small" th:text="'Status: ' + ${konto.kontoStatus.getDisplayName()}"> Status:</div>
                                     </div>
                                     <div class="col">
                                         <div class="text-right text-secondary mp-0 small" th:text="${'Offene Aufträge: ' + countOffeneZA}"></div>
@@ -262,7 +260,6 @@
 
                             <div class="collapse" data-parent="#accordionZahlungsAuftrag" id="collapseZahlungsAuftrag" aria-labelledby="headingZahlungsAuftrag" >
                                 <div class="card-body">
-<!--                                    <div class="table-responsive">-->
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">
@@ -286,12 +283,12 @@
                                                 <tbody>
                                                 <tr th:each="zahlungsAuftrag : ${konto.kontoZahlungsAuftragList}">
                                                     <td th:text="${#temporals.format(zahlungsAuftrag.auftragsDatum, 'dd.MM.yyyy')}">Datum</td>
-                                                    <td th:text="${zahlungsAuftrag.auftragsArt}">Art</td>
+                                                    <td th:text="${zahlungsAuftrag.auftragsArt.getDisplayName()}">Art</td>
                                                     <td th:switch="${zahlungsAuftrag.auftragsStatus}">
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum).ANGELEGT}" class="status text-warning" >&bull;</span>
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum).DURCHGEFUEHRT}" class="status text-success">&bull;</span>
                                                         <span th:case="${T(at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum).STORNIERT}" class="status text-danger">&bull;</span>
-                                                        <span th:text="${zahlungsAuftrag.auftragsStatus}">Status</span>
+                                                        <span th:text="${zahlungsAuftrag.auftragsStatus.getDisplayName()}">Status</span>
                                                     </td>
                                                     <td th:text="${#numbers.formatDecimal(zahlungsAuftrag.betrag, 0, 'POINT', 2, 'COMMA')}" th:classappend="${#strings.equals(zahlungsAuftrag.auftragsArt, 'EINZAHLUNG')} ? 'text-success' : 'text-danger'" >betrag</td>
                                                     <td th:text="${zahlungsAuftrag.senderKonto}">Datum</td>
@@ -306,7 +303,7 @@
                             </div>
                         </div>
                     </div>
-<!--                </div>-->
+
 
 
 
@@ -332,7 +329,7 @@
                                     </div>
                                     <div class="col-6">
                                         <div class="text-right text-secondary mp-0 small" th:text="'Inhaber: ' + ${kunde.nachname} + ', ' + ${kunde.vorname}"> Inhaber:</div>
-                                        <div class="text-right text-secondary mp-0 small"> Mitinhaber: Miranda vera Cruste de la joia Cardinale </div>
+                                        <div class="text-right text-secondary mp-0 small" th:text="'Status: ' + ${konto.kontoStatus.getDisplayName()}"> Status:</div>
                                     </div>
                                     <div class="col">
                                         <div class="text-right text-secondary mp-0 small" th:text="${'Aktive DauerAufträge: ' + countAktiveDA}"></div>
@@ -342,7 +339,6 @@
 
                             <div class="collapse" data-parent="#accordionDauerAuftrag" id="collapseDauerAuftrag" aria-labelledby="headingDauerAuftrag" >
                                 <div class="card-body">
-<!--                                    <div class="table-responsive">-->
                                         <div class="table-wrapper">
                                             <div class="table-title">
                                                 <div class="row">

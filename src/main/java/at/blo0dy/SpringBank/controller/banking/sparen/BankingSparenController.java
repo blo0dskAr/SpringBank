@@ -1,8 +1,5 @@
 package at.blo0dy.SpringBank.controller.banking.sparen;
 
-
-
-import at.blo0dy.SpringBank.model.antrag.sparen.SparKontoAntrag;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragArtEnum;
 import at.blo0dy.SpringBank.model.enums.ZahlungAuftragStatusEnum;
 import at.blo0dy.SpringBank.model.konto.Konto;
@@ -146,7 +143,7 @@ public class BankingSparenController {
 
     // SaldoPrüfung
     if (zahlungsAuftrag.getAuftragsArt().equals(ZahlungAuftragArtEnum.AUSZAHLUNG)) {
-      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(sparKonto, zahlungsAuftrag.getBetrag() )) {
+      if (!zahlungsAuftragService.checkAuszahlungWithVerfuegbarerBetrag(sparKonto, zahlungsAuftrag.getBetrag(), false)) {
         result.rejectValue("betrag","error.zahlungsAuftrag", "Verfügbarer Saldo nicht ausreichend");
       }
     }
@@ -158,6 +155,7 @@ public class BankingSparenController {
 
       model.addAttribute("zahlungsAuftrag", zahlungsAuftrag);
       model.addAttribute("kontonummerAuswahl", kontonummerAuswahlList);
+      model.addAttribute("konto", sparKonto);
 
       return "kunde/banking/zahlungsAuftrag-form";
     }

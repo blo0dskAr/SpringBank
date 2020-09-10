@@ -15,35 +15,10 @@ public class LoginCredentialsServiceImpl implements LoginCredentialsService {
     this.loginCredentialsRepository = loginCredentialsRepository;
   }
 
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public List<LoginCredentials> findAll() {
-    return loginCredentialsRepository.findAll();
-  }*/
-
-/*  @Override
-  @Transactional(readOnly = true)
-  public LoginCredentials findById(Long theId) {
-
-    Optional<LoginCredentials> result = loginCredentialsRepository.findById(theId);
-    LoginCredentials loginCredentials;
-    loginCredentials = result.get();
-
-    return loginCredentials ;
-  }*/
-
   // Nur für Bootstrap Config
   @Override
-//  @Transactional
   public void save(LoginCredentials loginCredentials) {
     loginCredentialsRepository.save(loginCredentials);
   }
-
-/*  @Override
-//  @Transactional
-  public void deleteById(Long theId) {
-    loginCredentialsRepository.deleteById(theId);
-  }*/
 
 }

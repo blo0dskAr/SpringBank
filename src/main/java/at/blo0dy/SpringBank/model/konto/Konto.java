@@ -10,6 +10,7 @@ import at.blo0dy.SpringBank.model.person.kunde.Kunde;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.NumberFormat;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -43,6 +44,7 @@ public class Konto {
   private KontoAntrag kontoAntrag;
 
   @Column(name = "akt_saldo")
+  @NumberFormat(style = NumberFormat.Style.CURRENCY)
   private BigDecimal aktSaldo;
 
   @Column(name = "konto_status")

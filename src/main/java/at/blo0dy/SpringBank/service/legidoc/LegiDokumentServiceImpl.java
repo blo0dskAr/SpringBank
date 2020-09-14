@@ -122,7 +122,7 @@ public class LegiDokumentServiceImpl implements LegiDokumentService {
 //    legiDokumentRepository.acceptLegiDokumentById(legiDokumentId);
     LegiDokument legiDokument = legiDokumentRepository.findById(legiDokumentId).get();
     legiDokument.setStatus(LegiDokumentStatusEnum.BEARBEITET);
-    log.debug("LegiDokument mit ID: " + legiDokument + " erfolgreich aktualisiert.");
+    log.debug("LegiDokument mit ID: " + legiDokumentId + " erfolgreich aktualisiert.");
     return "successfully accepted" ;
   }
 

@@ -182,6 +182,7 @@ public class KundeServiceImpl implements KundeService, UserDetailsService {
   }
 
   @Override
+  @Transactional
   public void updateLegiStatusById(Long kundeId, boolean status) {
     log.debug("LegiStatus für KundeId: " + kundeId + " wird aktualisiert.");
     kundeRepository.updateLegiStatusById(kundeId, status);
